@@ -8,6 +8,8 @@ Se estar&aacute; trabajando con un enfoque de ramas de corta y larga duraci&oacu
 Para esto podemos utilizar una conveci&oacute;n para el nombramiento de las ramas temporales del tipo:
 
 - feature/\<name>
+Para el commit utilizaremos la siguiente convencion:
+- [added, modify, deleted, edited] <seccion trabajada> <mensaje breve> 
 
 Habr&aacute;n ramas principales como:
 - master
