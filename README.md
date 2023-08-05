@@ -27,4 +27,4 @@ Cualquier otra imagen que puede facilitar el desarrollo, se puede implementar.
 ## Herramientas
 - [Git](https://git-scm.com/)
 - [Docker](https://www.docker.com/)
-- [Trello](https://trello.com/)
+- [Trello](https://trello.com/invite/b/5cdQyvh2/ATTI93d2dc78a76a57beaa48d7a47242ccf21D70F5E2/proyecto-programacion-3).
