@@ -9,7 +9,7 @@ Para esto podemos utilizar una conveci&oacute;n para el nombramiento de las rama
 
 - feature/\<name>
 Para el commit utilizaremos la siguiente convencion:
-- [added, modify, deleted, edited] <seccion trabajada> <mensaje breve> 
+- [added, modify, deleted, edited] -seccion trabajada- -mensaje breve-
 
 Habr&aacute;n ramas principales como:
 - master
