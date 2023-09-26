@@ -10,6 +10,7 @@ En este documento, encontrarán todas las indicaciones necesarias para llevar a 
     - [Oracle 21c XE Container](#oracle-21c-xe-container)
     - [Cómo levantar todos los contenedores del docker-compose](#cómo-levantar-todos-los-contenedores-del-docker-compose)
     - [Como detener los contenedores](#como-detener-los-contenedores)
+    - [Como crear el esquema de la base de datos](#como-crear-el-esquema-de-la-base-de-datos)
   - [Git](#git)
     - [Convenciones](#convenciones)
       - [Commits:](#commits)
@@ -44,6 +45,11 @@ docker-compose start
 ### Como detener los contenedores
 ```docker
 docker-compose stop
+```
+
+### Como crear el esquema de la base de datos
+```docker
+docker exec oracle createAppUser ClinicaUNA una 
 ```
 
 Esencialmente se utilizaran las siguientes im&aacute;genes:
