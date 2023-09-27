@@ -217,7 +217,7 @@
           <replacements>
             <replacement>
               <token>https://petstore.swagger.io/v2/swagger.json</token>
-              <value>/${project.name}/ws/openapi.json</value>
+              <value>/${project.name}/api/openapi.json</value>
             </replacement>
           </replacements>
         </configuration>

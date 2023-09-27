@@ -15,7 +15,7 @@ import jakarta.ws.rs.ApplicationPath;
  * 
  * @author arayaroma
  */
-@ApplicationPath("ws")
+@ApplicationPath("api")
 public class JakartaConfiguration extends ResourceConfig {
     public JakartaConfiguration() {
         super();
