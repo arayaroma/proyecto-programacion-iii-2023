@@ -1,10 +1,11 @@
 module Clinicauna {
+     //JAVAFX
+    requires javafx.controls;
+    requires javafx.fxml;
+    requires com.jfoenix;
     requires java.base;
     requires java.logging;
-    //JAVAFX
-    requires javafx.controls;
-    requires transitive javafx.fxml;
-    requires transitive javafx.graphics;
+   
     //JAKARTA
     requires jakarta.xml.bind;
     requires jakarta.ws.rs;
@@ -14,7 +15,8 @@ module Clinicauna {
     //MESSAGES
     requires org.controlsfx.controls;
     //requires AnimateFX;
-
+    
+   
     opens cr.ac.una.clinicauna to javafx.fxml, javafx.graphics;
-    opens cr.ac.una.clinicauna.controller to javafx.fxml, javafx.graphics;
+    opens cr.ac.una.clinicauna.controller to javafx.fxml, javafx.controls, com.jfoenix;
 }
