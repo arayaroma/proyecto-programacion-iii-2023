@@ -2,14 +2,64 @@
     Created on : 2 oct. 2023, 13:31:54
     Author     : estebannajera
 */
-/*@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');*/
-/*@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');*/
+
+
 *{
-    
-/*  */
-/*    -fx-font-family: 'Quicksand', sans-serif;*/
-    -fx-main-bg:#3C535A;
+    -fx-font-family: "Nadeem";
+    -fx-text-fill:white;
+    -fx-blue: #4660f4;
+    -fx-dark-blue: #3f56dc;
+    -fx-main-bg:#303435;
+    -fx-white-gray:#838586;
+    -fx-white-white-gray:#c1c2c2;
+    -fx-green: #5BD25B;
+    -fx-white-green:#8ce08c;
+
+
 }
+.jfx-text-field, .jfx-password-field {
+    -jfx-focus-color: -fx-white-gray;
+    -fx-prompt-text-fill: -fx-white-white-gray;
+}
+.bg-gray{
+    -fx-background-color:-fx-main-bg;
+}
+.a{
+    -fx-text-fill:-fx-white-gray;
+}
+.a:hover{
+    -fx-text-fill:-fx-white-white-gray;
+    -fx-cursor: hand;
+}
+.btn{
+    -fx-background-color:-fx-green;
+    -fx-padding: 5 20 5 20;
+    -fx-effect: dropshadow(gaussian, -fx-white-green, 10, 0, 0, 0);
+    -fx-font-size:15;
+}
+.btn:hover{
+
+    -fx-effect: dropshadow(gaussian, transparent, 0, 0, 0, 0);
+    -fx-cursor:hand;
+}
+.h1{
+    -fx-font-family:"Verdana";
+    -fx-font-weight:bold;
+    -fx-font-size:50;
+}
+.h2{
+    -fx-font-size:30;
+}
+.h3{
+    -fx-font-size:20;
+}
+.a{
+
+}
+Label{
+    -fx-font-size:15;
+}
+
 .main-bg{
-    -fx-Fbackground-color: -fx-main-bg;
+    -fx-background-color: -fx-main-bg;
 }

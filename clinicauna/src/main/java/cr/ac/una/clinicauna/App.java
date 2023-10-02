@@ -18,7 +18,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(getFXMLLoader("Login").load());
-        scene.getStylesheets().add("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap");
+        //scene.getStylesheets().add("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap");
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.show();
