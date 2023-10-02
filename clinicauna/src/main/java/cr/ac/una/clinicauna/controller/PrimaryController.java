@@ -1,5 +1,6 @@
-package cr.ac.una.clinicauna;
+package cr.ac.una.clinicauna.controller;
 
+import cr.ac.una.clinicauna.App;
 import java.io.IOException;
 import javafx.fxml.FXML;
 
