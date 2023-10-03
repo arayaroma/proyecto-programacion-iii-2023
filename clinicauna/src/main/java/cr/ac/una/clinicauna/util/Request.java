@@ -41,10 +41,12 @@ public class Request {
         MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();
         headers.add("Content-Type", "application/json; charset=UTF-8");
         // TODO
-//        if (AppContext.getInstance().get("Token") != null) {//Security not implemented yet
-//            headers.add("Autorization", AppContext.getInstance().get("Token").toString());
-//
-//        }
+        // if (AppContext.getInstance().get("Token") != null) {//Security not
+        // implemented yet
+        // headers.add("Autorization",
+        // AppContext.getInstance().get("Token").toString());
+        //
+        // }
         builder.headers(headers);
     }
 
@@ -80,9 +82,9 @@ public class Request {
         response = builder.get();
     }
 
-    //TODO
+    // TODO
     public void post(Object clazz) {
-        //TODO
+        // TODO
         Entity<?> entity = Entity.entity(clazz, "application/json; charset=UTF-8");
         response = builder.post(entity);
     }
@@ -104,23 +106,23 @@ public class Request {
 
     public Boolean isError() {
         // TODO
-//        if (getStatus() == Response.Status.UNAUTHORIZED.getStatusCode()) {
-//            new Thread() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        Thread.sleep(4000);
-//                        Platform.runLater(new Runnable() {
-//                            public void run() {
-//                                FlowController.getInstance().goLogInWindowModal(true);
-//                            }
-//                        });
-//                    } catch (InterruptedException ex) {
-//                        Logger.getLogger(Request.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                }
-//            }.start();
-//        }//Security not implemented yet
+        // if (getStatus() == Response.Status.UNAUTHORIZED.getStatusCode()) {
+        // new Thread() {
+        // @Override
+        // public void run() {
+        // try {
+        // Thread.sleep(4000);
+        // Platform.runLater(new Runnable() {
+        // public void run() {
+        // FlowController.getInstance().goLogInWindowModal(true);
+        // }
+        // });
+        // } catch (InterruptedException ex) {
+        // Logger.getLogger(Request.class.getName()).log(Level.SEVERE, null, ex);
+        // }
+        // }
+        // }.start();
+        // }//Security not implemented yet
         return getStatus() != Response.Status.OK.getStatusCode();
     }
 
