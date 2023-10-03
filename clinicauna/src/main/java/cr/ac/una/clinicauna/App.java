@@ -1,5 +1,6 @@
 package cr.ac.una.clinicauna;
 
+import cr.ac.una.clinicauna.util.Data;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,34 +16,28 @@ import javafx.scene.Parent;
 public class App extends Application {
 
     private static Scene scene;
-    private static final String VIEW_PATH = "/cr/ac/una/clinicauna/view/";
+    public static final String DOMAIN_PATH = "/cr/ac/una/clinicauna/";
 
     @Override
     public void start(Stage stage) throws IOException {
-//         scene = new Scene(getFXMLLoader("Login").load());
-        //scene.getStylesheets().add("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap");
-//        stage.setScene(scene);
-//        stage.setFullScreen(true);
-//        stage.show();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource(VIEW_PATH + "Login.fxml"));
-        loader.setResources(ResourceBundle.getBundle("cr.ac.una.clinicauna.language.lang_es"));
-//
-        Parent root = loader.load();
+        Parent root = getFXMLLoaderWithLanguage("Login", ResourceBundle.getBundle(DOMAIN_PATH + "language/lang_es")).load();
         scene = new Scene(root);
-//        scene.setRoot(root);
-//
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.show();
     }
 
     public static void setRoot(String fxml) throws IOException {
-        scene.setRoot(getFXMLLoader(fxml).load());
+        //Load English default
+        scene.setRoot(getFXMLLoaderWithLanguage(fxml, Data.getEnglishBundle()).load());
     }
 
     public static FXMLLoader getFXMLLoader(String fxml) {
-        return new FXMLLoader(App.class.getResource(VIEW_PATH +fxml + ".fxml"));
+        return new FXMLLoader(App.class.getResource(DOMAIN_PATH + "view/" + fxml + ".fxml"));
+    }
+
+    public static FXMLLoader getFXMLLoaderWithLanguage(String fxml, ResourceBundle rb) {
+        return new FXMLLoader(App.class.getResource(DOMAIN_PATH + "view/" + fxml + ".fxml"), rb);
     }
 
     public static void main(String[] args) {
