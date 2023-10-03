@@ -12,11 +12,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
@@ -43,6 +43,8 @@ public class MainController implements Initializable {
     private StackPane menuLateral;
     @FXML
     private BorderPane parent;
+    @FXML
+    private StackPane container;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -62,7 +64,6 @@ public class MainController implements Initializable {
 
     private void intializeSliderMenu() {
         HamburgerBackArrowBasicTransition transition = new HamburgerBackArrowBasicTransition(hamburguerMenu);
-        
         sliderMenu.setSidePane(menuLateral);
         sliderMenu.open();
         transition.setRate(-1);
@@ -89,14 +90,10 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void btnRegisterUserAction(ActionEvent event) {
-        Animation.fadeTransition(parent, Duration.seconds(0.5), 0, 1, 0, (t) -> {
-            try {
-                App.setRoot("UserRegister");
-            } catch (IOException ex) {
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }).play();
+    private void btnRegisterUserAction(ActionEvent event) throws IOException {
+        FXMLLoader loader = App.getFXMLLoader("UserModule");
+        container.getChildren().clear();
+        container.getChildren().add(loader.load());
     }
 
 }

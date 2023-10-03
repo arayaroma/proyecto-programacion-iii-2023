@@ -15,11 +15,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<StackPane styleClass="bg-gray" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.clinicauna.controller.MainController">
+<StackPane prefHeight="600.0" prefWidth="800.0" styleClass="bg-gray" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.clinicauna.controller.MainController">
    <children>
-      <BorderPane fx:id="parent" styleClass="bg-gray">
+      <BorderPane fx:id="parent">
          <top>
-            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="50.0">
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
                <children>
                   <JFXHamburger fx:id="hamburguerMenu" alignment="CENTER" styleClass="jfx-hamburger">
                      <HBox.margin>
@@ -62,17 +62,17 @@
             </HBox>
          </top>
          <left>
-            <JFXDrawer fx:id="sliderMenu" defaultDrawerSize="184.0" resizableOnDrag="true" resizeContent="true" styleClass="bg-gray" BorderPane.alignment="CENTER">
+            <JFXDrawer fx:id="sliderMenu" defaultDrawerSize="184.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" overLayVisible="false" styleClass="bg-gray" BorderPane.alignment="CENTER">
                <children>
-                  <StackPane fx:id="menuLateral" styleClass="bg-gray">
+                  <StackPane fx:id="menuLateral" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="bg-gray">
                      <children>
-                        <VBox fx:id="menuView">
+                        <VBox fx:id="menuView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="30.0" StackPane.alignment="CENTER">
                            <styleClass>
                               <String fx:value="bg-black" />
                               <String fx:value="lateral-menu" />
                            </styleClass>
                            <children>
-                              <Button mnemonicParsing="false" onAction="#btnRegisterUserAction" styleClass="optionMenu" text="Register User">
+                              <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnRegisterUserAction" styleClass="optionMenu" text="Register User">
                                  <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" smooth="false">
                                        <image>
@@ -80,8 +80,11 @@
                                        </image>
                                     </ImageView>
                                  </graphic>
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#btnLogOutAction" styleClass="optionMenu" text="Log Out">
+                              <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnLogOutAction" styleClass="optionMenu" text="Log Out">
                                  <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" smooth="false">
                                        <image>
@@ -101,7 +104,7 @@
             </JFXDrawer>
          </left>
          <center>
-            <HBox prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+            <StackPane fx:id="container" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </children>
