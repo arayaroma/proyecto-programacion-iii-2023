@@ -33,18 +33,12 @@ public class UserController {
     @EJB
     UserService userService;
 
-    @GET
-    @Path("/ping")
-    public Response ping() {
-        try {
-            ResponseWrapper response = userService.ping();
-            return Response.status(response.getStatus()).entity(response).build();
-        } catch (Exception e) {
-            logger.severe(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-        }
-    }
-
+    /**
+     * Create a new user
+     * 
+     * @param userDto to be created
+     * @return Response with the created user
+     */
     @POST
     @Path("/create")
     public Response createUser(UserDto userDto) {
@@ -57,6 +51,59 @@ public class UserController {
         }
     }
 
+    @POST
+    @Path("/activate/{hash}")
+    public Response activateUser(@PathParam("hash") String hash) {
+        try {
+            ResponseWrapper response = userService.activateUser(hash);
+            return Response.status(response.getStatus()).entity(response).build();
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+    }
+
+    @POST
+    @Path("/recoverPassword/{email}")
+    public Response recoverPassword(@PathParam("email") String email) {
+        try {
+            ResponseWrapper response = userService.recoverPassword(email);
+            return Response.status(response.getStatus()).entity(response).build();
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+    }
+
+    /**
+     * Change the password of a user
+     * 
+     * @param id          of the user
+     * @param oldPassword to be changed
+     * @param newPassword to be set
+     * @return Response with the updated user
+     */
+    @PUT
+    @Path("/changePassword/{id}/{oldPassword}/{newPassword}")
+    public Response changePassword(
+            @PathParam("id") Long id,
+            @PathParam("oldPassword") String oldPassword,
+            @PathParam("newPassword") String newPassword) {
+        try {
+            ResponseWrapper response = userService.changePassword(id, oldPassword, newPassword);
+            return Response.status(response.getStatus()).entity(response).build();
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+    }
+
+    /**
+     * Get a user by id
+     * 
+     * @param id to be fetched
+     * @return Response with the user
+     */
     @GET
     @Path("/user/{id}")
     public Response getUserById(@PathParam("id") Long id) {
@@ -69,6 +116,32 @@ public class UserController {
         }
     }
 
+    /**
+     * Get a user by username and password
+     * 
+     * @param username to be fetched
+     * @param password to be fetched
+     * @return Response with the user
+     */
+    @GET
+    @Path("/user/{username}/{password}")
+    public Response getUserByUsernameAndPassword(
+            @PathParam("username") String username,
+            @PathParam("password") String password) {
+        try {
+            ResponseWrapper response = userService.getUserByUsernameAndPassword(username, password);
+            return Response.status(response.getStatus()).entity(response).build();
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+    }
+
+    /**
+     * Get all the users
+     * 
+     * @return Response with the list of users
+     */
     @GET
     @Path("/users")
     public Response getUsers() {
@@ -81,6 +154,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Update a user
+     * 
+     * @param userDto to be updated
+     * @return Response with the updated user
+     */
     @PUT
     @Path("/update")
     public Response updateUser(UserDto userDto) {
@@ -93,9 +172,15 @@ public class UserController {
         }
     }
 
+    /**
+     * delete a user by id
+     * 
+     * @param id to be deleted
+     * @return Response with the deleted user
+     */
     @DELETE
-    @Path("/user/{id}")
-    public Response deleteUserById(Long id) {
+    @Path("/delete/{id}")
+    public Response deleteUserById(@PathParam("id") Long id) {
         try {
             ResponseWrapper response = userService.deleteUserById(id);
             return Response.status(response.getStatus()).entity(response).build();
