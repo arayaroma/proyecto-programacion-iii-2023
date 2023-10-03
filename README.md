@@ -24,6 +24,8 @@ En este documento, encontrarán todas las indicaciones necesarias para llevar a 
     - [Cómo levantar Payara Server en modo debug](#cómo-levantar-payara-server-en-modo-debug)
     - [Cómo crear el JDBC Connection Pool](#cómo-crear-el-jdbc-connection-pool)
     - [Cómo crear el JDBC Resource](#cómo-crear-el-jdbc-resource)
+    - [Cómo crear el JavaMail Session](#cómo-crear-el-javamail-session)
+    - [Configuración de la sesión:](#configuración-de-la-sesión)
   - [Herramientas](#herramientas)
 
 
@@ -139,6 +141,21 @@ En general, volver y probar donde dice `Ping`, para verificar que el pool se hay
 Para crear el JDBC Resource, se debe de ir a la pesta&ntilde;a de `Services`, en la secci&oacute;n de `Servers`, dar click derecho, y seleccionar `View Admin Console`. Una vez en la consola de administraci&oacute;n, se debe de ir a la secci&oacute;n de `Resources`, y seleccionar `JDBC`, luego seleccionar `JDBC Resources`, y dar click en `New`.
 
 En la secci&oacute;n de `General Settings`, se debe de agregar el nombre del pool (jdbc/Clinica), y seleccionar el pool creado anteriormente. Luego dar click en `OK`.
+
+### C&oacute;mo crear el JavaMail Session
+Para crear el JavaMail Session, se debe de ir a la pesta&ntilde;a de `Services`, en la secci&oacute;n de `Servers`, dar click derecho, y seleccionar `View Admin Console`. Una vez en la consola de administraci&oacute;n, se debe de ir a la secci&oacute;n de `Resources`, y seleccionar `JavaMail Sessions`, y dar click en `New`.
+
+En la secci&oacute;n de `General Settings`, se debe de agregar el nombre de la sesi&oacute;n `mail/EvaComMailSession`, y seleccionar el pool creado anteriormente. Luego dar click en `OK`.
+
+### Configuraci&oacute;n de la sesi&oacute;n:
+- Mail Host: `smtp.gmail.com`
+- Default User: `clinicaunaws@gmail.com`
+- Password: `aaxsmampvktmkput`
+- Auth: `true`
+- Default Sender Address: `clinicaunaws@gmail.com`
+- mail.smtp.starttls.required: `true`
+- mail.smtp.starttls.enable: `true`
+- mail.smtp.port: `587`
 
 ## Herramientas
 - [Docker](https://www.docker.com/)
