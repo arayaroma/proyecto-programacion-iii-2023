@@ -12,7 +12,7 @@
     </properties>
     <dependencies>
         <!--        JFOENIX-->
-         <dependency>
+        <dependency>
             <groupId>com.jfoenix</groupId>
             <artifactId>jfoenix</artifactId>
             <version>9.0.10</version>
@@ -139,8 +139,19 @@
                         <id>debug</id>
                         <configuration>
                             <options>
-                                <option>
-                                    -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=localhost:8000</option>
+                                <option>--add-exports</option>
+                                <option>javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix</option>
+                                <option>--add-exports</option>
+                                <option>javafx.controls/com.sun.javafx.scene.control=com.jfoenix</option>
+                                <option>--add-exports</option>
+                                <option>javafx.base/com.sun.javafx.binding=com.jfoenix</option>
+                                <option>--add-exports</option>
+                                <option>javafx.graphics/com.sun.javafx.stage=com.jfoenix</option>
+                                <option>--add-exports</option>
+                                <option>javafx.base/com.sun.javafx.event=com.jfoenix</option>
+                                <option>--add-opens</option>
+                                <option>java.base/java.lang.reflect=com.jfoenix</option>
+                                <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=localhost:8000</option>
                             </options>
                         </configuration>
                     </execution>
@@ -149,8 +160,19 @@
                         <id>ide-debug</id>
                         <configuration>
                             <options>
-                                <option>
-                                    -agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</option>
+                                <option>--add-exports</option>
+                                <option>javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix</option>
+                                <option>--add-exports</option>
+                                <option>javafx.controls/com.sun.javafx.scene.control=com.jfoenix</option>
+                                <option>--add-exports</option>
+                                <option>javafx.base/com.sun.javafx.binding=com.jfoenix</option>
+                                <option>--add-exports</option>
+                                <option>javafx.graphics/com.sun.javafx.stage=com.jfoenix</option>
+                                <option>--add-exports</option>
+                                <option>javafx.base/com.sun.javafx.event=com.jfoenix</option>
+                                <option>--add-opens</option>
+                                <option>java.base/java.lang.reflect=com.jfoenix</option>
+                                <option>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</option>
                             </options>
                         </configuration>
                     </execution>

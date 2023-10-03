@@ -1,7 +1,5 @@
 package cr.ac.una.clinicauna.util;
 
-
-
 /**
  * 
  * @autor arayaroma

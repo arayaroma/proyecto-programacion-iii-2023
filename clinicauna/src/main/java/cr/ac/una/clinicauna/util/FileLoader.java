@@ -1,4 +1,4 @@
-package cr.ac.una.evacomuna.util;
+package cr.ac.una.clinicauna.util;
 
 import java.io.File;
 import java.io.IOException;
