@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.glassfish.jersey.server.ResourceConfig;
-
 import jakarta.ws.rs.ApplicationPath;
 
 /**
@@ -19,7 +18,8 @@ import jakarta.ws.rs.ApplicationPath;
 public class JakartaConfiguration extends ResourceConfig {
     public JakartaConfiguration() {
         super();
-        packages("cr.ac.una.clinicaunaws.controller", "io.swagger.v3.jaxrs2.integration.resources");
+        packages("cr.ac.una.clinicaunaws.controller", "cr.ac.una.clinicaunaws.util",
+                "io.swagger.v3.jaxrs2.integration.resources");
         registerCustomProviders();
     }
 
