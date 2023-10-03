@@ -23,11 +23,18 @@
     -fx-background-color: -fx-white-black;
     -fx-border-radius: 50%;
 }
+.radio-button .radio:hover{
+    -fx-cursor: hand;
+}
 .radio-button:selected .dot {
     -fx-background-color: -fx-orange;
 }
 .combo-box-base {
     -fx-background-color: -fx-white-black;
+}
+.combo-box-base:hover {
+    -fx-background-color: -fx-white-black;
+    -fx-cursor: hand;
 }
 .combo-box-base .arrow-button .arrow {
     -fx-background-color: -fx-orange;
@@ -38,5 +45,6 @@
 }
 .combo-box .combo-box-popup .list-view .list-cell:hover,
 .combo-box .combo-box-popup .list-view .list-cell:selected {
-	-fx-background-color: -fx-gray;
+    -fx-background-color: -fx-gray;
+    -fx-cursor: hand;
 }
