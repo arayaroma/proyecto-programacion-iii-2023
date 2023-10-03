@@ -39,7 +39,7 @@ public class UserDto implements DtoMapper<User, UserDto> {
      */
     @Override
     public UserDto convertFromEntityToDTO(User entity, UserDto dto) {
-        throw new UnsupportedOperationException("Unimplemented method 'convertFromEntityToDTO'");
+        return new UserDto(entity);
     }
 
     /**
@@ -49,7 +49,7 @@ public class UserDto implements DtoMapper<User, UserDto> {
      */
     @Override
     public User convertFromDTOToEntity(UserDto dto, User entity) {
-        throw new UnsupportedOperationException("Unimplemented method 'convertFromDTOToEntity'");
+        return new User(dto);
     }
 
     /**
@@ -70,6 +70,7 @@ public class UserDto implements DtoMapper<User, UserDto> {
         this.isAdmin = user.getIsAdmin();
         this.passwordChanged = user.getPasswordChanged();
         this.activationCode = user.getActivationCode();
+        this.language = user.getLanguage();
         this.profilePhoto = user.getProfilePhoto();
         this.version = user.getVersion();
     }

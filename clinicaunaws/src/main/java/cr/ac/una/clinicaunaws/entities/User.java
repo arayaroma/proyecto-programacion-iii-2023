@@ -168,6 +168,7 @@ public class User implements Serializable {
         this.isAdmin = userDto.getIsAdmin();
         this.passwordChanged = userDto.getPasswordChanged();
         this.activationCode = userDto.getActivationCode();
+        this.language = userDto.getLanguage();
         this.profilePhoto = userDto.getProfilePhoto();
         this.version = userDto.getVersion();
     }
