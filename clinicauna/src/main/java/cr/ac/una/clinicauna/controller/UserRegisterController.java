@@ -3,9 +3,12 @@ package cr.ac.una.clinicauna.controller;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
+import cr.ac.una.clinicauna.components.Animation;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,6 +16,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 /**
  * FXML Controller class
@@ -20,7 +24,7 @@ import javafx.scene.layout.VBox;
  * @author estebannajera
  */
 public class UserRegisterController implements Initializable {
-    
+
     @FXML
     private VBox mainView;
     @FXML
@@ -53,22 +57,28 @@ public class UserRegisterController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         cbLanguage.getItems().addAll("Admin", "Doctor", "Receptionist");
     }
-    
+
     @FXML
     private void backFromRegister(MouseEvent event) throws IOException {
-        App.setRoot("Login");
+        Animation.fadeTransition(mainView, Duration.seconds(0.5), 0, 1, 0, (t) -> {
+            try {
+                App.setRoot("Main");
+            } catch (IOException ex) {
+                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }).play();
     }
-    
+
     @FXML
     private void selectCbLanguage(ActionEvent event) {
     }
-    
+
     @FXML
     private void btnRegisterUserAction(ActionEvent event) {
     }
-    
+
     @FXML
     private void changeLanguajeAction(MouseEvent event) {
     }
-    
+
 }

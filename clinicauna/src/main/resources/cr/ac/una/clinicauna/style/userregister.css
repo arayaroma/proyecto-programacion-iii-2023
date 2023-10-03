@@ -15,8 +15,7 @@
 }
 .text-field{
     -fx-background-color:-fx-white-black;
-    -fx-border-color: transparent transparent -fx-field-border transparent  ;
-    /*    -fx-background-radius:20px;*/
+    -fx-border-color: transparent transparent -fx-field-border transparent;
 }
 .radio-button .radio {
     -fx-border-color: -fx-orange;

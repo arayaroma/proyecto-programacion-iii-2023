@@ -132,6 +132,12 @@
                                  </children>
                               </FlowPane>
                               <ComboBox fx:id="cbLanguage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#selectCbLanguage" promptText="Language" GridPane.rowIndex="4" />
+                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Select Your Photo Profile" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                 <styleClass>
+                                    <String fx:value="btn" />
+                                    <String fx:value="h3" />
+                                 </styleClass>
+                              </Button>
                            </children>
                         </GridPane>
                         <HBox VBox.vgrow="ALWAYS">
@@ -140,6 +146,7 @@
                                  <styleClass>
                                     <String fx:value="btn" />
                                     <String fx:value="orange-color" />
+                                    <String fx:value="h3" />
                                  </styleClass></Button>
                            </children>
                            <VBox.margin>

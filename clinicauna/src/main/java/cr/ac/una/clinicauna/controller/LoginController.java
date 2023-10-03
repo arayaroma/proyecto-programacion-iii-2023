@@ -51,9 +51,9 @@ public class LoginController implements Initializable {
 
     @FXML
     private void btnLogInAction(ActionEvent event) throws IOException {
-        Animation.fadeTransition(parent, Duration.seconds(1), 0, 1, 0, (t) -> {
+        Animation.fadeTransition(parent, Duration.seconds(0.5), 0, 1, 0, (t) -> {
             try {
-                App.setRoot("UserRegister");
+                App.setRoot("Main");
             } catch (IOException ex) {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
             }
