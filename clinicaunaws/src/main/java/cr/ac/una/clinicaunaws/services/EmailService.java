@@ -24,7 +24,7 @@ import jakarta.mail.internet.MimeMessage;
 @LocalBean
 public class EmailService {
 
-    @Resource(name = "mail/EvaComMailSession")
+    @Resource(name = "mail/ClinicaMailSession")
     private Session mailSession;
 
     private void send(String to, String subject, String body) throws MessagingException {
