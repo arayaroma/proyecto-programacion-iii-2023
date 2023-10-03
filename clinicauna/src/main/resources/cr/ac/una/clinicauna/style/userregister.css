@@ -1,0 +1,42 @@
+/*
+ * Empty Stylesheet file.
+ */
+*{
+    -fx-field-border: #4d4d4d;
+}
+.bg-login{
+    -fx-background-radius:20px;
+    -fx-effect: dropshadow(gaussian, -fx-white-orange, 10, 0, 0, 0);
+}
+
+.jfx-text-field, .jfx-password-field {
+    -jfx-focus-color: transparent;
+    -jfx-unfocus-color: transparent;
+}
+.text-field{
+    -fx-background-color:-fx-white-black;
+    -fx-border-color: transparent transparent -fx-field-border transparent  ;
+    /*    -fx-background-radius:20px;*/
+}
+.radio-button .radio {
+    -fx-border-color: -fx-orange;
+    -fx-background-color: -fx-white-black;
+    -fx-border-radius: 50%;
+}
+.radio-button:selected .dot {
+    -fx-background-color: -fx-orange;
+}
+.combo-box-base {
+    -fx-background-color: -fx-white-black;
+}
+.combo-box-base .arrow-button .arrow {
+    -fx-background-color: -fx-orange;
+}
+.combo-box .combo-box-popup .list-view .list-cell {
+    -fx-background-color: -fx-white-black;
+    -fx-text-fill:white;
+}
+.combo-box .combo-box-popup .list-view .list-cell:hover,
+.combo-box .combo-box-popup .list-view .list-cell:selected {
+	-fx-background-color: -fx-gray;
+}

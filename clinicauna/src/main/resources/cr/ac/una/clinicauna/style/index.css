@@ -1,0 +1,82 @@
+/* 
+    Created on : 3 oct. 2023, 07:06:57
+    Author     : estebannajera
+*/
+*{
+    -fx-font-family: "Nadeem";
+    -fx-text-fill:#c1c2c2;
+    -fx-orange:#CE7711;
+    -fx-white-orange:#e6b95a;
+    -fx-white-gray:#838586;
+    -fx-gray:#303435;
+    -fx-white-white-gray:#c1c2c2;
+    -fx-black:#000;
+    -fx-white-black:#1a1a1a;
+    -fx-green: #5BD25B;
+    -fx-white-green:#8ce08c;
+
+
+}
+.icon-back{
+    -fx-effect: dropshadow(gaussian, -fx-white-orange,5 , 0, 0, 0);
+}
+.icon-back:hover{
+    -fx-effect: dropshadow(gaussian, transparent,0 , 0, 0, 0);
+    -fx-cursor:hand;
+}
+.bg-gray{
+    -fx-background-color:-fx-gray;
+}
+.bg-black{
+    -fx-background-color:-fx-white-black;
+}
+.jfx-text-field, .jfx-password-field {
+    -jfx-focus-color: -fx-white-gray;
+    -fx-prompt-text-fill: -fx-white-white-gray;
+}
+.a{
+    -fx-text-fill:-fx-orange;
+}
+.a:hover{
+    -fx-effect: dropshadow(gaussian, -fx-white-orange, 10, 0, 0, 0);
+    -fx-cursor: hand;
+}
+
+.btn{
+    -fx-background-color:-fx-green;
+    -fx-padding: 5 20 5 20;
+    -fx-effect: dropshadow(gaussian, -fx-white-green, 10, 0, 0, 0);
+    -fx-font-size:15;
+}
+.orange-color{
+
+    -fx-background-color:-fx-orange;
+    -fx-effect: dropshadow(gaussian, -fx-orange, 10, 0, 0, 0);
+}
+.orange-color:hover{
+    -fx-effect: dropshadow(gaussian, transparent, 0, 0, 0, 0);
+}
+.btn:hover{
+
+    -fx-effect: dropshadow(gaussian, transparent, 0, 0, 0, 0);
+    -fx-cursor:hand;
+}
+.h1{
+    -fx-font-family:"Verdana";
+    -fx-font-weight:bold;
+    -fx-font-size:50;
+}
+.h2{
+    -fx-font-size:30;
+}
+.h3{
+    -fx-font-size:20;
+}
+
+.a{
+
+}
+Label, RadioButton, ComboBox{
+    -fx-font-size:16;
+}
+
