@@ -144,33 +144,33 @@ public class User implements Serializable {
     private Long version;
 
     /**
-     * @param userDto constructor from dto to entity
+     * @param dto constructor from dto to entity
      */
-    public User(UserDto userDto) {
-        this.id = userDto.getId();
-        updateUser(userDto);
+    public User(UserDto dto) {
+        this.id = dto.getId();
+        updateUser(dto);
     }
 
     /**
-     * @param userDto updates the userDto
+     * @param dto to be updated
      */
-    public void updateUser(UserDto userDto) {
-        this.username = userDto.getUsername();
-        this.password = userDto.getPassword();
-        this.name = userDto.getName();
-        this.firstLastname = userDto.getFirstLastname();
-        this.secondLastname = userDto.getSecondLastname();
-        this.identification = userDto.getIdentification();
-        this.email = userDto.getEmail();
-        this.role = userDto.getRole();
-        this.phoneNumber = userDto.getPhoneNumber();
-        this.isActive = userDto.getIsActive();
-        this.isAdmin = userDto.getIsAdmin();
-        this.passwordChanged = userDto.getPasswordChanged();
-        this.activationCode = userDto.getActivationCode();
-        this.language = userDto.getLanguage();
-        this.profilePhoto = userDto.getProfilePhoto();
-        this.version = userDto.getVersion();
+    public void updateUser(UserDto dto) {
+        this.username = dto.getUsername();
+        this.password = dto.getPassword();
+        this.name = dto.getName();
+        this.firstLastname = dto.getFirstLastname();
+        this.secondLastname = dto.getSecondLastname();
+        this.identification = dto.getIdentification();
+        this.email = dto.getEmail();
+        this.role = dto.getRole();
+        this.phoneNumber = dto.getPhoneNumber();
+        this.isActive = dto.getIsActive();
+        this.isAdmin = dto.getIsAdmin();
+        this.passwordChanged = dto.getPasswordChanged();
+        this.activationCode = dto.getActivationCode();
+        this.language = dto.getLanguage();
+        this.profilePhoto = dto.getProfilePhoto();
+        this.version = dto.getVersion();
     }
 
 }

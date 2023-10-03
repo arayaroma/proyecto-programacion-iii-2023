@@ -55,23 +55,23 @@ public class UserDto implements DtoMapper<User, UserDto> {
     /**
      * @param user constructor from entity to dto
      */
-    public UserDto(User user) {
-        this.id = user.getId();
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-        this.name = user.getName();
-        this.firstLastname = user.getFirstLastname();
-        this.secondLastname = user.getSecondLastname();
-        this.identification = user.getIdentification();
-        this.email = user.getEmail();
-        this.role = user.getRole();
-        this.phoneNumber = user.getPhoneNumber();
-        this.isActive = user.getIsActive();
-        this.isAdmin = user.getIsAdmin();
-        this.passwordChanged = user.getPasswordChanged();
-        this.activationCode = user.getActivationCode();
-        this.language = user.getLanguage();
-        this.profilePhoto = user.getProfilePhoto();
-        this.version = user.getVersion();
+    public UserDto(User entity) {
+        this.id = entity.getId();
+        this.username = entity.getUsername();
+        this.password = entity.getPassword();
+        this.name = entity.getName();
+        this.firstLastname = entity.getFirstLastname();
+        this.secondLastname = entity.getSecondLastname();
+        this.identification = entity.getIdentification();
+        this.email = entity.getEmail();
+        this.role = entity.getRole();
+        this.phoneNumber = entity.getPhoneNumber();
+        this.isActive = entity.getIsActive();
+        this.isAdmin = entity.getIsAdmin();
+        this.passwordChanged = entity.getPasswordChanged();
+        this.activationCode = entity.getActivationCode();
+        this.language = entity.getLanguage();
+        this.profilePhoto = entity.getProfilePhoto();
+        this.version = entity.getVersion();
     }
 }
