@@ -8,27 +8,26 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" styleClass="main-bg" stylesheets="@../style/login.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.clinicauna.controller.LoginController">
+<VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" styleClass="main-bg" stylesheets="@../style/login.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.clinicauna.controller.LoginController">
    <children>
       <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="600.0" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" VBox.vgrow="ALWAYS">
          <children>
-            <Label styleClass="h1" text="Login" />
+            <Label styleClass="h1" text="%lblLogin" />
             <VBox spacing="30.0">
                <children>
-                  <JFXTextField labelFloat="true" promptText="UserName" styleClass="h3" />
-                  <JFXPasswordField labelFloat="true" promptText="Password" styleClass="h3" />
+                  <JFXTextField labelFloat="true" promptText="%txfUser" styleClass="h3" />
+                  <JFXPasswordField labelFloat="true" promptText="%txfPassword" styleClass="h3" />
                </children>
             </VBox>
             <HBox>
                <children>
-                  <Button mnemonicParsing="false" styleClass="btn" text="Log In" />
+                  <Button mnemonicParsing="false" styleClass="btn" text="%btLogin" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                <children>
-                  <Label text="Forgot your password?" />
-                  <Label styleClass="a" text="Click Here!" />
+                  <Label text="%lblFpass" />
+                  <Label styleClass="a" text="%lblClickHere" />
                </children>
             </HBox>
          </children>
