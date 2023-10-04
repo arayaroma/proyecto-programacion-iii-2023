@@ -18,11 +18,8 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import static cr.ac.una.clinicaunaws.util.Database.*;
-
 import java.io.Serializable;
-
 import cr.ac.una.clinicaunaws.dto.UserDto;
 
 /**
