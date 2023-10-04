@@ -1,7 +1,6 @@
 package cr.ac.una.clinicaunaws.controller;
 
 import java.util.logging.Logger;
-
 import cr.ac.una.clinicaunaws.dto.UserDto;
 import cr.ac.una.clinicaunaws.services.UserService;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
