@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DoctorDto implements DtoMapper<Doctor, DoctorDto> {
+
     private Long id;
     private String code;
     private Long idCard;
