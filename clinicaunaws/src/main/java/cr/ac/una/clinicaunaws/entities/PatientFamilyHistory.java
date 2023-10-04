@@ -1,7 +1,6 @@
 package cr.ac.una.clinicaunaws.entities;
 
 import java.io.Serializable;
-
 import cr.ac.una.clinicaunaws.dto.PatientFamilyHistoryDto;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
