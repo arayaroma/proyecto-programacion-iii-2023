@@ -51,6 +51,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Activate a user by hash
+     * 
+     * @param hash of the user
+     * @return Response with the activated user
+     */
     @POST
     @Path("/activate/{hash}")
     public Response activateUser(@PathParam("hash") String hash) {
@@ -63,6 +69,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Recover the password of a user by email
+     * 
+     * @param email of the user
+     * @return Response with the user with the new password
+     */
     @POST
     @Path("/recoverPassword/{email}")
     public Response recoverPassword(@PathParam("email") String email) {
