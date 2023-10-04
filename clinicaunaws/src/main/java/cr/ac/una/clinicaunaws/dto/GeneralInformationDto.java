@@ -23,18 +23,6 @@ public class GeneralInformationDto implements DtoMapper<GeneralInformation, Gene
     private Long version;
 
     /**
-     * @param generalInformation constructor to convert an entity to a dto
-     */
-    public GeneralInformationDto(GeneralInformation generalInformation) {
-        this.id = generalInformation.getId();
-        this.name = generalInformation.getName();
-        this.email = generalInformation.getEmail();
-        this.photo = generalInformation.getPhoto();
-        this.htmltemplate = generalInformation.getHtmltemplate();
-        this.version = generalInformation.getVersion();
-    }
-
-    /**
      * @param entity the entity to be converted
      * @param dto    the dto to be updated
      * @return the dto with the updated information
@@ -52,6 +40,18 @@ public class GeneralInformationDto implements DtoMapper<GeneralInformation, Gene
     @Override
     public GeneralInformation convertFromDTOToEntity(GeneralInformationDto dto, GeneralInformation entity) {
         return new GeneralInformation(dto);
+    }
+
+    /**
+     * @param generalInformation constructor to convert an entity to a dto
+     */
+    public GeneralInformationDto(GeneralInformation generalInformation) {
+        this.id = generalInformation.getId();
+        this.name = generalInformation.getName();
+        this.email = generalInformation.getEmail();
+        this.photo = generalInformation.getPhoto();
+        this.htmltemplate = generalInformation.getHtmltemplate();
+        this.version = generalInformation.getVersion();
     }
 
 }
