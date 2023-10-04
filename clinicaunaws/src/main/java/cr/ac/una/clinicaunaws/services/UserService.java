@@ -9,15 +9,12 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.persistence.StoredProcedureQuery;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.core.GenericEntity;
 import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 import static cr.ac.una.clinicaunaws.util.PersistenceContext.PERSISTENCE_UNIT_NAME;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import cr.ac.una.clinicaunaws.dto.UserDto;
 import cr.ac.una.clinicaunaws.entities.User;
 import cr.ac.una.clinicaunaws.security.HashGenerator;
@@ -36,21 +33,20 @@ public class UserService {
     @EJB
     EmailService emailService;
 
-    public ResponseWrapper ping() {
-        return new ResponseWrapper(
-                ResponseCode.OK.getCode(),
-                ResponseCode.OK,
-                "Hello World!",
-                null);
-    }
-
+    /**
+     * FIXME: Test the activation with email
+     * 
+     * @param userDto to be created
+     * @return ResponseWrapper with the response from database, or null if an
+     *         exception occurred
+     */
     public ResponseWrapper createUser(UserDto userDto) {
         try {
             User user = new User(userDto);
             try {
-                // user.setActivationCode(generateHash(userDto));
-                // userDto.setActivationCode(user.getActivationCode());
-                // sendActivationEmail(userDto);
+                user.setActivationCode(generateHash(userDto));
+                userDto.setActivationCode(user.getActivationCode());
+                sendActivationEmail(userDto);
             } catch (Exception ex) {
                 return new ResponseWrapper(
                         ResponseCode.OK.getCode(),
@@ -186,7 +182,7 @@ public class UserService {
     @Transactional
     private String generateRandomPassword(Long id) {
         StoredProcedureQuery query = em
-                .createStoredProcedureQuery("EVACOMUNA.GENERATE_RANDOM_PASSWORD");
+                .createStoredProcedureQuery("CLINICAUNA.GENERATE_RANDOM_PASSWORD");
         query.registerStoredProcedureParameter("USER_ID", Long.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("NEW_PASSWORD", String.class, ParameterMode.OUT);
         query.setParameter("USER_ID", id);
@@ -221,7 +217,7 @@ public class UserService {
                 user.setPasswordChanged("N");
                 UserDto userDto = new UserDto(user);
 
-                emailService.sendPasswordRecovered(userDto);
+                // emailService.sendPasswordRecovered(userDto);
 
                 em.merge(user);
                 em.flush();
@@ -257,7 +253,7 @@ public class UserService {
     @Transactional
     private String changedPassword(Long id, String newPassword) {
         StoredProcedureQuery query = em
-                .createStoredProcedureQuery("EVACOMUNA.CHANGE_PASSWORD");
+                .createStoredProcedureQuery("CLINICAUNA.CHANGE_PASSWORD");
         query.registerStoredProcedureParameter("USER_ID", Long.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("NEW_PASSWORD", String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("CHANGED_PASSWORD", String.class, ParameterMode.OUT);
@@ -329,7 +325,7 @@ public class UserService {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public ResponseWrapper getUserByUserAndPassword(String username, String password) {
+    public ResponseWrapper getUserByUsernameAndPassword(String username, String password) {
         if (username == null || username.isEmpty()) {
             return new ResponseWrapper(
                     ResponseCode.BAD_REQUEST.getCode(),
@@ -382,6 +378,36 @@ public class UserService {
     }
 
     /**
+     * @return ResponseWrapper with the response from database, or null if an
+     *         exception occurred
+     */
+    @SuppressWarnings("unchecked")
+    public ResponseWrapper getUsers() {
+        try {
+            Query query = em.createNamedQuery("User.findAll", User.class);
+            List<User> users = (List<User>) query.getResultList();
+            List<UserDto> usersDto = new ArrayList<>();
+
+            for (User user : users) {
+                UserDto userDto = new UserDto(user);
+                usersDto.add(userDto.convertFromEntityToDTO(user, userDto));
+            }
+
+            return new ResponseWrapper(
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
+                    "Users retrieved successfully.",
+                    usersDto);
+        } catch (Exception e) {
+            return new ResponseWrapper(
+                    ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                    ResponseCode.INTERNAL_SERVER_ERROR,
+                    "Exception occurred while retrieving users: " + e.getMessage(),
+                    null);
+        }
+    }
+
+    /**
      * @param userDto User to be updated
      * @return ResponseWrapper with the response from database, or null if an
      *         exception occurred
@@ -429,36 +455,6 @@ public class UserService {
         return em.createNamedQuery("User.findByUsername", User.class)
                 .setParameter("username", username)
                 .getResultList().isEmpty();
-    }
-
-    /**
-     * @return ResponseWrapper with the response from database, or null if an
-     *         exception occurred
-     */
-    @SuppressWarnings("unchecked")
-    public ResponseWrapper getUsers() {
-        try {
-            Query query = em.createNamedQuery("User.findAll", User.class);
-            List<User> users = (List<User>) query.getResultList();
-            List<UserDto> usersDto = new ArrayList<>();
-
-            for (User user : users) {
-                UserDto userDto = new UserDto(user);
-                usersDto.add(userDto.convertFromEntityToDTO(user, userDto));
-            }
-
-            return new ResponseWrapper(
-                    ResponseCode.OK.getCode(),
-                    ResponseCode.OK,
-                    "Users retrieved successfully.",
-                    usersDto);
-        } catch (Exception e) {
-            return new ResponseWrapper(
-                    ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
-                    ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Exception occurred while retrieving users: " + e.getMessage(),
-                    null);
-        }
     }
 
     /**

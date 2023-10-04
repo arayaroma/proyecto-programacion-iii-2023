@@ -1,7 +1,6 @@
 package cr.ac.una.clinicaunaws.services;
 
 import java.io.IOException;
-
 import cr.ac.una.clinicaunaws.dto.UserDto;
 import cr.ac.una.clinicaunaws.util.Constants;
 import cr.ac.una.clinicaunaws.util.HtmlFileReader;
@@ -24,7 +23,7 @@ import jakarta.mail.internet.MimeMessage;
 @LocalBean
 public class EmailService {
 
-    @Resource(name = "mail/EvaComMailSession")
+    @Resource(name = "mail/ClinicaMailSession")
     private Session mailSession;
 
     private void send(String to, String subject, String body) throws MessagingException {
