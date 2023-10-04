@@ -16,6 +16,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
+import cr.ac.una.clinicaunaws.dto.DoctorDto;
 
 /**
  * 
@@ -71,7 +72,7 @@ public class Doctor implements Serializable {
     /**
      * @param dto constructor from entity to dto
      */
-    public Doctor(Doctor dto) {
+    public Doctor(DoctorDto dto) {
         this.id = dto.getId();
         updateDoctor(dto);
     }
@@ -79,7 +80,7 @@ public class Doctor implements Serializable {
     /**
      * @param dto to be updated
      */
-    public void updateDoctor(Doctor dto) {
+    public void updateDoctor(DoctorDto dto) {
         this.code = dto.getCode();
         this.idCard = dto.getIdCard();
         this.shiftStartTime = dto.getShiftStartTime();
