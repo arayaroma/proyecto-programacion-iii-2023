@@ -4,8 +4,6 @@ import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.ws.rs.core.GenericEntity;
-
 /**
  * 
  * @author arayaroma
@@ -25,19 +23,11 @@ public interface DtoMapper<E, D> {
      * @param dtoClass
      * @return
      */
-    public static <E, D> GenericEntity<D> fromEntityList(List<E> entities, Class<D> dtoClass) {
-        GenericEntity<D> genericEntity = new GenericEntity<D>(null) {
-        };
-        if (entities == null || entities.isEmpty()) {
-            return genericEntity;
-        }
+    public static <E, D> List<D> fromEntityList(List<E> entities, Class<D> dtoClass) {
         List<D> dtos = entities.stream()
                 .map(entity -> convertToDto(entity, dtoClass))
                 .collect(Collectors.toList());
-        genericEntity = new GenericEntity<D>((D) dtos) {
-        };
-
-        return genericEntity;
+        return dtos;
     }
 
     /**
@@ -49,19 +39,11 @@ public interface DtoMapper<E, D> {
      * @param entityClass
      * @return
      */
-    public static <E, D> GenericEntity<E> fromDtoList(List<D> dtos, Class<E> entityClass) {
-        GenericEntity<E> genericEntity = new GenericEntity<E>(null) {
-        };
-        if (dtos == null || dtos.isEmpty()) {
-            return genericEntity;
-        }
+    public static <E, D> List<E> fromDtoList(List<D> dtos, Class<E> entityClass) {
         List<E> entities = dtos.stream()
                 .map(dto -> convertToEntity(dto, entityClass))
                 .collect(Collectors.toList());
-        genericEntity = new GenericEntity<E>((E) entities) {
-        };
-
-        return genericEntity;
+        return entities;
     }
 
     public static <T, D> D convertToDto(T entity, Class<D> dtoClass) {
