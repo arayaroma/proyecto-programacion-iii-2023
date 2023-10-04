@@ -43,10 +43,10 @@ public class Agenda implements Serializable {
     @Column(name = "DOCTOR")
     private Doctor doctor;
 
-    // @NotNull
-    // @Basic(optional = false)
-    // @Column(name = "PATIENTCARE")
-    // private PatientCare patientCare;
+    @NotNull
+    @Basic(optional = false)
+    @Column(name = "PATIENTCARE")
+    private PatientCare patientCare;
 
     @NotNull
     @Basic(optional = false)
@@ -87,6 +87,7 @@ public class Agenda implements Serializable {
      */
     public void updateAgenda(AgendaDto dto) {
         this.doctor = null;
+        this.patientCare = null;
         this.date = LocalDate.parse(dto.getDate());
         this.shiftStartTime = dto.getShiftStartTime();
         this.shiftEndTime = dto.getShiftEndTime();
