@@ -22,7 +22,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 
-<HBox alignment="CENTER" styleClass="bg-black" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.clinicauna.controller.UserRegisterController">
+<HBox fx:id="parent" alignment="CENTER" styleClass="bg-black" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.clinicauna.controller.UserRegisterController">
    <children>
       <StackPane>
          <HBox.margin>
@@ -118,11 +118,6 @@
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXTextField>
-                              <JFXTextField fx:id="txfLandlineNumber" labelFloat="true" promptText="%txfLandlineNumber" styleClass="h3" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                 <padding>
-                                    <Insets left="10.0" />
-                                 </padding>
-                              </JFXTextField>
                               <FlowPane alignment="CENTER_LEFT" columnHalignment="CENTER" hgap="10.0" prefWrapLength="300.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                  <children>
                                     <RadioButton mnemonicParsing="false" styleClass="p" text="%rbAdmin">
@@ -134,8 +129,8 @@
                                     <RadioButton mnemonicParsing="false" styleClass="p" text="%rbReceptionist" toggleGroup="$roleGroup" />
                                  </children>
                               </FlowPane>
-                              <ComboBox fx:id="cbLanguage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#selectCbLanguage" promptText="%cbRole" GridPane.rowIndex="4" />
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="%btnSelectPhotoProfile" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                              <ComboBox fx:id="cbLanguage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#selectCbLanguage" promptText="%cbLanguage" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="%btnSelectPhotoProfile" GridPane.columnIndex="2" GridPane.rowIndex="4">
                                  <styleClass>
                                     <String fx:value="btn" />
                                     <String fx:value="h3" />

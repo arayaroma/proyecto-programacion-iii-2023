@@ -1,5 +1,6 @@
 package cr.ac.una.clinicauna;
 
+import cr.ac.una.clinicauna.controller.UserRegisterController;
 import cr.ac.una.clinicauna.util.Data;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +30,10 @@ public class App extends Application {
 
     public static void setRoot(String fxml) throws IOException {
         scene.setRoot(getFXMLLoader(fxml).load());
+    }
+
+    public static void setRoot(FXMLLoader loader) throws IOException {
+        scene.setRoot(loader.load());
     }
 
     public static FXMLLoader getFXMLLoader(String fxml) {

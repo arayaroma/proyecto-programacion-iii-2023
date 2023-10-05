@@ -47,7 +47,7 @@ public class Request {
         // AppContext.getInstance().get("Token").toString());
         //
         // }
-        builder.headers(headers);
+        //builder.headers(headers);
     }
 
     /**
