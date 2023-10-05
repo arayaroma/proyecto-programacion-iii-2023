@@ -60,7 +60,10 @@
                               <Insets top="20.0" />
                            </VBox.margin>
                         </ImageView>
-                        <Label styleClass="h1" text="Register" VBox.vgrow="ALWAYS" />
+                        <Label styleClass="h1" text="%lblRegister" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="30.0" />
+                           </VBox.margin></Label>
                         <GridPane hgap="20.0" vgap="45.0">
                            <columnConstraints>
                               <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" />
@@ -75,64 +78,64 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <JFXTextField fx:id="txfIdentification" labelFloat="true" promptText="Identification" styleClass="h3">
+                              <JFXTextField fx:id="txfIdentification" labelFloat="true" promptText="%txfIdentification" styleClass="h3">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXTextField>
-                              <JFXTextField fx:id="txfUsername" labelFloat="true" promptText="Username" styleClass="h3" GridPane.columnIndex="1">
+                              <JFXTextField fx:id="txfUsername" labelFloat="true" promptText="%txfUsername" styleClass="h3" GridPane.columnIndex="1">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXTextField>
-                              <JFXPasswordField fx:id="txfPassword" labelFloat="true" promptText="Password" styleClass="h3" GridPane.columnIndex="2">
+                              <JFXPasswordField fx:id="txfPassword" labelFloat="true" promptText="%txfPassword" styleClass="h3" GridPane.columnIndex="2">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXPasswordField>
-                              <JFXTextField fx:id="txfName" labelFloat="true" promptText="Name" styleClass="h3" GridPane.rowIndex="1">
+                              <JFXTextField fx:id="txfName" labelFloat="true" promptText="%txfName" styleClass="h3" GridPane.rowIndex="1">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXTextField>
-                              <JFXTextField fx:id="txfLastName" labelFloat="true" promptText="Last Name" styleClass="h3" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <JFXTextField fx:id="txfLastName" labelFloat="true" promptText="%txfLastName" styleClass="h3" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXTextField>
-                              <JFXTextField fx:id="txfSencondLastName" labelFloat="true" promptText="Second Last  Name" styleClass="h3" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                              <JFXTextField fx:id="txfSencondLastName" labelFloat="true" promptText="%txfSecondLastName" styleClass="h3" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXTextField>
-                              <JFXTextField fx:id="txfEmail" labelFloat="true" promptText="Email" styleClass="h3" GridPane.columnSpan="3" GridPane.rowIndex="2">
+                              <JFXTextField fx:id="txfEmail" labelFloat="true" promptText="%txfEmail" styleClass="h3" GridPane.columnSpan="3" GridPane.rowIndex="2">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXTextField>
-                              <JFXTextField fx:id="txfPhoneNumber" labelFloat="true" promptText="Phone Number" styleClass="h3" GridPane.rowIndex="3">
+                              <JFXTextField fx:id="txfPhoneNumber" labelFloat="true" promptText="%txfPhoneNumber" styleClass="h3" GridPane.rowIndex="3">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXTextField>
-                              <JFXTextField fx:id="txfLandlineNumber" labelFloat="true" promptText="Landline Numer" styleClass="h3" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              <JFXTextField fx:id="txfLandlineNumber" labelFloat="true" promptText="%txfLandlineNumber" styleClass="h3" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXTextField>
                               <FlowPane alignment="CENTER_LEFT" columnHalignment="CENTER" hgap="10.0" prefWrapLength="300.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                  <children>
-                                    <RadioButton mnemonicParsing="false" styleClass="p" text="Admin">
+                                    <RadioButton mnemonicParsing="false" styleClass="p" text="%rbAdmin">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="roleGroup" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton mnemonicParsing="false" styleClass="p" text="Doctor" toggleGroup="$roleGroup" />
-                                    <RadioButton mnemonicParsing="false" styleClass="p" text="Receptionist" toggleGroup="$roleGroup" />
+                                    <RadioButton mnemonicParsing="false" styleClass="p" text="%rbDoctor" toggleGroup="$roleGroup" />
+                                    <RadioButton mnemonicParsing="false" styleClass="p" text="%rbReceptionist" toggleGroup="$roleGroup" />
                                  </children>
                               </FlowPane>
-                              <ComboBox fx:id="cbLanguage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#selectCbLanguage" promptText="Language" GridPane.rowIndex="4" />
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Select Your Photo Profile" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                              <ComboBox fx:id="cbLanguage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#selectCbLanguage" promptText="%cbRole" GridPane.rowIndex="4" />
+                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="%btnSelectPhotoProfile" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                  <styleClass>
                                     <String fx:value="btn" />
                                     <String fx:value="h3" />
@@ -142,7 +145,7 @@
                         </GridPane>
                         <HBox VBox.vgrow="ALWAYS">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#btnRegisterUserAction" text="Register">
+                              <Button mnemonicParsing="false" onAction="#btnRegisterUserAction" text="%btnRegister">
                                  <styleClass>
                                     <String fx:value="btn" />
                                     <String fx:value="orange-color" />

@@ -20,7 +20,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = getFXMLLoaderWithLanguage("Login", ResourceBundle.getBundle(DOMAIN_PATH + "language/lang_es")).load();
+        Parent root = getFXMLLoader("Login").load();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.setFullScreen(true);
@@ -28,16 +28,15 @@ public class App extends Application {
     }
 
     public static void setRoot(String fxml) throws IOException {
-        //Load English default
-        scene.setRoot(getFXMLLoaderWithLanguage(fxml, Data.getEnglishBundle()).load());
+        scene.setRoot(getFXMLLoader(fxml).load());
     }
 
     public static FXMLLoader getFXMLLoader(String fxml) {
-        return new FXMLLoader(App.class.getResource(DOMAIN_PATH + "view/" + fxml + ".fxml"));
-    }
+        if (Data.languageOption.equals("en")) {
+            return new FXMLLoader(App.class.getResource(DOMAIN_PATH + "view/" + fxml + ".fxml"), Data.getEnglishBundle());
+        }
+        return new FXMLLoader(App.class.getResource(DOMAIN_PATH + "view/" + fxml + ".fxml"), Data.getSpanishBundle());
 
-    public static FXMLLoader getFXMLLoaderWithLanguage(String fxml, ResourceBundle rb) {
-        return new FXMLLoader(App.class.getResource(DOMAIN_PATH + "view/" + fxml + ".fxml"), rb);
     }
 
     public static void main(String[] args) {

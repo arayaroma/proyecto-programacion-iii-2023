@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.util.Data;
 import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import javafx.animation.ParallelTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -41,6 +43,8 @@ public class LoginController implements Initializable {
     private JFXTextField txfRecoveryEmail;
     @FXML
     private StackPane parent;
+    @FXML
+    private Label lblLanguage;
 
     /**
      * Initializes the controller class.
@@ -68,7 +72,25 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    private void changeLanguajeAction(MouseEvent event) {
+    private void changeLanguajeAction(MouseEvent event) throws IOException {
+        String option = Data.getLanguageOption();
+        switch (option) {
+            case "en":
+                Data.setLanguageOption("es");
+                lblLanguage.setText("ES/EN");
+                break;
+            case "es":
+                Data.setLanguageOption("en");
+                lblLanguage.setText("EN/ES");
+                break;
+        }
+        Animation.fadeTransition(parent, Duration.seconds(0.5), 0, 1, 0, (t) -> {
+            try {
+                App.setRoot("Login");
+            } catch (IOException ex) {
+                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }).play();
     }
 
     @FXML

@@ -11,6 +11,7 @@ public class Data {
 
     public static final ResourceBundle spanishBundle = ResourceBundle.getBundle(App.DOMAIN_PATH + "language/lang_es");
     public static final ResourceBundle englishBundle = ResourceBundle.getBundle(App.DOMAIN_PATH + "language/lang_en");
+    public static String languageOption = "es";
 
     public static ResourceBundle getEnglishBundle() {
         return englishBundle;
@@ -19,5 +20,15 @@ public class Data {
     public static ResourceBundle getSpanishBundle() {
         return spanishBundle;
     }
+
+    public static String getLanguageOption() {
+        return languageOption;
+    }
+
+    public static void setLanguageOption(String languageOption) {
+        Data.languageOption = languageOption;
+    }
+    
+    
 
 }

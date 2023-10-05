@@ -66,7 +66,9 @@ public class MainController implements Initializable {
         HamburgerBackArrowBasicTransition transition = new HamburgerBackArrowBasicTransition(hamburguerMenu);
         sliderMenu.setSidePane(menuLateral);
         sliderMenu.open();
-        transition.setRate(-1);
+        
+        transition.setRate(1);
+        transition.play();
         hamburguerMenu.setOnMouseClicked(t -> {
             transition.setRate(transition.getRate() * -1);
             transition.play();

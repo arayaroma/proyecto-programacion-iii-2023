@@ -3,18 +3,17 @@ package cr.ac.una.clinicauna.controller;
 import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.UserDto;
+import cr.ac.una.clinicauna.util.Data;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -54,7 +53,11 @@ public class UserModuleController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cbSearchParameter.getItems().addAll("Name", "Last Name", "Second Last Name", "Identification", "Role");
+        if (Data.getLanguageOption().equals("en")) {
+            cbSearchParameter.getItems().addAll("Name", "Last Name", "Second Last Name", "Identification", "Role");
+        }else{
+           cbSearchParameter.getItems().addAll("Nombre", "Apellido", "Segundo Apellido", "Cédula", "Rol");
+        }
     }
 
     @FXML

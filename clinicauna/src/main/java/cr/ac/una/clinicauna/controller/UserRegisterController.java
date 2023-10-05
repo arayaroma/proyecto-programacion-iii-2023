@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.util.Data;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -55,7 +56,11 @@ public class UserRegisterController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cbLanguage.getItems().addAll("Admin", "Doctor", "Receptionist");
+        if (Data.languageOption.equals("en")) {
+            cbLanguage.getItems().addAll("Admin", "Doctor", "Receptionist");
+        } else {
+            cbLanguage.getItems().addAll("Administrador", "Doctor", "Recepcionista");
+        }
     }
 
     @FXML
