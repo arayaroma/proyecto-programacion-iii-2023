@@ -17,6 +17,9 @@ import lombok.NoArgsConstructor;
 import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
 import cr.ac.una.clinicaunaws.dto.DoctorDto;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.QueryHint;
 
 /**
  * 
@@ -27,6 +30,12 @@ import cr.ac.una.clinicaunaws.dto.DoctorDto;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
+@NamedQueries({
+        @NamedQuery(name = "Doctor.findAll", query = "SELECT d FROM Doctor d", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+        @NamedQuery(name = "Doctor.findById", query = "SELECT d FROM Doctor d WHERE d.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true"))
+})
+
 public class Doctor implements Serializable {
     private static final long serialVersionUID = 1L;
 
