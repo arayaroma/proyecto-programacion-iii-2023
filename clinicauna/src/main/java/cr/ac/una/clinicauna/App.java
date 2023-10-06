@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ResourceBundle;
 import javafx.scene.Parent;
 
 /**
@@ -29,6 +28,10 @@ public class App extends Application {
 
     public static void setRoot(String fxml) throws IOException {
         scene.setRoot(getFXMLLoader(fxml).load());
+    }
+
+    public static void setRoot(FXMLLoader loader) throws IOException {
+        scene.setRoot(loader.load());
     }
 
     public static FXMLLoader getFXMLLoader(String fxml) {

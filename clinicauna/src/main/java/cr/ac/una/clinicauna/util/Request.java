@@ -47,7 +47,7 @@ public class Request {
         // AppContext.getInstance().get("Token").toString());
         //
         // }
-        builder.headers(headers);
+        //builder.headers(headers);
     }
 
     /**
@@ -148,7 +148,7 @@ public class Request {
             }
             return mensaje;
         }
-        return null;
+        return "Empty";
     }
 
     public Object readEntity(Class<?> clazz) {

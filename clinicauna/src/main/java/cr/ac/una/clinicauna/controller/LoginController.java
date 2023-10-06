@@ -6,9 +6,14 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.model.UserDto;
+import cr.ac.una.clinicauna.services.UserService;
 import cr.ac.una.clinicauna.util.Data;
 import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
+import cr.ac.una.clinicauna.util.ResponseCode;
+import cr.ac.una.clinicauna.util.ResponseWrapper;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,6 +24,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -46,27 +53,46 @@ public class LoginController implements Initializable {
     @FXML
     private Label lblLanguage;
 
+    private UserService userService = new UserService();
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        try {
+            if (Data.getLanguageOption().equals("en")) {
+                lblLanguage.setText("EN/ES");
+            } else {
+                lblLanguage.setText("ES/EN");
+            }
+            txfPassword.setOnKeyPressed(event -> keyLoginHandler(event));
+            txfUsername.setOnKeyPressed(event -> keyLoginHandler(event));
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
     }
 
     @FXML
     private void btnLogInAction(ActionEvent event) throws IOException {
-        Animation.fadeTransition(parent, Duration.seconds(0.5), 0, 1, 0, (t) -> {
-            try {
-                App.setRoot("Main");
-            } catch (IOException ex) {
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }).play();
-
+        String user = txfUsername.getText(), password = txfPassword.getText();
+        if (user.isBlank() || password.isBlank()) {
+            Message.showNotification("Ups", MessageType.ERROR, "All the fields are required");
+            return;
+        }
+        ResponseWrapper response = userService.verifyUser(user, password);
+        if (response.getCode() == ResponseCode.OK) {
+            UserDto userDto = (UserDto) response.getData();
+            Data.setData("userLoggued", userDto);
+            loadMain();
+            return;
+        }
+        Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
     }
 
     @FXML
-    private void forgotYourPasswordAction(MouseEvent event) {
+    private void forgotYourPasswordAction(MouseEvent event
+    ) {
         new FadeIn(recoveryPasswordView).play();
         recoveryPasswordView.toFront();
     }
@@ -77,31 +103,52 @@ public class LoginController implements Initializable {
         switch (option) {
             case "en":
                 Data.setLanguageOption("es");
-                lblLanguage.setText("ES/EN");
                 break;
             case "es":
                 Data.setLanguageOption("en");
-                lblLanguage.setText("EN/ES");
+
                 break;
         }
+        Animation.MakeDefaultFadeTransition(parent, "Login");
+//        Animation.fadeTransition(parent, Duration.seconds(0.5), 0, 1, 0, (t) -> {
+//            try {
+//                App.setRoot("Login");
+//            } catch (IOException ex) {
+//                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }).play();
+    }
+
+    @FXML
+    private void backToLoginAction(MouseEvent event
+    ) {
+        new FadeIn(mainView).play();
+        mainView.toFront();
+    }
+
+    @FXML
+    private void btnSendRecoveryEmailAction(ActionEvent event
+    ) {
+        Message.showNotification("Sending", MessageType.INFO, "Sending Email");
+    }
+
+    private void loadMain() {
         Animation.fadeTransition(parent, Duration.seconds(0.5), 0, 1, 0, (t) -> {
             try {
-                App.setRoot("Login");
+                App.setRoot("Main");
             } catch (IOException ex) {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }).play();
     }
 
-    @FXML
-    private void backToLoginAction(MouseEvent event) {
-        new FadeIn(mainView).play();
-        mainView.toFront();
+    private void keyLoginHandler(KeyEvent ev) {
+        try {
+            if (ev.getCode() == KeyCode.ENTER) {
+                btnLogInAction(null);
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
     }
-
-    @FXML
-    private void btnSendRecoveryEmailAction(ActionEvent event) {
-        Message.showNotification("Sending", MessageType.INFO, "Sending Email");
-    }
-
 }

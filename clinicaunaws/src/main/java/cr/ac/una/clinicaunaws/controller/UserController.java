@@ -3,6 +3,7 @@ package cr.ac.una.clinicaunaws.controller;
 import java.util.logging.Logger;
 import cr.ac.una.clinicaunaws.dto.UserDto;
 import cr.ac.una.clinicaunaws.services.UserService;
+import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ws.rs.core.MediaType;
@@ -16,9 +17,11 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.core.GenericEntity;
+import java.util.List;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Path("/UserController")
@@ -34,7 +37,7 @@ public class UserController {
 
     /**
      * Create a new user
-     * 
+     *
      * @param userDto to be created
      * @return Response with the created user
      */
@@ -43,7 +46,11 @@ public class UserController {
     public Response createUser(UserDto userDto) {
         try {
             ResponseWrapper response = userService.createUser(userDto);
-            return Response.status(response.getStatus()).entity(response).build();
+            if (response.getCode() != ResponseCode.OK) {
+                return Response.status(response.getStatus()).entity(response.getMessage()).build();
+            }
+            return Response.ok(response.getStatus()).entity(response.getData()).build();
+
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -52,7 +59,7 @@ public class UserController {
 
     /**
      * Activate a user by hash
-     * 
+     *
      * @param hash of the user
      * @return Response with the activated user
      */
@@ -61,7 +68,10 @@ public class UserController {
     public Response activateUser(@PathParam("hash") String hash) {
         try {
             ResponseWrapper response = userService.activateUser(hash);
-            return Response.status(response.getStatus()).entity(response).build();
+            if (response.getCode() != ResponseCode.OK) {
+                return Response.status(response.getStatus()).entity(response.getMessage()).build();
+            }
+            return Response.ok(response.getStatus()).entity(response.getData()).build();
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -70,7 +80,7 @@ public class UserController {
 
     /**
      * Recover the password of a user by email
-     * 
+     *
      * @param email of the user
      * @return Response with the user with the new password
      */
@@ -79,7 +89,10 @@ public class UserController {
     public Response recoverPassword(@PathParam("email") String email) {
         try {
             ResponseWrapper response = userService.recoverPassword(email);
-            return Response.status(response.getStatus()).entity(response).build();
+            if (response.getCode() != ResponseCode.OK) {
+                return Response.status(response.getStatus()).entity(response.getMessage()).build();
+            }
+            return Response.ok(response.getStatus()).entity(response.getData()).build();
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -88,7 +101,7 @@ public class UserController {
 
     /**
      * Change the password of a user
-     * 
+     *
      * @param id          of the user
      * @param oldPassword to be changed
      * @param newPassword to be set
@@ -102,7 +115,10 @@ public class UserController {
             @PathParam("newPassword") String newPassword) {
         try {
             ResponseWrapper response = userService.changePassword(id, oldPassword, newPassword);
-            return Response.status(response.getStatus()).entity(response).build();
+            if (response.getCode() != ResponseCode.OK) {
+                return Response.status(response.getStatus()).entity(response.getMessage()).build();
+            }
+            return Response.ok(response.getStatus()).entity(response.getData()).build();
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -111,7 +127,7 @@ public class UserController {
 
     /**
      * Get a user by id
-     * 
+     *
      * @param id to be fetched
      * @return Response with the user
      */
@@ -120,7 +136,10 @@ public class UserController {
     public Response getUserById(@PathParam("id") Long id) {
         try {
             ResponseWrapper response = userService.getUserById(id);
-            return Response.status(response.getStatus()).entity(response).build();
+            if (response.getCode() != ResponseCode.OK) {
+                return Response.status(response.getStatus()).entity(response.getMessage()).build();
+            }
+            return Response.ok(response.getStatus()).entity(response.getData()).build();
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -129,7 +148,7 @@ public class UserController {
 
     /**
      * Get a user by username and password
-     * 
+     *
      * @param username to be fetched
      * @param password to be fetched
      * @return Response with the user
@@ -141,7 +160,10 @@ public class UserController {
             @PathParam("password") String password) {
         try {
             ResponseWrapper response = userService.getUserByUsernameAndPassword(username, password);
-            return Response.status(response.getStatus()).entity(response).build();
+            if (response.getCode() != ResponseCode.OK) {
+                return Response.status(response.getStatus()).entity(response.getMessage()).build();
+            }
+            return Response.ok(response.getStatus()).entity(response.getData()).build();
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -150,7 +172,7 @@ public class UserController {
 
     /**
      * Get all the users
-     * 
+     *
      * @return Response with the list of users
      */
     @GET
@@ -158,7 +180,8 @@ public class UserController {
     public Response getUsers() {
         try {
             ResponseWrapper response = userService.getUsers();
-            return Response.status(response.getStatus()).entity(response).build();
+            return Response.ok(new GenericEntity<List<UserDto>>((List<UserDto>) response.getData()) {
+            }).build();
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -167,7 +190,7 @@ public class UserController {
 
     /**
      * Update a user
-     * 
+     *
      * @param userDto to be updated
      * @return Response with the updated user
      */
@@ -176,7 +199,10 @@ public class UserController {
     public Response updateUser(UserDto userDto) {
         try {
             ResponseWrapper response = userService.updateUser(userDto);
-            return Response.status(response.getStatus()).entity(response).build();
+            if (response.getCode() != ResponseCode.OK) {
+                return Response.status(response.getStatus()).entity(response.getMessage()).build();
+            }
+            return Response.ok(response.getStatus()).entity(response.getData()).build();
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -185,7 +211,7 @@ public class UserController {
 
     /**
      * delete a user by id
-     * 
+     *
      * @param id to be deleted
      * @return Response with the deleted user
      */
@@ -194,7 +220,10 @@ public class UserController {
     public Response deleteUserById(@PathParam("id") Long id) {
         try {
             ResponseWrapper response = userService.deleteUserById(id);
-            return Response.status(response.getStatus()).entity(response).build();
+            if (response.getCode() != ResponseCode.OK) {
+                return Response.status(response.getStatus()).entity(response.getMessage()).build();
+            }
+            return Response.ok(response.getStatus()).entity(response.getData()).build();
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();

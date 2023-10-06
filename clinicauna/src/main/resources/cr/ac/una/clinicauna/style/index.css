@@ -116,16 +116,26 @@ Label, RadioButton, ComboBox{
 }
 
 .table-view {
-	-fx-border-color: -fx-orange;
-        -fx-effect: dropshadow(gaussian, -fx-orange, 10, 0, 0, 0);
-	-fx-background-color: transparent; /* OR  -fx-background-insets: 0.0; */
+    -fx-border-color: -fx-orange;
+    -fx-effect: dropshadow(gaussian, -fx-orange, 10, 0, 0, 0);
+    -fx-background-color: transparent; /* OR  -fx-background-insets: 0.0; */
 }
-/*.table-view .column-header-background,
-.table-view .column-header-background .filler,
-.table-view .corner {
-	-fx-background-color: -fx-black;
-}*/
+.table-row-cell {
+    -fx-background-color: transparent;
+    -fx-font-size:20px;
+}
+.table-row-cell:filled {
+    -fx-border-color: -fx-orange;
+    -fx-border-insets: 0, 1;
+}
+.table-row-cell:filled:selected{
+    -fx-background-color: -fx-white-black;
+}
+.table-row-cell .cell{
+    -fx-background-color:transparent;
+    -fx-background-color:transparent;
+}
 .table-view .column-header {
-	-fx-background-color: -fx-black;
-	-fx-border-color: -fx-gray;
+    -fx-background-color: -fx-black;
+    -fx-border-color: -fx-gray;
 }
