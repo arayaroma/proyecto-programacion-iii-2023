@@ -180,8 +180,12 @@ public class UserController {
     public Response getUsers() {
         try {
             ResponseWrapper response = userService.getUsers();
+            if (response.getCode() != ResponseCode.OK) {
+                return Response.status(response.getStatus()).entity(response.getMessage()).build();
+            }
             return Response.ok(new GenericEntity<List<UserDto>>((List<UserDto>) response.getData()) {
             }).build();
+
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
