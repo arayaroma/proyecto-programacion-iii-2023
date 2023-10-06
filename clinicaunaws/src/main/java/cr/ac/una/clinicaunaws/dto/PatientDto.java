@@ -39,17 +39,17 @@ public class PatientDto implements DtoMapper<Patient, PatientDto> {
     /**
      * @param patient constructor from entity to dto
      */
-    public PatientDto(Patient entity) {
-        this.id = entity.getId();
-        this.name = entity.getName();
-        this.firstLastname = entity.getFirstLastname();
-        this.secondLastname = entity.getSecondLastname();
-        this.identification = entity.getIdentification();
-        this.phoneNumber = entity.getPhoneNumber();
-        this.email = entity.getEmail();
-        this.gender = entity.getGender();
-        this.birthDate = entity.getBirthDate().toString();
-        this.version = entity.getVersion();
+    public PatientDto(Patient patient) {
+        this.id = patient.getId();
+        this.name = patient.getName();
+        this.firstLastname = patient.getFirstLastname();
+        this.secondLastname = patient.getSecondLastname();
+        this.identification = patient.getIdentification();
+        this.phoneNumber = patient.getPhoneNumber();
+        this.email = patient.getEmail();
+        this.gender = patient.getGender();
+        this.birthDate = patient.getBirthDate().toString();
+        this.version = patient.getVersion();
     }
 
 }

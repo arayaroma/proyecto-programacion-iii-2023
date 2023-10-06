@@ -4,8 +4,8 @@
  */
 package cr.ac.una.clinicaunaws.services;
 
-import cr.ac.una.clinicaunaws.dto.DoctorDto;
-import cr.ac.una.clinicaunaws.entities.Doctor;
+import cr.ac.una.clinicaunaws.dto.PatientDto;
+import cr.ac.una.clinicaunaws.entities.Patient;
 import static cr.ac.una.clinicaunaws.util.PersistenceContext.PERSISTENCE_UNIT_NAME;
 import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
@@ -16,7 +16,6 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  *
@@ -24,39 +23,39 @@ import java.util.Objects;
  */
 @Stateless
 @LocalBean
-public class DoctorService {
+public class PatientService {
 
     @PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
     private EntityManager em;
 
     /**
      *
-     * @param doctorDto to be created
+     * @param patientDto to be created
      * @return ResponseWrapper with the response from database, or null if an
      * exception occurred
      */
-    public ResponseWrapper createDoctor(DoctorDto doctorDto) {
+    public ResponseWrapper createPatient(PatientDto patientDto) {
         try {
-            Doctor doctor = new Doctor(doctorDto);
-            if (doctor == null) {
+            Patient patient = new Patient(patientDto);
+            if (patient == null) {
                 return new ResponseWrapper(
                         ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                         ResponseCode.INTERNAL_SERVER_ERROR,
-                        "Error ocurred while creating doctor.",
-                        new DoctorDto(doctor));
+                        "Error ocurred while creating patient.",
+                        new PatientDto(patient));
             }
-            em.persist(doctor);
+            em.persist(patient);
             em.flush();
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
-                    "Doctor created successfully.",
-                    new DoctorDto(doctor));
+                    "Patient created successfully.",
+                    new PatientDto(patient));
         } catch (Exception ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Exception occurred while creating doctor: " + ex.getMessage(),
+                    "Exception occurred while creating patient: " + ex.getMessage(),
                     null);
         }
     }
@@ -66,28 +65,28 @@ public class DoctorService {
      * @return ResponseWrapper with the response from database, or null if an
      * exception occurred
      */
-    public ResponseWrapper getDoctorById(Long id) {
+    public ResponseWrapper getPatientById(Long id) {
         try {
-            Doctor doctor;
-            doctor = em.find(Doctor.class, id);
-            if (doctor == null) {
+            Patient patient;
+            patient = em.find(Patient.class, id);
+            if (patient == null) {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "Doctor not found, id: " + id.toString() + ")",
+                        "Patient not found, id: " + id.toString() + ")",
                         null);
             }
-            DoctorDto doctorDto = new DoctorDto(doctor);
+            PatientDto patientDto = new PatientDto(patient);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
-                    "Doctor retrieved successfully.",
-                    doctorDto.convertFromEntityToDTO(doctor, doctorDto));
+                    "Patient retrieved successfully.",
+                    patientDto.convertFromEntityToDTO(patient, patientDto));
         } catch (Exception ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Exception occurred while retrieving doctor: " + ex.getMessage(),
+                    "Exception occurred while retrieving patient: " + ex.getMessage(),
                     null);
         }
     }
@@ -97,71 +96,71 @@ public class DoctorService {
      * exception occurred
      */
     @SuppressWarnings("unchecked")
-    public ResponseWrapper getDoctors() {
+    public ResponseWrapper getPatients() {
         try {
-            Query query = em.createNamedQuery("Doctor.findAll", Doctor.class);
-            List<Doctor> doctors = (List<Doctor>) query.getResultList();
-            List<DoctorDto> doctorsDto = new ArrayList<>();
+            Query query = em.createNamedQuery("Patient.findAll", Patient.class);
+            List<Patient> patients = (List<Patient>) query.getResultList();
+            List<PatientDto> patientsDto = new ArrayList<>();
 
-            for (Doctor doc : doctors) {
-                DoctorDto doctorDto = new DoctorDto(doc);
-                doctorsDto.add(doctorDto.convertFromEntityToDTO(doc, doctorDto));
+            for (Patient pat : patients) {
+                PatientDto patientDto = new PatientDto(pat);
+                patientsDto.add(patientDto.convertFromEntityToDTO(pat, patientDto));
             }
 
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
-                    "Doctors retrieved successfully.",
-                    doctorsDto);
+                    "Patients retrieved successfully.",
+                    patientsDto);
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Exception occurred while retrieving users: " + e.getMessage(),
+                    "Exception occurred while retrieving patients: " + e.getMessage(),
                     null);
         }
     }
 
     /**
-     * @param doctorDto User to be updated
+     * @param patientDto User to be updated
      * @return ResponseWrapper with the response from database, or null if an
      * exception occurred
      */
-    public ResponseWrapper updateDoctor(DoctorDto doctorDto) {
+    public ResponseWrapper updatePatient(PatientDto patientDto) {
         try {
-            Doctor doctor;
-            doctor = em.createNamedQuery("Doctor.findById", Doctor.class)
-                    .setParameter("id", doctorDto.getId())
+            Patient patient;
+            patient = em.createNamedQuery("Patient.findById", Patient.class)
+                    .setParameter("id", patientDto.getId())
                     .getSingleResult();
-            if (doctor == null) {
+            if (patient == null) {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "Doctor not found, id: " + doctorDto.getId() + ")",
+                        "Doctor not found, id: " + patientDto.getId() + ")",
                         null);
             }
 //            if (!Objects.equals(doctorDto.getUsername, doctor.getUsername())) {
 //                if (!verifyUniqueUsername(doctorDto.getUsername())) {
 //                    return new ResponseWrapper(
-//                            ResponseCode.CONFLICT.getCode(),  CREO QUE NO SE USA PORQUE LO QUE SE 
-//                            ResponseCode.CONFLICT,            LE HACE UPDATE AL DOCTOR SON SUS CREDENCIALES,
-//                            "Username already exists.",       ETC...
+//                            ResponseCode.CONFLICT.getCode(),  
+//                            ResponseCode.CONFLICT,            
+//                            "Username already exists.",       
 //                            null);
 //                }
 //            }
-            doctor.updateDoctor(doctorDto);
-            em.merge(doctor);
+            patient.updatePatient(patientDto);
+            em.merge(patient);
             em.flush();
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
-                    "Doctor updated successfully.",
-                    new DoctorDto(doctor));
+                    "Patient updated successfully.",
+                    new PatientDto(patient));
         } catch (Exception ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Exception occurred while updating doctor: " + ex.getMessage(),
+                    "Exception occurred while updating patient: " + ex.getMessage(),
                     null);
         }
     }
@@ -171,23 +170,23 @@ public class DoctorService {
      * @return ResponseWrapper with the response from database, or null if an
      * exception occurred
      */
-    public ResponseWrapper deleteDoctorById(Long id) {
+    public ResponseWrapper deletePatientById(Long id) {
         try {
-            Doctor doctor;
-            doctor = em.find(Doctor.class, id);
-            if (doctor == null) {
+            Patient patient;
+            patient = em.find(Patient.class, id);
+            if (patient == null) {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "Doctor not found, id: " + id + ")",
+                        "Patient not found, id: " + id + ")",
                         null);
             }
-            em.remove(doctor);
+            em.remove(patient);
             em.flush();
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
-                    "Doctor deleted successfully.",
+                    "Patient deleted successfully.",
                     null);
         } catch (Exception ex) {
             return new ResponseWrapper(
@@ -197,5 +196,4 @@ public class DoctorService {
                     null);
         }
     }
-
 }
