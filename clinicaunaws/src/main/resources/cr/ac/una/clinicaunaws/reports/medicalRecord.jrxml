@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="medicalRecord" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="14be27e7-fb78-45ef-97e1-1ae2fba1ac6e">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="conectorOracleDb"/>
+	<subDataset name="Dataset1" uuid="9db560ff-8036-4033-96ac-0c6f63187f50">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="conectorOracleDb"/>
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
+	<parameter name="HTTP_DATA_URL" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[URL To get file from]]></parameterDescription>
+		<defaultValueExpression><![CDATA["http://someurl.com"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="HTTP_DATA_USERNAME" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[User name]]></parameterDescription>
+		<defaultValueExpression><![CDATA["user"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="HTTP_DATA_PASSWORD" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[Password]]></parameterDescription>
+		<defaultValueExpression><![CDATA["pass"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="HTTP_DATA_URL_PARAMETER_" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[URL Parameter prefix]]></parameterDescription>
+		<defaultValueExpression><![CDATA["prm"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="HTTP_DATA_POST_PARAMETER_" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[POST request parameter prefix]]></parameterDescription>
+		<defaultValueExpression><![CDATA["prm"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="HTTP_DATA_HEADER_PARAMETER_" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[Http Header parameter prefix]]></parameterDescription>
+		<defaultValueExpression><![CDATA["value"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idPatientCare" class="java.lang.Long"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT "ID",
+	"PATIENTHISTORY",
+	"BLOODPRESSURE",
+	"HEARTRATE",
+	"WEIGHT",
+	"HEIGHT",
+	"TEMPERATURE",
+	"BODYMASSINDEX",
+	"NURSINGNOTES",
+	"REASON",
+	"CAREPLAN",
+	"OBSERVATIONS",
+	"PHYSICALEXAM",
+	"TREATMENT"
+FROM "TBL_PATIENT_CARE"
+WHERE 
+	 "TBL_PATIENT_CARE"."ID" = $P{idPatientCare}]]>
+	</queryString>
+	<field name="ID" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="ID"/>
+		<property name="com.jaspersoft.studio.field.label" value="ID"/>
+	</field>
+	<field name="BLOODPRESSURE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="BLOODPRESSURE"/>
+		<property name="com.jaspersoft.studio.field.label" value="BLOODPRESSURE"/>
+	</field>
+	<field name="HEARTRATE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="HEARTRATE"/>
+		<property name="com.jaspersoft.studio.field.label" value="HEARTRATE"/>
+	</field>
+	<field name="WEIGHT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="WEIGHT"/>
+		<property name="com.jaspersoft.studio.field.label" value="WEIGHT"/>
+	</field>
+	<field name="HEIGHT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="HEIGHT"/>
+		<property name="com.jaspersoft.studio.field.label" value="HEIGHT"/>
+	</field>
+	<field name="TEMPERATURE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TEMPERATURE"/>
+		<property name="com.jaspersoft.studio.field.label" value="TEMPERATURE"/>
+	</field>
+	<field name="BODYMASSINDEX" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="BODYMASSINDEX"/>
+		<property name="com.jaspersoft.studio.field.label" value="BODYMASSINDEX"/>
+	</field>
+	<field name="NURSINGNOTES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NURSINGNOTES"/>
+		<property name="com.jaspersoft.studio.field.label" value="NURSINGNOTES"/>
+	</field>
+	<field name="REASON" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="REASON"/>
+		<property name="com.jaspersoft.studio.field.label" value="REASON"/>
+	</field>
+	<field name="CAREPLAN" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="CAREPLAN"/>
+		<property name="com.jaspersoft.studio.field.label" value="CAREPLAN"/>
+	</field>
+	<field name="OBSERVATIONS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="OBSERVATIONS"/>
+		<property name="com.jaspersoft.studio.field.label" value="OBSERVATIONS"/>
+	</field>
+	<field name="PHYSICALEXAM" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="PHYSICALEXAM"/>
+		<property name="com.jaspersoft.studio.field.label" value="PHYSICALEXAM"/>
+	</field>
+	<field name="TREATMENT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TREATMENT"/>
+		<property name="com.jaspersoft.studio.field.label" value="TREATMENT"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="82" splitType="Stretch">
+			<staticText>
+				<reportElement x="226" y="30" width="103" height="30" uuid="3218796f-d180-4a11-8e2d-c4ba377c7401"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EXPEDIENTE]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="111" height="30" uuid="6f01d7c2-9c92-4eea-accc-b83f2618fe99">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="94adb02e-cc79-4af5-b0ed-2321204bcaac"/>
+				</reportElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="0" width="111" height="30" uuid="042d226e-b9a6-4d62-bafe-cf2c1506f61e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3ce25e4a-aaa7-4857-bbe8-8c341afc506d"/>
+				</reportElement>
+				<text><![CDATA[Presión sanguinea]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="222" y="0" width="111" height="30" uuid="1fa15a4e-01fa-4873-b663-5e8c007f3f5d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d4cd879c-9b89-4a7c-96b1-aff4558f54b1"/>
+				</reportElement>
+				<text><![CDATA[Ritmo cardiaco]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="333" y="0" width="111" height="30" uuid="2fb986f8-cca7-4044-9c9f-72026756b15a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a660dfd6-31f5-41a3-b426-b70994bbe695"/>
+				</reportElement>
+				<text><![CDATA[Peso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="444" y="0" width="111" height="30" uuid="06718cde-4345-450c-9dfe-daa9cc6bc2f2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f9273c02-e8fb-42b5-bf02-774bd95164d9"/>
+				</reportElement>
+				<text><![CDATA[Estatura]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="344" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="111" height="30" uuid="8e853d73-4b73-48b6-9df9-e88ae3bd82b7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="94adb02e-cc79-4af5-b0ed-2321204bcaac"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="0" width="111" height="30" uuid="54d796dc-12d1-4d74-b5a9-367aad1c5eeb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3ce25e4a-aaa7-4857-bbe8-8c341afc506d"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{BLOODPRESSURE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="222" y="0" width="111" height="30" uuid="a5b81812-693c-42b4-8a82-40289fbf633a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d4cd879c-9b89-4a7c-96b1-aff4558f54b1"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{HEARTRATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="333" y="0" width="111" height="30" uuid="6cf05b9f-2783-4947-9681-e1df0d00b9b0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a660dfd6-31f5-41a3-b426-b70994bbe695"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{WEIGHT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="444" y="0" width="111" height="30" uuid="94043204-dcc9-42f2-8d65-f8ec56278052">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f9273c02-e8fb-42b5-bf02-774bd95164d9"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{HEIGHT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
