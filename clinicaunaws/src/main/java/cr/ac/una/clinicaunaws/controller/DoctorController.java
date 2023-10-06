@@ -1,7 +1,6 @@
 package cr.ac.una.clinicaunaws.controller;
 
 import cr.ac.una.clinicaunaws.dto.DoctorDto;
-import cr.ac.una.clinicaunaws.dto.DoctorDto;
 import cr.ac.una.clinicaunaws.services.DoctorService;
 import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
