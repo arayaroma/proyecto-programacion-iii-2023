@@ -29,6 +29,7 @@ import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.File;
 import java.util.Objects;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.image.ImageView;
@@ -65,10 +66,12 @@ public class UserRegisterController implements Initializable {
     private ComboBox<String> cbLanguage;
     @FXML
     private HBox parent;
+    
     private UserService userService = new UserService();
     private UserDto userModified = new UserDto();
     @FXML
     private ImageView imgPhotoProfile;
+    
 
     /**
      * Initializes the controller class.
@@ -190,9 +193,7 @@ public class UserRegisterController implements Initializable {
                     }
                 }
             });
-
             imgPhotoProfile.setImage(ImageLoader.setImage(userModified.getProfilePhoto()));
-
         } catch (Exception e) {
             System.out.println(e.toString());
         }

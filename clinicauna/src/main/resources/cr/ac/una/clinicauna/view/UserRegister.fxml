@@ -140,7 +140,7 @@
                         </GridPane>
                         <HBox VBox.vgrow="ALWAYS">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#btnRegisterUserAction" text="%btnRegister">
+                              <Button  mnemonicParsing="false" onAction="#btnRegisterUserAction" text="%btnRegister">
                                  <styleClass>
                                     <String fx:value="btn" />
                                     <String fx:value="orange-color" />

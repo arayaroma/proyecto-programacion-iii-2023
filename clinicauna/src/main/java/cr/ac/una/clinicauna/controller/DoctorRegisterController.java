@@ -66,10 +66,7 @@ public class DoctorRegisterController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             userBuffer = (UserDto) Data.getData("userBuffer");
-            spStartingHours.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 00));
-            spEndingHours.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 00));
-            spStartingMinutes.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 00));
-            spEndingMinutes.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 00));
+            initializeSpinners();
             bindDoctor();
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -110,7 +107,6 @@ public class DoctorRegisterController implements Initializable {
         txfCode.textProperty().bindBidirectional(doctorBuffer.code);
         txfCarne.textProperty().bindBidirectional(doctorBuffer.idCard);
         txfHourlySlots.textProperty().bindBidirectional(doctorBuffer.hourlySlots);
-        initializeSpinners();
         if (doctorBuffer.getShiftStartTime() != null) {
             String[] startingHour = doctorBuffer.getShiftStartTime().split(":");
             if (startingHour.length == 2) {
@@ -138,6 +134,10 @@ public class DoctorRegisterController implements Initializable {
     }
 
     private void initializeSpinners() {
+        spStartingHours.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 00));
+        spEndingHours.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 00));
+        spStartingMinutes.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 00));
+        spEndingMinutes.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 00));
         StringConverter<Integer> formatter = new StringConverter<Integer>() {
             @Override
             public String toString(Integer value) {

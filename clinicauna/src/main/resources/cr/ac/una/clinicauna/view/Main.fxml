@@ -72,7 +72,7 @@
                               <String fx:value="lateral-menu" />
                            </styleClass>
                            <children>
-                              <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnRegisterUserAction" styleClass="optionMenu" text="%btnUserModule">
+                              <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnUserModuleAction" styleClass="optionMenu" text="%btnUserModule">
                                  <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" smooth="false">
                                        <image>
@@ -83,6 +83,15 @@
                                  <VBox.margin>
                                     <Insets top="20.0" />
                                  </VBox.margin>
+                              </Button>
+                              <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPatientModuleAction" styleClass="optionMenu" text="%btnPatientModule">
+                                 <graphic>
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" smooth="false">
+                                       <image>
+                                          <Image url="@../img/paciente.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
                               </Button>
                               <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnLogOutAction" styleClass="optionMenu" text="%btnLogOut">
                                  <graphic>

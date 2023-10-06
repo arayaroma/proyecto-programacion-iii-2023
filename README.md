@@ -145,7 +145,7 @@ En la secci&oacute;n de `General Settings`, se debe de agregar el nombre del poo
 ### C&oacute;mo crear el JavaMail Session
 Para crear el JavaMail Session, se debe de ir a la pesta&ntilde;a de `Services`, en la secci&oacute;n de `Servers`, dar click derecho, y seleccionar `View Admin Console`. Una vez en la consola de administraci&oacute;n, se debe de ir a la secci&oacute;n de `Resources`, y seleccionar `JavaMail Sessions`, y dar click en `New`.
 
-En la secci&oacute;n de `General Settings`, se debe de agregar el nombre de la sesi&oacute;n `mail/EvaComMailSession`, y seleccionar el pool creado anteriormente. Luego dar click en `OK`.
+En la secci&oacute;n de `General Settings`, se debe de agregar el nombre de la sesi&oacute;n `mail/ClinicaMailSession`, y seleccionar el pool creado anteriormente. Luego dar click en `OK`.
 
 ### Configuraci&oacute;n de la sesi&oacute;n:
 - Mail Host: `smtp.gmail.com`

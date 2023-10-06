@@ -1,10 +1,8 @@
 package cr.ac.una.clinicauna.controller;
 
 import animatefx.animation.FadeIn;
-import animatefx.animation.FadeOut;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.UserService;
@@ -17,9 +15,6 @@ import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.animation.ParallelTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,7 +24,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 
 /**
  * FXML Controller class
@@ -84,15 +78,14 @@ public class LoginController implements Initializable {
         if (response.getCode() == ResponseCode.OK) {
             UserDto userDto = (UserDto) response.getData();
             Data.setData("userLoggued", userDto);
-            loadMain();
+            Animation.MakeDefaultFadeTransition(parent, "Main");
             return;
         }
         Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
     }
 
     @FXML
-    private void forgotYourPasswordAction(MouseEvent event
-    ) {
+    private void forgotYourPasswordAction(MouseEvent event) {
         new FadeIn(recoveryPasswordView).play();
         recoveryPasswordView.toFront();
     }
@@ -110,36 +103,27 @@ public class LoginController implements Initializable {
                 break;
         }
         Animation.MakeDefaultFadeTransition(parent, "Login");
-//        Animation.fadeTransition(parent, Duration.seconds(0.5), 0, 1, 0, (t) -> {
-//            try {
-//                App.setRoot("Login");
-//            } catch (IOException ex) {
-//                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }).play();
     }
 
     @FXML
-    private void backToLoginAction(MouseEvent event
-    ) {
+    private void backToLoginAction(MouseEvent event) {
         new FadeIn(mainView).play();
         mainView.toFront();
     }
 
     @FXML
-    private void btnSendRecoveryEmailAction(ActionEvent event
-    ) {
-        Message.showNotification("Sending", MessageType.INFO, "Sending Email");
-    }
-
-    private void loadMain() {
-        Animation.fadeTransition(parent, Duration.seconds(0.5), 0, 1, 0, (t) -> {
-            try {
-                App.setRoot("Main");
-            } catch (IOException ex) {
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }).play();
+    private void btnSendRecoveryEmailAction(ActionEvent event) {
+        String email = txfRecoveryEmail.getText();
+        if (email.isBlank()) {
+            Message.showNotification("Ups", MessageType.WARNING, "All the fields are required");
+            return;
+        }
+        ResponseWrapper response = userService.recoverPassword(email);
+        if (response.getCode() == ResponseCode.OK) {
+            Message.showNotification("Sending", MessageType.INFO, "Sending Email");
+        } else {
+            Message.showNotification("Error", MessageType.ERROR, response.getMessage());
+        }
     }
 
     private void keyLoginHandler(KeyEvent ev) {

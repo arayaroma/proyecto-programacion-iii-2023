@@ -88,6 +88,38 @@ public class UserService {
         }
     }
 
+    public ResponseWrapper changePassword(Long id, String oldPassword, String newPassword){
+        try {
+            HashMap params = new HashMap();
+            params.put("id", id);
+            params.put("oldPassword", oldPassword);
+            params.put("newPassword", newPassword);
+            Request request = new Request("UserController/changePassword", "/{id}/{oldPassword}/{newPassword}", params);
+            request.put(params);
+            if (request.isError()) {
+                return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: " + request.getError(), null);
+            }
+            UserDto userDto = (UserDto) request.readEntity(UserDto.class);
+            return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK, "User retrieved successfully: ", userDto);
+        } catch (Exception ex) {
+            return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the service: " + ex.toString(), null);
+        }
+    }
+    public ResponseWrapper recoverPassword(String email){
+        try {
+            HashMap params = new HashMap();
+            params.put("email", email);
+            Request request = new Request("UserController/recoverPassword", "/{email}", params);
+            request.get();
+            if (request.isError()) {
+                return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: " + request.getError(), null);
+            }
+            UserDto userDto = (UserDto) request.readEntity(UserDto.class);
+            return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK, "User retrieved successfully: ", userDto);
+        } catch (Exception ex) {
+            return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the service: " + ex.toString(), null);
+        }        
+    }
     public ResponseWrapper verifyUser(String user, String password) {
         try {
             HashMap params = new HashMap();
