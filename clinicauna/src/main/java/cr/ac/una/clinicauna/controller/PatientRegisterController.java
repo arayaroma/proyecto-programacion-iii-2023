@@ -2,6 +2,7 @@ package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import cr.ac.una.clinicauna.components.Animation;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -50,6 +51,7 @@ public class PatientRegisterController implements Initializable {
 
     @FXML
     private void backFromRegister(MouseEvent event) {
+        Animation.MakeDefaultFadeTransition(parent, "Main");
     }
     
 }

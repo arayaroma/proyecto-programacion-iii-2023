@@ -29,7 +29,6 @@ import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.File;
 import java.util.Objects;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.image.ImageView;

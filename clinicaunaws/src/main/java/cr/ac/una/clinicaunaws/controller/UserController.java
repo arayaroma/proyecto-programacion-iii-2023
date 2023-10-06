@@ -85,8 +85,8 @@ public class UserController {
      * @return Response with the user with the new password
      */
     @POST
-    @Path("/recoverPassword/{email}")
-    public Response recoverPassword(@PathParam("email") String email) {
+    @Path("/recoverPassword")
+    public Response recoverPassword(String email) {
         try {
             ResponseWrapper response = userService.recoverPassword(email);
             if (response.getCode() != ResponseCode.OK) {
@@ -102,7 +102,7 @@ public class UserController {
     /**
      * Change the password of a user
      *
-     * @param id          of the user
+     * @param id of the user
      * @param oldPassword to be changed
      * @param newPassword to be set
      * @return Response with the updated user

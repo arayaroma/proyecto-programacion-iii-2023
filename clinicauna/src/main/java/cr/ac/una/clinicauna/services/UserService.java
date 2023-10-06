@@ -107,10 +107,8 @@ public class UserService {
     }
     public ResponseWrapper recoverPassword(String email){
         try {
-            HashMap params = new HashMap();
-            params.put("email", email);
-            Request request = new Request("UserController/recoverPassword", "/{email}", params);
-            request.get();
+            Request request = new Request("UserController/recoverPassword");
+            request.post(email);
             if (request.isError()) {
                 return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: " + request.getError(), null);
             }
