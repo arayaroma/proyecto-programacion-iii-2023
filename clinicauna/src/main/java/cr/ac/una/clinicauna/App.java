@@ -19,7 +19,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = getFXMLLoader("Login").load();
+        Parent root = getFXMLLoader("PatientRegister").load();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.setFullScreen(true);

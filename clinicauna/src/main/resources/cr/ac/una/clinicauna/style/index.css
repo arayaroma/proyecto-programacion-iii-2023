@@ -90,7 +90,7 @@
 Label, RadioButton, ComboBox{
     -fx-font-size:16;
 }
-
+/*COMBOBOX DESIGN*/
 .combo-box-base {
     -fx-background-color: -fx-white-black;
 }
@@ -110,6 +110,7 @@ Label, RadioButton, ComboBox{
     -fx-background-color: -fx-gray;
     -fx-cursor: hand;
 }
+/*TABLEVIEW DESIGN*/
 .table-button {
     -fx-background-color: red;
     -fx-cursor: hand;
@@ -138,4 +139,43 @@ Label, RadioButton, ComboBox{
 .table-view .column-header {
     -fx-background-color: -fx-black;
     -fx-border-color: -fx-gray;
+}
+/*DATEPICKER DESIGN*/
+.date-picker .cell {
+    -fx-background-color: -fx-white-black;
+    -fx-text-fill:-fx-orange;
+}
+.date-picker .cell:hover {
+    -fx-background-color: -fx-orange;
+    -fx-text-fill:-fx-white-black;
+}
+.date-picker .arrow-button {
+    -fx-background-color: -fx-gray;
+    -fx-background-radius: 0;
+}
+.date-picker .arrow-button:hover {
+    -fx-background-color: -fx-dark-gray;
+    -fx-background-radius: 0;
+}
+.date-picker-popup .month-year-pane {
+    -fx-background-color: -fx-gray;
+}
+.date-picker-popup .month-year-pane .label {
+    -fx-text-fill:-fx-orange;
+}
+.date-picker-popup .spinner .button .left-arrow,
+.date-picker-popup .spinner .button .right-arrow {
+    -fx-background-color: -fx-orange;
+}
+.date-picker-popup .spinner .button:hover .left-arrow,
+.date-picker-popup .spinner .button:hover .right-arrow {
+    -fx-effect: dropshadow(gaussian, -fx-orange, 10, 0, 0, 0);
+    -fx-cursor: hand;
+}
+.date-picker-popup .spinner .button{
+    -fx-background-color:transparent;
+}
+
+.date-picker  {
+    -fx-background-color: transparent;
 }

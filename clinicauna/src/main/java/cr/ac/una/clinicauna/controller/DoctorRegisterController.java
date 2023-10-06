@@ -147,7 +147,7 @@ public class DoctorRegisterController implements Initializable {
             @Override
             public Integer fromString(String text) {
                 try {
-                    return Integer.parseInt(text);
+                    return Integer.valueOf(text);
                 } catch (NumberFormatException e) {
                     return 0;
                 }

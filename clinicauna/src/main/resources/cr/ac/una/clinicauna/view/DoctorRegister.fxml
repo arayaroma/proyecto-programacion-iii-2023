@@ -98,18 +98,18 @@
                                         </JFXTextField>
                               <VBox alignment="CENTER" styleClass="timePicker" GridPane.rowIndex="2">
                                  <children>
-                                    <Label styleClass="h3" text="Starting Time" />
+                                    <Label styleClass="h3" text="%lblStartingTime" />
                                     <HBox alignment="CENTER" styleClass="jfx-password-field">
                                        <children>
                                           <VBox alignment="CENTER">
                                              <children>
-                                                <Label text="Hours" />
+                                                <Label text="%lblHours" />
                                                 <Spinner fx:id="spStartingHours" editable="true" />
                                              </children>
                                           </VBox>
                                           <VBox alignment="CENTER">
                                              <children>
-                                                <Label text="Minutes" />
+                                                <Label text="%lblMinutes" />
                                                 <Spinner fx:id="spStartingMinutes" editable="true" />
                                              </children>
                                           </VBox>
@@ -119,18 +119,18 @@
                               </VBox>
                               <VBox alignment="CENTER" styleClass="timePicker" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <children>
-                                    <Label styleClass="h3" text="Ending Time" />
+                                    <Label styleClass="h3" text="%lblEndingTime" />
                                     <HBox alignment="CENTER" styleClass="jfx-password-field">
                                        <children>
                                           <VBox alignment="CENTER">
                                              <children>
-                                                <Label text="Hours" />
+                                                <Label text="%lblHours" />
                                                 <Spinner fx:id="spEndingHours" editable="true" />
                                              </children>
                                           </VBox>
                                           <VBox alignment="CENTER">
                                              <children>
-                                                <Label text="Minutes" />
+                                                <Label text="%Minutes" />
                                                 <Spinner fx:id="spEndingMinutes" editable="true" />
                                              </children>
                                           </VBox>
@@ -143,7 +143,7 @@
                                 </GridPane>
                                 <HBox VBox.vgrow="ALWAYS">
                                     <children>
-                                        <Button mnemonicParsing="false" onAction="#btnRegisterDoctorAction" text="%btnDoctorRegister">
+                                        <Button mnemonicParsing="false" onAction="#btnRegisterDoctorAction" text="%btnRegister">
                                             <styleClass>
                                                 <String fx:value="btn" />
                                                 <String fx:value="orange-color" />
