@@ -1,5 +1,6 @@
 package cr.ac.una.clinicauna.controller;
 
+import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.UserDto;
@@ -11,18 +12,21 @@ import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
@@ -53,9 +57,11 @@ public class UserModuleController implements Initializable {
     private TableColumn<UserDto, String> tcRole;
     @FXML
     private Button btnEdit;
-
+    @FXML
+    private JFXTextField txfSearchUser;
     private UserDto userBuffer;
     private UserService userService = new UserService();
+    private List<UserDto> userDtos = new ArrayList<>();
 
     /**
      * Initializes the controller class.
@@ -69,30 +75,35 @@ public class UserModuleController implements Initializable {
         }
         btnEdit.setDisable(true);
         initializeList();
-        loadUsers();
+        userDtos = (List<UserDto>) userService.getUsers().getData();
+        loadUsers(userDtos);
+        txfSearchUser.setOnKeyPressed(e -> searchUserAction(e));
     }
 
     @FXML
     private void btnNewUserAction(ActionEvent event) throws IOException {
-        loadRegisterView();
+        Data.removeData("userBuffer");
+        Animation.MakeDefaultFadeTransition(parent, "UserRegister");
     }
 
     @FXML
     private void btnEditUserAction(ActionEvent event) {
-        loadRegisterView();
+        Data.setData("userBuffer", userBuffer);
+        Animation.MakeDefaultFadeTransition(parent, "UserRegister");
     }
 
-    private void loadRegisterView() {
-        Animation.fadeTransition(parent, Duration.seconds(0.5), 0, 1, 0, (t) -> {
-            try {
-                Data.setData("userBuffer", userBuffer);
-                MainController mainController = (MainController) Data.getData("mainController");
-                mainController.loadRegisterView(App.getFXMLLoader("UserRegister").load());
+    private void searchUserAction(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
 
-            } catch (IOException ex) {
-                System.out.println(ex.toString());
+            String key = txfSearchUser.getText(), parameterKey = cbSearchParameter.getValue();
+
+            if (key.isBlank() || parameterKey == null) {
+                loadUsers(userDtos);
+                return;
             }
-        }).play();
+            loadUsers(filterUsers(userDtos, parameterKey, key));
+        }
+
     }
 
     @FXML
@@ -107,9 +118,9 @@ public class UserModuleController implements Initializable {
         }
     }
 
-    private void loadUsers() {
-        List<UserDto> userDtos = (List<UserDto>) userService.getUsers().getData();
-        tblUsersView.setItems(FXCollections.observableArrayList(userDtos));
+    private void loadUsers(List<UserDto> users) {
+
+        tblUsersView.setItems(FXCollections.observableArrayList(users));
     }
 
     private void initializeList() {
@@ -129,6 +140,39 @@ public class UserModuleController implements Initializable {
                     btnEdit.setDisable(true);
 
                 });
+    }
+
+    private List<UserDto> filterUsers(List<UserDto> users, String parameter, String key) {
+        List<UserDto> usersFiltered = new ArrayList<>();
+        if (users != null) {
+            if (parameter.equals("Name") || parameter.equals("Nombre")) {
+                usersFiltered = users
+                        .stream()
+                        .filter(user -> user.getName().toLowerCase().contains(key.toLowerCase()))
+                        .collect(Collectors.toList());
+            } else if (parameter.equals("Last Name") || parameter.equals("Apellido")) {
+                usersFiltered = users
+                        .stream()
+                        .filter(user -> user.getFirstLastname().toLowerCase().contains(key.toLowerCase()))
+                        .collect(Collectors.toList());
+            } else if (parameter.equals("Second Last Name") || parameter.equals("Segundo Apellido")) {
+                usersFiltered = users
+                        .stream()
+                        .filter(user -> user.getSecondLastname().toLowerCase().contains(key.toLowerCase()))
+                        .collect(Collectors.toList());
+            } else if (parameter.equals("Identification") || parameter.equals("Cédula")) {
+                usersFiltered = users
+                        .stream()
+                        .filter(user -> user.getIdentification().contains(key))
+                        .collect(Collectors.toList());
+            } else if (parameter.equals("Role") || parameter.equals("Rol")) {
+                usersFiltered = users
+                        .stream()
+                        .filter(user -> user.getRole().toLowerCase().contains(key.toLowerCase()))
+                        .collect(Collectors.toList());
+            }
+        }
+        return usersFiltered;
     }
 
 }

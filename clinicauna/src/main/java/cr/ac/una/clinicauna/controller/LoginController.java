@@ -24,6 +24,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -58,10 +60,16 @@ public class LoginController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if (Data.getLanguageOption().equals("en")) {
-            lblLanguage.setText("EN/ES");
-        } else {
-            lblLanguage.setText("ES/EN");
+        try {
+            if (Data.getLanguageOption().equals("en")) {
+                lblLanguage.setText("EN/ES");
+            } else {
+                lblLanguage.setText("ES/EN");
+            }
+            txfPassword.setOnKeyPressed(event -> keyLoginHandler(event));
+            txfUsername.setOnKeyPressed(event -> keyLoginHandler(event));
+        } catch (Exception e) {
+            System.out.println(e.toString());
         }
     }
 
@@ -83,7 +91,8 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    private void forgotYourPasswordAction(MouseEvent event) {
+    private void forgotYourPasswordAction(MouseEvent event
+    ) {
         new FadeIn(recoveryPasswordView).play();
         recoveryPasswordView.toFront();
     }
@@ -100,23 +109,26 @@ public class LoginController implements Initializable {
 
                 break;
         }
-        Animation.fadeTransition(parent, Duration.seconds(0.5), 0, 1, 0, (t) -> {
-            try {
-                App.setRoot("Login");
-            } catch (IOException ex) {
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }).play();
+        Animation.MakeDefaultFadeTransition(parent, "Login");
+//        Animation.fadeTransition(parent, Duration.seconds(0.5), 0, 1, 0, (t) -> {
+//            try {
+//                App.setRoot("Login");
+//            } catch (IOException ex) {
+//                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }).play();
     }
 
     @FXML
-    private void backToLoginAction(MouseEvent event) {
+    private void backToLoginAction(MouseEvent event
+    ) {
         new FadeIn(mainView).play();
         mainView.toFront();
     }
 
     @FXML
-    private void btnSendRecoveryEmailAction(ActionEvent event) {
+    private void btnSendRecoveryEmailAction(ActionEvent event
+    ) {
         Message.showNotification("Sending", MessageType.INFO, "Sending Email");
     }
 
@@ -128,5 +140,15 @@ public class LoginController implements Initializable {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }).play();
+    }
+
+    private void keyLoginHandler(KeyEvent ev) {
+        try {
+            if (ev.getCode() == KeyCode.ENTER) {
+                btnLogInAction(null);
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
     }
 }

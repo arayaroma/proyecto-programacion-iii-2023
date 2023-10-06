@@ -2,11 +2,12 @@ package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.UserService;
 import cr.ac.una.clinicauna.util.Data;
+import cr.ac.una.clinicauna.util.FileLoader;
+import cr.ac.una.clinicauna.util.ImageLoader;
 import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
 import cr.ac.una.clinicauna.util.ResponseCode;
@@ -14,8 +15,6 @@ import cr.ac.una.clinicauna.util.ResponseCode;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,14 +22,16 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 import java.util.Arrays;
 import java.util.List;
 import javafx.scene.Node;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
+import java.io.File;
+import java.util.Objects;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 /**
@@ -66,6 +67,8 @@ public class UserRegisterController implements Initializable {
     private HBox parent;
     private UserService userService = new UserService();
     private UserDto userModified = new UserDto();
+    @FXML
+    private ImageView imgPhotoProfile;
 
     /**
      * Initializes the controller class.
@@ -86,44 +89,58 @@ public class UserRegisterController implements Initializable {
 
     @FXML
     private void backFromRegister(MouseEvent event) throws IOException {
-        Animation.fadeTransition(mainView, Duration.seconds(0.5), 0, 1, 0, (t) -> {
-            try {
-                Data.removeData("userBuffer");
-                MainController mainController = (MainController) Data.getData("mainController");
-                mainController.removeRegisterView(parent);
-
-            } catch (Exception ex) {
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }).play();
-    }
-
-    @FXML
-    private void selectCbLanguage(ActionEvent event) {
+        Data.removeData("userBuffer");
+        if (Objects.equals(userModified.getId(), ((UserDto) Data.getData("userLoggued")).getId())) {
+            Data.removeData("userLoggued");
+            Data.setData("userLoggued", userModified);
+        }
+        loadView("Main");
     }
 
     @FXML
     private void btnRegisterUserAction(ActionEvent event) throws IOException {
         if (verifyFields()) {
             setPrivilegesUser(userModified);
-            ResponseWrapper response = userModified.getId() == 0 ? userService.createUser(userModified) : userService.updateUser(userModified);
-            if (response.getCode() == ResponseCode.OK) {
-                Message.showNotification("Success", MessageType.CONFIRMATION, response.getMessage());
-                unbindUser();
-                userModified = (UserDto) response.getData();
-                backFromRegister(null);
+            if (userModified.getRole().toLowerCase().equals("doctor")) {//Verifiy if is a Doctor
+                loadView("DoctorRegister");
                 return;
             }
-            Message.showNotification("Ups", MessageType.ERROR, response.getMessage());
+            saveUser(userModified);
         } else {
             Message.showNotification("Ups", MessageType.ERROR, "All fields are required");
         }
     }
 
+    @FXML
+    private void btnSelectPhotoProfileAction(ActionEvent event) {
+        File file = FileLoader.selectFile("Image", "*.png", "*.jpeg", "*.jpeg");
+        if (file != null) {
+            userModified.setProfilePhoto(ImageLoader.imageToByteArray(file));
+            imgPhotoProfile.setImage(ImageLoader.setImage(file));
+        }
+    }
+    private void saveUser(UserDto user) throws IOException{
+      ResponseWrapper response = user.getId() == 0 ? userService.createUser(user)
+                    : userService.updateUser(userModified);
+            if (response.getCode() == ResponseCode.OK) {
+                Message.showNotification("Success", MessageType.CONFIRMATION, response.getMessage());
+                unbindUser();
+                user = (UserDto) response.getData();
+                backFromRegister(null);
+                return;
+            }
+            Message.showNotification("Ups", MessageType.ERROR, response.getMessage());
+            System.out.println(response.getMessage());
+    }
+
+    private void loadView(String nameView) {
+        Animation.MakeDefaultFadeTransition(mainView, nameView);
+    }
+
     private void setPrivilegesUser(UserDto userDto) {
         userDto.setLanguage(userModified.parseLanguage(userModified.getLanguage()));
         userDto.setRole(userModified.parseRole(userModified.getRole()));
-        if (userDto.getRole().equals("ADMINISTRATOR")) {
+        if (userDto.getRole().toLowerCase().equals("administrator")) {
             userDto.setIsAdmin("Y");
         } else {
             userDto.setIsAdmin("N");
@@ -147,11 +164,34 @@ public class UserRegisterController implements Initializable {
             txfUsername.textProperty().bindBidirectional(userModified.username);
             txfPhoneNumber.textProperty().bindBidirectional(userModified.phoneNumber);
             cbLanguage.valueProperty().bindBidirectional(userModified.language);
-            roleGroup.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) -> {
-                if (newValue != null && userModified != null) {
-                    userModified.setRole(((RadioButton) newValue).getText());
+            roleGroup.selectedToggleProperty()
+                    .addListener((ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) -> {
+                        if (newValue != null && userModified != null) {
+                            userModified.setRole(((RadioButton) newValue).getText());
+                        }
+                    });
+
+            roleGroup.getToggles().forEach(t -> {
+                if (t instanceof RadioButton) {
+                    if (userModified.getRole().toLowerCase().equals("administrator")) {
+                        if (((RadioButton) t).getText().toLowerCase().equals("admin")
+                                || ((RadioButton) t).getText().toLowerCase().equals("administrador")) {
+                            t.setSelected(true);
+                        }
+                    } else if (userModified.getRole().toLowerCase().equals("receptionist")) {
+                        if (((RadioButton) t).getText().toLowerCase().equals("receptionist")
+                                || ((RadioButton) t).getText().toLowerCase().equals("recepcionista")) {
+                            t.setSelected(true);
+                        }
+                    } else if (userModified.getRole().toLowerCase().equals("doctor")) {
+                        if (((RadioButton) t).getText().toLowerCase().equals("doctor")) {
+                            t.setSelected(true);
+                        }
+                    }
                 }
             });
+
+            imgPhotoProfile.setImage(ImageLoader.setImage(userModified.getProfilePhoto()));
 
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -177,14 +217,16 @@ public class UserRegisterController implements Initializable {
     }
 
     private boolean verifyFields() {
-        List<Node> fields = Arrays.asList(txfName, txfLastName, txfSencondLastName, txfEmail, txfIdentification, txfPassword, txfUsername, txfPhoneNumber, cbLanguage);
+        List<Node> fields = Arrays.asList(txfName, txfLastName, txfSencondLastName, txfEmail, txfIdentification,
+                txfPassword, txfUsername, txfPhoneNumber, cbLanguage);
         for (Node i : fields) {
-
-            if (i instanceof JFXTextField && ((JFXTextField) i).getText() != null && ((JFXTextField) i).getText().isBlank()) {
+            if (i instanceof JFXTextField && ((JFXTextField) i).getText() != null
+                    && ((JFXTextField) i).getText().isBlank()) {
                 return false;
             } else if (i instanceof ComboBox && ((ComboBox) i).getValue() == null) {
                 return false;
-            } else if (i instanceof JFXPasswordField && ((JFXPasswordField) i).getText() != null && ((JFXPasswordField) i).getText().isBlank()) {
+            } else if (i instanceof JFXPasswordField && ((JFXPasswordField) i).getText() != null
+                    && ((JFXPasswordField) i).getText().isBlank()) {
                 return false;
             }
         }

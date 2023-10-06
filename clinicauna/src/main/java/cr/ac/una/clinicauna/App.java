@@ -1,6 +1,5 @@
 package cr.ac.una.clinicauna;
 
-import cr.ac.una.clinicauna.controller.UserRegisterController;
 import cr.ac.una.clinicauna.util.Data;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ResourceBundle;
 import javafx.scene.Parent;
 
 /**

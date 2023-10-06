@@ -148,7 +148,7 @@ public class Request {
             }
             return mensaje;
         }
-        return null;
+        return "Empty";
     }
 
     public Object readEntity(Class<?> clazz) {

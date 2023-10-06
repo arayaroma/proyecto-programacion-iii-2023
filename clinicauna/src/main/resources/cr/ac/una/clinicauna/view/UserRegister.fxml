@@ -26,7 +26,7 @@
    <children>
       <StackPane>
          <HBox.margin>
-            <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </HBox.margin>
          <children>
             <VBox fx:id="mainView" alignment="CENTER">
@@ -45,7 +45,7 @@
                   </HBox>
                   <VBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" smooth="false" VBox.vgrow="ALWAYS">
+                        <ImageView fx:id="imgPhotoProfile" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" smooth="false" VBox.vgrow="ALWAYS">
                            <image>
                               <Image url="@../img/estetoscopio.png" />
                            </image>
@@ -129,8 +129,8 @@
                                     <RadioButton mnemonicParsing="false" styleClass="p" text="%rbReceptionist" toggleGroup="$roleGroup" />
                                  </children>
                               </FlowPane>
-                              <ComboBox fx:id="cbLanguage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#selectCbLanguage" promptText="%cbLanguage" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="%btnSelectPhotoProfile" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                              <ComboBox fx:id="cbLanguage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="%cbLanguage" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnSelectPhotoProfileAction" text="%btnSelectPhotoProfile" GridPane.columnIndex="2" GridPane.rowIndex="4">
                                  <styleClass>
                                     <String fx:value="btn" />
                                     <String fx:value="h3" />

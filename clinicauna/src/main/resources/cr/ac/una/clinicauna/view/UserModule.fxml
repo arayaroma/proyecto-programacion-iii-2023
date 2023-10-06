@@ -33,7 +33,7 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" spacing="20.0" VBox.vgrow="ALWAYS">
          <children>
-            <JFXTextField promptText="%txfSearchUser" styleClass="h3" />
+            <JFXTextField fx:id="txfSearchUser" promptText="%txfSearchUser" styleClass="h3" />
             <ComboBox fx:id="cbSearchParameter" promptText="%cbSearchParameter" />
          </children>
          <VBox.margin>

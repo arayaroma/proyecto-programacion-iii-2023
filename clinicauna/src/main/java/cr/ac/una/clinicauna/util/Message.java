@@ -33,6 +33,8 @@ public class Message {
             case CONFIRMATION:
                 notification.showConfirm();
                 break;
+            case WARNING:
+                notification.showWarning();
             default:
                 throw new AssertionError(type.name());
         }
@@ -41,8 +43,6 @@ public class Message {
     public static ButtonType showConfirmationAlert(String title, AlertType type, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
-//        alert.getDialogPane().getStylesheets()
-//                .add(App.class.getResource("/cr/ac/una/evacomuna/style/alert.css").toString());
         alert.setHeaderText(null);
         alert.setContentText(content);
         ButtonType result = alert.showAndWait().orElse(ButtonType.CANCEL);
