@@ -5,12 +5,9 @@ import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
-
 import static cr.ac.una.clinicaunaws.util.PersistenceContext.PERSISTENCE_UNIT_NAME;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import cr.ac.una.clinicaunaws.dto.GeneralInformationDto;
 import cr.ac.una.clinicaunaws.entities.GeneralInformation;
 import cr.ac.una.clinicaunaws.util.ResponseCode;
@@ -161,7 +158,7 @@ public class GeneralInformationService {
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
                         "General Information not found.",
-                        id);
+                        null);
             }
             em.remove(generalInformation);
             em.flush();
@@ -169,7 +166,7 @@ public class GeneralInformationService {
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
                     "General Information deleted.",
-                    id);
+                    null);
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
