@@ -1,6 +1,5 @@
 package cr.ac.una.clinicauna.controller;
 
-import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.DoctorDto;
@@ -15,7 +14,10 @@ import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.IOException;
 
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,7 +29,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import java.util.regex.Pattern;
+import javafx.scene.Node;
+import javafx.scene.control.TextFormatter;
 import javafx.util.StringConverter;
+import javafx.util.converter.IntegerStringConverter;
 
 /**
  * FXML Controller class
@@ -35,7 +40,7 @@ import javafx.util.StringConverter;
  * @author estebannajera
  */
 public class DoctorRegisterController implements Initializable {
-    
+
     @FXML
     private HBox parent;
     @FXML
@@ -45,9 +50,7 @@ public class DoctorRegisterController implements Initializable {
     @FXML
     private JFXTextField txfCode;
     @FXML
-    private JFXTextField txfInvoice;
-    @FXML
-    private JFXPasswordField txfCarne;
+    private JFXTextField txfCarne;
     @FXML
     private ComboBox<String> cbState;
     @FXML
@@ -60,9 +63,9 @@ public class DoctorRegisterController implements Initializable {
     private Spinner<Integer> spEndingHours;
     @FXML
     private Spinner<Integer> spEndingMinutes;
-    
+
     private UserDto userBuffer;
-    
+
     private boolean isEditing = false;
     private DoctorDto doctorBuffer = new DoctorDto();
     private DoctorService doctorService = new DoctorService();
@@ -83,27 +86,29 @@ public class DoctorRegisterController implements Initializable {
                 doctorBuffer = doctorEncountered;
                 isEditing = true;
             }
-            
+
             initializeSpinners();
+            validNumbersInTextField(txfHourlySlots);
             bindDoctor();
+
         } catch (Exception e) {
             System.out.println(e.toString());
             backFromRegister(null);
         }
-        
+
     }
-    
+
     @FXML
     private void backFromRegister(MouseEvent event) {
         Animation.MakeDefaultFadeTransition(mainView, "UserRegister");
     }
-    
+
     @FXML
     private void btnRegisterDoctorAction(ActionEvent event) throws IOException {
-        
         String startingTime = parseTimeToString(spStartingHours, spStartingMinutes);
         String endingTime = parseTimeToString(spEndingHours, spEndingMinutes);
-        if (startingTime.isBlank() || endingTime.isBlank()) {
+        if (startingTime.isBlank() || endingTime.isBlank() || !verifyFields()) {
+            Message.showNotification("Ups", MessageType.WARNING, "All fields are required");
             return;
         }
         doctorBuffer.setShiftStartTime(startingTime);
@@ -119,9 +124,9 @@ public class DoctorRegisterController implements Initializable {
             Message.showNotification("Success", MessageType.INFO, "Doctor registered successfully");
             Animation.MakeDefaultFadeTransition(mainView, "Main");
         }
-        
+
     }
-    
+
     private String parseTimeToString(Spinner spHour, Spinner spMinutes) {
         String time = spHour.getEditor().getText() + ":" + spMinutes.getEditor().getText();
         if (verifyTime(time)) {
@@ -130,12 +135,12 @@ public class DoctorRegisterController implements Initializable {
         Message.showNotification("Invalid format", MessageType.WARNING, "The time is invalid");
         return "";
     }
-    
+
     private boolean verifyTime(String time) {
         String timeRegex = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
         return Pattern.matches(timeRegex, time);
     }
-    
+
     private void bindDoctor() {
         txfCode.textProperty().bindBidirectional(doctorBuffer.code);
         txfCarne.textProperty().bindBidirectional(doctorBuffer.idCard);
@@ -155,7 +160,7 @@ public class DoctorRegisterController implements Initializable {
             }
         }
     }
-    
+
     private void unbindDoctor() {
         txfCode.textProperty().unbindBidirectional(doctorBuffer.code);
         txfCarne.textProperty().unbindBidirectional(doctorBuffer.idCard);
@@ -165,7 +170,7 @@ public class DoctorRegisterController implements Initializable {
         spEndingMinutes.getEditor().setText("");
         spEndingHours.getEditor().setText("");
     }
-    
+
     private void initializeSpinners() {
         spStartingHours.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 00));
         spEndingHours.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 00));
@@ -176,7 +181,7 @@ public class DoctorRegisterController implements Initializable {
             public String toString(Integer value) {
                 return String.format("%02d", value);
             }
-            
+
             @Override
             public Integer fromString(String text) {
                 try {
@@ -190,9 +195,43 @@ public class DoctorRegisterController implements Initializable {
         spStartingMinutes.getValueFactory().setConverter(formatter);
         spEndingHours.getValueFactory().setConverter(formatter);
         spEndingMinutes.getValueFactory().setConverter(formatter);
-        
     }
-    
+
+    private boolean verifyFields() {
+
+        List<Node> fields = Arrays.asList(txfCarne, txfCode, txfHourlySlots);
+        for (Node i : fields) {
+            if (i instanceof JFXTextField && ((JFXTextField) i).getText() != null
+                    && ((JFXTextField) i).getText().isBlank()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void validNumbersInTextField(JFXTextField textField) {
+        Pattern pattern = Pattern.compile("\\d*");
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            if (pattern.matcher(change.getControlNewText()).matches()) {
+                return change;
+            }
+            return null;
+        };
+        TextFormatter<Integer> textFormatter = new TextFormatter<>(
+                new IntegerStringConverter(),
+                null,
+                filter
+        );
+        StringConverter<Integer> converter = new IntegerStringConverter() {
+            @Override
+            public String toString(Integer value) {
+                return value != null ? super.toString(value) : "0";
+            }
+        };
+
+        textField.setTextFormatter(textFormatter);
+    }
+
     public boolean saveUser(UserDto user) throws IOException {
         ResponseWrapper response = user.getId() == 0 ? userService.createUser(user)
                 : userService.updateUser(user);
