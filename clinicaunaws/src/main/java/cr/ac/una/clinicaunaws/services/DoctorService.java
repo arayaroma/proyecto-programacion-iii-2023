@@ -16,7 +16,6 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  *
@@ -130,9 +129,7 @@ public class DoctorService {
     public ResponseWrapper updateDoctor(DoctorDto doctorDto) {
         try {
             Doctor doctor;
-            doctor = em.createNamedQuery("Doctor.findById", Doctor.class)
-                    .setParameter("id", doctorDto.getId())
-                    .getSingleResult();
+            doctor = em.find(Doctor.class, doctorDto.getId());
             if (doctor == null) {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
@@ -140,15 +137,6 @@ public class DoctorService {
                         "Doctor not found, id: " + doctorDto.getId() + ")",
                         null);
             }
-//            if (!Objects.equals(doctorDto.getUsername, doctor.getUsername())) {
-//                if (!verifyUniqueUsername(doctorDto.getUsername())) {
-//                    return new ResponseWrapper(
-//                            ResponseCode.CONFLICT.getCode(),  CREO QUE NO SE USA PORQUE LO QUE SE 
-//                            ResponseCode.CONFLICT,            LE HACE UPDATE AL DOCTOR SON SUS CREDENCIALES,
-//                            "Username already exists.",       ETC...
-//                            null);
-//                }
-//            }
             doctor.updateDoctor(doctorDto);
             em.merge(doctor);
             em.flush();

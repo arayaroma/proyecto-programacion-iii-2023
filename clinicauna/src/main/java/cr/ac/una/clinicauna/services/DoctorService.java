@@ -74,10 +74,10 @@ public class DoctorService {
         }
     }
 
-    public ResponseWrapper deleteDoctor(DoctorDto doctorDto) {
+    public ResponseWrapper deleteDoctor(Long id) {
         try {
             HashMap map = new HashMap<>();
-            map.put("id", doctorDto.getId());
+            map.put("id", id);
             Request request = new Request("DoctorController/delete","{id}",map);
             request.delete();
             if (request.isError()) {

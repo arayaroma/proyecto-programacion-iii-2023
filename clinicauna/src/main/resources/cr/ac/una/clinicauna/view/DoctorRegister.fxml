@@ -130,7 +130,7 @@
                                           </VBox>
                                           <VBox alignment="CENTER">
                                              <children>
-                                                <Label text="%Minutes" />
+                                                <Label text="%lblMinutes" />
                                                 <Spinner fx:id="spEndingMinutes" editable="true" />
                                              </children>
                                           </VBox>

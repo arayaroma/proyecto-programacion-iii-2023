@@ -116,6 +116,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void editUserLogguedAction(MouseEvent event) {
+        userLoggued = (UserDto) userService.findUserById(userLoggued.getId()).getData();
         Data.setData("userBuffer", userLoggued);
         Animation.MakeDefaultFadeTransition(parent, "UserRegister");
     }

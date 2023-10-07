@@ -3,7 +3,9 @@ package cr.ac.una.clinicauna.controller;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.model.DoctorDto;
 import cr.ac.una.clinicauna.model.UserDto;
+import cr.ac.una.clinicauna.services.DoctorService;
 import cr.ac.una.clinicauna.services.UserService;
 import cr.ac.una.clinicauna.util.Data;
 import cr.ac.una.clinicauna.util.FileLoader;
@@ -65,12 +67,11 @@ public class UserRegisterController implements Initializable {
     private ComboBox<String> cbLanguage;
     @FXML
     private HBox parent;
-    
-    private UserService userService = new UserService();
-    private UserDto userModified = new UserDto();
     @FXML
     private ImageView imgPhotoProfile;
-    
+    private UserService userService = new UserService();
+    private UserDto userModified = new UserDto();
+    private DoctorService doctorService = new DoctorService();
 
     /**
      * Initializes the controller class.
@@ -94,6 +95,7 @@ public class UserRegisterController implements Initializable {
         Data.removeData("userBuffer");
         if (Objects.equals(userModified.getId(), ((UserDto) Data.getData("userLoggued")).getId())) {
             Data.removeData("userLoggued");
+            userModified = (UserDto) userService.findUserById(userModified.getId()).getData();
             Data.setData("userLoggued", userModified);
         }
         loadView("Main");
@@ -103,11 +105,16 @@ public class UserRegisterController implements Initializable {
     private void btnRegisterUserAction(ActionEvent event) throws IOException {
         if (verifyFields()) {
             setPrivilegesUser(userModified);
+
             if (userModified.getRole().toLowerCase().equals("doctor")) {//Verifiy if is a Doctor
                 loadView("DoctorRegister");
                 return;
+            } else {
+                saveUser(userModified);
+                doctorService.deleteDoctor(userModified.getId());
             }
-            saveUser(userModified);
+            backFromRegister(null);
+
         } else {
             Message.showNotification("Ups", MessageType.ERROR, "All fields are required");
         }
@@ -121,18 +128,18 @@ public class UserRegisterController implements Initializable {
             imgPhotoProfile.setImage(ImageLoader.setImage(file));
         }
     }
-    private void saveUser(UserDto user) throws IOException{
-      ResponseWrapper response = user.getId() == 0 ? userService.createUser(user)
-                    : userService.updateUser(userModified);
-            if (response.getCode() == ResponseCode.OK) {
-                Message.showNotification("Success", MessageType.CONFIRMATION, response.getMessage());
-                unbindUser();
-                user = (UserDto) response.getData();
-                backFromRegister(null);
-                return;
-            }
-            Message.showNotification("Ups", MessageType.ERROR, response.getMessage());
-            System.out.println(response.getMessage());
+
+    public void saveUser(UserDto user) throws IOException {
+        ResponseWrapper response = user.getId() == 0 ? userService.createUser(user)
+                : userService.updateUser(user);
+        if (response.getCode() == ResponseCode.OK) {
+            Message.showNotification("Success", MessageType.CONFIRMATION, response.getMessage());
+            unbindUser();
+            user = (UserDto) response.getData();
+            return;
+        }
+        Message.showNotification("Ups", MessageType.ERROR, response.getMessage());
+        System.out.println(response.getMessage());
     }
 
     private void loadView(String nameView) {
@@ -180,8 +187,8 @@ public class UserRegisterController implements Initializable {
                                 || ((RadioButton) t).getText().toLowerCase().equals("administrador")) {
                             t.setSelected(true);
                         }
-                    } else if (userModified.getRole().toLowerCase().equals("receptionist")) {
-                        if (((RadioButton) t).getText().toLowerCase().equals("receptionist")
+                    } else if (userModified.getRole().toLowerCase().equals("recepcionist")) {
+                        if (((RadioButton) t).getText().toLowerCase().equals("recepcionist")
                                 || ((RadioButton) t).getText().toLowerCase().equals("recepcionista")) {
                             t.setSelected(true);
                         }

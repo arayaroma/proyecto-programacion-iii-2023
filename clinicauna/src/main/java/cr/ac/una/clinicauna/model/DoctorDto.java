@@ -9,28 +9,27 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class DoctorDto implements DtoMapper<DoctorDto, DoctorDto> {
 
-    public SimpleStringProperty id;
+    public Long id;
     public SimpleStringProperty code;
     public SimpleStringProperty idCard;
     public SimpleStringProperty shiftStartTime;
     public SimpleStringProperty shiftEndTime;
     public SimpleStringProperty hourlySlots;
-    public SimpleStringProperty version;
+    public Long version;
 
     public DoctorDto() {
-        id = new SimpleStringProperty();
+        
         code = new SimpleStringProperty();
         idCard = new SimpleStringProperty();
         shiftStartTime = new SimpleStringProperty();
         shiftEndTime = new SimpleStringProperty();
         hourlySlots = new SimpleStringProperty();
-        version = new SimpleStringProperty();
 
     }
 
     // All getters
     public Long getId() {
-        return Long.valueOf(id.get());
+        return id;
     }
 
     public String getCode() {
@@ -54,15 +53,12 @@ public class DoctorDto implements DtoMapper<DoctorDto, DoctorDto> {
     }
 
     public Long getVersion() {
-        return Long.valueOf(version.get());
+        return version;
     }
 
     // All setters
     public void setId(Long id) {
-        if (id == null) {
-            id = Long.valueOf(0);
-        }
-        this.id.set(id.toString());
+        this.id = id;
     }
 
     public void setCode(String code) {
@@ -92,10 +88,8 @@ public class DoctorDto implements DtoMapper<DoctorDto, DoctorDto> {
     }
 
     public void setVersion(Long version) {
-        if (version == null) {
-            version = Long.valueOf(0);
-        }
-        this.version.set(version.toString());
+        
+        this.version = version;
     }
 
     @Override
