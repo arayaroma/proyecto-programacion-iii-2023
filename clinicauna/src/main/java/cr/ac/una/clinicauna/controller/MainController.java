@@ -78,7 +78,9 @@ public class MainController implements Initializable {
             lblUserLoggued.setText(userLoggued.getName());
             intializeSliderMenu();
             imgProfilePhoto.setClip(new Circle(imgProfilePhoto.getFitWidth() / 2, imgProfilePhoto.getFitHeight() / 2, 30));
-            imgProfilePhoto.setImage(ImageLoader.setImage(userLoggued.getProfilePhoto()));
+            if (userLoggued.getProfilePhoto() != null) {
+                imgProfilePhoto.setImage(ImageLoader.setImage(userLoggued.getProfilePhoto()));
+            }
             if (userLoggued.getPasswordChanged().equals("Y")) {
                 changePasswordView.setVisible(true);
                 menuLateral.setDisable(true);

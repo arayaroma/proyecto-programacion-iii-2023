@@ -77,7 +77,12 @@ public class LoginController implements Initializable {
         ResponseWrapper response = userService.verifyUser(user, password);
         if (response.getCode() == ResponseCode.OK) {
             UserDto userDto = (UserDto) response.getData();
+            if (userDto.getIsActive().equals("N")) {
+                Message.showNotification("Ups", MessageType.INFO, "The user is not active");
+                return;
+            }
             Data.setData("userLoggued", userDto);
+
             Animation.MakeDefaultFadeTransition(parent, "Main");
             return;
         }

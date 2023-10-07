@@ -7,17 +7,19 @@ import java.util.HashMap;
 import cr.ac.una.clinicauna.model.PatientDto;
 import cr.ac.una.clinicauna.util.Request;
 import cr.ac.una.clinicauna.util.ResponseCode;
+import jakarta.ws.rs.core.GenericType;
+import java.util.List;
 
 public class PatientService {
 
-    ResponseWrapper createPatient(PatientDto patientDto) {
+    public ResponseWrapper createPatient(PatientDto patientDto) {
         try {
             Request request = new Request("PatientController/create");
             request.post(patientDto);
             if (request.isError()) {
                 return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                         ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: "
-                        + request.getError(),
+                                + request.getError(),
                         null);
             }
             PatientDto patient = (PatientDto) request.readEntity(PatientDto.class);
@@ -31,14 +33,14 @@ public class PatientService {
         }
     }
 
-    ResponseWrapper updatePatient(PatientDto patientDto) {
+    public ResponseWrapper updatePatient(PatientDto patientDto) {
         try {
             Request request = new Request("PatientController/update");
             request.put(patientDto);
             if (request.isError()) {
                 return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                         ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: "
-                        + request.getError(),
+                                + request.getError(),
                         null);
             }
             PatientDto patient = (PatientDto) request.readEntity(PatientDto.class);
@@ -52,19 +54,19 @@ public class PatientService {
         }
     }
 
-    ResponseWrapper getPatients() {
+    public ResponseWrapper getPatients() {
         try {
             Request request = new Request("PatientController/patients");
             request.get();
             if (request.isError()) {
                 return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                         ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: "
-                        + request.getError(),
+                                + request.getError(),
                         null);
             }
-            PatientDto patient = (PatientDto) request.readEntity(PatientDto.class);
+            List<PatientDto> patients = (List<PatientDto>) request.readEntity(new GenericType<List<PatientDto>>(){});
             return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK, "Patient retrieved successfully: ",
-                    patient);
+                    patients);
 
         } catch (Exception e) {
             return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
@@ -73,7 +75,7 @@ public class PatientService {
         }
     }
 
-    ResponseWrapper getPatientById(Long id) {
+    public ResponseWrapper getPatientById(Long id) {
         try {
             HashMap<String, Object> map = new HashMap<>();
             map.put("id", id);
@@ -82,7 +84,7 @@ public class PatientService {
             if (request.isError()) {
                 return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                         ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: "
-                        + request.getError(),
+                                + request.getError(),
                         null);
             }
             PatientDto patient = (PatientDto) request.readEntity(PatientDto.class);
@@ -105,7 +107,7 @@ public class PatientService {
             if (request.isError()) {
                 return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                         ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: "
-                        + request.getError(),
+                                + request.getError(),
                         null);
             }
             PatientDto patient = (PatientDto) request.readEntity(PatientDto.class);

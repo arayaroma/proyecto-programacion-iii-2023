@@ -51,7 +51,7 @@ public class PatientRegisterController implements Initializable {
 
     @FXML
     private void backFromRegister(MouseEvent event) {
-        Animation.MakeDefaultFadeTransition(parent, "Main");
+        Animation.MakeDefaultFadeTransition(mainView, "Main");
     }
     
 }

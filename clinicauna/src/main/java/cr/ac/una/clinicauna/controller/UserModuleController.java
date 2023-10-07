@@ -94,16 +94,13 @@ public class UserModuleController implements Initializable {
 
     private void searchUserAction(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
-
             String key = txfSearchUser.getText(), parameterKey = cbSearchParameter.getValue();
-
             if (key.isBlank() || parameterKey == null) {
                 loadUsers(userDtos);
                 return;
             }
             loadUsers(filterUsers(userDtos, parameterKey, key));
         }
-
     }
 
     @FXML
