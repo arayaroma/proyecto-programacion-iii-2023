@@ -21,7 +21,6 @@ import static cr.ac.una.clinicaunaws.util.Database.*;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.QueryHint;
-import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -32,12 +31,10 @@ import java.time.format.DateTimeFormatter;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 @NamedQueries({
-    @NamedQuery(name = "Patient.findAll", query = "SELECT p FROM Patient p", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
-    @NamedQuery(name = "Patient.findById", query = "SELECT p FROM Patient p WHERE p.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true"))
+        @NamedQuery(name = "Patient.findAll", query = "SELECT p FROM Patient p", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+        @NamedQuery(name = "Patient.findById", query = "SELECT p FROM Patient p WHERE p.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true"))
 })
-
 public class Patient implements Serializable {
 
     private static final long serialVersionUID = 1L;
