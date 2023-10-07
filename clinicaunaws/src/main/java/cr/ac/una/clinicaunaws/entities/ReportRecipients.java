@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -27,6 +29,10 @@ import cr.ac.una.clinicaunaws.dto.ReportRecipientsDto;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedQueries({
+        @NamedQuery(name = "ReportRecipients.findAll", query = "SELECT r FROM ReportRecipients r"),
+        @NamedQuery(name = "ReportRecipients.findById", query = "SELECT r FROM ReportRecipients r WHERE r.id = :id"),
+})
 public class ReportRecipients implements Serializable {
     private static final long serialVersionUID = 1L;
 
