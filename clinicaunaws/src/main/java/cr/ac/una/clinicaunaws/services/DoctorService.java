@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.clinicaunaws.services;
 
 import cr.ac.una.clinicaunaws.dto.DoctorDto;
@@ -32,18 +28,11 @@ public class DoctorService {
      *
      * @param doctorDto to be created
      * @return ResponseWrapper with the response from database, or null if an
-     * exception occurred
+     *         exception occurred
      */
     public ResponseWrapper createDoctor(DoctorDto doctorDto) {
         try {
             Doctor doctor = new Doctor(doctorDto);
-            if (doctor == null) {
-                return new ResponseWrapper(
-                        ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
-                        ResponseCode.INTERNAL_SERVER_ERROR,
-                        "Error ocurred while creating doctor.",
-                        new DoctorDto(doctor));
-            }
             em.persist(doctor);
             em.flush();
             return new ResponseWrapper(
@@ -63,7 +52,7 @@ public class DoctorService {
     /**
      * @param id user id to be retrieved
      * @return ResponseWrapper with the response from database, or null if an
-     * exception occurred
+     *         exception occurred
      */
     public ResponseWrapper getDoctorById(Long id) {
         try {
@@ -93,7 +82,7 @@ public class DoctorService {
 
     /**
      * @return ResponseWrapper with the response from database, or null if an
-     * exception occurred
+     *         exception occurred
      */
     @SuppressWarnings("unchecked")
     public ResponseWrapper getDoctors() {
@@ -124,7 +113,7 @@ public class DoctorService {
     /**
      * @param doctorDto User to be updated
      * @return ResponseWrapper with the response from database, or null if an
-     * exception occurred
+     *         exception occurred
      */
     public ResponseWrapper updateDoctor(DoctorDto doctorDto) {
         try {
@@ -157,7 +146,7 @@ public class DoctorService {
     /**
      * @param id id from user to be deleted
      * @return ResponseWrapper with the response from database, or null if an
-     * exception occurred
+     *         exception occurred
      */
     public ResponseWrapper deleteDoctorById(Long id) {
         try {

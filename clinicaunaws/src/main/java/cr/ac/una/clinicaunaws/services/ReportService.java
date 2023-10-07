@@ -25,10 +25,13 @@ public class ReportService {
 
     public ResponseWrapper createReport(Long id) throws IOException {
         try {
-            // Cargar el diseño del informe desde un archivo Jasper en el directorio resources
-            JasperReport jasperReport = (JasperReport) JRLoader.loadObject( getClass().getResource(/*"/cr/ac/una/clinicaunaws/reports/medicalRecord.jrxml"*/"C:\\Users\\varga\\Desktop\\ClinicaUna\\proyecto-programacion-iii-2023\\clinicaunaws\\src\\main\\resources\\cr\\ac\\una\\clinicaunaws\\reports\\medicalRecord.jrxml"));
-            
-            if(jasperReport==null){
+            // Cargar el diseño del informe desde un archivo Jasper en el directorio
+            // resources
+            /* "/cr/ac/una/clinicaunaws/reports/medicalRecord.jrxml" */
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(getClass().getResource(
+                    "C:\\Users\\varga\\Desktop\\ClinicaUna\\proyecto-programacion-iii-2023\\clinicaunaws\\src\\main\\resources\\cr\\ac\\una\\clinicaunaws\\reports\\medicalRecord.jrxml"));
+
+            if (jasperReport == null) {
                 System.out.println("ERROR NO EXISTE EL JASPER");
             }
 
@@ -57,7 +60,6 @@ public class ReportService {
             e.printStackTrace();
             throw new RuntimeException("Error al generar el informe", e);
         }
-
     }
 
 }
