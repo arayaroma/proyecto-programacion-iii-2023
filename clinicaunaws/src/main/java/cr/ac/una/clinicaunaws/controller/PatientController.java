@@ -47,7 +47,7 @@ public class PatientController {
     public Response createPatient(PatientDto patientDto) {
         try {
             ResponseWrapper response = patientService.createPatient(patientDto);
-               if (response.getCode() != ResponseCode.OK) {
+            if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
             return Response.ok(response.getStatus()).entity(response.getData()).build();
@@ -68,7 +68,7 @@ public class PatientController {
     public Response getPatientById(@PathParam("id") Long id) {
         try {
             ResponseWrapper response = patientService.getPatientById(id);
-               if (response.getCode() != ResponseCode.OK) {
+            if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
             return Response.ok(response.getStatus()).entity(response.getData()).build();
@@ -85,6 +85,7 @@ public class PatientController {
      */
     @GET
     @Path("/patients")
+    @SuppressWarnings("unchecked")
     public Response getPatients() {
         try {
             ResponseWrapper response = patientService.getPatients();
@@ -110,7 +111,7 @@ public class PatientController {
     public Response updatePatient(PatientDto patientDto) {
         try {
             ResponseWrapper response = patientService.updatePatient(patientDto);
-               if (response.getCode() != ResponseCode.OK) {
+            if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
             return Response.ok(response.getStatus()).entity(response.getData()).build();
@@ -131,7 +132,7 @@ public class PatientController {
     public Response deletePatientById(@PathParam("id") Long id) {
         try {
             ResponseWrapper response = patientService.deletePatientById(id);
-               if (response.getCode() != ResponseCode.OK) {
+            if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
             return Response.ok(response.getStatus()).entity(response.getData()).build();
