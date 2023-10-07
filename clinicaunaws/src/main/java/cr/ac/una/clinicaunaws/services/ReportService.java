@@ -1,10 +1,8 @@
-
 package cr.ac.una.clinicaunaws.services;
 
 import cr.ac.una.clinicaunaws.util.ResponseCode;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.util.JRLoader;
-
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
