@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import java.lang.String?>
 <?import java.net.URL?>
@@ -21,125 +20,125 @@
 <?import javafx.scene.paint.Color?>
 
 <HBox fx:id="parent" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="bg-black" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.clinicauna.controller.PatientRegisterController">
-   <children>
-      <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-         <HBox.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </HBox.margin>
-         <children>
-            <VBox fx:id="mainView" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" StackPane.alignment="CENTER">
-               <children>
-                  <HBox>
-                     <children>
-                        <ImageView fitHeight="70.0" fitWidth="70.0" onMouseClicked="#backFromRegister" pickOnBounds="true" preserveRatio="true" styleClass="icon-back">
-                           <image>
-                              <Image url="@../img/back-arrow.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                     <VBox.margin>
-                        <Insets left="20.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <VBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" smooth="false" VBox.vgrow="ALWAYS">
-                           <image>
-                              <Image url="@../img/estetoscopio.png" />
-                           </image>
-                           <effect>
-                              <DropShadow blurType="GAUSSIAN" height="5.0" radius="2.0" spread="0.34" width="5.0">
-                                 <color>
-                                    <Color red="0.9019607901573181" green="0.7254902124404907" blue="0.3529411852359772" />
-                                 </color>
-                              </DropShadow>
-                           </effect>
-                           <VBox.margin>
-                              <Insets top="20.0" />
-                           </VBox.margin>
-                        </ImageView>
-                        <Label styleClass="h1" text="%lblPatientRegister" VBox.vgrow="ALWAYS">
-                           <VBox.margin>
-                              <Insets bottom="30.0" />
-                           </VBox.margin>
-                        </Label>
-                        <GridPane hgap="20.0" vgap="30.0">
-                           <columnConstraints>
-                              <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                           <children>
-                              <JFXTextField fx:id="txfIdentification" labelFloat="true" promptText="%txfIdentification" styleClass="h3" GridPane.rowIndex="1">
-                                 <padding>
-                                    <Insets left="10.0" />
-                                 </padding>
-                              </JFXTextField>
-                              <JFXTextField fx:id="txfName" labelFloat="true" promptText="%txfName" styleClass="h3">
-                                 <padding>
-                                    <Insets left="10.0" />
-                                 </padding>
-                              </JFXTextField>
-                              <JFXPasswordField fx:id="txfLastName" labelFloat="true" promptText="%txfLastName" styleClass="h3" GridPane.columnIndex="1">
-                                 <padding>
-                                    <Insets left="10.0" />
-                                 </padding>
-                              </JFXPasswordField>
-                              <ComboBox fx:id="cbGender" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="%cbGender" styleClass="h3" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                              <JFXTextField fx:id="txfSecondLastName" labelFloat="true" promptText="%txfSecondLastName" styleClass="h3" GridPane.columnIndex="2">
-                                 <padding>
-                                    <Insets left="10.0" />
-                                 </padding>
-                              </JFXTextField>
-                              <JFXTextField fx:id="txfEmail" labelFloat="true" promptText="%txfEmail" styleClass="h3" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
-                                 <padding>
-                                    <Insets left="10.0" />
-                                 </padding>
-                              </JFXTextField>
-                              <JFXTextField fx:id="txfPhoneNumber" labelFloat="true" promptText="%txfPhoneNumber" styleClass="h3" GridPane.rowIndex="2">
-                                 <padding>
-                                    <Insets left="10.0" />
-                                 </padding>
-                              </JFXTextField>
-                              <DatePicker fx:id="dpBirthDate" editable="false" maxWidth="1.7976931348623157E308" promptText="%dpBirthDate" styleClass="h3" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                           </children>
-                        </GridPane>
-                        <HBox VBox.vgrow="ALWAYS">
-                           <VBox.margin>
-                              <Insets top="50.0" />
-                           </VBox.margin>
-                           <children>
-                              <Button mnemonicParsing="false" text="%btnRegister">
-                                 <styleClass>
-                                    <String fx:value="btn" />
-                                    <String fx:value="orange-color" />
-                                    <String fx:value="h3" />
-                                 </styleClass>
-                              </Button>
-                           </children>
+    <children>
+        <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+            <HBox.margin>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </HBox.margin>
+            <children>
+                <VBox fx:id="mainView" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" StackPane.alignment="CENTER">
+                    <children>
+                        <HBox>
+                            <children>
+                                <ImageView fitHeight="70.0" fitWidth="70.0" onMouseClicked="#backFromRegister" pickOnBounds="true" preserveRatio="true" styleClass="icon-back">
+                                    <image>
+                                        <Image url="@../img/back-arrow.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                            <VBox.margin>
+                                <Insets left="20.0" />
+                            </VBox.margin>
                         </HBox>
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="20.0" left="50.0" right="50.0" />
-                     </VBox.margin>
-                  </VBox>
-               </children>
-               <styleClass>
-                  <String fx:value="bg-gray" />
-                  <String fx:value="bg-login" />
-               </styleClass>
-            </VBox>
-         </children>
-      </StackPane>
-   </children>
-   <stylesheets>
-      <URL value="@../style/index.css" />
-      <URL value="@../style/userregister.css" />
-   </stylesheets>
+                        <VBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+                            <children>
+                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" smooth="false" VBox.vgrow="ALWAYS">
+                                    <image>
+                                        <Image url="@../img/estetoscopio.png" />
+                                    </image>
+                                    <effect>
+                                        <DropShadow blurType="GAUSSIAN" height="5.0" radius="2.0" spread="0.34" width="5.0">
+                                            <color>
+                                                <Color red="0.9019607901573181" green="0.7254902124404907" blue="0.3529411852359772" />
+                                            </color>
+                                        </DropShadow>
+                                    </effect>
+                                    <VBox.margin>
+                                        <Insets top="20.0" />
+                                    </VBox.margin>
+                                </ImageView>
+                                <Label styleClass="h1" text="%lblPatientRegister" VBox.vgrow="ALWAYS">
+                                    <VBox.margin>
+                                        <Insets bottom="30.0" />
+                                    </VBox.margin>
+                                </Label>
+                                <GridPane hgap="20.0" vgap="30.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" />
+                                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" />
+                                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                    <children>
+                                        <JFXTextField fx:id="txfName" labelFloat="true" promptText="%txfName" styleClass="h3">
+                                            <padding>
+                                                <Insets left="10.0" />
+                                            </padding>
+                                        </JFXTextField>
+                                        <JFXTextField fx:id="txfLastName" labelFloat="true" promptText="%txfLastName" styleClass="h3" GridPane.columnIndex="1">
+                                            <padding>
+                                                <Insets left="10.0" />
+                                            </padding>
+                                        </JFXTextField>
+                                        <JFXTextField fx:id="txfSecondLastName" labelFloat="true" promptText="%txfSecondLastName" styleClass="h3" GridPane.columnIndex="2">
+                                            <padding>
+                                                <Insets left="10.0" />
+                                            </padding>
+                                        </JFXTextField>
+                                        <JFXTextField fx:id="txfIdentification" labelFloat="true" promptText="%txfIdentification" styleClass="h3" GridPane.rowIndex="1">
+                                            <padding>
+                                                <Insets left="10.0" />
+                                            </padding>
+                                        </JFXTextField>
+                                        <JFXTextField fx:id="txfEmail" labelFloat="true" promptText="%txfEmail" styleClass="h3" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                                            <padding>
+                                                <Insets left="10.0" />
+                                            </padding>
+                                        </JFXTextField>
+                                        <JFXTextField fx:id="txfPhoneNumber" labelFloat="true" promptText="%txfPhoneNumber" styleClass="h3" GridPane.rowIndex="2">
+                                            <padding>
+                                                <Insets left="10.0" />
+                                            </padding>
+                                        </JFXTextField>
+                                        <DatePicker fx:id="dpBirthDate" editable="false" maxWidth="1.7976931348623157E308" promptText="%dpBirthDate" styleClass="h3" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                        <ComboBox fx:id="cbGender" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="%cbGender" styleClass="h3" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    </children>
+                                </GridPane>
+                                <HBox VBox.vgrow="ALWAYS">
+                                    <VBox.margin>
+                                        <Insets top="50.0" />
+                                    </VBox.margin>
+                                    <children>
+                                        <Button mnemonicParsing="false" onAction="#btnRegisterAction" text="%btnRegister">
+                                            <styleClass>
+                                                <String fx:value="btn" />
+                                                <String fx:value="orange-color" />
+                                                <String fx:value="h3" />
+                                            </styleClass>
+                                        </Button>
+                                    </children>
+                                </HBox>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="20.0" left="50.0" right="50.0" />
+                            </VBox.margin>
+                        </VBox>
+                    </children>
+                    <styleClass>
+                        <String fx:value="bg-gray" />
+                        <String fx:value="bg-login" />
+                    </styleClass>
+                </VBox>
+            </children>
+        </StackPane>
+    </children>
+    <stylesheets>
+        <URL value="@../style/index.css" />
+        <URL value="@../style/userregister.css" />
+    </stylesheets>
 </HBox>

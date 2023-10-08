@@ -111,10 +111,10 @@ Label, RadioButton, ComboBox{
     -fx-cursor: hand;
 }
 /*TABLEVIEW DESIGN*/
-.table-button {
+/*.table-button {
     -fx-background-color: red;
     -fx-cursor: hand;
-}
+}*/
 
 .table-view {
     -fx-border-color: -fx-orange;
