@@ -29,7 +29,24 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
 
     @Override
     public MedicalAppointmentDto convertFromEntityToDTO(MedicalAppointment entity, MedicalAppointmentDto dto) {
-        return new MedicalAppointmentDto(entity);
+        MedicalAppointmentDto medicalAppointmentDto = new MedicalAppointmentDto(entity);
+
+        medicalAppointmentDto.setAgenda(new AgendaDto(entity.getAgenda()));
+        medicalAppointmentDto.setPatient(new PatientDto(entity.getPatient()));
+        medicalAppointmentDto.setScheduledBy(new UserDto(entity.getScheduledBy()));
+
+        // set the doctor
+        medicalAppointmentDto.getAgenda()
+                .setDoctor(new DoctorDto(entity.getAgenda().getDoctor()));
+        // set the patient care
+        medicalAppointmentDto.getAgenda()
+                .setPatientCare(new PatientCareDto(entity.getAgenda().getPatientCare()));
+        // set the patient personal history
+        medicalAppointmentDto.getAgenda()
+                .getPatientCare()
+                .setPatientHistory(
+                        new PatientPersonalHistoryDto(entity.getAgenda().getPatientCare().getPatientHistory()));
+        return medicalAppointmentDto;
     }
 
     @Override
