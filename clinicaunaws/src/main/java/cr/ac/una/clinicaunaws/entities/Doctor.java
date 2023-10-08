@@ -3,9 +3,11 @@ package cr.ac.una.clinicaunaws.entities;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -19,6 +21,7 @@ import java.io.Serializable;
 import cr.ac.una.clinicaunaws.dto.DoctorDto;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.QueryHint;
 
 /**
@@ -43,6 +46,10 @@ public class Doctor implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Long id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID")
+    private User user;
 
     @NotNull
     @Basic(optional = false)
@@ -88,6 +95,7 @@ public class Doctor implements Serializable {
      * @param dto to be updated
      */
     public void updateDoctor(DoctorDto dto) {
+        this.user = null;
         this.code = dto.getCode();
         this.idCard = dto.getIdCard();
         this.shiftStartTime = dto.getShiftStartTime();
