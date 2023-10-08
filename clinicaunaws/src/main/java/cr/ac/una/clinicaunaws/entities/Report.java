@@ -3,11 +3,13 @@ package cr.ac.una.clinicaunaws.entities;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -19,6 +21,8 @@ import lombok.NoArgsConstructor;
 import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
+
 import cr.ac.una.clinicaunaws.dto.ReportDto;
 
 /**
@@ -69,6 +73,12 @@ public class Report implements Serializable {
     @Column(name = "FREQUENCY")
     private Long frequency;
 
+    @OneToMany(mappedBy = "report", fetch = FetchType.LAZY)
+    private List<ReportValues> reportValues;
+
+    @OneToMany(mappedBy = "report", fetch = FetchType.LAZY)
+    private List<ReportRecipients> reportRecipients;
+
     @Version
     @Column(name = "VERSION")
     private Long version;
@@ -90,6 +100,8 @@ public class Report implements Serializable {
         this.query = dto.getQuery();
         this.date = LocalDate.parse(dto.getDate());
         this.frequency = dto.getFrequency();
+        this.reportValues = null;
+        this.reportRecipients = null;
         this.version = dto.getVersion();
     }
 
