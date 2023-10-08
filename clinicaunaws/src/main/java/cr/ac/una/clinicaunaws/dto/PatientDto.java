@@ -1,5 +1,7 @@
 package cr.ac.una.clinicaunaws.dto;
 
+import java.util.List;
+
 import cr.ac.una.clinicaunaws.entities.Patient;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
 import lombok.AllArgsConstructor;
@@ -24,6 +26,9 @@ public class PatientDto implements DtoMapper<Patient, PatientDto> {
     private String email;
     private String gender;
     private String birthDate;
+    private List<MedicalAppointmentDto> medicalAppointments;
+    private List<PatientPersonalHistoryDto> patientPersonalHistories;
+    private List<PatientFamilyHistoryDto> patientFamilyHistories;
     private Long version;
 
     @Override
@@ -49,6 +54,9 @@ public class PatientDto implements DtoMapper<Patient, PatientDto> {
         this.email = patient.getEmail();
         this.gender = patient.getGender();
         this.birthDate = patient.getBirthDate().toString();
+        this.medicalAppointments = null;
+        this.patientPersonalHistories = null;
+        this.patientFamilyHistories = null;
         this.version = patient.getVersion();
     }
 
