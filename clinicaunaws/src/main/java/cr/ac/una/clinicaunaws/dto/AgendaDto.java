@@ -1,5 +1,7 @@
 package cr.ac.una.clinicaunaws.dto;
 
+import java.util.List;
+
 import cr.ac.una.clinicaunaws.entities.Agenda;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
 import lombok.AllArgsConstructor;
@@ -22,6 +24,8 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
     private String shiftStartTime;
     private String shiftEndTime;
     private Long hourlySlots;
+    private List<SlotsDto> slots;
+    private List<MedicalAppointmentDto> medicalAppointments;
     private Long version;
 
     @Override
@@ -61,6 +65,8 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
         this.shiftStartTime = entity.getShiftStartTime();
         this.shiftEndTime = entity.getShiftEndTime();
         this.hourlySlots = entity.getHourlySlots();
+        this.slots = null;
+        this.medicalAppointments = null;
         this.version = entity.getVersion();
     }
 

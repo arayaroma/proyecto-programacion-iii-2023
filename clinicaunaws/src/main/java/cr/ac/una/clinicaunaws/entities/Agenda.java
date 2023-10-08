@@ -3,11 +3,15 @@ package cr.ac.una.clinicaunaws.entities;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -18,6 +22,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
+
 import cr.ac.una.clinicaunaws.dto.AgendaDto;
 import static cr.ac.una.clinicaunaws.util.Database.*;
 
@@ -46,12 +52,14 @@ public class Agenda implements Serializable {
 
     @NotNull
     @Basic(optional = false)
-    @Column(name = "DOCTOR")
+    @JoinColumn(name = "DOCTOR")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Doctor doctor;
 
     @NotNull
     @Basic(optional = false)
-    @Column(name = "PATIENTCARE")
+    @JoinColumn(name = "PATIENTCARE")
+    @ManyToOne(fetch = FetchType.LAZY)
     private PatientCare patientCare;
 
     @NotNull
@@ -76,6 +84,12 @@ public class Agenda implements Serializable {
     @Column(name = "HOURLYSLOTS")
     private Long hourlySlots;
 
+    @OneToMany(mappedBy = "agenda", fetch = FetchType.LAZY)
+    private List<Slots> slots;
+
+    @OneToMany(mappedBy = "agenda", fetch = FetchType.LAZY)
+    private List<MedicalAppointment> medicalAppointments;
+
     @Version
     @Column(name = "VERSION")
     private Long version;
@@ -98,6 +112,8 @@ public class Agenda implements Serializable {
         this.shiftStartTime = dto.getShiftStartTime();
         this.shiftEndTime = dto.getShiftEndTime();
         this.hourlySlots = dto.getHourlySlots();
+        this.slots = null;
+        this.medicalAppointments = null;
         this.version = dto.getVersion();
     }
 
