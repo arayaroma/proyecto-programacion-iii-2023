@@ -1,5 +1,7 @@
 package cr.ac.una.clinicaunaws.dto;
 
+import java.util.List;
+
 import cr.ac.una.clinicaunaws.entities.MedicalAppointment;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
 import lombok.AllArgsConstructor;
@@ -25,6 +27,7 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
     private String reason;
     private String patientPhoneNumber;
     private String patientEmail;
+    private List<SlotsDto> slots;
     private Long version;
 
     @Override
@@ -68,6 +71,7 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
         this.reason = entity.getReason();
         this.patientPhoneNumber = entity.getPatientPhoneNumber();
         this.patientEmail = entity.getPatientEmail();
+        this.slots = null;
         this.version = entity.getVersion();
     }
 
