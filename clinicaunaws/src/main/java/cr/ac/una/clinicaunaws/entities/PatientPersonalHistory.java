@@ -8,10 +8,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -48,8 +48,8 @@ public class PatientPersonalHistory implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "PATIENT")
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID", insertable = false, updatable = false)
     private Patient patient;
 
     @Basic(optional = false)
