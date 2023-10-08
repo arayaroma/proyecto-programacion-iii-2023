@@ -1,5 +1,7 @@
 package cr.ac.una.clinicaunaws.dto;
 
+import java.util.List;
+
 import cr.ac.una.clinicaunaws.entities.User;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
 import lombok.AllArgsConstructor;
@@ -31,11 +33,12 @@ public class UserDto implements DtoMapper<User, UserDto> {
     private String activationCode;
     private String language;
     private byte[] profilePhoto;
+    private List<MedicalAppointmentDto> medicalAppointments;
     private Long version;
 
     /**
      * @param entity Entity to be converted
-     * @param dto DTO to be updated
+     * @param dto    DTO to be updated
      * @return DTO with the updated information
      */
     @Override
@@ -44,7 +47,7 @@ public class UserDto implements DtoMapper<User, UserDto> {
     }
 
     /**
-     * @param dto DTO to be converted
+     * @param dto    DTO to be converted
      * @param entity Entity to be updated
      * @return Entity with the updated information
      */
@@ -73,6 +76,7 @@ public class UserDto implements DtoMapper<User, UserDto> {
         this.activationCode = entity.getActivationCode();
         this.language = entity.getLanguage();
         this.profilePhoto = entity.getProfilePhoto();
+        this.medicalAppointments = null;
         this.version = entity.getVersion();
     }
 }

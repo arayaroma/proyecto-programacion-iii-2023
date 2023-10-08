@@ -3,12 +3,14 @@ package cr.ac.una.clinicaunaws.entities;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.QueryHint;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -20,6 +22,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
+import java.util.List;
+
 import cr.ac.una.clinicaunaws.dto.UserDto;
 
 /**
@@ -135,6 +139,9 @@ public class User implements Serializable {
     @Lob
     @Column(name = "PROFILEPHOTO")
     private byte[] profilePhoto;
+
+    @OneToMany(mappedBy = "scheduledBy", fetch = FetchType.LAZY)
+    private List<MedicalAppointment> medicalAppointments;
 
     @Version
     @Column(name = "VERSION")
