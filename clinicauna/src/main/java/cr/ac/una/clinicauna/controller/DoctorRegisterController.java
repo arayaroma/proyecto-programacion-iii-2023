@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import javafx.event.ActionEvent;
@@ -101,6 +102,7 @@ public class DoctorRegisterController implements Initializable {
     @FXML
     private void backFromRegister(MouseEvent event) {
         Animation.MakeDefaultFadeTransition(mainView, "UserRegister");
+
     }
 
     @FXML
@@ -122,9 +124,18 @@ public class DoctorRegisterController implements Initializable {
                 return;
             }
             Message.showNotification("Success", MessageType.INFO, "Doctor registered successfully");
+            updateUserLoggued();
             Animation.MakeDefaultFadeTransition(mainView, "Main");
         }
 
+    }
+
+    private void updateUserLoggued() {
+        if (Objects.equals(userBuffer.getId(), ((UserDto) Data.getData("userLoggued")).getId())) {
+            Data.removeData("userLoggued");
+            userBuffer = (UserDto) userService.findUserById(userBuffer.getId()).getData();
+            Data.setData("userLoggued", userBuffer);
+        }
     }
 
     private String parseTimeToString(Spinner spHour, Spinner spMinutes) {

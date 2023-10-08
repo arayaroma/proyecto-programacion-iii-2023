@@ -134,7 +134,6 @@ Label, RadioButton, ComboBox{
 }
 .table-row-cell .cell{
     -fx-background-color:transparent;
-    -fx-background-color:transparent;
 }
 .table-view .column-header {
     -fx-background-color: -fx-black;
@@ -155,7 +154,6 @@ Label, RadioButton, ComboBox{
 }
 .date-picker .arrow-button:hover {
     -fx-background-color: -fx-dark-gray;
-    -fx-background-radius: 0;
 }
 .date-picker-popup .month-year-pane {
     -fx-background-color: -fx-gray;
@@ -163,6 +161,7 @@ Label, RadioButton, ComboBox{
 .date-picker-popup .month-year-pane .label {
     -fx-text-fill:-fx-orange;
 }
+
 .date-picker-popup .spinner .button .left-arrow,
 .date-picker-popup .spinner .button .right-arrow {
     -fx-background-color: -fx-orange;
