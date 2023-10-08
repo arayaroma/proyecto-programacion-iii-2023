@@ -22,7 +22,10 @@ public class ReportRecipientsDto implements DtoMapper<ReportRecipients, ReportRe
 
     @Override
     public ReportRecipientsDto convertFromEntityToDTO(ReportRecipients entity, ReportRecipientsDto dto) {
-        return new ReportRecipientsDto(entity);
+        ReportRecipientsDto reportRecipientsDto = new ReportRecipientsDto(entity);
+
+        reportRecipientsDto.setReport(new ReportDto(entity.getReport()));
+        return reportRecipientsDto;
     }
 
     @Override
