@@ -21,7 +21,8 @@ import java.util.Map;
 @LocalBean
 public class ReportService {
 
-    public ResponseWrapper createReport(Long id) throws IOException {
+    public ResponseWrapper createReport(Long id) throws IOException, JRException {
+
         try {
             // Cargar el diseño del informe desde un archivo Jasper en el directorio
             // resources
@@ -45,13 +46,13 @@ public class ReportService {
             try (Connection connection = DriverManager.getConnection(jdbcUrl, usuario, contraseña)) {
                 // Llenar el informe con datos y la conexión a la base de datos
                 JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, connection);
-
+                byte[] pdfbytes = JasperExportManager.exportReportToPdf(jasperPrint);
                 // Convertir el informe a bytes (PDF en este caso)
                 return new ResponseWrapper(
                         ResponseCode.OK.getCode(),
                         ResponseCode.OK,
                         "User created successfully.",
-                        JasperExportManager.exportReportToPdf(jasperPrint));
+                        pdfbytes);
             }
         } catch (JRException | SQLException e) {
             // Manejar la excepción (log, enviar alerta, etc.)

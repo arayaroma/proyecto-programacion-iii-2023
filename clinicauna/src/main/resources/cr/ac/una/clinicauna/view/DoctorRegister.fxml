@@ -83,12 +83,12 @@
                                                 <Insets left="10.0" />
                                             </padding>
                                         </JFXTextField>
-                                        <ComboBox fx:id="cbState" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="%cbState" styleClass="h3" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                         <JFXTextField fx:id="txfHourlySlots" labelFloat="true" promptText="%txfHourlySlots" styleClass="h3" GridPane.rowIndex="1">
                                             <padding>
                                                 <Insets left="10.0" />
                                             </padding>
                                         </JFXTextField>
+                                        <ComboBox fx:id="cbState" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="%cbState" styleClass="h3" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <VBox alignment="CENTER" styleClass="timePicker" GridPane.rowIndex="2">
                                  <children>
                                     <Label styleClass="h3" text="%lblStartingTime" />
