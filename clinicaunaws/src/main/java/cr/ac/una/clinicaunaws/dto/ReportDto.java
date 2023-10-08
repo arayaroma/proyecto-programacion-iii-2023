@@ -30,7 +30,18 @@ public class ReportDto implements DtoMapper<Report, ReportDto> {
 
     @Override
     public ReportDto convertFromEntityToDTO(Report entity, ReportDto dto) {
-        return new ReportDto(entity);
+        ReportDto reportDto = new ReportDto(entity);
+
+        // Set the Report Parameters List
+        for (int i = 0; i < entity.getReportParameters().size(); i++) {
+            reportDto.getReportParameters().add(new ReportParametersDto(entity.getReportParameters().get(i)));
+        }
+
+        // Set the Report Recipients List
+        for (int i = 0; i < entity.getReportRecipients().size(); i++) {
+            reportDto.getReportRecipients().add(new ReportRecipientsDto(entity.getReportRecipients().get(i)));
+        }
+        return reportDto;
     }
 
     @Override
