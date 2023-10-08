@@ -3,7 +3,6 @@ package cr.ac.una.clinicaunaws.entities;
 import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
 import java.util.List;
-
 import cr.ac.una.clinicaunaws.dto.PatientCareDto;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -50,10 +49,8 @@ public class PatientCare implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @NotNull
-    @Basic(optional = false)
-    @JoinColumn(name = "PATIENTHISTORY")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "PATIENTHISTORY", referencedColumnName = "ID")
     private PatientPersonalHistory patientHistory;
 
     @NotNull

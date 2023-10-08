@@ -23,7 +23,6 @@ import lombok.NoArgsConstructor;
 import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
 import java.util.List;
-
 import cr.ac.una.clinicaunaws.dto.UserDto;
 
 /**
@@ -174,6 +173,7 @@ public class User implements Serializable {
         this.activationCode = dto.getActivationCode();
         this.language = dto.getLanguage();
         this.profilePhoto = dto.getProfilePhoto();
+        medicalAppointments = null;
         this.version = dto.getVersion();
     }
 

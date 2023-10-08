@@ -16,7 +16,6 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,7 +27,7 @@ import static cr.ac.una.clinicaunaws.util.Database.*;
  * @author arayaroma
  */
 @Entity
-@Table(name = "TBL_PATIENT_FAMILI_HISTORY", schema = SCHEMA)
+@Table(name = "TBL_PATIENT_FAMILY_HISTORY", schema = SCHEMA)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -47,10 +46,8 @@ public class PatientFamilyHistory implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @NotNull
-    @Basic(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "PATIENT")
-    @ManyToOne(fetch = FetchType.LAZY)
     private Patient patient;
 
     @Basic(optional = false)

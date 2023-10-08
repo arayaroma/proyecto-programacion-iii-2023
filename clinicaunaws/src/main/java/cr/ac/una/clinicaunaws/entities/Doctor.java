@@ -47,8 +47,8 @@ public class Doctor implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID")
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID", insertable = false, updatable = false)
     private User user;
 
     @NotNull
