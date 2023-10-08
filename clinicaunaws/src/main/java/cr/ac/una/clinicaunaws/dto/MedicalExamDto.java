@@ -24,7 +24,10 @@ public class MedicalExamDto implements DtoMapper<MedicalExam, MedicalExamDto> {
 
     @Override
     public MedicalExamDto convertFromEntityToDTO(MedicalExam entity, MedicalExamDto dto) {
-        return new MedicalExamDto(entity);
+        MedicalExamDto medicalExamDto = new MedicalExamDto(entity);
+
+        medicalExamDto.setPatientHistory(new PatientPersonalHistoryDto(entity.getPatientHistory()));
+        return medicalExamDto;
     }
 
     @Override
