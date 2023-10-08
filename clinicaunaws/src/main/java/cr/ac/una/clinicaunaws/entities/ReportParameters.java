@@ -3,9 +3,12 @@ package cr.ac.una.clinicaunaws.entities;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.SequenceGenerator;
@@ -18,34 +21,36 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
-import cr.ac.una.clinicaunaws.dto.ReportValuesDto;
+import cr.ac.una.clinicaunaws.dto.ReportParametersDto;
 
 /**
  * 
  * @author arayaroma
  */
 @Entity
-@Table(name = "TBL_REPORT_VALUES", schema = SCHEMA)
+@Table(name = "TBL_REPORT_PARAMETERS", schema = SCHEMA)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
-        @NamedQuery(name = "ReportValues.findAll", query = "SELECT r FROM ReportValues r"),
-        @NamedQuery(name = "ReportValues.findById", query = "SELECT r FROM ReportValues r WHERE r.id = :id"),
+        @NamedQuery(name = "ReportParameters.findAll", query = "SELECT r FROM ReportParameters r"),
+        @NamedQuery(name = "ReportParameters.findById", query = "SELECT r FROM ReportParameters r WHERE r.id = :id"),
 })
-public class ReportValues implements Serializable {
+public class ReportParameters implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @SequenceGenerator(name = SEQ_REPORT_VALUES, sequenceName = SCHEMA + "." + SEQ_REPORT_VALUES, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_REPORT_VALUES)
+    @SequenceGenerator(name = SEQ_REPORT_PARAMETERS, sequenceName = SCHEMA + "."
+            + SEQ_REPORT_PARAMETERS, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_REPORT_PARAMETERS)
     @Basic(optional = false)
     @Column(name = "ID")
     private Long id;
 
     @NotNull
     @Basic(optional = false)
-    @Column(name = "REPORT")
+    @JoinColumn(name = "REPORT")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Report report;
 
     @NotNull
@@ -67,7 +72,7 @@ public class ReportValues implements Serializable {
     /**
      * @param dto constructor from dto to entity
      */
-    public ReportValues(ReportValuesDto dto) {
+    public ReportParameters(ReportParametersDto dto) {
         this.id = dto.getId();
         updateReport(dto);
     }
@@ -75,7 +80,7 @@ public class ReportValues implements Serializable {
     /**
      * @param dto update the entity from dto
      */
-    public void updateReport(ReportValuesDto dto) {
+    public void updateReport(ReportParametersDto dto) {
         this.report = null;
         this.name = dto.getName();
         this.value = dto.getValue();
