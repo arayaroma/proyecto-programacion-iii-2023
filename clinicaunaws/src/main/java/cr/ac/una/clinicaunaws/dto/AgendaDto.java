@@ -19,7 +19,6 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
 
     private Long id;
     private DoctorDto doctor;
-    private PatientCareDto patientCare;
     private String date;
     private String shiftStartTime;
     private String shiftEndTime;
@@ -33,19 +32,17 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
         AgendaDto agendaDto = new AgendaDto(entity);
 
         agendaDto.setDoctor(new DoctorDto(entity.getDoctor()));
-        agendaDto.setPatientCare(new PatientCareDto(entity.getPatientCare()));
 
-        // Set the patient history to the patient care
-        agendaDto.getPatientCare()
-                .setPatientHistory(new PatientPersonalHistoryDto(entity
-                        .getPatientCare()
-                        .getPatientHistory()));
-        // Set the patient to the patient history
-        agendaDto.getPatientCare()
-                .getPatientHistory().setPatient(new PatientDto(entity
-                        .getPatientCare()
-                        .getPatientHistory()
-                        .getPatient()));
+        // Set the Slots List
+        for (int i = 0; i < entity.getSlots().size(); i++) {
+            agendaDto.getSlots().add(new SlotsDto(entity.getSlots().get(i)));
+        }
+
+        // Set the Medical Appointment List
+        for (int i = 0; i < entity.getMedicalAppointments().size(); i++) {
+            agendaDto.getMedicalAppointments()
+                    .add(new MedicalAppointmentDto(entity.getMedicalAppointments().get(i)));
+        }
         return agendaDto;
     }
 
@@ -60,7 +57,6 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
     public AgendaDto(Agenda entity) {
         this.id = entity.getId();
         this.doctor = null;
-        this.patientCare = null;
         this.date = entity.getDate().toString();
         this.shiftStartTime = entity.getShiftStartTime();
         this.shiftEndTime = entity.getShiftEndTime();
