@@ -2,7 +2,6 @@ package cr.ac.una.clinicaunaws.entities;
 
 import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
-import java.util.List;
 import cr.ac.una.clinicaunaws.dto.PatientCareDto;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -15,7 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -48,6 +47,11 @@ public class PatientCare implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Long id;
+
+
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID", insertable = false, updatable = false)
+    private MedicalAppointment medicalAppointment;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "PATIENTHISTORY", referencedColumnName = "ID")
@@ -121,9 +125,6 @@ public class PatientCare implements Serializable {
     @Column(name = "TREATMENT")
     private String treatment;
 
-    @OneToMany(mappedBy = "patientCare", fetch = FetchType.LAZY)
-    private List<Agenda> agendas;
-
     @Version
     @Column(name = "VERSION")
     private Long version;
@@ -141,6 +142,7 @@ public class PatientCare implements Serializable {
      */
     public void updatePatientCare(PatientCareDto dto) {
         this.patientHistory = null;
+        this.medicalAppointment = null;
         this.bloodPressure = dto.getBloodPressure();
         this.heartRate = dto.getHeartRate();
         this.weight = dto.getWeight();
@@ -153,7 +155,6 @@ public class PatientCare implements Serializable {
         this.observations = dto.getObservations();
         this.physicalExam = dto.getPhysicalExam();
         this.treatment = dto.getTreatment();
-        this.agendas = null;
         this.version = dto.getVersion();
     }
 
