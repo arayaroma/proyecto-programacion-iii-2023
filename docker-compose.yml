@@ -1,7 +1,7 @@
 version: "3"
 services:
   oracle:
-    container_name: oracle
+    container_name: project
     image: gvenzl/oracle-xe:latest
     ports:
       - 1521:1521
