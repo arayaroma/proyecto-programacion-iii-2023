@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -49,6 +50,10 @@ public class MedicalAppointment implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Long id;
+
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID", insertable = false, updatable = false)
+    private PatientCare patientCare;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "AGENDA", referencedColumnName = "ID")
@@ -118,6 +123,7 @@ public class MedicalAppointment implements Serializable {
     public void updateMedicalAppointment(MedicalAppointmentDto dto) {
         this.agenda = null;
         this.patient = null;
+        this.patientCare = null;
         this.scheduledBy = null;
         this.scheduledDate = LocalDate.parse(dto.getScheduledDate());
         this.scheduledTime = dto.getScheduledTime();
