@@ -1,8 +1,8 @@
 package cr.ac.una.clinicaunaws.controller;
 
-import cr.ac.una.clinicaunaws.dto.PatientDto;
-import cr.ac.una.clinicaunaws.dto.UserDto;
-import cr.ac.una.clinicaunaws.services.PatientService;
+import java.util.logging.Logger;
+import cr.ac.una.clinicaunaws.dto.PatientPersonalHistoryDto;
+import cr.ac.una.clinicaunaws.services.PatientPersonalHistoryService;
 import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,38 +15,36 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.GenericEntity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.util.List;
-import java.util.logging.Logger;
 
 /**
- *
- * @author vargas
+ * 
+ * @author arayaroma
  */
-@Path("/PatientController")
+@Path("/PatientPersonalHistoryController")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Tag(name = "PatientController", description = "Manage endpoints related to the Patient.")
-public class PatientController {
+@Tag(name = "PatientPersonalHistoryController", description = "Manage endpoints related to the PatientPersonalHistory.")
+public class PatientPersonalHistoryController {
 
-    private static final Logger logger = Logger.getLogger(PatientController.class.getName());
+    private static final Logger logger = Logger.getLogger(PatientPersonalHistoryController.class.getName());
 
     @EJB
-    PatientService patientService;
+    PatientPersonalHistoryService patientPersonalHistoryService;
 
     /**
-     * Create a new Patient
-     *
-     * @param patientDto to be created
-     * @return Response with the created Patient
+     * Create a new PatientPersonalHistory
+     * 
+     * @param patientPersonalHistoryDto to be created
+     * @return Response with the created PatientPersonalHistory
      */
     @POST
     @Path("/create")
-    public Response createPatient(PatientDto patientDto) {
+    public Response createPatientPersonalHistory(PatientPersonalHistoryDto patientPersonalHistoryDto) {
         try {
-            ResponseWrapper response = patientService.createPatient(patientDto);
+            ResponseWrapper response = patientPersonalHistoryService
+                    .createPatientPersonalHistory(patientPersonalHistoryDto);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
@@ -58,16 +56,16 @@ public class PatientController {
     }
 
     /**
-     * Get a Patient by id
-     *
-     * @param id to be fetched
-     * @return Response with the Patient
+     * get a PatientPersonalHistory by id
+     * 
+     * @param id of the PatientPersonalHistory to be retrieved
+     * @return Response with the retrieved PatientPersonalHistory
      */
     @GET
-    @Path("/patient/{id}")
-    public Response getPatientById(@PathParam("id") Long id) {
+    @Path("/patientPersonalHistory/{id}")
+    public Response getPatientPersonalHistoryById(@PathParam("id") Long id) {
         try {
-            ResponseWrapper response = patientService.getPatientById(id);
+            ResponseWrapper response = patientPersonalHistoryService.getPatientPersonalHistoryById(id);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
@@ -79,21 +77,19 @@ public class PatientController {
     }
 
     /**
-     * Get all the doctors
-     *
-     * @return Response with the list of Patients
+     * get all PatientPersonalHistory
+     * 
+     * @return Response with the retrieved PatientPersonalHistory
      */
     @GET
-    @Path("/patients")
-    @SuppressWarnings("unchecked")
-    public Response getPatients() {
+    @Path("/patientPersonalHistory")
+    public Response getAllPatientPersonalHistory() {
         try {
-            ResponseWrapper response = patientService.getPatients();
+            ResponseWrapper response = patientPersonalHistoryService.getAllPatientPersonalHistory();
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
-            return Response.ok(new GenericEntity<List<UserDto>>((List<UserDto>) response.getData()) {
-            }).build();
+            return Response.ok(response.getStatus()).entity(response.getData()).build();
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -101,16 +97,17 @@ public class PatientController {
     }
 
     /**
-     * Update a doctor
-     *
-     * @param patientDto to be updated
-     * @return Response with the updated Patient
+     * update a PatientPersonalHistory
+     * 
+     * @param patientPersonalHistoryDto to be updated
+     * @return Response with the updated PatientPersonalHistory
      */
     @PUT
     @Path("/update")
-    public Response updatePatient(PatientDto patientDto) {
+    public Response updatePatientPersonalHistory(PatientPersonalHistoryDto patientPersonalHistoryDto) {
         try {
-            ResponseWrapper response = patientService.updatePatient(patientDto);
+            ResponseWrapper response = patientPersonalHistoryService
+                    .updatePatientPersonalHistory(patientPersonalHistoryDto);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
@@ -122,16 +119,16 @@ public class PatientController {
     }
 
     /**
-     * delete a Patient by id
-     *
+     * delete a PatientPersonalHistory by id
+     * 
      * @param id to be deleted
-     * @return Response with the deleted Patient
+     * @return Response with the deleted PatientPersonalHistory
      */
     @DELETE
     @Path("/delete/{id}")
-    public Response deletePatientById(@PathParam("id") Long id) {
+    public Response deletePatientPersonalHistory(@PathParam("id") Long id) {
         try {
-            ResponseWrapper response = patientService.deletePatientById(id);
+            ResponseWrapper response = patientPersonalHistoryService.deletePatientPersonalHistory(id);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
@@ -141,5 +138,4 @@ public class PatientController {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
-
 }

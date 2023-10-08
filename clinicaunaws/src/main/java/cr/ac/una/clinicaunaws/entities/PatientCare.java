@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -27,6 +29,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedQueries({
+        @NamedQuery(name = "PatientCare.findAll", query = "SELECT p FROM PatientCare p"),
+        @NamedQuery(name = "PatientCare.findById", query = "SELECT p FROM PatientCare p WHERE p.id = :id"),
+})
 public class PatientCare implements Serializable {
     private static final long serialVersionUID = 1L;
 

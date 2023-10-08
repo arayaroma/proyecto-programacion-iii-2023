@@ -1,5 +1,4 @@
 #!/bin/bash
-
 curl -X PUT -H "Content-Type: application/json" -d '{
  "id": 11,
   "username": "user1",

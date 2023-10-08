@@ -1,8 +1,8 @@
 package cr.ac.una.clinicaunaws.controller;
 
-import cr.ac.una.clinicaunaws.dto.PatientDto;
-import cr.ac.una.clinicaunaws.dto.UserDto;
-import cr.ac.una.clinicaunaws.services.PatientService;
+import java.util.logging.Logger;
+import cr.ac.una.clinicaunaws.dto.GeneralInformationDto;
+import cr.ac.una.clinicaunaws.services.GeneralInformationService;
 import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,38 +15,35 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.GenericEntity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.util.List;
-import java.util.logging.Logger;
 
 /**
- *
- * @author vargas
+ * 
+ * @author arayaroma
  */
-@Path("/PatientController")
+@Path("/GeneralInformationController")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Tag(name = "PatientController", description = "Manage endpoints related to the Patient.")
-public class PatientController {
+@Tag(name = "GeneralInformationController", description = "Manage endpoints related to the General Information.")
+public class GeneralInformationController {
 
-    private static final Logger logger = Logger.getLogger(PatientController.class.getName());
+    private static final Logger logger = Logger.getLogger(GeneralInformationController.class.getName());
 
     @EJB
-    PatientService patientService;
+    GeneralInformationService generalInformationService;
 
     /**
-     * Create a new Patient
+     * Create a new General Information
      *
-     * @param patientDto to be created
-     * @return Response with the created Patient
+     * @param generalInformationDto to be created
+     * @return Response with the created General Information
      */
     @POST
     @Path("/create")
-    public Response createPatient(PatientDto patientDto) {
+    public Response createGeneralInformation(GeneralInformationDto generalInformationDto) {
         try {
-            ResponseWrapper response = patientService.createPatient(patientDto);
+            ResponseWrapper response = generalInformationService.createGeneralInformation(generalInformationDto);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
@@ -58,16 +55,16 @@ public class PatientController {
     }
 
     /**
-     * Get a Patient by id
-     *
-     * @param id to be fetched
-     * @return Response with the Patient
+     * Get a General Information by id
+     * 
+     * @param id of the General Information to be retrieved
+     * @return Response with the retrieved General Information
      */
     @GET
-    @Path("/patient/{id}")
-    public Response getPatientById(@PathParam("id") Long id) {
+    @Path("/generalInformation/{id}")
+    public Response getGeneralInformationById(@PathParam("id") Long id) {
         try {
-            ResponseWrapper response = patientService.getPatientById(id);
+            ResponseWrapper response = generalInformationService.getGeneralInformationById(id);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
@@ -79,21 +76,19 @@ public class PatientController {
     }
 
     /**
-     * Get all the doctors
-     *
-     * @return Response with the list of Patients
+     * Get all General Information
+     * 
+     * @return Response with the retrieved General Information
      */
     @GET
-    @Path("/patients")
-    @SuppressWarnings("unchecked")
-    public Response getPatients() {
+    @Path("/generalInformation")
+    public Response getAllGeneralInformation() {
         try {
-            ResponseWrapper response = patientService.getPatients();
+            ResponseWrapper response = generalInformationService.getAllGeneralInformation();
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
-            return Response.ok(new GenericEntity<List<UserDto>>((List<UserDto>) response.getData()) {
-            }).build();
+            return Response.ok(response.getStatus()).entity(response.getData()).build();
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -101,16 +96,16 @@ public class PatientController {
     }
 
     /**
-     * Update a doctor
-     *
-     * @param patientDto to be updated
-     * @return Response with the updated Patient
+     * Update a General Information
+     * 
+     * @param generalInformationDto to be updated
+     * @return Response with the updated General Information
      */
     @PUT
     @Path("/update")
-    public Response updatePatient(PatientDto patientDto) {
+    public Response updateGeneralInformation(GeneralInformationDto generalInformationDto) {
         try {
-            ResponseWrapper response = patientService.updatePatient(patientDto);
+            ResponseWrapper response = generalInformationService.updateGeneralInformation(generalInformationDto);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
@@ -122,16 +117,16 @@ public class PatientController {
     }
 
     /**
-     * delete a Patient by id
-     *
-     * @param id to be deleted
-     * @return Response with the deleted Patient
+     * Delete a General Information
+     * 
+     * @param id of the General Information to be deleted
+     * @return Response with the deleted General Information
      */
     @DELETE
     @Path("/delete/{id}")
-    public Response deletePatientById(@PathParam("id") Long id) {
+    public Response deleteGeneralInformation(@PathParam("id") Long id) {
         try {
-            ResponseWrapper response = patientService.deletePatientById(id);
+            ResponseWrapper response = generalInformationService.deleteGeneralInformation(id);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }

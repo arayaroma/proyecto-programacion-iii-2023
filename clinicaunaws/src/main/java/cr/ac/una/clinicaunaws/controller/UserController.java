@@ -102,7 +102,7 @@ public class UserController {
     /**
      * Change the password of a user
      *
-     * @param id of the user
+     * @param id          of the user
      * @param oldPassword to be changed
      * @param newPassword to be set
      * @return Response with the updated user
@@ -177,6 +177,7 @@ public class UserController {
      */
     @GET
     @Path("/users")
+    @SuppressWarnings("unchecked")
     public Response getUsers() {
         try {
             ResponseWrapper response = userService.getUsers();
@@ -185,7 +186,6 @@ public class UserController {
             }
             return Response.ok(new GenericEntity<List<UserDto>>((List<UserDto>) response.getData()) {
             }).build();
-
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();

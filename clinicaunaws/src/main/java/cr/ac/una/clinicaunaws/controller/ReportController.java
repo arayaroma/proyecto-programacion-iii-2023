@@ -1,19 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.clinicaunaws.controller;
 
+import java.util.logging.Logger;
 import cr.ac.una.clinicaunaws.services.ReportService;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -24,14 +20,23 @@ import jakarta.ws.rs.core.Response;
 @Path("/ReportController")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Tag(name = "ReportController", description = "Manage endpoints related to the Report.")
 public class ReportController {
-    
+
+    private static final Logger logger = Logger.getLogger(ReportController.class.getName());
+
     @EJB
     ReportService reportService;
 
+    /**
+     * FIXME: Finish implementation
+     * 
+     * @param id
+     * @return
+     */
     @Path("/createReport")
     @POST
-//    @Produces("application/pdf") 
+    @Produces("application/pdf")
     public Response generarInforme(@PathParam("id") Long id) {
         try {
             String contentType;
@@ -48,7 +53,7 @@ public class ReportController {
                     .build();
         } catch (Exception e) {
             // Manejar la excepción (log, enviar alerta, etc.)
-            e.printStackTrace();
+            logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("Error al generar el informe").type(MediaType.TEXT_PLAIN).build();
         }
