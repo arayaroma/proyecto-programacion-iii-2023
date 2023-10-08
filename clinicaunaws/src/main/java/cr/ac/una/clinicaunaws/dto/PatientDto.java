@@ -33,7 +33,31 @@ public class PatientDto implements DtoMapper<Patient, PatientDto> {
 
     @Override
     public PatientDto convertFromEntityToDTO(Patient entity, PatientDto dto) {
-        return new PatientDto(entity);
+        PatientDto patientDto = new PatientDto(entity);
+
+        // Set the Patient Family History List
+        for (int i = 0; i < entity.getPatientFamilyHistories().size(); i++) {
+            patientDto.getPatientFamilyHistories()
+                    .add(new PatientFamilyHistoryDto(entity.getPatientFamilyHistories().get(i)));
+        }
+
+        // Set the Patient Personal History List
+        for (int i = 0; i < entity.getPatientPersonalHistories().size(); i++) {
+            patientDto.getPatientPersonalHistories()
+                    .add(new PatientPersonalHistoryDto(entity.getPatientPersonalHistories().get(i)));
+            for (int j = 0; j < entity.getPatientPersonalHistories().get(i).getMedicalExams().size(); j++) {
+                patientDto.getPatientPersonalHistories()
+                        .get(i).getMedicalExams().add(new MedicalExamDto(entity.getPatientPersonalHistories()
+                                .get(i).getMedicalExams().get(j)));
+            }
+
+            for (int j = 0; j < entity.getPatientPersonalHistories().get(i).getPatientCares().size(); j++) {
+                patientDto.getPatientPersonalHistories()
+                        .get(i).getPatientCares().add(new PatientCareDto(entity.getPatientPersonalHistories()
+                                .get(i).getPatientCares().get(j)));
+            }
+        }
+        return patientDto;
     }
 
     @Override
