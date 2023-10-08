@@ -18,9 +18,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
+import java.util.List;
+
 import cr.ac.una.clinicaunaws.dto.DoctorDto;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.QueryHint;
 
@@ -79,6 +82,9 @@ public class Doctor implements Serializable {
     @Column(name = "HOURLYSLOTS")
     private Long hourlySlots;
 
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
+    private List<Agenda> agendas;
+
     @Version
     @Column(name = "VERSION")
     private Long version;
@@ -101,6 +107,7 @@ public class Doctor implements Serializable {
         this.shiftStartTime = dto.getShiftStartTime();
         this.shiftEndTime = dto.getShiftEndTime();
         this.hourlySlots = dto.getHourlySlots();
+        this.agendas = null;
         this.version = dto.getVersion();
     }
 
