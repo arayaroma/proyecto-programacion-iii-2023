@@ -2,8 +2,8 @@ package cr.ac.una.clinicaunaws.controller;
 
 import java.util.List;
 import java.util.logging.Logger;
-import cr.ac.una.clinicaunaws.dto.ReportValuesDto;
-import cr.ac.una.clinicaunaws.services.ReportValuesService;
+import cr.ac.una.clinicaunaws.dto.ReportParametersDto;
+import cr.ac.una.clinicaunaws.services.ReportParametersService;
 import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,28 +24,28 @@ import jakarta.ws.rs.core.Response;
  * 
  * @author arayaroma
  */
-@Path("/ReportValuesController")
+@Path("/ReportParametersController")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Tag(name = "ReportValuesController", description = "Manage endpoints related to the ReportValues.")
-public class ReportValuesController {
+@Tag(name = "ReportParametersController", description = "Manage endpoints related to the ReportParameters.")
+public class ReportParametersController {
 
-    private static final Logger logger = Logger.getLogger(ReportValuesController.class.getName());
+    private static final Logger logger = Logger.getLogger(ReportParametersController.class.getName());
 
     @EJB
-    ReportValuesService reportValuesService;
+    ReportParametersService reportParametersService;
 
     /**
-     * Create a new ReportValues
+     * Create a new ReportParameters
      * 
-     * @param reportValuesDto to be created
-     * @return Response with the created ReportValues
+     * @param reportParametersDto to be created
+     * @return Response with the created ReportParameters
      */
     @POST
     @Path("/create")
-    public Response createReportValues(ReportValuesDto reportValuesDto) {
+    public Response createReportParameters(ReportParametersDto reportParametersDto) {
         try {
-            ResponseWrapper response = reportValuesService.createReportValues(reportValuesDto);
+            ResponseWrapper response = reportParametersService.createReportParameters(reportParametersDto);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
@@ -57,16 +57,16 @@ public class ReportValuesController {
     }
 
     /**
-     * get a ReportValues by id
+     * get a ReportParameters by id
      * 
-     * @param id of the ReportValues to be fetched
-     * @return Response with the fetched ReportValues
+     * @param id of the ReportParameters to be fetched
+     * @return Response with the fetched ReportParameters
      */
     @GET
-    @Path("/reportValues/{id}")
-    public Response getReportValuesById(@PathParam("id") Long id) {
+    @Path("/reportParameters/{id}")
+    public Response getReportParametersById(@PathParam("id") Long id) {
         try {
-            ResponseWrapper response = reportValuesService.getReportValuesById(id);
+            ResponseWrapper response = reportParametersService.getReportParametersById(id);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
@@ -78,21 +78,21 @@ public class ReportValuesController {
     }
 
     /**
-     * get all ReportValues
+     * get all ReportParameters
      * 
-     * @return Response with all the ReportValues
+     * @return Response with all the ReportParameters
      */
     @GET
-    @Path("/reportValues")
+    @Path("/reportParameters")
     @SuppressWarnings("unchecked")
     public Response getAllReportValues() {
         try {
-            ResponseWrapper response = reportValuesService.getAllReportValues();
+            ResponseWrapper response = reportParametersService.getAllReportParameters();
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
             return Response.ok(
-                    new GenericEntity<List<ReportValuesDto>>((List<ReportValuesDto>) response.getData()) {
+                    new GenericEntity<List<ReportParametersDto>>((List<ReportParametersDto>) response.getData()) {
                     }).build();
         } catch (Exception e) {
             logger.severe(e.getMessage());
@@ -101,16 +101,16 @@ public class ReportValuesController {
     }
 
     /**
-     * Update a ReportValues
+     * Update a ReportParameters
      * 
-     * @param reportValuesDto to be updated
-     * @return Response with the updated ReportValues
+     * @param reportParametersDto to be updated
+     * @return Response with the updated ReportParameters
      */
     @PUT
     @Path("/update")
-    public Response updateReportValues(ReportValuesDto reportValuesDto) {
+    public Response updateReportParameters(ReportParametersDto reportParametersDto) {
         try {
-            ResponseWrapper response = reportValuesService.updateReportValues(reportValuesDto);
+            ResponseWrapper response = reportParametersService.updateReportParameters(reportParametersDto);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
@@ -122,16 +122,16 @@ public class ReportValuesController {
     }
 
     /**
-     * Delete a ReportValues
+     * Delete a ReportParameters
      * 
-     * @param id of the ReportValues to be deleted
-     * @return Response with the deleted ReportValues
+     * @param id of the ReportParameters to be deleted
+     * @return Response with the deleted ReportParameters
      */
     @DELETE
     @Path("/delete/{id}")
-    public Response deleteReportValues(@PathParam("id") Long id) {
+    public Response deleteReportParameters(@PathParam("id") Long id) {
         try {
-            ResponseWrapper response = reportValuesService.deleteReportValues(id);
+            ResponseWrapper response = reportParametersService.deleteReportParameters(id);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
