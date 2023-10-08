@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.clinicaunaws.services;
 
 import cr.ac.una.clinicaunaws.dto.PatientDto;
@@ -32,18 +28,11 @@ public class PatientService {
      *
      * @param patientDto to be created
      * @return ResponseWrapper with the response from database, or null if an
-     * exception occurred
+     *         exception occurred
      */
     public ResponseWrapper createPatient(PatientDto patientDto) {
         try {
             Patient patient = new Patient(patientDto);
-            if (patient == null) {
-                return new ResponseWrapper(
-                        ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
-                        ResponseCode.INTERNAL_SERVER_ERROR,
-                        "Error ocurred while creating patient.",
-                        new PatientDto(patient));
-            }
             em.persist(patient);
             em.flush();
             return new ResponseWrapper(
@@ -63,7 +52,7 @@ public class PatientService {
     /**
      * @param id user id to be retrieved
      * @return ResponseWrapper with the response from database, or null if an
-     * exception occurred
+     *         exception occurred
      */
     public ResponseWrapper getPatientById(Long id) {
         try {
@@ -93,7 +82,7 @@ public class PatientService {
 
     /**
      * @return ResponseWrapper with the response from database, or null if an
-     * exception occurred
+     *         exception occurred
      */
     @SuppressWarnings("unchecked")
     public ResponseWrapper getPatients() {
@@ -124,7 +113,7 @@ public class PatientService {
     /**
      * @param patientDto User to be updated
      * @return ResponseWrapper with the response from database, or null if an
-     * exception occurred
+     *         exception occurred
      */
     public ResponseWrapper updatePatient(PatientDto patientDto) {
         try {
@@ -139,15 +128,6 @@ public class PatientService {
                         "Doctor not found, id: " + patientDto.getId() + ")",
                         null);
             }
-//            if (!Objects.equals(doctorDto.getUsername, doctor.getUsername())) {
-//                if (!verifyUniqueUsername(doctorDto.getUsername())) {
-//                    return new ResponseWrapper(
-//                            ResponseCode.CONFLICT.getCode(),  
-//                            ResponseCode.CONFLICT,            
-//                            "Username already exists.",       
-//                            null);
-//                }
-//            }
             patient.updatePatient(patientDto);
             em.merge(patient);
             em.flush();
@@ -168,7 +148,7 @@ public class PatientService {
     /**
      * @param id id from user to be deleted
      * @return ResponseWrapper with the response from database, or null if an
-     * exception occurred
+     *         exception occurred
      */
     public ResponseWrapper deletePatientById(Long id) {
         try {

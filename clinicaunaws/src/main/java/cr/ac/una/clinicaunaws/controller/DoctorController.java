@@ -46,17 +46,16 @@ public class DoctorController {
     public Response createDoctor(DoctorDto doctorDto) {
         try {
             ResponseWrapper response = doctorService.createDoctor(doctorDto);
-               if (response.getCode() != ResponseCode.OK) {
+            if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
             return Response.ok(response.getStatus()).entity(response.getData()).build();
-
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
-    
+
     /**
      * Get a Doctor by id
      * 
@@ -68,28 +67,28 @@ public class DoctorController {
     public Response getDoctorById(@PathParam("id") Long id) {
         try {
             ResponseWrapper response = doctorService.getDoctorById(id);
-               if (response.getCode() != ResponseCode.OK) {
+            if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
             return Response.ok(response.getStatus()).entity(response.getData()).build();
-
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
-    
-        /**
+
+    /**
      * Get all the doctors
      * 
      * @return Response with the list of Doctors
      */
     @GET
     @Path("/doctors")
+    @SuppressWarnings("unchecked")
     public Response getDoctors() {
         try {
             ResponseWrapper response = doctorService.getDoctors();
-          if (response.getCode() != ResponseCode.OK) {
+            if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
             return Response.ok(new GenericEntity<List<DoctorDto>>((List<DoctorDto>) response.getData()) {
@@ -99,7 +98,7 @@ public class DoctorController {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
-    
+
     /**
      * Update a doctor
      * 
@@ -111,18 +110,17 @@ public class DoctorController {
     public Response updateDoctor(DoctorDto doctorDto) {
         try {
             ResponseWrapper response = doctorService.updateDoctor(doctorDto);
-               if (response.getCode() != ResponseCode.OK) {
+            if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
             return Response.ok(response.getStatus()).entity(response.getData()).build();
-
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
-    
-        /**
+
+    /**
      * delete a Doctor by id
      * 
      * @param id to be deleted
@@ -133,11 +131,10 @@ public class DoctorController {
     public Response deleteDoctorById(@PathParam("id") Long id) {
         try {
             ResponseWrapper response = doctorService.deleteDoctorById(id);
-               if (response.getCode() != ResponseCode.OK) {
+            if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
             return Response.ok(response.getStatus()).entity(response.getData()).build();
-
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();

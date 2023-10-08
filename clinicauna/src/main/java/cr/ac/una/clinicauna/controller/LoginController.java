@@ -54,6 +54,7 @@ public class LoginController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         try {
             if (Data.getLanguageOption().equals("en")) {
                 lblLanguage.setText("EN/ES");

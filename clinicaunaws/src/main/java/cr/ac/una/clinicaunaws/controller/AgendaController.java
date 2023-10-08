@@ -1,8 +1,8 @@
 package cr.ac.una.clinicaunaws.controller;
 
-import cr.ac.una.clinicaunaws.dto.PatientDto;
-import cr.ac.una.clinicaunaws.dto.UserDto;
-import cr.ac.una.clinicaunaws.services.PatientService;
+import java.util.logging.Logger;
+import cr.ac.una.clinicaunaws.dto.AgendaDto;
+import cr.ac.una.clinicaunaws.services.AgendaService;
 import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,42 +15,40 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.GenericEntity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.util.List;
-import java.util.logging.Logger;
 
 /**
- *
- * @author vargas
+ * 
+ * @author arayaroma
  */
-@Path("/PatientController")
+@Path("/AgendaController")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Tag(name = "PatientController", description = "Manage endpoints related to the Patient.")
-public class PatientController {
+@Tag(name = "AgendaController", description = "Manage endpoints related to the Agenda.")
+public class AgendaController {
 
-    private static final Logger logger = Logger.getLogger(PatientController.class.getName());
+    private static final Logger logger = Logger.getLogger(AgendaController.class.getName());
 
     @EJB
-    PatientService patientService;
+    AgendaService agendaService;
 
     /**
-     * Create a new Patient
-     *
-     * @param patientDto to be created
-     * @return Response with the created Patient
+     * Create a new Agenda
+     * 
+     * @param agendaDto to be created
+     * @return Response with the created Agenda
      */
     @POST
     @Path("/create")
-    public Response createPatient(PatientDto patientDto) {
+    public Response createAgenda(AgendaDto agendaDto) {
         try {
-            ResponseWrapper response = patientService.createPatient(patientDto);
+            ResponseWrapper response = agendaService.createAgenda(agendaDto);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
             return Response.ok(response.getStatus()).entity(response.getData()).build();
+
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -58,20 +56,21 @@ public class PatientController {
     }
 
     /**
-     * Get a Patient by id
-     *
-     * @param id to be fetched
-     * @return Response with the Patient
+     * get a Agenda by id
+     * 
+     * @param id of the Agenda to be retrieved
+     * @return Response with the retrieved Agenda
      */
     @GET
-    @Path("/patient/{id}")
-    public Response getPatientById(@PathParam("id") Long id) {
+    @Path("/agenda/{id}")
+    public Response getAgendaById(@PathParam("id") Long id) {
         try {
-            ResponseWrapper response = patientService.getPatientById(id);
+            ResponseWrapper response = agendaService.getAgendaById(id);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
             return Response.ok(response.getStatus()).entity(response.getData()).build();
+
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -79,21 +78,20 @@ public class PatientController {
     }
 
     /**
-     * Get all the doctors
-     *
-     * @return Response with the list of Patients
+     * get all Agenda
+     * 
+     * @return Response with the retrieved Agenda
      */
     @GET
-    @Path("/patients")
-    @SuppressWarnings("unchecked")
-    public Response getPatients() {
+    @Path("/agendas")
+    public Response getAllAgenda() {
         try {
-            ResponseWrapper response = patientService.getPatients();
+            ResponseWrapper response = agendaService.getAllAgenda();
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
-            return Response.ok(new GenericEntity<List<UserDto>>((List<UserDto>) response.getData()) {
-            }).build();
+            return Response.ok(response.getStatus()).entity(response.getData()).build();
+
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -101,20 +99,21 @@ public class PatientController {
     }
 
     /**
-     * Update a doctor
-     *
-     * @param patientDto to be updated
-     * @return Response with the updated Patient
+     * update an Agenda
+     * 
+     * @param agendaDto to be updated
+     * @return Response with the updated Agenda
      */
     @PUT
     @Path("/update")
-    public Response updatePatient(PatientDto patientDto) {
+    public Response updateAgenda(AgendaDto agendaDto) {
         try {
-            ResponseWrapper response = patientService.updatePatient(patientDto);
+            ResponseWrapper response = agendaService.updateAgenda(agendaDto);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
             return Response.ok(response.getStatus()).entity(response.getData()).build();
+
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -122,20 +121,21 @@ public class PatientController {
     }
 
     /**
-     * delete a Patient by id
-     *
+     * delete an Agenda
+     * 
      * @param id to be deleted
-     * @return Response with the deleted Patient
+     * @return Response with the deleted Agenda
      */
     @DELETE
     @Path("/delete/{id}")
-    public Response deletePatientById(@PathParam("id") Long id) {
+    public Response deleteAgenda(@PathParam("id") Long id) {
         try {
-            ResponseWrapper response = patientService.deletePatientById(id);
+            ResponseWrapper response = agendaService.deleteAgenda(id);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
-            return Response.ok(response.getStatus()).entity(response.getData()).build();
+            return Response.ok(response.getStatus()).entity(response.getMessage()).build();
+
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();

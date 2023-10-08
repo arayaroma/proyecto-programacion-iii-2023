@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -24,6 +26,10 @@ import static cr.ac.una.clinicaunaws.util.Database.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedQueries({
+        @NamedQuery(name = "Slots.findAll", query = "SELECT s FROM Slots s"),
+        @NamedQuery(name = "Slots.findById", query = "SELECT s FROM Slots s WHERE s.id = :id"),
+})
 public class Slots implements Serializable {
     private static final long serialVersionUID = 1L;
 
