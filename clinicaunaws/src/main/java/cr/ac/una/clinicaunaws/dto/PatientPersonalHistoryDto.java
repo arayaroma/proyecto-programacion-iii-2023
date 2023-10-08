@@ -1,5 +1,7 @@
 package cr.ac.una.clinicaunaws.dto;
 
+import java.util.List;
+
 import cr.ac.una.clinicaunaws.entities.PatientPersonalHistory;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
 import lombok.AllArgsConstructor;
@@ -22,6 +24,8 @@ public class PatientPersonalHistoryDto implements DtoMapper<PatientPersonalHisto
     private String surgical;
     private String allergies;
     private String treatments;
+    private List<MedicalExamDto> medicalExams;
+    private List<PatientCareDto> patientCares;
     private Long version;
 
     @Override
@@ -46,6 +50,8 @@ public class PatientPersonalHistoryDto implements DtoMapper<PatientPersonalHisto
         this.surgical = entity.getSurgical();
         this.allergies = entity.getAllergies();
         this.treatments = entity.getTreatments();
+        this.medicalExams = null;
+        this.patientCares = null;
         this.version = entity.getVersion();
     }
 
