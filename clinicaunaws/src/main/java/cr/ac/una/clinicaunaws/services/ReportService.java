@@ -24,13 +24,13 @@ public class ReportService {
     public ResponseWrapper createReport(Long id) throws IOException, JRException {
 
         try {
-<<<<<<< HEAD
+
             // Ruta al archivo JRXML
-            String jrxmlPath = "C:\\Users\\varga\\Desktop\\ClinicaUna\\proyecto-programacion-iii-2023\\clinicaunaws\\src\\main\\resources\\cr\\ac\\una\\clinicaunaws\\reports\\medicalRecord.jrxml";
+//            String jrxmlPath = "C:\\Users\\varga\\Desktop\\ClinicaUna\\proyecto-programacion-iii-2023\\clinicaunaws\\src\\main\\resources\\cr\\ac\\una\\clinicaunaws\\reports\\medicalRecord.jrxml";
 
             // Compilar el informe JRXML a un objeto JasperReport
-            JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlPath);
-=======
+//            JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlPath);
+
             // Cargar el diseño del informe desde un archivo Jasper en el directorio
             // resources
             /* "/cr/ac/una/clinicaunaws/reports/medicalRecord.jrxml" */
@@ -40,7 +40,6 @@ public class ReportService {
             if (jasperReport == null) {
                 System.out.println("ERROR NO EXISTE EL JASPER");
             }
->>>>>>> backend
 
             // Crear un HashMap para el parámetro
             Map<String, Object> parametros = new HashMap<>();
@@ -67,7 +66,6 @@ public class ReportService {
             e.printStackTrace();
             throw new RuntimeException("Error al generar el informe", e);
         }
-<<<<<<< HEAD
 
 //        try {
 //            // Cargar el diseño del informe desde un archivo Jasper en el directorio resources
@@ -102,8 +100,6 @@ public class ReportService {
 //            e.printStackTrace();
 //            throw new RuntimeException("Error al generar el informe", e);
 //        }
-=======
->>>>>>> backend
     }
 
 }
