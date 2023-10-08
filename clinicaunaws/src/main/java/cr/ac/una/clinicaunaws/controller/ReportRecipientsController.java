@@ -2,6 +2,8 @@ package cr.ac.una.clinicaunaws.controller;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Path;
+
+import java.util.List;
 import java.util.logging.Logger;
 import cr.ac.una.clinicaunaws.dto.ReportRecipientsDto;
 import cr.ac.una.clinicaunaws.services.ReportRecipientsService;
@@ -15,6 +17,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.GenericEntity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -82,13 +85,16 @@ public class ReportRecipientsController {
      */
     @GET
     @Path("/reportRecipients")
+    @SuppressWarnings("unchecked")
     public Response getAllReportRecipients() {
         try {
             ResponseWrapper response = reportRecipientsService.getAllReportRecipients();
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
-            return Response.ok(response.getStatus()).entity(response.getData()).build();
+            return Response.ok(
+                    new GenericEntity<List<ReportRecipientsDto>>((List<ReportRecipientsDto>) response.getData()) {
+                    }).build();
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();

@@ -1,5 +1,6 @@
 package cr.ac.una.clinicaunaws.controller;
 
+import java.util.List;
 import java.util.logging.Logger;
 import cr.ac.una.clinicaunaws.dto.AgendaDto;
 import cr.ac.una.clinicaunaws.services.AgendaService;
@@ -15,6 +16,7 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.GenericEntity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -84,13 +86,15 @@ public class AgendaController {
      */
     @GET
     @Path("/agendas")
+    @SuppressWarnings("unchecked")
     public Response getAllAgenda() {
         try {
             ResponseWrapper response = agendaService.getAllAgenda();
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
-            return Response.ok(response.getStatus()).entity(response.getData()).build();
+            return Response.ok(new GenericEntity<List<AgendaDto>>((List<AgendaDto>) response.getData()) {
+            }).build();
 
         } catch (Exception e) {
             logger.severe(e.getMessage());
