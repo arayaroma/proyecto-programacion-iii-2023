@@ -53,10 +53,6 @@ public class Agenda implements Serializable {
     @JoinColumn(name = "DOCTOR", referencedColumnName = "ID")
     private Doctor doctor;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "PATIENTCARE", referencedColumnName = "ID")
-    private PatientCare patientCare;
-
     @NotNull
     @Basic(optional = false)
     @Column(name = "DATE")
@@ -102,7 +98,6 @@ public class Agenda implements Serializable {
      */
     public void updateAgenda(AgendaDto dto) {
         this.doctor = null;
-        this.patientCare = null;
         this.date = LocalDate.parse(dto.getDate());
         this.shiftStartTime = dto.getShiftStartTime();
         this.shiftEndTime = dto.getShiftEndTime();
