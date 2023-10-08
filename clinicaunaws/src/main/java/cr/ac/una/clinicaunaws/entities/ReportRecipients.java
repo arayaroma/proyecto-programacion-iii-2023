@@ -3,9 +3,12 @@ package cr.ac.una.clinicaunaws.entities;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.SequenceGenerator;
@@ -46,7 +49,8 @@ public class ReportRecipients implements Serializable {
 
     @NotNull
     @Basic(optional = false)
-    @Column(name = "REPORT")
+    @JoinColumn(name = "REPORT")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Report report;
 
     @NotNull
