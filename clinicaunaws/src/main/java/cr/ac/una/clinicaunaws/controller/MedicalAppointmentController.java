@@ -1,5 +1,6 @@
 package cr.ac.una.clinicaunaws.controller;
 
+import java.util.List;
 import java.util.logging.Logger;
 import cr.ac.una.clinicaunaws.dto.MedicalAppointmentDto;
 import cr.ac.una.clinicaunaws.services.MedicalAppointmentService;
@@ -15,6 +16,7 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.GenericEntity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -82,13 +84,16 @@ public class MedicalAppointmentController {
      */
     @GET
     @Path("/medicalAppointments")
+    @SuppressWarnings("unchecked")
     public Response getAllMedicalAppointments() {
         try {
             ResponseWrapper response = medicalAppointmentService.getAllMedicalAppointments();
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
-            return Response.ok(response.getStatus()).entity(response.getData()).build();
+            return Response.ok(
+                    new GenericEntity<List<MedicalAppointmentDto>>((List<MedicalAppointmentDto>) response.getData()) {
+                    }).entity(response.getData()).build();
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
