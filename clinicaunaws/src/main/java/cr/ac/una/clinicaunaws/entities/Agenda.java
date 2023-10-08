@@ -23,7 +23,6 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
-
 import cr.ac.una.clinicaunaws.dto.AgendaDto;
 import static cr.ac.una.clinicaunaws.util.Database.*;
 
@@ -50,16 +49,12 @@ public class Agenda implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @NotNull
-    @Basic(optional = false)
-    @JoinColumn(name = "DOCTOR")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "DOCTOR", referencedColumnName = "ID")
     private Doctor doctor;
 
-    @NotNull
-    @Basic(optional = false)
-    @JoinColumn(name = "PATIENTCARE")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "PATIENTCARE", referencedColumnName = "ID")
     private PatientCare patientCare;
 
     @NotNull

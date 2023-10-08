@@ -43,16 +43,12 @@ public class Slots implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @NotNull
-    @Basic(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "AGENDA")
-    @ManyToOne(fetch = FetchType.LAZY)
     private Agenda agenda;
 
-    @NotNull
-    @Basic(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "MEDICALAPPOINTMENT")
-    @ManyToOne(fetch = FetchType.LAZY)
     private MedicalAppointment medicalAppointment;
 
     @NotNull

@@ -47,10 +47,8 @@ public class ReportRecipients implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @NotNull
-    @Basic(optional = false)
-    @JoinColumn(name = "REPORT")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "REPORT", referencedColumnName = "ID")
     private Report report;
 
     @NotNull

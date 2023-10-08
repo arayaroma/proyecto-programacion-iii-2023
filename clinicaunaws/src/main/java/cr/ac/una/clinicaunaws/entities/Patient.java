@@ -3,7 +3,6 @@ package cr.ac.una.clinicaunaws.entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
-
 import cr.ac.una.clinicaunaws.dto.PatientDto;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;

@@ -15,7 +15,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +22,6 @@ import lombok.NoArgsConstructor;
 import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
 import java.util.List;
-
 import cr.ac.una.clinicaunaws.dto.PatientPersonalHistoryDto;
 
 /**
@@ -50,10 +48,8 @@ public class PatientPersonalHistory implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @NotNull
-    @Basic(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "PATIENT")
-    @ManyToOne(fetch = FetchType.LAZY)
     private Patient patient;
 
     @Basic(optional = false)

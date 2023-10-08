@@ -3,7 +3,6 @@ package cr.ac.una.clinicaunaws.entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
-
 import cr.ac.una.clinicaunaws.dto.MedicalAppointmentDto;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -51,34 +50,28 @@ public class MedicalAppointment implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @NotNull
-    @Basic(optional = false)
-    @JoinColumn(name = "AGENDA")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "AGENDA", referencedColumnName = "ID")
     private Agenda agenda;
 
-    @NotNull
-    @Basic(optional = false)
-    @JoinColumn(name = "PATIENT")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "PATIENT", referencedColumnName = "ID")
     private Patient patient;
 
-    @NotNull
-    @Basic(optional = false)
-    @JoinColumn(name = "SCHEDULEBY")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "SCHEDULEDBY", referencedColumnName = "ID")
     private User scheduledBy;
 
     @NotNull
     @Basic(optional = false)
-    @Column(name = "SCHEDULEDATE")
-    private LocalDate scheduleDate;
+    @Column(name = "SCHEDULEDDATE")
+    private LocalDate scheduledDate;
 
     @NotNull
     @Basic(optional = false)
     @Size(min = 1, max = 5)
-    @Column(name = "SCHEDULETIME")
-    private String scheduleTime;
+    @Column(name = "SCHEDULEDTIME")
+    private String scheduledTime;
 
     @NotNull
     @Basic(optional = false)
@@ -104,7 +97,7 @@ public class MedicalAppointment implements Serializable {
     @Column(name = "PATIENTEMAIL")
     private String patientEmail;
 
-    @OneToMany(mappedBy = "agenda", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "medicalAppointment", fetch = FetchType.LAZY)
     private List<Slots> slots;
 
     @Version
@@ -126,8 +119,8 @@ public class MedicalAppointment implements Serializable {
         this.agenda = null;
         this.patient = null;
         this.scheduledBy = null;
-        this.scheduleDate = LocalDate.parse(dto.getScheduleDate());
-        this.scheduleTime = dto.getScheduleTime();
+        this.scheduledDate = LocalDate.parse(dto.getScheduledDate());
+        this.scheduledTime = dto.getScheduledTime();
         this.state = dto.getState();
         this.reason = dto.getReason();
         this.patientPhoneNumber = dto.getPatientPhoneNumber();

@@ -21,8 +21,8 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
     private AgendaDto agenda;
     private PatientDto patient;
     private UserDto scheduledBy;
-    private String scheduleDate;
-    private String scheduleTime;
+    private String scheduledDate;
+    private String scheduledTime;
     private String state;
     private String reason;
     private String patientPhoneNumber;
@@ -65,8 +65,8 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
         this.agenda = null;
         this.patient = null;
         this.scheduledBy = null;
-        this.scheduleDate = entity.getScheduleDate().toString();
-        this.scheduleTime = entity.getScheduleTime();
+        this.scheduledDate = entity.getScheduledDate().toString();
+        this.scheduledTime = entity.getScheduledTime();
         this.state = entity.getState();
         this.reason = entity.getReason();
         this.patientPhoneNumber = entity.getPatientPhoneNumber();
