@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 public class PatientCareDto implements DtoMapper<PatientCare, PatientCareDto> {
 
     private Long id;
-    private MedicalAppointmentDto medicalAppointment;
     private PatientPersonalHistoryDto patientHistory;
     private String bloodPressure;
     private String heartRate;
@@ -34,7 +33,10 @@ public class PatientCareDto implements DtoMapper<PatientCare, PatientCareDto> {
 
     @Override
     public PatientCareDto convertFromEntityToDTO(PatientCare entity, PatientCareDto dto) {
-        return new PatientCareDto(entity);
+        PatientCareDto patientCareDto = new PatientCareDto(entity);
+
+        patientCareDto.setPatientHistory(new PatientPersonalHistoryDto(entity.getPatientHistory()));
+        return patientCareDto;
     }
 
     @Override
@@ -47,7 +49,6 @@ public class PatientCareDto implements DtoMapper<PatientCare, PatientCareDto> {
      */
     public PatientCareDto(PatientCare entity) {
         this.id = entity.getId();
-        this.medicalAppointment = null;
         this.patientHistory = null;
         this.bloodPressure = entity.getBloodPressure();
         this.heartRate = entity.getHeartRate();
