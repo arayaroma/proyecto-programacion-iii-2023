@@ -2,15 +2,21 @@ package cr.ac.una.clinicaunaws.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
+
 import cr.ac.una.clinicaunaws.dto.MedicalAppointmentDto;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -47,17 +53,20 @@ public class MedicalAppointment implements Serializable {
 
     @NotNull
     @Basic(optional = false)
-    @Column(name = "AGENDA")
+    @JoinColumn(name = "AGENDA")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Agenda agenda;
 
     @NotNull
     @Basic(optional = false)
-    @Column(name = "PATIENT")
+    @JoinColumn(name = "PATIENT")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Patient patient;
 
     @NotNull
     @Basic(optional = false)
-    @Column(name = "SCHEDULEDBY")
+    @JoinColumn(name = "SCHEDULEBY")
+    @ManyToOne(fetch = FetchType.LAZY)
     private User scheduledBy;
 
     @NotNull
@@ -94,6 +103,9 @@ public class MedicalAppointment implements Serializable {
     @Size(min = 1, max = 64)
     @Column(name = "PATIENTEMAIL")
     private String patientEmail;
+
+    @OneToMany(mappedBy = "agenda", fetch = FetchType.LAZY)
+    private List<Slots> slots;
 
     @Version
     @Column(name = "VERSION")
