@@ -74,7 +74,7 @@ public class Report implements Serializable {
     private Long frequency;
 
     @OneToMany(mappedBy = "report", fetch = FetchType.LAZY)
-    private List<ReportValues> reportValues;
+    private List<ReportParameters> reportParameters;
 
     @OneToMany(mappedBy = "report", fetch = FetchType.LAZY)
     private List<ReportRecipients> reportRecipients;
@@ -100,7 +100,7 @@ public class Report implements Serializable {
         this.query = dto.getQuery();
         this.date = LocalDate.parse(dto.getDate());
         this.frequency = dto.getFrequency();
-        this.reportValues = null;
+        this.reportParameters = null;
         this.reportRecipients = null;
         this.version = dto.getVersion();
     }
