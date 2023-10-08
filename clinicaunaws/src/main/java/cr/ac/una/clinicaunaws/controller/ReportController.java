@@ -39,10 +39,18 @@ public class ReportController {
     @Produces("application/pdf")
     public Response generarInforme(@PathParam("id") Long id) {
         try {
+            String contentType;
             ResponseWrapper response = reportService.createReport(id);
-
+            if(response.getData() instanceof byte[]){
+                contentType = "application/pdf";
+            }else{
+                contentType = "application/json";
+            }
             // Devolver el informe en la respuesta
-            return Response.status(response.getStatus()).entity(response).build();
+            return Response.status(response.getStatus())
+                    .entity(response.getData()) //cambio
+                    .type(contentType) //cambio
+                    .build();
         } catch (Exception e) {
             // Manejar la excepción (log, enviar alerta, etc.)
             logger.severe(e.getMessage());

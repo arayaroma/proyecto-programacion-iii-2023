@@ -81,15 +81,7 @@ public class MainController implements Initializable {
             if (userLoggued.getProfilePhoto() != null) {
                 imgProfilePhoto.setImage(ImageLoader.setImage(userLoggued.getProfilePhoto()));
             }
-            if (userLoggued.getPasswordChanged().equals("Y")) {
-                changePasswordView.setVisible(true);
-                menuLateral.setDisable(true);
-                hamburguerMenu.setDisable(true);
-            } else {
-                changePasswordView.setVisible(false);
-                menuLateral.setDisable(false);
-                hamburguerMenu.setDisable(false);
-            }
+            loadPrivileges();
         } catch (Exception e) {
             Animation.MakeDefaultFadeTransition(parent, "Login");
             System.out.println(e.toString());
@@ -173,4 +165,16 @@ public class MainController implements Initializable {
         });
     }
 
+    private void loadPrivileges() {
+        if (userLoggued.getPasswordChanged().equals("Y")) {
+            changePasswordView.setVisible(true);
+            menuLateral.setDisable(true);
+            hamburguerMenu.setDisable(true);
+            profileContainer.setDisable(true);
+        } else {
+            changePasswordView.setVisible(false);
+            menuLateral.setDisable(false);
+            hamburguerMenu.setDisable(false);
+        }
+    }
 }

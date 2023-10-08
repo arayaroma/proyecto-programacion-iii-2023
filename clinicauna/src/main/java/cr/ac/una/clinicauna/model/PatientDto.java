@@ -1,18 +1,22 @@
 package cr.ac.una.clinicauna.model;
 
+import java.time.LocalDate;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class PatientDto {
-    private Long id;
-    private SimpleStringProperty name;
-    private SimpleStringProperty firstLastname;
-    private SimpleStringProperty secondLastname;
-    private SimpleStringProperty identification;
-    private SimpleStringProperty phoneNumber;
-    private SimpleStringProperty email;
-    private SimpleStringProperty gender;
-    private SimpleStringProperty birthDate;
-    private Long version;
+
+    public Long id;
+    public SimpleStringProperty name;
+    public SimpleStringProperty firstLastname;
+    public SimpleStringProperty secondLastname;
+    public SimpleStringProperty identification;
+    public SimpleStringProperty phoneNumber;
+    public SimpleStringProperty email;
+    public SimpleStringProperty gender;
+    public ObjectProperty<LocalDate> birthDate;
+    public Long version;
 
     public PatientDto() {
         name = new SimpleStringProperty();
@@ -22,7 +26,7 @@ public class PatientDto {
         phoneNumber = new SimpleStringProperty();
         email = new SimpleStringProperty();
         gender = new SimpleStringProperty();
-        birthDate = new SimpleStringProperty();
+        birthDate = new SimpleObjectProperty<>();
     }
 
     public Long getId() {
@@ -62,7 +66,7 @@ public class PatientDto {
     }
 
     public String getBirthDate() {
-        return birthDate.get();
+        return birthDate.get().toString();
     }
 
     public void setName(String name) {
@@ -94,7 +98,7 @@ public class PatientDto {
     }
 
     public void setBirthDate(String birthDate) {
-        this.birthDate.set(birthDate);
+        this.birthDate.set(LocalDate.parse(birthDate));
     }
 
     public Long getVersion() {
