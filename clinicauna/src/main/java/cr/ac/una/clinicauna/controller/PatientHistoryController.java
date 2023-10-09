@@ -11,9 +11,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import animatefx.animation.FlipOutY;
+import animatefx.animation.FlipInY;
 
 /**
  * FXML Controller class
@@ -53,6 +57,16 @@ public class PatientHistoryController implements Initializable {
     private Accordion acMedicalAppoimentHistory;
 
     private PatientDto patientBuffer;
+    @FXML
+    private VBox familyHistoryView;
+    @FXML
+    private TableView<?> tblFamilyHistory;
+    @FXML
+    private TableColumn<?, ?> tcDisease;
+    @FXML
+    private TableColumn<?, ?> tcRelationship;
+    @FXML
+    private VBox personalHistoryView;
 
     /**
      * Initializes the controller class.
@@ -89,5 +103,22 @@ public class PatientHistoryController implements Initializable {
 
     @FXML
     private void editPersonalHistoryAction(MouseEvent event) {
+    }
+
+    @FXML
+    private void showPersonalHistoryView(MouseEvent event) {
+        new FlipInY(personalHistoryView).play();
+        personalHistoryView.toFront();
+    }
+
+    @FXML
+    private void editFamilyHistoryAction(MouseEvent event) {
+
+    }
+
+    @FXML
+    private void showFamilyHistory(MouseEvent event) {
+        new FlipInY(familyHistoryView).play();
+        familyHistoryView.toFront();
     }
 }
