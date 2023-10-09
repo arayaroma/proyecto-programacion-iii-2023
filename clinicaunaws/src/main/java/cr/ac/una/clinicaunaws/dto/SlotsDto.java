@@ -25,7 +25,11 @@ public class SlotsDto implements DtoMapper<Slots, SlotsDto> {
 
     @Override
     public SlotsDto convertFromEntityToDTO(Slots entity, SlotsDto dto) {
-        return new SlotsDto(entity);
+        SlotsDto slotsDto = new SlotsDto(entity);
+
+        slotsDto.setAgenda(new AgendaDto(entity.getAgenda()));
+        slotsDto.setMedicalAppointment(new MedicalAppointmentDto(entity.getMedicalAppointment()));
+        return slotsDto;
     }
 
     @Override
