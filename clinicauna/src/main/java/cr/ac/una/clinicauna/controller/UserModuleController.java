@@ -1,7 +1,6 @@
 package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXTextField;
-import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.UserService;
@@ -28,7 +27,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 
 /**
  * FXML Controller class
@@ -116,8 +114,9 @@ public class UserModuleController implements Initializable {
     }
 
     private void loadUsers(List<UserDto> users) {
-
-        tblUsersView.setItems(FXCollections.observableArrayList(users));
+        if (users != null) {
+            tblUsersView.setItems(FXCollections.observableArrayList(users));
+        }
     }
 
     private void initializeList() {

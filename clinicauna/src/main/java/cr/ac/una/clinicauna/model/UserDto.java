@@ -201,23 +201,23 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
 
     public String parseRole(String role) {
         switch (role) {
-            case "Administrador":
+            case "administrador":
                 setIsAdmin("Y");
                 return "ADMINISTRATOR";
-            case "Administrator":
+            case "administrator":
                 setIsAdmin("Y");
                 return "ADMINISTRATOR";
-            case "Doctor":
+            case "doctor":
                 setIsAdmin("N");
                 return "DOCTOR";
-            case "Recepcionista":
+            case "recepcionista":
                 setIsAdmin("N");
                 return "RECEPCIONIST";
-            case "Receptionist":
+            case "recepcionist":
                 setIsAdmin("N");
                 return "RECEPCIONIST";
         }
-        return "RECEPTCIONIST";
+        return "RECEPCIONIST";
     }
 
     @Override
