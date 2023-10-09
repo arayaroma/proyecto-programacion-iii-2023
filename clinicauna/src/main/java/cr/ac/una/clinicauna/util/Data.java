@@ -13,7 +13,7 @@ public class Data {
     public static final ResourceBundle spanishBundle = ResourceBundle.getBundle(App.DOMAIN_PATH + "language/lang_es");
     public static final ResourceBundle englishBundle = ResourceBundle.getBundle(App.DOMAIN_PATH + "language/lang_en");
     public static String languageOption = "es";
-    public static HashMap<String, Object> data = new HashMap<>();
+    private static HashMap<String, Object> data = new HashMap<>();
 
     public static Object getData(String key) {
         return data.get(key);

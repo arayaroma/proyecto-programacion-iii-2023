@@ -93,11 +93,7 @@ public class UserRegisterController implements Initializable {
     @FXML
     private void backFromRegister(MouseEvent event) throws IOException {
         Data.removeData("userBuffer");
-        if (Objects.equals(userModified.getId(), ((UserDto) Data.getData("userLoggued")).getId())) {
-            Data.removeData("userLoggued");
-            userModified = (UserDto) userService.findUserById(userModified.getId()).getData();
-            Data.setData("userLoggued", userModified);
-        }
+        updateUserLoggued();
         loadView("Main");
     }
 
@@ -126,6 +122,14 @@ public class UserRegisterController implements Initializable {
         if (file != null) {
             userModified.setProfilePhoto(ImageLoader.imageToByteArray(file));
             imgPhotoProfile.setImage(ImageLoader.setImage(file));
+        }
+    }
+
+    private void updateUserLoggued() {
+        if (Objects.equals(userModified.getId(), ((UserDto) Data.getData("userLoggued")).getId())) {
+            Data.removeData("userLoggued");
+            userModified = (UserDto) userService.findUserById(userModified.getId()).getData();
+            Data.setData("userLoggued", userModified);
         }
     }
 
