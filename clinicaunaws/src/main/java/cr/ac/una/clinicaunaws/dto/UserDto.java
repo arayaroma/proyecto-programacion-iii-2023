@@ -43,7 +43,14 @@ public class UserDto implements DtoMapper<User, UserDto> {
      */
     @Override
     public UserDto convertFromEntityToDTO(User entity, UserDto dto) {
-        return new UserDto(entity);
+        UserDto userDto = new UserDto(entity);
+
+        // Set the Medical Appointment List
+        for (int i = 0; i < entity.getMedicalAppointments().size(); i++) {
+            userDto.getMedicalAppointments().add(new MedicalAppointmentDto(entity.getMedicalAppointments().get(i)));
+        }
+
+        return userDto;
     }
 
     /**
