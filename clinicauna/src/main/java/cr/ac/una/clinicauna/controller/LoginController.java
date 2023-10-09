@@ -82,7 +82,7 @@ public class LoginController implements Initializable {
                 return;
             }
             Data.setData("userLoggued", userDto);
-
+            loadLanguage(userDto);
             Animation.MakeDefaultFadeTransition(parent, "Main");
             return;
         }
@@ -139,5 +139,12 @@ public class LoginController implements Initializable {
         } catch (Exception e) {
             System.out.println(e.toString());
         }
+    }
+    private void loadLanguage(UserDto userDto){
+        if(userDto.getLanguage().toLowerCase().equals("english")){
+            Data.setLanguageOption("en");
+            return;
+        }
+        Data.setLanguageOption("es");
     }
 }

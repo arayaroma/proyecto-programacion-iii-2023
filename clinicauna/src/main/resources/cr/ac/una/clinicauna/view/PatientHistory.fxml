@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox fx:id="parent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="bg-black" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.clinicauna.controller.PatientHistoryController">
+   <children>
+      <StackPane HBox.hgrow="ALWAYS">
+         <children>
+            <VBox fx:id="mainView" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="bg-black">
+               <children>
+                  <HBox>
+                     <children>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#backAction" pickOnBounds="true" smooth="false" styleClass="icon-back">
+                           <image>
+                              <Image url="@../img/back-arrow.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="15.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <HBox spacing="15.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox onMouseClicked="#editPatientAction" prefWidth="400.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <VBox maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Identification:">
+                                                   <styleClass>
+                                                      <String fx:value="h3" />
+                                                      <String fx:value="title" />
+                                                   </styleClass>
+                                                </Label>
+                                                <Label fx:id="lblIdentification" text="118650568" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Full Name:">
+                                                   <styleClass>
+                                                      <String fx:value="h3" />
+                                                      <String fx:value="title" />
+                                                   </styleClass>
+                                                </Label>
+                                                <Label fx:id="lblFullName" text="Esteban Najera Morales" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Birth Date:">
+                                                   <styleClass>
+                                                      <String fx:value="h3" />
+                                                      <String fx:value="title" />
+                                                   </styleClass>
+                                                </Label>
+                                                <Label fx:id="lblBirthDate" text="2003/01/12" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Phone Number:">
+                                                   <styleClass>
+                                                      <String fx:value="h3" />
+                                                      <String fx:value="title" />
+                                                   </styleClass>
+                                                </Label>
+                                                <Label fx:id="lblPhoneNumber" text="61918721" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Gender:">
+                                                   <styleClass>
+                                                      <String fx:value="h3" />
+                                                      <String fx:value="title" />
+                                                   </styleClass>
+                                                </Label>
+                                                <Label fx:id="lblGender" text="MALE" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </VBox>
+                                 </children>
+                                 <styleClass>
+                                    <String fx:value="bg-gray" />
+                                    <String fx:value="component" />
+                                    <String fx:value="icon-back" />
+                                 </styleClass>
+                              </VBox>
+                              <VBox alignment="CENTER_LEFT" prefWidth="400.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <VBox VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label text="Body Mass Index">
+                                             <styleClass>
+                                                <String fx:value="h2" />
+                                                <String fx:value="title" />
+                                             </styleClass>
+                                          </Label>
+                                          <LineChart fx:id="chartMassIndex" maxHeight="1.7976931348623157E308" prefHeight="250.0" VBox.vgrow="ALWAYS">
+                                            <xAxis>
+                                              <CategoryAxis side="BOTTOM" />
+                                            </xAxis>
+                                            <yAxis>
+                                              <NumberAxis side="LEFT" />
+                                            </yAxis>
+                                          </LineChart>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </VBox>
+                                 </children>
+                                 <styleClass>
+                                    <String fx:value="bg-gray" />
+                                    <String fx:value="component" />
+                                 </styleClass>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <VBox VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label text="Medical Appoiment History">
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin>
+                                 <styleClass>
+                                    <String fx:value="h2" />
+                                    <String fx:value="title" />
+                                 </styleClass>
+                              </Label>
+                              <ScrollPane fitToWidth="true" prefHeight="260.0" VBox.vgrow="ALWAYS">
+                                 <content>
+                                    <Accordion fx:id="acMedicallAppoimentHistory">
+                                       <panes>
+                                          <TitledPane text="3">
+                                             <content>
+                                                <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+                                             </content>
+                                          </TitledPane>
+                                          <TitledPane text="3">
+                                             <content>
+                                                <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+                                             </content>
+                                          </TitledPane>
+                                       </panes>
+                                    </Accordion>
+                                 </content>
+                                 <VBox.margin>
+                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                 </VBox.margin>
+                              </ScrollPane>
+                           </children>
+                           <styleClass>
+                              <String fx:value="bg-gray" />
+                              <String fx:value="component" />
+                           </styleClass>
+                        </VBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </VBox.margin>
+                  </VBox>
+                  <Button mnemonicParsing="false" onAction="#btnNewHistoryAction" styleClass="btn" text="New History">
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+   </children>
+   <stylesheets>
+      <URL value="@../style/index.css" />
+      <URL value="@../style/patienthistory.css" />
+   </stylesheets>
+</HBox>
