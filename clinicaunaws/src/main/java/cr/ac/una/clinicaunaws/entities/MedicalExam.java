@@ -24,6 +24,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import cr.ac.una.clinicaunaws.dto.MedicalExamDto;
 
+
 /**
  * 
  * @author arayaroma

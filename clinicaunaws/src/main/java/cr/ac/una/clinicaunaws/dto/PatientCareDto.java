@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Data
@@ -41,7 +41,7 @@ public class PatientCareDto implements DtoMapper<PatientCare, PatientCareDto> {
 
     @Override
     public PatientCare convertFromDTOToEntity(PatientCareDto dto, PatientCare entity) {
-        return new PatientCare(dto);
+     return entity;
     }
 
     /**

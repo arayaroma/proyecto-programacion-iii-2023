@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Data
@@ -32,7 +32,7 @@ public class MedicalExamDto implements DtoMapper<MedicalExam, MedicalExamDto> {
 
     @Override
     public MedicalExam convertFromDTOToEntity(MedicalExamDto dto, MedicalExam entity) {
-        return new MedicalExam(dto);
+        return entity;
     }
 
     /**

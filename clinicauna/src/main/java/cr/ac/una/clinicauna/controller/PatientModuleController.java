@@ -87,9 +87,9 @@ public class PatientModuleController implements Initializable {
     }
 
     @FXML
-    private void btnEditPatientAction(ActionEvent event) {
+    private void btnViewPatientAction(ActionEvent event) {
         Data.setData("patientBuffer", patientBuffer);
-        Animation.MakeDefaultFadeTransition(parent, "PatientRegister");
+        Animation.MakeDefaultFadeTransition(parent, "PatientHistory");
     }
 
     @FXML

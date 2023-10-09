@@ -4,12 +4,13 @@ import java.util.List;
 
 import cr.ac.una.clinicaunaws.entities.MedicalAppointment;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Data
@@ -50,7 +51,7 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
 
     @Override
     public MedicalAppointment convertFromDTOToEntity(MedicalAppointmentDto dto, MedicalAppointment entity) {
-        return new MedicalAppointment(dto);
+    return entity;
     }
 
     /**
@@ -65,6 +66,7 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
         this.patientPhoneNumber = entity.getPatientPhoneNumber();
         this.patientEmail = entity.getPatientEmail();
         this.version = entity.getVersion();
+        this.slots = new ArrayList<>();
     }
 
 }

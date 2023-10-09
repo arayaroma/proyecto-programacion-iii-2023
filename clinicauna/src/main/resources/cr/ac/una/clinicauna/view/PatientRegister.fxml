@@ -57,7 +57,7 @@
                                         <Insets top="20.0" />
                                     </VBox.margin>
                                 </ImageView>
-                                <Label styleClass="h1" text="%lblPatientRegister" VBox.vgrow="ALWAYS">
+                                <Label styleClass="h1" text="%patientRegister" VBox.vgrow="ALWAYS">
                                     <VBox.margin>
                                         <Insets bottom="30.0" />
                                     </VBox.margin>
@@ -75,38 +75,38 @@
                                         <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                     <children>
-                                        <JFXTextField fx:id="txfName" labelFloat="true" promptText="%txfName" styleClass="h3">
+                                        <JFXTextField fx:id="txfName" labelFloat="true" promptText="%name" styleClass="h3">
                                             <padding>
                                                 <Insets left="10.0" />
                                             </padding>
                                         </JFXTextField>
-                                        <JFXTextField fx:id="txfLastName" labelFloat="true" promptText="%txfLastName" styleClass="h3" GridPane.columnIndex="1">
+                                        <JFXTextField fx:id="txfLastName" labelFloat="true" promptText="%firstLastName" styleClass="h3" GridPane.columnIndex="1">
                                             <padding>
                                                 <Insets left="10.0" />
                                             </padding>
                                         </JFXTextField>
-                                        <JFXTextField fx:id="txfSecondLastName" labelFloat="true" promptText="%txfSecondLastName" styleClass="h3" GridPane.columnIndex="2">
+                                        <JFXTextField fx:id="txfSecondLastName" labelFloat="true" promptText="%secondLastName" styleClass="h3" GridPane.columnIndex="2">
                                             <padding>
                                                 <Insets left="10.0" />
                                             </padding>
                                         </JFXTextField>
-                                        <JFXTextField fx:id="txfIdentification" labelFloat="true" promptText="%txfIdentification" styleClass="h3" GridPane.rowIndex="1">
+                                        <JFXTextField fx:id="txfIdentification" labelFloat="true" promptText="%identification" styleClass="h3" GridPane.rowIndex="1">
                                             <padding>
                                                 <Insets left="10.0" />
                                             </padding>
                                         </JFXTextField>
-                                        <JFXTextField fx:id="txfEmail" labelFloat="true" promptText="%txfEmail" styleClass="h3" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                                        <JFXTextField fx:id="txfEmail" labelFloat="true" promptText="%email" styleClass="h3" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
                                             <padding>
                                                 <Insets left="10.0" />
                                             </padding>
                                         </JFXTextField>
-                                        <JFXTextField fx:id="txfPhoneNumber" labelFloat="true" promptText="%txfPhoneNumber" styleClass="h3" GridPane.rowIndex="2">
+                                        <JFXTextField fx:id="txfPhoneNumber" labelFloat="true" promptText="%phoneNumber" styleClass="h3" GridPane.rowIndex="2">
                                             <padding>
                                                 <Insets left="10.0" />
                                             </padding>
                                         </JFXTextField>
-                                        <DatePicker fx:id="dpBirthDate" editable="false" maxWidth="1.7976931348623157E308" promptText="%dpBirthDate" styleClass="h3" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                        <ComboBox fx:id="cbGender" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="%cbGender" styleClass="h3" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                        <DatePicker fx:id="dpBirthDate" editable="false" maxWidth="1.7976931348623157E308" promptText="%birthDate" styleClass="h3" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                        <ComboBox fx:id="cbGender" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="%gender" styleClass="h3" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                     </children>
                                 </GridPane>
                                 <HBox VBox.vgrow="ALWAYS">
@@ -114,7 +114,7 @@
                                         <Insets top="50.0" />
                                     </VBox.margin>
                                     <children>
-                                        <Button mnemonicParsing="false" onAction="#btnRegisterAction" text="%btnRegister">
+                                        <Button mnemonicParsing="false" onAction="#btnRegisterAction" text="%register">
                                             <styleClass>
                                                 <String fx:value="btn" />
                                                 <String fx:value="orange-color" />

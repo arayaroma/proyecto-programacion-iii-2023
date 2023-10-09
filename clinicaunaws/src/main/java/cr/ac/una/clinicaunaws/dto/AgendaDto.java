@@ -4,12 +4,13 @@ import java.util.List;
 
 import cr.ac.una.clinicaunaws.entities.Agenda;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Data
@@ -48,7 +49,7 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
 
     @Override
     public Agenda convertFromDTOToEntity(AgendaDto dto, Agenda entity) {
-        return new Agenda(dto);
+        return entity;
     }
 
     /**
@@ -61,6 +62,8 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
         this.shiftEndTime = entity.getShiftEndTime();
         this.hourlySlots = entity.getHourlySlots();
         this.version = entity.getVersion();
+        this.slots = new ArrayList<>();
+        this.medicalAppointments = new ArrayList<>();
     }
 
 }

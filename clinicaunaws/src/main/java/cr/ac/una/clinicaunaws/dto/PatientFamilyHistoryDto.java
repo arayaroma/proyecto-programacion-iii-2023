@@ -31,12 +31,10 @@ public class PatientFamilyHistoryDto implements DtoMapper<PatientFamilyHistory, 
 
     @Override
     public PatientFamilyHistory convertFromDTOToEntity(PatientFamilyHistoryDto dto, PatientFamilyHistory entity) {
-        return new PatientFamilyHistory(dto);
+    return entity;
     }
 
-    /**
-     * @param patientFamilyHistory constructor from entity to dto
-     */
+    
     public PatientFamilyHistoryDto(PatientFamilyHistory entity) {
         this.id = entity.getId();
         this.disease = entity.getDisease();

@@ -3,7 +3,6 @@ package cr.ac.una.clinicauna.controller;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.components.Animation;
-import cr.ac.una.clinicauna.model.DoctorDto;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.DoctorService;
 import cr.ac.una.clinicauna.services.UserService;
@@ -126,10 +125,13 @@ public class UserRegisterController implements Initializable {
     }
 
     private void updateUserLoggued() {
-        if (Objects.equals(userModified.getId(), ((UserDto) Data.getData("userLoggued")).getId())) {
-            Data.removeData("userLoggued");
-            userModified = (UserDto) userService.findUserById(userModified.getId()).getData();
-            Data.setData("userLoggued", userModified);
+        UserDto userLoggued = (UserDto) Data.getData("userLoggued");
+        if (userLoggued != null) {
+            if (Objects.equals(userModified.getId(), userLoggued.getId())) {
+                Data.removeData("userLoggued");
+                userModified = (UserDto) userService.findUserById(userModified.getId()).getData();
+                Data.setData("userLoggued", userModified);
+            }
         }
     }
 
@@ -152,7 +154,7 @@ public class UserRegisterController implements Initializable {
 
     private void setPrivilegesUser(UserDto userDto) {
         userDto.setLanguage(userModified.parseLanguage(userModified.getLanguage()));
-        userDto.setRole(userModified.parseRole(userModified.getRole()));
+        userDto.setRole(userModified.parseRole(userModified.getRole().toLowerCase()));
         if (userDto.getRole().toLowerCase().equals("administrator")) {
             userDto.setIsAdmin("Y");
         } else {

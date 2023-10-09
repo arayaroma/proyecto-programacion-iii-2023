@@ -4,6 +4,7 @@ import java.util.List;
 
 import cr.ac.una.clinicaunaws.entities.User;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,14 +44,8 @@ public class UserDto implements DtoMapper<User, UserDto> {
      */
     @Override
     public UserDto convertFromEntityToDTO(User entity, UserDto dto) {
-        UserDto userDto = new UserDto(entity);
-
-        // Set the Medical Appointment List
-        for (int i = 0; i < entity.getMedicalAppointments().size(); i++) {
-            userDto.getMedicalAppointments().add(new MedicalAppointmentDto(entity.getMedicalAppointments().get(i)));
-        }
-
-        return userDto;
+        dto.setMedicalAppointments(DtoMapper.fromEntityList(entity.getMedicalAppointments(), MedicalAppointmentDto.class));
+        return dto;
     }
 
     /**
@@ -60,7 +55,7 @@ public class UserDto implements DtoMapper<User, UserDto> {
      */
     @Override
     public User convertFromDTOToEntity(UserDto dto, User entity) {
-        return new User(dto);
+        return entity;
     }
 
     /**
@@ -84,5 +79,6 @@ public class UserDto implements DtoMapper<User, UserDto> {
         this.language = entity.getLanguage();
         this.profilePhoto = entity.getProfilePhoto();
         this.version = entity.getVersion();
+        this.medicalAppointments = new ArrayList<>();
     }
 }

@@ -5,12 +5,13 @@ import cr.ac.una.clinicaunaws.entities.Patient;
 import cr.ac.una.clinicaunaws.entities.PatientFamilyHistory;
 import cr.ac.una.clinicaunaws.entities.PatientPersonalHistory;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Data
@@ -67,6 +68,8 @@ public class PatientDto implements DtoMapper<Patient, PatientDto> {
         this.email = patient.getEmail();
         this.gender = patient.getGender();
         this.birthDate = patient.getBirthDate().toString();
+        this.medicalAppointments = new ArrayList<>();
+        this.patientFamilyHistories = new ArrayList<>();
         this.version = patient.getVersion();
     }
 

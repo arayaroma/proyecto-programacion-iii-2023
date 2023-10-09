@@ -30,7 +30,7 @@ public class ReportRecipientsDto implements DtoMapper<ReportRecipients, ReportRe
 
     @Override
     public ReportRecipients convertFromDTOToEntity(ReportRecipientsDto dto, ReportRecipients entity) {
-        return new ReportRecipients(dto);
+        return entity;
     }
 
     /**

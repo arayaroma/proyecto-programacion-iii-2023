@@ -10,4 +10,7 @@ public class Constants {
     public static final String PORT = "8080";
     public static final String MAIL_USER = "clinicaunaws@gmail.com";
     public static final String MAIL_PASSWORD = "aaxsmampvktmkput";
+    public static final String USER_DB = "ClinicaUNA";
+    public static final String PASS_DB = "una";
+    public static final String URL_DB = "jdbc:oracle:thin:@localhost:1521/XEPDB1";
 }

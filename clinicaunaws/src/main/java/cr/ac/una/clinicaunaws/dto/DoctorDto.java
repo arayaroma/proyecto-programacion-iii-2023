@@ -4,6 +4,7 @@ import java.util.List;
 
 import cr.ac.una.clinicaunaws.entities.Doctor;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,7 +43,7 @@ public class DoctorDto implements DtoMapper<Doctor, DoctorDto> {
 
     @Override
     public Doctor convertFromDTOToEntity(DoctorDto dto, Doctor entity) {
-        return new Doctor(dto);
+        return entity;
     }
 
     /**
@@ -56,6 +57,7 @@ public class DoctorDto implements DtoMapper<Doctor, DoctorDto> {
         this.shiftEndTime = entity.getShiftEndTime();
         this.hourlySlots = entity.getHourlySlots();
         this.version = entity.getVersion();
+        this.agendas = new ArrayList<>();
     }
 
 }

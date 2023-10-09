@@ -53,6 +53,8 @@ public class PatientRegisterController implements Initializable {
     private PatientDto patientBuffer = new PatientDto();
     private PatientService patientService = new PatientService();
 
+    boolean isEditing = false;
+
     /**
      * Initializes the controller class.
      */
@@ -62,6 +64,7 @@ public class PatientRegisterController implements Initializable {
         PatientDto patientDto = (PatientDto) Data.getData("patientBuffer");
         if (patientDto != null) {
             patientBuffer = patientDto;
+            isEditing = true;
         }
         bindPatient();
     }
@@ -69,7 +72,12 @@ public class PatientRegisterController implements Initializable {
     @FXML
     private void backFromRegister(MouseEvent event) {
         Data.removeData("patientBuffer");
-        Animation.MakeDefaultFadeTransition(mainView, "Main");
+        if (!isEditing) {
+            Animation.MakeDefaultFadeTransition(mainView, "Main");
+            return;
+        }
+        Data.setData("patientBuffer", patientBuffer);
+        Animation.MakeDefaultFadeTransition(mainView, "PatientHistory");
     }
 
     @FXML
@@ -78,9 +86,10 @@ public class PatientRegisterController implements Initializable {
             Message.showNotification("Ups", MessageType.INFO, "All the fields are required");
             return;
         }
-        ResponseWrapper response = patientBuffer.getId() == null ? patientService.createPatient(patientBuffer) : patientService.updatePatient(patientBuffer);
+        ResponseWrapper response = !isEditing ? patientService.createPatient(patientBuffer) : patientService.updatePatient(patientBuffer);
         Message.showNotification(response.getCode().name(), MessageType.INFO, response.getMessage());
         if (response.getCode() == ResponseCode.OK) {
+            patientBuffer = (PatientDto) response.getData();
             backFromRegister(null);
         }
     }
