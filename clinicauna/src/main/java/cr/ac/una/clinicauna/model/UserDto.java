@@ -49,6 +49,28 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
         this.version = new SimpleLongProperty();
     }
 
+    public UserDto(UserDto userDto) {
+        this();
+        setId(userDto.getId());
+        setUsername(userDto.getUsername());
+        setPassword(userDto.getPassword());
+        setName(userDto.getName());
+        setFirstLastname(userDto.getFirstLastname());
+        setSecondLastname(userDto.getSecondLastname());
+        setIdentification(userDto.getIdentification());
+        setEmail(userDto.getEmail());
+        setRole(userDto.getRole());
+        setPhoneNumber(userDto.getPhoneNumber());
+        setIsActive(userDto.getIsActive());
+        setIsAdmin(userDto.getIsAdmin());
+        setPasswordChanged(userDto.getPasswordChanged());
+        setActivationCode(userDto.getActivationCode());
+        setLanguage(userDto.getLanguage());
+        setProfilePhoto(userDto.getProfilePhoto());
+        setVersion(userDto.getVersion());
+        
+    }
+
     public Long getId() {
         return id.get();
     }
@@ -222,7 +244,7 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
 
     @Override
     public UserDto convertFromGeneratedToDTO(UserDto generated, UserDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from        
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
     }
 
     @Override

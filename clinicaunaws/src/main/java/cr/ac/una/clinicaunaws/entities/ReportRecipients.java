@@ -47,7 +47,7 @@ public class ReportRecipients implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "REPORT", referencedColumnName = "ID")
     private Report report;
 
@@ -73,7 +73,6 @@ public class ReportRecipients implements Serializable {
      * @param entity the entity to convert to dto
      */
     public void updateReportRecipients(ReportRecipientsDto dto) {
-        this.report = null;
         this.email = dto.getEmail();
         this.version = dto.getVersion();
     }

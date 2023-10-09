@@ -46,7 +46,7 @@ public class PatientFamilyHistory implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "PATIENT")
     private Patient patient;
 
@@ -77,7 +77,6 @@ public class PatientFamilyHistory implements Serializable {
      */
     public void updatePatientFamilyHistory(PatientFamilyHistoryDto dto) {
         this.id = dto.getId();
-        this.patient = null;
         this.disease = dto.getDisease();
         this.relationship = dto.getRelationship();
         this.version = dto.getVersion();

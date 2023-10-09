@@ -43,11 +43,11 @@ public class Slots implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "AGENDA")
     private Agenda agenda;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "MEDICALAPPOINTMENT")
     private MedicalAppointment medicalAppointment;
 
@@ -84,8 +84,6 @@ public class Slots implements Serializable {
      * @param dto constructor from dto to entity
      */
     public void updateSlots(SlotsDto dto) {
-        this.agenda = null;
-        this.medicalAppointment = null;
         this.date = LocalDate.parse(dto.getDate());
         this.timeSlot = dto.getTimeSlot();
         this.available = dto.getAvailable();

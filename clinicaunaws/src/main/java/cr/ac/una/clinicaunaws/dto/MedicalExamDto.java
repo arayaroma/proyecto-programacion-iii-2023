@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Data
@@ -24,15 +24,13 @@ public class MedicalExamDto implements DtoMapper<MedicalExam, MedicalExamDto> {
 
     @Override
     public MedicalExamDto convertFromEntityToDTO(MedicalExam entity, MedicalExamDto dto) {
-        MedicalExamDto medicalExamDto = new MedicalExamDto(entity);
-
-        medicalExamDto.setPatientHistory(new PatientPersonalHistoryDto(entity.getPatientHistory()));
-        return medicalExamDto;
+        dto.setPatientHistory(new PatientPersonalHistoryDto(entity.getPatientHistory()));
+        return dto;
     }
 
     @Override
     public MedicalExam convertFromDTOToEntity(MedicalExamDto dto, MedicalExam entity) {
-        return new MedicalExam(dto);
+        return entity;
     }
 
     /**
@@ -40,7 +38,6 @@ public class MedicalExamDto implements DtoMapper<MedicalExam, MedicalExamDto> {
      */
     public MedicalExamDto(MedicalExam entity) {
         this.id = entity.getId();
-        this.patientHistory = null;
         this.name = entity.getName();
         this.date = entity.getDate().toString();
         this.notes = entity.getNotes();

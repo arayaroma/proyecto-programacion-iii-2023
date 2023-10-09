@@ -51,19 +51,19 @@ public class MedicalAppointment implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "ID", insertable = false, updatable = false)
     private PatientCare patientCare;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "AGENDA", referencedColumnName = "ID")
     private Agenda agenda;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "PATIENT", referencedColumnName = "ID")
     private Patient patient;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "SCHEDULEDBY", referencedColumnName = "ID")
     private User scheduledBy;
 
@@ -121,10 +121,6 @@ public class MedicalAppointment implements Serializable {
      * @param dto constructor from dto to entity
      */
     public void updateMedicalAppointment(MedicalAppointmentDto dto) {
-        this.agenda = null;
-        this.patient = null;
-        this.patientCare = null;
-        this.scheduledBy = null;
         this.scheduledDate = LocalDate.parse(dto.getScheduledDate());
         this.scheduledTime = dto.getScheduledTime();
         this.state = dto.getState();

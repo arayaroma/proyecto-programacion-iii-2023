@@ -56,6 +56,7 @@ public class DoctorService {
      */
     public ResponseWrapper getDoctorById(Long id) {
         try {
+//            Doctor doctor = em.createNamedQuery("Doctor.findById", Doctor.class).setParameter("id", id).getSingleResult();
             Doctor doctor;
             doctor = em.find(Doctor.class, id);
             if (doctor == null) {

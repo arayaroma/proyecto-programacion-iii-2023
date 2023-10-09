@@ -4,12 +4,13 @@ import java.util.List;
 
 import cr.ac.una.clinicaunaws.entities.PatientPersonalHistory;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Data
@@ -31,41 +32,29 @@ public class PatientPersonalHistoryDto implements DtoMapper<PatientPersonalHisto
     @Override
     public PatientPersonalHistoryDto convertFromEntityToDTO(PatientPersonalHistory entity,
             PatientPersonalHistoryDto dto) {
-        PatientPersonalHistoryDto patientPersonalHistoryDto = new PatientPersonalHistoryDto(entity);
 
-        patientPersonalHistoryDto.setPatient(new PatientDto(entity.getPatient()));
+        dto.setPatient(new PatientDto(entity.getPatient()));
+        dto.setMedicalExams(DtoMapper.fromEntityList(entity.getMedicalExams(), MedicalExamDto.class));
+        dto.setPatientCares(DtoMapper.fromEntityList(entity.getPatientCares(), PatientCareDto.class));
 
-        // Set the Medical Exam List
-        for (int i = 0; i < entity.getMedicalExams().size(); i++) {
-            patientPersonalHistoryDto.getMedicalExams().add(new MedicalExamDto(entity.getMedicalExams().get(i)));
-        }
-
-        // Set the Patient Care List
-        for (int i = 0; i < entity.getPatientCares().size(); i++) {
-            patientPersonalHistoryDto.getPatientCares().add(new PatientCareDto(entity.getPatientCares().get(i)));
-        }
-        return patientPersonalHistoryDto;
+        return dto;
     }
 
     @Override
     public PatientPersonalHistory convertFromDTOToEntity(PatientPersonalHistoryDto dto, PatientPersonalHistory entity) {
-        return new PatientPersonalHistory(dto);
+        return entity;
     }
 
-    /**
-     * @param patientPersonalHistory constructor from entity to dto
-     */
     public PatientPersonalHistoryDto(PatientPersonalHistory entity) {
         this.id = entity.getId();
-        this.patient = null;
         this.pathological = entity.getPathological();
         this.hospitalizations = entity.getHospitalizations();
         this.surgical = entity.getSurgical();
         this.allergies = entity.getAllergies();
         this.treatments = entity.getTreatments();
-        this.medicalExams = null;
-        this.patientCares = null;
         this.version = entity.getVersion();
+        this.medicalExams = new ArrayList<>();
+        this.patientCares = new ArrayList<>();
     }
 
 }

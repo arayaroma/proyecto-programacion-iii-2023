@@ -10,6 +10,7 @@ import javafx.beans.property.SimpleStringProperty;
 public class DoctorDto implements DtoMapper<DoctorDto, DoctorDto> {
 
     public Long id;
+    public UserDto userDto;
     public SimpleStringProperty code;
     public SimpleStringProperty idCard;
     public SimpleStringProperty shiftStartTime;
@@ -18,7 +19,6 @@ public class DoctorDto implements DtoMapper<DoctorDto, DoctorDto> {
     public Long version;
 
     public DoctorDto() {
-        
         code = new SimpleStringProperty();
         idCard = new SimpleStringProperty();
         shiftStartTime = new SimpleStringProperty();
@@ -28,6 +28,15 @@ public class DoctorDto implements DtoMapper<DoctorDto, DoctorDto> {
     }
 
     // All getters
+    
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
+    }
+
+    public UserDto getUserDto() {
+        return userDto;
+    }
+
     public Long getId() {
         return id;
     }
@@ -94,8 +103,8 @@ public class DoctorDto implements DtoMapper<DoctorDto, DoctorDto> {
 
     @Override
     public DoctorDto convertFromGeneratedToDTO(DoctorDto generated, DoctorDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        dto.setUserDto(new UserDto(generated.getUserDto()));
+        return dto;
     }
 
     @Override

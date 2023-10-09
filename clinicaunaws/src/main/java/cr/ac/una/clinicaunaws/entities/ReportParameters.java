@@ -47,7 +47,7 @@ public class ReportParameters implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "REPORT", referencedColumnName = "ID")
     private Report report;
 
@@ -79,7 +79,6 @@ public class ReportParameters implements Serializable {
      * @param dto update the entity from dto
      */
     public void updateReport(ReportParametersDto dto) {
-        this.report = null;
         this.name = dto.getName();
         this.value = dto.getValue();
         this.version = dto.getVersion();

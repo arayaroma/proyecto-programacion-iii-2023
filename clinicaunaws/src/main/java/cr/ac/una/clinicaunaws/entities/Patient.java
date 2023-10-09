@@ -20,9 +20,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import static cr.ac.una.clinicaunaws.util.Database.*;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.QueryHint;
 
 /**
@@ -35,10 +37,11 @@ import jakarta.persistence.QueryHint;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
-        @NamedQuery(name = "Patient.findAll", query = "SELECT p FROM Patient p", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
-        @NamedQuery(name = "Patient.findById", query = "SELECT p FROM Patient p WHERE p.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true"))
+    @NamedQuery(name = "Patient.findAll", query = "SELECT p FROM Patient p", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+    @NamedQuery(name = "Patient.findById", query = "SELECT p FROM Patient p WHERE p.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true"))
 })
 public class Patient implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -98,8 +101,9 @@ public class Patient implements Serializable {
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
     private List<MedicalAppointment> medicalAppointments;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
-    private List<PatientPersonalHistory> patientPersonalHistories;
+    @OneToOne
+    @JoinColumn(name = "ID", insertable = false, updatable = false)
+    private PatientPersonalHistory patientPersonalHistory;
 
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
     private List<PatientFamilyHistory> patientFamilyHistories;
@@ -128,9 +132,6 @@ public class Patient implements Serializable {
         this.email = dto.getEmail();
         this.gender = dto.getGender();
         this.birthDate = LocalDate.parse(dto.getBirthDate());
-        this.medicalAppointments = null;
-        this.patientPersonalHistories = null;
-        this.patientFamilyHistories = null;
         this.version = dto.getVersion();
     }
 }

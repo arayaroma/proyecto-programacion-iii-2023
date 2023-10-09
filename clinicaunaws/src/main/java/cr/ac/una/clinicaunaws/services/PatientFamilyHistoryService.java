@@ -67,7 +67,7 @@ public class PatientFamilyHistoryService {
                         "PatientFamilyHistory not found.",
                         null);
             }
-            PatientFamilyHistoryDto patientFamilyHistoryDto = new PatientFamilyHistoryDto();
+            PatientFamilyHistoryDto patientFamilyHistoryDto = new PatientFamilyHistoryDto(patientFamilyHistory);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
@@ -96,7 +96,7 @@ public class PatientFamilyHistoryService {
             List<PatientFamilyHistoryDto> patientFamilyHistoryDtoList = new ArrayList<>();
 
             for (PatientFamilyHistory patientFamilyHistory : patientFamilyHistoryList) {
-                PatientFamilyHistoryDto patientFamilyHistoryDto = new PatientFamilyHistoryDto();
+                PatientFamilyHistoryDto patientFamilyHistoryDto = new PatientFamilyHistoryDto(patientFamilyHistory);
                 patientFamilyHistoryDtoList
                         .add(patientFamilyHistoryDto.convertFromEntityToDTO(patientFamilyHistory,
                                 patientFamilyHistoryDto));

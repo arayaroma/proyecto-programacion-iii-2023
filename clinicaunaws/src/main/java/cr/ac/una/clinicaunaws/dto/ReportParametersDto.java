@@ -22,16 +22,15 @@ public class ReportParametersDto implements DtoMapper<ReportParameters, ReportPa
     private Long version;
 
     @Override
-    public ReportParametersDto convertFromEntityToDTO(ReportParameters entity, ReportParametersDto dto) {
-        ReportParametersDto reportParametersDto = new ReportParametersDto(entity);
+    public ReportParametersDto convertFromEntityToDTO(ReportParameters entity, ReportParametersDto dto) {        ReportParametersDto reportParametersDto = new ReportParametersDto(entity);
 
-        reportParametersDto.setReport(new ReportDto(entity.getReport()));
-        return reportParametersDto;
+        dto.setReport(new ReportDto(entity.getReport()));
+        return dto;
     }
 
     @Override
     public ReportParameters convertFromDTOToEntity(ReportParametersDto dto, ReportParameters entity) {
-        return new ReportParameters(dto);
+     return entity;
     }
 
     /**
@@ -41,7 +40,6 @@ public class ReportParametersDto implements DtoMapper<ReportParameters, ReportPa
      */
     public ReportParametersDto(ReportParameters entity) {
         this.id = entity.getId();
-        this.report = null;
         this.name = entity.getName();
         this.value = entity.getValue();
         this.version = entity.getVersion();
