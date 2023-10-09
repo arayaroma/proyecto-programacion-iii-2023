@@ -84,8 +84,6 @@ public class Slots implements Serializable {
      * @param dto constructor from dto to entity
      */
     public void updateSlots(SlotsDto dto) {
-        this.agenda = null;
-        this.medicalAppointment = null;
         this.date = LocalDate.parse(dto.getDate());
         this.timeSlot = dto.getTimeSlot();
         this.available = dto.getAvailable();

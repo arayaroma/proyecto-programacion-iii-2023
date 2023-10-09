@@ -121,10 +121,6 @@ public class MedicalAppointment implements Serializable {
      * @param dto constructor from dto to entity
      */
     public void updateMedicalAppointment(MedicalAppointmentDto dto) {
-        this.agenda = null;
-        this.patient = null;
-        this.patientCare = null;
-        this.scheduledBy = null;
         this.scheduledDate = LocalDate.parse(dto.getScheduledDate());
         this.scheduledTime = dto.getScheduledTime();
         this.state = dto.getState();

@@ -40,7 +40,6 @@ public class ReportRecipientsDto implements DtoMapper<ReportRecipients, ReportRe
      */
     public ReportRecipientsDto(ReportRecipients entity) {
         this.id = entity.getId();
-        this.report = null;
         this.email = entity.getEmail();
         this.version = entity.getVersion();
     }

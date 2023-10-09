@@ -32,14 +32,14 @@ public class PatientService {
      */
     public ResponseWrapper createPatient(PatientDto patientDto) {
         try {
-            Patient patient = new Patient(patientDto);
+            Patient patient = patientDto.convertFromDTOToEntity(patientDto, new Patient(patientDto));
             em.persist(patient);
             em.flush();
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
                     "Patient created successfully.",
-                    new PatientDto(patient));
+                    patientDto.convertFromEntityToDTO(patient, patientDto));
         } catch (Exception ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
@@ -128,6 +128,7 @@ public class PatientService {
                         "Doctor not found, id: " + patientDto.getId() + ")",
                         null);
             }
+            patient = patientDto.convertFromDTOToEntity(patientDto, patient);
             patient.updatePatient(patientDto);
             em.merge(patient);
             em.flush();
@@ -135,7 +136,7 @@ public class PatientService {
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
                     "Patient updated successfully.",
-                    new PatientDto(patient));
+                    patientDto.convertFromEntityToDTO(patient, patientDto));
         } catch (Exception ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),

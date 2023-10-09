@@ -49,7 +49,6 @@ public class PatientCareDto implements DtoMapper<PatientCare, PatientCareDto> {
      */
     public PatientCareDto(PatientCare entity) {
         this.id = entity.getId();
-        this.patientHistory = null;
         this.bloodPressure = entity.getBloodPressure();
         this.heartRate = entity.getHeartRate();
         this.weight = entity.getWeight();

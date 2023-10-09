@@ -173,7 +173,6 @@ public class User implements Serializable {
         this.activationCode = dto.getActivationCode();
         this.language = dto.getLanguage();
         this.profilePhoto = dto.getProfilePhoto();
-        medicalAppointments = null;
         this.version = dto.getVersion();
     }
 

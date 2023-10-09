@@ -39,7 +39,6 @@ public class PatientFamilyHistoryDto implements DtoMapper<PatientFamilyHistory, 
      */
     public PatientFamilyHistoryDto(PatientFamilyHistory entity) {
         this.id = entity.getId();
-        this.patient = null;
         this.disease = entity.getDisease();
         this.relationship = entity.getRelationship();
         this.version = entity.getVersion();

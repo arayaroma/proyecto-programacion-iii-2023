@@ -41,7 +41,6 @@ public class ReportParametersDto implements DtoMapper<ReportParameters, ReportPa
      */
     public ReportParametersDto(ReportParameters entity) {
         this.id = entity.getId();
-        this.report = null;
         this.name = entity.getName();
         this.value = entity.getValue();
         this.version = entity.getVersion();

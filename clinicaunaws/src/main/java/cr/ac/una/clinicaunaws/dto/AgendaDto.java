@@ -56,13 +56,10 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
      */
     public AgendaDto(Agenda entity) {
         this.id = entity.getId();
-        this.doctor = null;
         this.date = entity.getDate().toString();
         this.shiftStartTime = entity.getShiftStartTime();
         this.shiftEndTime = entity.getShiftEndTime();
         this.hourlySlots = entity.getHourlySlots();
-        this.slots = null;
-        this.medicalAppointments = null;
         this.version = entity.getVersion();
     }
 

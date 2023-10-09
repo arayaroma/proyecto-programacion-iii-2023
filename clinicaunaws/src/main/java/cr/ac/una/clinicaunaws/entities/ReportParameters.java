@@ -79,7 +79,6 @@ public class ReportParameters implements Serializable {
      * @param dto update the entity from dto
      */
     public void updateReport(ReportParametersDto dto) {
-        this.report = null;
         this.name = dto.getName();
         this.value = dto.getValue();
         this.version = dto.getVersion();

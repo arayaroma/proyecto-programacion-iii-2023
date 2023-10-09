@@ -99,14 +99,11 @@ public class PatientPersonalHistory implements Serializable {
      * @param dto to be updated
      */
     public void updatePatientPersonalHistory(PatientPersonalHistoryDto dto) {
-        this.patient = null;
         this.pathological = dto.getPathological();
         this.hospitalizations = dto.getHospitalizations();
         this.surgical = dto.getSurgical();
         this.allergies = dto.getAllergies();
         this.treatments = dto.getTreatments();
-        this.medicalExams = null;
-        this.patientCares = null;
         this.version = dto.getVersion();
     }
 

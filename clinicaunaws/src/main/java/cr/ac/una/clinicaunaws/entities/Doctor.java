@@ -101,13 +101,11 @@ public class Doctor implements Serializable {
      * @param dto to be updated
      */
     public void updateDoctor(DoctorDto dto) {
-        this.user = null;
         this.code = dto.getCode();
         this.idCard = dto.getIdCard();
         this.shiftStartTime = dto.getShiftStartTime();
         this.shiftEndTime = dto.getShiftEndTime();
         this.hourlySlots = dto.getHourlySlots();
-        this.agendas = null;
         this.version = dto.getVersion();
     }
 

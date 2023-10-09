@@ -59,8 +59,6 @@ public class ReportDto implements DtoMapper<Report, ReportDto> {
         this.query = entity.getQuery();
         this.date = entity.getDate().toString();
         this.frequency = entity.getFrequency();
-        this.reportParameters = null;
-        this.reportRecipients = null;
         this.version = entity.getVersion();
     }
 

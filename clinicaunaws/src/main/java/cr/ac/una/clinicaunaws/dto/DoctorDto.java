@@ -50,7 +50,6 @@ public class DoctorDto implements DtoMapper<Doctor, DoctorDto> {
      */
     public DoctorDto(Doctor entity) {
         this.id = entity.getId();
-        this.user = null;
         this.code = entity.getCode();
         this.idCard = entity.getIdCard();
         this.shiftStartTime = entity.getShiftStartTime();

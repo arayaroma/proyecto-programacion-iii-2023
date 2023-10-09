@@ -1,8 +1,9 @@
 package cr.ac.una.clinicaunaws.dto;
 
 import java.util.List;
-
 import cr.ac.una.clinicaunaws.entities.Patient;
+import cr.ac.una.clinicaunaws.entities.PatientFamilyHistory;
+import cr.ac.una.clinicaunaws.entities.PatientPersonalHistory;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,42 +28,30 @@ public class PatientDto implements DtoMapper<Patient, PatientDto> {
     private String gender;
     private String birthDate;
     private List<MedicalAppointmentDto> medicalAppointments;
-    private List<PatientPersonalHistoryDto> patientPersonalHistories;
+    private PatientPersonalHistoryDto patientPersonalHistory;
     private List<PatientFamilyHistoryDto> patientFamilyHistories;
     private Long version;
 
     @Override
     public PatientDto convertFromEntityToDTO(Patient entity, PatientDto dto) {
-        PatientDto patientDto = new PatientDto(entity);
 
-        // Set the Patient Family History List
-        for (int i = 0; i < entity.getPatientFamilyHistories().size(); i++) {
-            patientDto.getPatientFamilyHistories()
-                    .add(new PatientFamilyHistoryDto(entity.getPatientFamilyHistories().get(i)));
-        }
+        dto.setPatientPersonalHistory(
+                DtoMapper.convertToDto(entity.getPatientPersonalHistory(), PatientPersonalHistoryDto.class));
+        dto.setPatientFamilyHistories(
+                DtoMapper.fromEntityList(entity.getPatientFamilyHistories(), PatientFamilyHistoryDto.class));
 
-        // Set the Patient Personal History List
-        for (int i = 0; i < entity.getPatientPersonalHistories().size(); i++) {
-            patientDto.getPatientPersonalHistories()
-                    .add(new PatientPersonalHistoryDto(entity.getPatientPersonalHistories().get(i)));
-            for (int j = 0; j < entity.getPatientPersonalHistories().get(i).getMedicalExams().size(); j++) {
-                patientDto.getPatientPersonalHistories()
-                        .get(i).getMedicalExams().add(new MedicalExamDto(entity.getPatientPersonalHistories()
-                                .get(i).getMedicalExams().get(j)));
-            }
-
-            for (int j = 0; j < entity.getPatientPersonalHistories().get(i).getPatientCares().size(); j++) {
-                patientDto.getPatientPersonalHistories()
-                        .get(i).getPatientCares().add(new PatientCareDto(entity.getPatientPersonalHistories()
-                                .get(i).getPatientCares().get(j)));
-            }
-        }
-        return patientDto;
+        return dto;
     }
 
     @Override
     public Patient convertFromDTOToEntity(PatientDto dto, Patient entity) {
-        return new Patient(dto);
+
+        entity.setPatientPersonalHistory(
+                DtoMapper.convertToEntity(dto.getPatientPersonalHistory(), PatientPersonalHistory.class));
+        entity.setPatientFamilyHistories(
+                DtoMapper.fromDtoList(dto.getPatientFamilyHistories(), PatientFamilyHistory.class));
+
+        return entity;
     }
 
     /**
@@ -78,9 +67,6 @@ public class PatientDto implements DtoMapper<Patient, PatientDto> {
         this.email = patient.getEmail();
         this.gender = patient.getGender();
         this.birthDate = patient.getBirthDate().toString();
-        this.medicalAppointments = null;
-        this.patientPersonalHistories = null;
-        this.patientFamilyHistories = null;
         this.version = patient.getVersion();
     }
 

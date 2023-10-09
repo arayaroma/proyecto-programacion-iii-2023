@@ -42,8 +42,6 @@ public class SlotsDto implements DtoMapper<Slots, SlotsDto> {
      */
     public SlotsDto(Slots entity) {
         this.id = entity.getId();
-        this.agenda = null;
-        this.medicalAppointment = null;
         this.date = entity.getDate().toString();
         this.timeSlot = entity.getTimeSlot();
         this.available = entity.getAvailable();

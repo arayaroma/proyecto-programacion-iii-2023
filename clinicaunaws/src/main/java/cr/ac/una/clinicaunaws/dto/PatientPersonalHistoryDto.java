@@ -57,14 +57,11 @@ public class PatientPersonalHistoryDto implements DtoMapper<PatientPersonalHisto
      */
     public PatientPersonalHistoryDto(PatientPersonalHistory entity) {
         this.id = entity.getId();
-        this.patient = null;
         this.pathological = entity.getPathological();
         this.hospitalizations = entity.getHospitalizations();
         this.surgical = entity.getSurgical();
         this.allergies = entity.getAllergies();
         this.treatments = entity.getTreatments();
-        this.medicalExams = null;
-        this.patientCares = null;
         this.version = entity.getVersion();
     }
 

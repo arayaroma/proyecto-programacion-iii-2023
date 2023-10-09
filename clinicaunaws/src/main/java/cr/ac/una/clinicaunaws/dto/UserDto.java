@@ -83,7 +83,6 @@ public class UserDto implements DtoMapper<User, UserDto> {
         this.activationCode = entity.getActivationCode();
         this.language = entity.getLanguage();
         this.profilePhoto = entity.getProfilePhoto();
-        this.medicalAppointments = null;
         this.version = entity.getVersion();
     }
 }

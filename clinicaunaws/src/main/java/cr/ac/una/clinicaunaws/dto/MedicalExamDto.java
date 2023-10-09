@@ -40,7 +40,6 @@ public class MedicalExamDto implements DtoMapper<MedicalExam, MedicalExamDto> {
      */
     public MedicalExamDto(MedicalExam entity) {
         this.id = entity.getId();
-        this.patientHistory = null;
         this.name = entity.getName();
         this.date = entity.getDate().toString();
         this.notes = entity.getNotes();

@@ -135,7 +135,6 @@ public class PatientCare implements Serializable {
      * @param dto constructor from dto to entity
      */
     public void updatePatientCare(PatientCareDto dto) {
-        this.patientHistory = null;
         this.bloodPressure = dto.getBloodPressure();
         this.heartRate = dto.getHeartRate();
         this.weight = dto.getWeight();

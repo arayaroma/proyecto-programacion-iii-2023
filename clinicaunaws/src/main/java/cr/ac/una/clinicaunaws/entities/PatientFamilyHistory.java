@@ -77,7 +77,6 @@ public class PatientFamilyHistory implements Serializable {
      */
     public void updatePatientFamilyHistory(PatientFamilyHistoryDto dto) {
         this.id = dto.getId();
-        this.patient = null;
         this.disease = dto.getDisease();
         this.relationship = dto.getRelationship();
         this.version = dto.getVersion();

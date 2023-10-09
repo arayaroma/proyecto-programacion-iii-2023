@@ -97,13 +97,10 @@ public class Agenda implements Serializable {
      * @param dto constructor from entity to dto
      */
     public void updateAgenda(AgendaDto dto) {
-        this.doctor = null;
         this.date = LocalDate.parse(dto.getDate());
         this.shiftStartTime = dto.getShiftStartTime();
         this.shiftEndTime = dto.getShiftEndTime();
         this.hourlySlots = dto.getHourlySlots();
-        this.slots = null;
-        this.medicalAppointments = null;
         this.version = dto.getVersion();
     }
 

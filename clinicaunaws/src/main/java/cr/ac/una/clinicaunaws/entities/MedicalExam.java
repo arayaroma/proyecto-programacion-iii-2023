@@ -83,7 +83,6 @@ public class MedicalExam implements Serializable {
      * @param dto to update entity
      */
     public void updateMedicalExam(MedicalExamDto dto) {
-        this.patientHistory = null;
         this.name = dto.getName();
         this.date = LocalDate.parse(dto.getDate());
         this.notes = dto.getNotes();

@@ -73,7 +73,6 @@ public class ReportRecipients implements Serializable {
      * @param entity the entity to convert to dto
      */
     public void updateReportRecipients(ReportRecipientsDto dto) {
-        this.report = null;
         this.email = dto.getEmail();
         this.version = dto.getVersion();
     }

@@ -58,17 +58,12 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
      */
     public MedicalAppointmentDto(MedicalAppointment entity) {
         this.id = entity.getId();
-        this.agenda = null;
-        this.patient = null;
-        this.patientCare = null;
-        this.scheduledBy = null;
         this.scheduledDate = entity.getScheduledDate().toString();
         this.scheduledTime = entity.getScheduledTime();
         this.state = entity.getState();
         this.reason = entity.getReason();
         this.patientPhoneNumber = entity.getPatientPhoneNumber();
         this.patientEmail = entity.getPatientEmail();
-        this.slots = null;
         this.version = entity.getVersion();
     }
 
