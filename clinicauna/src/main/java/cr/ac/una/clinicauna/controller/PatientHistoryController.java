@@ -112,6 +112,7 @@ public class PatientHistoryController implements Initializable {
 
     @FXML
     private void editFamilyHistoryAction(MouseEvent event) {
+        Animation.MakeDefaultFadeTransition(mainView, "PatientFamilyHistoryRegister");
 
     }
 

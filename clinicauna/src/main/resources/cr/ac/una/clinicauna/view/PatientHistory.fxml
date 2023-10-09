@@ -154,56 +154,18 @@
                            <children>
                               <StackPane HBox.hgrow="ALWAYS">
                                  <children>
-                                    <VBox fx:id="familyHistoryView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#editFamilyHistoryAction" prefWidth="400.0" spacing="20.0">
-                                       <children>
-                                          <HBox spacing="30.0">
-                                             <VBox.margin>
-                                                <Insets left="10.0" right="10.0" />
-                                             </VBox.margin>
-                                             <children>
-                                                <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Family History" HBox.hgrow="ALWAYS">
-                                                   <styleClass>
-                                                      <String fx:value="h2" />
-                                                      <String fx:value="title" />
-                                                   </styleClass>
-                                                </Label>
-                                                <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#showPersonalHistoryView" pickOnBounds="true" smooth="false" styleClass="icon-back">
-                                                   <image>
-                                                      <Image url="@../img/flecha-hacia-atras.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </children>
-                                          </HBox>
-                                          <TableView fx:id="tblFamilyHistory" prefHeight="300.0" prefWidth="200.0">
-                                            <columns>
-                                              <TableColumn fx:id="tcDisease" prefWidth="75.0" text="Disease" />
-                                              <TableColumn fx:id="tcRelationship" prefWidth="75.0" text="Relationship" />
-                                            </columns>
-                                             <columnResizePolicy>
-                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                             </columnResizePolicy>
-                                             <VBox.margin>
-                                                <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                                             </VBox.margin>
-                                          </TableView>
-                                       </children>
-                                       <styleClass>
-                                          <String fx:value="bg-gray" />
-                                          <String fx:value="component" />
-                                          <String fx:value="icon-back" />
-                                       </styleClass>
-                                    </VBox>
-                                    <VBox fx:id="personalHistoryView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#editPersonalHistoryAction" prefWidth="400.0">
+                                    <VBox fx:id="personalHistoryView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="400.0">
                                        <children>
                                           <HBox>
                                              <VBox.margin>
                                                 <Insets left="10.0" right="10.0" />
                                              </VBox.margin>
                                              <children>
-                                                <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Personal History" HBox.hgrow="ALWAYS">
+                                                <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#editPersonalHistoryAction" text="Personal History" HBox.hgrow="ALWAYS">
                                                    <styleClass>
                                                       <String fx:value="h2" />
                                                       <String fx:value="title" />
+                                                      <String fx:value="icon-back" />
                                                    </styleClass>
                                                 </Label>
                                                 <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#showFamilyHistory" pickOnBounds="true" smooth="false" styleClass="icon-back">
@@ -283,7 +245,45 @@
                                        <styleClass>
                                           <String fx:value="bg-gray" />
                                           <String fx:value="component" />
-                                          <String fx:value="icon-back" />
+                                       </styleClass>
+                                    </VBox>
+                                    <VBox fx:id="familyHistoryView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="400.0" spacing="20.0">
+                                       <children>
+                                          <HBox spacing="30.0">
+                                             <VBox.margin>
+                                                <Insets left="10.0" right="10.0" />
+                                             </VBox.margin>
+                                             <children>
+                                                <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#editFamilyHistoryAction" text="Family History" HBox.hgrow="ALWAYS">
+                                                   <styleClass>
+                                                      <String fx:value="h2" />
+                                                      <String fx:value="title" />
+                                                      <String fx:value="icon-back" />
+                                                   </styleClass>
+                                                </Label>
+                                                <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#showPersonalHistoryView" pickOnBounds="true" smooth="false" styleClass="icon-back">
+                                                   <image>
+                                                      <Image url="@../img/flecha-hacia-atras.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </children>
+                                          </HBox>
+                                          <TableView fx:id="tblFamilyHistory" prefHeight="300.0" prefWidth="200.0">
+                                            <columns>
+                                              <TableColumn fx:id="tcDisease" prefWidth="75.0" text="Disease" />
+                                              <TableColumn fx:id="tcRelationship" prefWidth="75.0" text="Relationship" />
+                                            </columns>
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
+                                             <VBox.margin>
+                                                <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                                             </VBox.margin>
+                                          </TableView>
+                                       </children>
+                                       <styleClass>
+                                          <String fx:value="bg-gray" />
+                                          <String fx:value="component" />
                                        </styleClass>
                                     </VBox>
                                  </children>

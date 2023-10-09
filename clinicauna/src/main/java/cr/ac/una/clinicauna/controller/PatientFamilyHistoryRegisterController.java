@@ -1,6 +1,7 @@
 package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXTextField;
+import cr.ac.una.clinicauna.components.Animation;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -38,11 +39,12 @@ public class PatientFamilyHistoryRegisterController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }    
 
     @FXML
     private void btnBackAction(MouseEvent event) {
+        Animation.MakeDefaultFadeTransition(familyHistoryView, "PatientHistory");
     }
 
     @FXML
