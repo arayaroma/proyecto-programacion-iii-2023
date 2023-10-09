@@ -35,11 +35,23 @@ public class PatientHistoryController implements Initializable {
     @FXML
     private LineChart<?, ?> chartMassIndex;
     @FXML
-    private Accordion acMedicallAppoimentHistory;
-    @FXML
     private HBox parent;
     @FXML
     private VBox mainView;
+
+    @FXML
+    private Label lblAlergies;
+    @FXML
+    private Label lblTreatments;
+    @FXML
+    private Label lblPathological;
+    @FXML
+    private Label lblHospitalizations;
+    @FXML
+    private Label lblSurgical;
+    @FXML
+    private Accordion acMedicalAppoimentHistory;
+
     private PatientDto patientBuffer;
 
     /**
@@ -73,6 +85,9 @@ public class PatientHistoryController implements Initializable {
         lblPhoneNumber.textProperty().bindBidirectional(patientBuffer.phoneNumber);
         lblBirthDate.setText(patientBuffer.getBirthDate());
         lblGender.textProperty().bindBidirectional(patientBuffer.gender);
+    }
 
+    @FXML
+    private void editPersonalHistoryAction(MouseEvent event) {
     }
 }
