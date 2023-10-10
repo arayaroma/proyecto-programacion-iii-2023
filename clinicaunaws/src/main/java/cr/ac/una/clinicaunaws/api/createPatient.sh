@@ -8,9 +8,6 @@ curl -X POST -H "Content-Type: application/json" -d '{
   "phoneNumber": "86420240",
   "email": "darayaroma@gmail.com",
   "gender": "MALE",
-  "birthDate": "1990-11-04",
-  "patientPersonalHistories": null,
-  "patientFamilyHistories": null,
-  "medicalExams": null,
+  "birthDate": "2003-04-17",
   "version": 0
 }' http://localhost:8080/clinicaunaws/api/PatientController/create
