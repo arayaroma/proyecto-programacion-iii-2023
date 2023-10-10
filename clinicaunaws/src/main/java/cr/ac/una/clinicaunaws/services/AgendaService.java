@@ -14,7 +14,7 @@ import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Stateless
@@ -26,7 +26,7 @@ public class AgendaService {
 
     /**
      * Create a new Agenda
-     * 
+     *
      * @param agendaDto to be created
      * @return ResponseWrapper with the created Agenda
      */
@@ -50,15 +50,16 @@ public class AgendaService {
     }
 
     /**
-     * FIXME: Need to test with the API Level
-     * Get a Agenda by id
-     * 
+     * FIXME: Need to test with the API Level Get a Agenda by id
+     *
      * @param id of the Agenda to be retrieved
      * @return ResponseWrapper with the retrieved Agenda
      */
     public ResponseWrapper getAgendaById(Long id) {
         try {
-            Agenda agenda = em.find(Agenda.class, id);
+
+            Agenda agenda = em.createNamedQuery("Agenda.findById", Agenda.class).setParameter("id", id).getSingleResult();
+
             if (agenda != null) {
                 AgendaDto agendaDto = new AgendaDto(agenda);
                 return new ResponseWrapper(
@@ -77,15 +78,15 @@ public class AgendaService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not retrieve the Agenda.",
+                    "Could not retrieve the Agenda.: " + e.getMessage(),
                     e.getMessage());
         }
     }
 
     /**
-     * 
+     *
      * get all Agenda
-     * 
+     *
      * @return ResponseWrapper with the retrieved Agenda
      */
     @SuppressWarnings("unchecked")
@@ -116,7 +117,7 @@ public class AgendaService {
 
     /**
      * Update a Agenda
-     * 
+     *
      * @param agendaDto to be updated
      * @return ResponseWrapper with the updated Agenda
      */
@@ -150,10 +151,10 @@ public class AgendaService {
 
     /**
      * Delete a Agenda
-     * 
+     *
      * @param id of the Agenda to be deleted
-     * @return ResponseWrapper informing if the Agenda was deleted successfully or
-     *         not
+     * @return ResponseWrapper informing if the Agenda was deleted successfully
+     * or not
      */
     public ResponseWrapper deleteAgenda(Long id) {
         try {

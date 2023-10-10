@@ -24,9 +24,11 @@ import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
 import java.util.List;
 import cr.ac.una.clinicaunaws.dto.UserDto;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Entity
@@ -35,14 +37,14 @@ import cr.ac.una.clinicaunaws.dto.UserDto;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
-        @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
-        @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
-        @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
-        @NamedQuery(name = "User.findByUsernameAndPassword", query = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
-        @NamedQuery(name = "User.findByActivationCode", query = "SELECT u FROM User u WHERE u.activationCode = :activationCode", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
-        @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
-})
+    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+    @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+    @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+    @NamedQuery(name = "User.findByUsernameAndPassword", query = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+    @NamedQuery(name = "User.findByActivationCode", query = "SELECT u FROM User u WHERE u.activationCode = :activationCode", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),})
 public class User implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -51,6 +53,9 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Long id;
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    private Doctor doctor;
 
     @NotNull
     @Basic(optional = false)

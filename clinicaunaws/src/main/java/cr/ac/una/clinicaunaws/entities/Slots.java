@@ -23,6 +23,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import static cr.ac.una.clinicaunaws.util.Database.*;
+import jakarta.persistence.OneToMany;
 
 @Entity
 @Table(name = "TBL_SLOTS", schema = SCHEMA)
@@ -44,11 +45,11 @@ public class Slots implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "AGENDA")
+    @JoinColumn(name = "AGENDA",referencedColumnName = "ID")
     private Agenda agenda;
 
     @ManyToOne
-    @JoinColumn(name = "MEDICALAPPOINTMENT")
+    @JoinColumn(name = "MEDICALAPPOINTMENT", referencedColumnName = "ID")
     private MedicalAppointment medicalAppointment;
 
     @NotNull
@@ -67,6 +68,8 @@ public class Slots implements Serializable {
     @Size(min = 1, max = 12)
     @Column(name = "AVAILABLE")
     private String available;
+    
+    
 
     @Version
     @Column(name = "VERSION")

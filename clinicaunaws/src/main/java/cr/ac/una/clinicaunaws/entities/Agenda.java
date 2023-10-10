@@ -22,7 +22,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 import cr.ac.una.clinicaunaws.dto.AgendaDto;
 import static cr.ac.una.clinicaunaws.util.Database.*;
 
@@ -49,7 +48,7 @@ public class Agenda implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "DOCTOR", referencedColumnName = "ID")
     private Doctor doctor;
 
@@ -75,11 +74,11 @@ public class Agenda implements Serializable {
     @Column(name = "HOURLYSLOTS")
     private Long hourlySlots;
 
-    @OneToMany(mappedBy = "agenda", fetch = FetchType.LAZY)
-    private List<Slots> slots;
-
-    @OneToMany(mappedBy = "agenda", fetch = FetchType.LAZY)
-    private List<MedicalAppointment> medicalAppointments;
+//    @OneToMany(mappedBy = "agenda")
+//    private List<Slots> slots;
+//
+//    @OneToMany(mappedBy = "agenda")
+//    private List<MedicalAppointment> medicalAppointments;
 
     @Version
     @Column(name = "VERSION")

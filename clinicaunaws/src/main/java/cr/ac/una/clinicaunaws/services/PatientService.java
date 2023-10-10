@@ -118,9 +118,7 @@ public class PatientService {
     public ResponseWrapper updatePatient(PatientDto patientDto) {
         try {
             Patient patient;
-            patient = em.createNamedQuery("Patient.findById", Patient.class)
-                    .setParameter("id", patientDto.getId())
-                    .getSingleResult();
+            patient = em.find(Patient.class , patientDto.getId());
             if (patient == null) {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
@@ -128,10 +126,10 @@ public class PatientService {
                         "Doctor not found, id: " + patientDto.getId() + ")",
                         null);
             }
-            patient = patientDto.convertFromDTOToEntity(patientDto, patient);
             patient.updatePatient(patientDto);
             em.merge(patient);
             em.flush();
+            patientDto = new PatientDto(patient);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,

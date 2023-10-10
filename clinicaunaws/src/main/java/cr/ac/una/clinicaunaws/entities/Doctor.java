@@ -51,7 +51,7 @@ public class Doctor implements Serializable {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "ID", insertable = false, updatable = false)
+    @JoinColumn(name = "ID", referencedColumnName = "ID",insertable = false, updatable = false)
     private User user;
 
     @NotNull

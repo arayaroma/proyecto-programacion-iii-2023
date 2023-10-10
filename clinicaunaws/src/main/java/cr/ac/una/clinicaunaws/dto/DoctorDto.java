@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Data
@@ -30,15 +30,9 @@ public class DoctorDto implements DtoMapper<Doctor, DoctorDto> {
 
     @Override
     public DoctorDto convertFromEntityToDTO(Doctor entity, DoctorDto dto) {
-        DoctorDto doctorDto = new DoctorDto(entity);
+        dto.setAgendas(DtoMapper.fromEntityList(entity.getAgendas(), AgendaDto.class));
 
-        doctorDto.setUser(new UserDto(entity.getUser()));
-
-        // Set the Agendas List
-        for (int i = 0; i < entity.getAgendas().size(); i++) {
-            doctorDto.getAgendas().add(new AgendaDto(entity.getAgendas().get(i)));
-        }
-        return doctorDto;
+        return dto;
     }
 
     @Override
