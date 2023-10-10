@@ -49,7 +49,7 @@ public class Agenda implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "DOCTOR", referencedColumnName = "ID")
     private Doctor doctor;
 

@@ -97,7 +97,7 @@ public class Patient implements Serializable {
     @Column(name = "BIRTHDATE")
     private LocalDate birthDate;
 
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "ID", insertable = false, updatable = false)
     private PatientPersonalHistory patientPersonalHistory;
 

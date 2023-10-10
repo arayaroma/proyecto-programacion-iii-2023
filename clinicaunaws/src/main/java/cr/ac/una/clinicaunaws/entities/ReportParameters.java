@@ -47,7 +47,7 @@ public class ReportParameters implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "REPORT", referencedColumnName = "ID")
     private Report report;
 

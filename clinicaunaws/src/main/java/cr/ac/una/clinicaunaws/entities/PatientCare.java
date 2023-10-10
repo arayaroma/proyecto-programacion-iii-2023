@@ -56,7 +56,7 @@ public class PatientCare implements Serializable {
     @Column(name = "DATE")
     private LocalDate date;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "PATIENTHISTORY", referencedColumnName = "ID")
     private PatientPersonalHistory patientHistory;
 

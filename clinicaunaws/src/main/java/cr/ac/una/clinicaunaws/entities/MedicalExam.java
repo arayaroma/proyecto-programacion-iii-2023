@@ -48,7 +48,7 @@ public class MedicalExam implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "PATIENTHISTORY", referencedColumnName = "ID")
     private PatientPersonalHistory patientHistory;
 

@@ -50,7 +50,7 @@ public class Doctor implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "ID", insertable = false, updatable = false)
     private User user;
 
