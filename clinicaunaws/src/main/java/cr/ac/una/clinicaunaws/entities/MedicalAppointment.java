@@ -16,7 +16,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -51,20 +50,20 @@ public class MedicalAppointment implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "ID", insertable = false, updatable = false)
-    private PatientCare patientCare;
-
     @ManyToOne
-    @JoinColumn(name = "AGENDA", referencedColumnName = "ID")
+    @JoinColumn(name = "AGENDA")
     private Agenda agenda;
 
-    @ManyToOne
-    @JoinColumn(name = "PATIENT", referencedColumnName = "ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "PATIENT")
     private Patient patient;
 
-    @ManyToOne
-    @JoinColumn(name = "SCHEDULEDBY", referencedColumnName = "ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "PATIENTCARE")
+    private PatientCare patientCare;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "SCHEDULEDBY")
     private User scheduledBy;
 
     @NotNull

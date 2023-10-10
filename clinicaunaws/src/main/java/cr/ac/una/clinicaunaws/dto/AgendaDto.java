@@ -30,10 +30,21 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
 
     @Override
     public AgendaDto convertFromEntityToDTO(Agenda entity, AgendaDto dto) {
-        dto.setDoctor(new DoctorDto(entity.getDoctor()));
-        dto.setSlots(DtoMapper.fromEntityList(entity.getSlots(), SlotsDto.class));
-        dto.setMedicalAppointments(DtoMapper.fromEntityList(entity.getMedicalAppointments(), MedicalAppointmentDto.class));
-        return dto;
+        AgendaDto agendaDto = new AgendaDto(entity);
+
+        agendaDto.setDoctor(new DoctorDto(entity.getDoctor()));
+
+        // Set the Slots List
+        for (int i = 0; i < entity.getSlots().size(); i++) {
+            agendaDto.getSlots().add(new SlotsDto(entity.getSlots().get(i)));
+        }
+
+        // Set the Medical Appointment List
+        for (int i = 0; i < entity.getMedicalAppointments().size(); i++) {
+            agendaDto.getMedicalAppointments()
+                    .add(new MedicalAppointmentDto(entity.getMedicalAppointments().get(i)));
+        }
+        return agendaDto;
     }
 
     @Override

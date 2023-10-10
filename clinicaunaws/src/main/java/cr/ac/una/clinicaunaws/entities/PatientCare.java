@@ -2,6 +2,9 @@ package cr.ac.una.clinicaunaws.entities;
 
 import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.List;
+
 import cr.ac.una.clinicaunaws.dto.PatientCareDto;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -14,6 +17,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -46,6 +50,11 @@ public class PatientCare implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Long id;
+
+    @NotNull
+    @Basic(optional = false)
+    @Column(name = "DATE")
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "PATIENTHISTORY", referencedColumnName = "ID")
@@ -119,6 +128,9 @@ public class PatientCare implements Serializable {
     @Column(name = "TREATMENT")
     private String treatment;
 
+    @OneToMany(mappedBy = "patientCare", fetch = FetchType.LAZY)
+    private List<MedicalAppointment> medicalAppointments;
+
     @Version
     @Column(name = "VERSION")
     private Long version;
@@ -135,6 +147,7 @@ public class PatientCare implements Serializable {
      * @param dto constructor from dto to entity
      */
     public void updatePatientCare(PatientCareDto dto) {
+        this.date = LocalDate.parse(dto.getDate());
         this.bloodPressure = dto.getBloodPressure();
         this.heartRate = dto.getHeartRate();
         this.weight = dto.getWeight();

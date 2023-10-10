@@ -11,6 +11,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -20,7 +21,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import static cr.ac.una.clinicaunaws.util.Database.*;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
@@ -37,11 +37,10 @@ import jakarta.persistence.QueryHint;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
-    @NamedQuery(name = "Patient.findAll", query = "SELECT p FROM Patient p", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
-    @NamedQuery(name = "Patient.findById", query = "SELECT p FROM Patient p WHERE p.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true"))
+        @NamedQuery(name = "Patient.findAll", query = "SELECT p FROM Patient p", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+        @NamedQuery(name = "Patient.findById", query = "SELECT p FROM Patient p WHERE p.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true"))
 })
 public class Patient implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -98,15 +97,15 @@ public class Patient implements Serializable {
     @Column(name = "BIRTHDATE")
     private LocalDate birthDate;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
-    private List<MedicalAppointment> medicalAppointments;
-
     @OneToOne
     @JoinColumn(name = "ID", insertable = false, updatable = false)
     private PatientPersonalHistory patientPersonalHistory;
 
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
     private List<PatientFamilyHistory> patientFamilyHistories;
+
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
+    private List<MedicalAppointment> medicalAppointments;
 
     @Version
     @Column(name = "VERSION")
