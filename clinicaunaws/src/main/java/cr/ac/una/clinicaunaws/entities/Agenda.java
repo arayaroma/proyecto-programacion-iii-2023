@@ -49,13 +49,9 @@ public class Agenda implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "DOCTOR", referencedColumnName = "ID")
     private Doctor doctor;
-
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "PATIENTCARE", referencedColumnName = "ID")
-    private PatientCare patientCare;
 
     @NotNull
     @Basic(optional = false)
@@ -101,14 +97,10 @@ public class Agenda implements Serializable {
      * @param dto constructor from entity to dto
      */
     public void updateAgenda(AgendaDto dto) {
-        this.doctor = null;
-        this.patientCare = null;
         this.date = LocalDate.parse(dto.getDate());
         this.shiftStartTime = dto.getShiftStartTime();
         this.shiftEndTime = dto.getShiftEndTime();
         this.hourlySlots = dto.getHourlySlots();
-        this.slots = null;
-        this.medicalAppointments = null;
         this.version = dto.getVersion();
     }
 

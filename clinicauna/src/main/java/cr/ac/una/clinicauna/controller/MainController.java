@@ -74,12 +74,15 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             Data.setData("mainController", this);
-            userLoggued = (UserDto) Data.getData("userLoggued");
-            lblUserLoggued.setText(userLoggued.getName());
             intializeSliderMenu();
-            imgProfilePhoto.setClip(new Circle(imgProfilePhoto.getFitWidth() / 2, imgProfilePhoto.getFitHeight() / 2, 30));
-            if (userLoggued.getProfilePhoto() != null) {
-                imgProfilePhoto.setImage(ImageLoader.setImage(userLoggued.getProfilePhoto()));
+            userLoggued = (UserDto) Data.getData("userLoggued");
+            if (userLoggued != null) {
+                lblUserLoggued.setText(userLoggued.getName());
+
+                imgProfilePhoto.setClip(new Circle(imgProfilePhoto.getFitWidth() / 2, imgProfilePhoto.getFitHeight() / 2, 30));
+                if (userLoggued.getProfilePhoto() != null) {
+                    imgProfilePhoto.setImage(ImageLoader.setImage(userLoggued.getProfilePhoto()));
+                }
             }
             loadPrivileges();
         } catch (Exception e) {
@@ -166,7 +169,7 @@ public class MainController implements Initializable {
     }
 
     private void loadPrivileges() {
-        if (userLoggued.getPasswordChanged().equals("Y")) {
+        if (userLoggued != null && userLoggued.getPasswordChanged().equals("Y")) {
             changePasswordView.setVisible(true);
             menuLateral.setDisable(true);
             hamburguerMenu.setDisable(true);

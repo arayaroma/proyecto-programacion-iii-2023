@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Data
@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 public class PatientCareDto implements DtoMapper<PatientCare, PatientCareDto> {
 
     private Long id;
+    private String date;
     private PatientPersonalHistoryDto patientHistory;
     private String bloodPressure;
     private String heartRate;
@@ -31,17 +32,20 @@ public class PatientCareDto implements DtoMapper<PatientCare, PatientCareDto> {
     private String observations;
     private String physicalExam;
     private String treatment;
-    private List<AgendaDto> agendas;
+    private List<MedicalAppointmentDto> medicalAppointments;
     private Long version;
 
     @Override
     public PatientCareDto convertFromEntityToDTO(PatientCare entity, PatientCareDto dto) {
-        return new PatientCareDto(entity);
+        PatientCareDto patientCareDto = new PatientCareDto(entity);
+
+        patientCareDto.setPatientHistory(new PatientPersonalHistoryDto(entity.getPatientHistory()));
+        return patientCareDto;
     }
 
     @Override
     public PatientCare convertFromDTOToEntity(PatientCareDto dto, PatientCare entity) {
-        return new PatientCare(dto);
+        return entity;
     }
 
     /**
@@ -49,7 +53,7 @@ public class PatientCareDto implements DtoMapper<PatientCare, PatientCareDto> {
      */
     public PatientCareDto(PatientCare entity) {
         this.id = entity.getId();
-        this.patientHistory = null;
+        this.date = entity.getDate().toString();
         this.bloodPressure = entity.getBloodPressure();
         this.heartRate = entity.getHeartRate();
         this.weight = entity.getWeight();
@@ -62,7 +66,6 @@ public class PatientCareDto implements DtoMapper<PatientCare, PatientCareDto> {
         this.observations = entity.getObservations();
         this.physicalExam = entity.getPhysicalExam();
         this.treatment = entity.getTreatment();
-        this.agendas = null;
         this.version = entity.getVersion();
     }
 

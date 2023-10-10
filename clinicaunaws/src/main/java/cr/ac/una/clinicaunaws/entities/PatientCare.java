@@ -2,7 +2,9 @@ package cr.ac.una.clinicaunaws.entities;
 
 import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
+
 import cr.ac.una.clinicaunaws.dto.PatientCareDto;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -49,7 +51,12 @@ public class PatientCare implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @NotNull
+    @Basic(optional = false)
+    @Column(name = "DATE")
+    private LocalDate date;
+
+    @ManyToOne
     @JoinColumn(name = "PATIENTHISTORY", referencedColumnName = "ID")
     private PatientPersonalHistory patientHistory;
 
@@ -122,7 +129,7 @@ public class PatientCare implements Serializable {
     private String treatment;
 
     @OneToMany(mappedBy = "patientCare", fetch = FetchType.LAZY)
-    private List<Agenda> agendas;
+    private List<MedicalAppointment> medicalAppointments;
 
     @Version
     @Column(name = "VERSION")
@@ -140,7 +147,7 @@ public class PatientCare implements Serializable {
      * @param dto constructor from dto to entity
      */
     public void updatePatientCare(PatientCareDto dto) {
-        this.patientHistory = null;
+        this.date = LocalDate.parse(dto.getDate());
         this.bloodPressure = dto.getBloodPressure();
         this.heartRate = dto.getHeartRate();
         this.weight = dto.getWeight();
@@ -153,7 +160,6 @@ public class PatientCare implements Serializable {
         this.observations = dto.getObservations();
         this.physicalExam = dto.getPhysicalExam();
         this.treatment = dto.getTreatment();
-        this.agendas = null;
         this.version = dto.getVersion();
     }
 

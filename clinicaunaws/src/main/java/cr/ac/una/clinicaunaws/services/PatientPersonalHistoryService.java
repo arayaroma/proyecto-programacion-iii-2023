@@ -15,7 +15,7 @@ import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 
 /**
  * FIXME: Test it
- * 
+ *
  * @author arayaroma
  */
 @Stateless
@@ -27,7 +27,7 @@ public class PatientPersonalHistoryService {
 
     /**
      * Create a new PatientPersonalHistory
-     * 
+     *
      * @param patientPersonalHistoryDto to be created
      * @return ResponseWrapper with the created PatientPersonalHistory
      */
@@ -53,7 +53,7 @@ public class PatientPersonalHistoryService {
 
     /**
      * get a PatientPersonalHistory by id
-     * 
+     *
      * @param id of the PatientPersonalHistory to be retrieved
      * @return ResponseWrapper with the retrieved PatientPersonalHistory
      */
@@ -67,7 +67,7 @@ public class PatientPersonalHistoryService {
                         "PatientPersonalHistory not found.",
                         null);
             }
-            PatientPersonalHistoryDto patientPersonalHistoryDto = new PatientPersonalHistoryDto();
+            PatientPersonalHistoryDto patientPersonalHistoryDto = new PatientPersonalHistoryDto(patientPersonalHistory);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
@@ -78,14 +78,14 @@ public class PatientPersonalHistoryService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not retrieve the PatientPersonalHistory.",
+                    "Could not retrieve the PatientPersonalHistory.: " + e.toString(),
                     e.getMessage());
         }
     }
 
     /**
      * get all PatientPersonalHistory
-     * 
+     *
      * @return ResponseWrapper with the retrieved PatientPersonalHistory
      */
     @SuppressWarnings("unchecked")
@@ -97,7 +97,7 @@ public class PatientPersonalHistoryService {
             List<PatientPersonalHistoryDto> patientPersonalHistoryDtoList = new ArrayList<>();
 
             for (PatientPersonalHistory patientPersonalHistory : patientPersonalHistoryList) {
-                PatientPersonalHistoryDto patientPersonalHistoryDto = new PatientPersonalHistoryDto();
+                PatientPersonalHistoryDto patientPersonalHistoryDto = new PatientPersonalHistoryDto(patientPersonalHistory);
                 patientPersonalHistoryDtoList.add(patientPersonalHistoryDto
                         .convertFromEntityToDTO(patientPersonalHistory, patientPersonalHistoryDto));
             }
@@ -118,7 +118,7 @@ public class PatientPersonalHistoryService {
 
     /**
      * update a PatientPersonalHistory
-     * 
+     *
      * @param patientPersonalHistoryDto to be updated
      * @return ResponseWrapper with the updated PatientPersonalHistory
      */
@@ -153,7 +153,7 @@ public class PatientPersonalHistoryService {
 
     /**
      * delete a PatientPersonalHistory by id
-     * 
+     *
      * @param id to be deleted
      * @return ResponseWrapper with the deleted PatientPersonalHistory
      */

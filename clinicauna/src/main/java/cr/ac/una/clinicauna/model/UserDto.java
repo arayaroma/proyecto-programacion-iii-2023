@@ -49,6 +49,28 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
         this.version = new SimpleLongProperty();
     }
 
+    public UserDto(UserDto userDto) {
+        this();
+        setId(userDto.getId());
+        setUsername(userDto.getUsername());
+        setPassword(userDto.getPassword());
+        setName(userDto.getName());
+        setFirstLastname(userDto.getFirstLastname());
+        setSecondLastname(userDto.getSecondLastname());
+        setIdentification(userDto.getIdentification());
+        setEmail(userDto.getEmail());
+        setRole(userDto.getRole());
+        setPhoneNumber(userDto.getPhoneNumber());
+        setIsActive(userDto.getIsActive());
+        setIsAdmin(userDto.getIsAdmin());
+        setPasswordChanged(userDto.getPasswordChanged());
+        setActivationCode(userDto.getActivationCode());
+        setLanguage(userDto.getLanguage());
+        setProfilePhoto(userDto.getProfilePhoto());
+        setVersion(userDto.getVersion());
+        
+    }
+
     public Long getId() {
         return id.get();
     }
@@ -201,28 +223,28 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
 
     public String parseRole(String role) {
         switch (role) {
-            case "Administrador":
+            case "administrador":
                 setIsAdmin("Y");
                 return "ADMINISTRATOR";
-            case "Administrator":
+            case "administrator":
                 setIsAdmin("Y");
                 return "ADMINISTRATOR";
-            case "Doctor":
+            case "doctor":
                 setIsAdmin("N");
                 return "DOCTOR";
-            case "Recepcionista":
+            case "recepcionista":
                 setIsAdmin("N");
                 return "RECEPCIONIST";
-            case "Receptionist":
+            case "recepcionist":
                 setIsAdmin("N");
                 return "RECEPCIONIST";
         }
-        return "RECEPTCIONIST";
+        return "RECEPCIONIST";
     }
 
     @Override
     public UserDto convertFromGeneratedToDTO(UserDto generated, UserDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from        
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
     }
 
     @Override

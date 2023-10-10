@@ -29,7 +29,7 @@ public class GeneralInformationDto implements DtoMapper<GeneralInformation, Gene
      */
     @Override
     public GeneralInformationDto convertFromEntityToDTO(GeneralInformation entity, GeneralInformationDto dto) {
-        return new GeneralInformationDto(entity);
+       return dto;
     }
 
     /**
@@ -39,7 +39,7 @@ public class GeneralInformationDto implements DtoMapper<GeneralInformation, Gene
      */
     @Override
     public GeneralInformation convertFromDTOToEntity(GeneralInformationDto dto, GeneralInformation entity) {
-        return new GeneralInformation(dto);
+        return entity;
     }
 
     /**

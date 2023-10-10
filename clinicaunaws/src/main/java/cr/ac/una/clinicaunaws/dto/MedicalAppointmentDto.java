@@ -4,12 +4,13 @@ import java.util.List;
 
 import cr.ac.una.clinicaunaws.entities.MedicalAppointment;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Data
@@ -20,6 +21,7 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
     private Long id;
     private AgendaDto agenda;
     private PatientDto patient;
+    private PatientCareDto patientCare;
     private UserDto scheduledBy;
     private String scheduledDate;
     private String scheduledTime;
@@ -37,24 +39,19 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
         medicalAppointmentDto.setAgenda(new AgendaDto(entity.getAgenda()));
         medicalAppointmentDto.setPatient(new PatientDto(entity.getPatient()));
         medicalAppointmentDto.setScheduledBy(new UserDto(entity.getScheduledBy()));
+        medicalAppointmentDto.setPatientCare(new PatientCareDto(entity.getPatientCare()));
 
-        // set the doctor
-        medicalAppointmentDto.getAgenda()
-                .setDoctor(new DoctorDto(entity.getAgenda().getDoctor()));
-        // set the patient care
-        medicalAppointmentDto.getAgenda()
-                .setPatientCare(new PatientCareDto(entity.getAgenda().getPatientCare()));
-        // set the patient personal history
-        medicalAppointmentDto.getAgenda()
-                .getPatientCare()
-                .setPatientHistory(
-                        new PatientPersonalHistoryDto(entity.getAgenda().getPatientCare().getPatientHistory()));
+        // Set the Slots List
+        for (int i = 0; i < entity.getSlots().size(); i++) {
+            medicalAppointmentDto.getSlots().add(new SlotsDto(entity.getSlots().get(i)));
+        }
+
         return medicalAppointmentDto;
     }
 
     @Override
     public MedicalAppointment convertFromDTOToEntity(MedicalAppointmentDto dto, MedicalAppointment entity) {
-        return new MedicalAppointment(dto);
+    return entity;
     }
 
     /**
@@ -62,17 +59,14 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
      */
     public MedicalAppointmentDto(MedicalAppointment entity) {
         this.id = entity.getId();
-        this.agenda = null;
-        this.patient = null;
-        this.scheduledBy = null;
         this.scheduledDate = entity.getScheduledDate().toString();
         this.scheduledTime = entity.getScheduledTime();
         this.state = entity.getState();
         this.reason = entity.getReason();
         this.patientPhoneNumber = entity.getPatientPhoneNumber();
         this.patientEmail = entity.getPatientEmail();
-        this.slots = null;
         this.version = entity.getVersion();
+        this.slots = new ArrayList<>();
     }
 
 }

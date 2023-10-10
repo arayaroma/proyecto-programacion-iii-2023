@@ -4,6 +4,7 @@ import java.util.List;
 
 import cr.ac.una.clinicaunaws.entities.Report;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,12 +31,17 @@ public class ReportDto implements DtoMapper<Report, ReportDto> {
 
     @Override
     public ReportDto convertFromEntityToDTO(Report entity, ReportDto dto) {
-        return new ReportDto(entity);
+
+        // Set the Report Parameters List
+        dto.setReportParameters(DtoMapper.fromEntityList(entity.getReportParameters(), ReportParametersDto.class));
+        dto.setReportRecipients(DtoMapper.fromEntityList(entity.getReportRecipients(), ReportRecipientsDto.class));
+        // Set the Report Recipients List
+     return dto;
     }
 
     @Override
     public Report convertFromDTOToEntity(ReportDto dto, Report entity) {
-        return new Report(dto);
+        return entity;
     }
 
     /**
@@ -48,9 +54,9 @@ public class ReportDto implements DtoMapper<Report, ReportDto> {
         this.query = entity.getQuery();
         this.date = entity.getDate().toString();
         this.frequency = entity.getFrequency();
-        this.reportParameters = null;
-        this.reportRecipients = null;
         this.version = entity.getVersion();
+        this.reportParameters = new ArrayList<>();
+        this.reportRecipients = new ArrayList<>();
     }
 
 }

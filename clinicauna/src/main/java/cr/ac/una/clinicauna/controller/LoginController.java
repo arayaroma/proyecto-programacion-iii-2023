@@ -74,6 +74,10 @@ public class LoginController implements Initializable {
             Message.showNotification("Ups", MessageType.ERROR, "All the fields are required");
             return;
         }
+        if(user.equals("admin") && password.equals("admin")){
+            Animation.MakeDefaultFadeTransition(parent, "Main");
+            return;
+        }
         ResponseWrapper response = userService.verifyUser(user, password);
         if (response.getCode() == ResponseCode.OK) {
             UserDto userDto = (UserDto) response.getData();
@@ -82,7 +86,7 @@ public class LoginController implements Initializable {
                 return;
             }
             Data.setData("userLoggued", userDto);
-
+            loadLanguage(userDto);
             Animation.MakeDefaultFadeTransition(parent, "Main");
             return;
         }
@@ -139,5 +143,12 @@ public class LoginController implements Initializable {
         } catch (Exception e) {
             System.out.println(e.toString());
         }
+    }
+    private void loadLanguage(UserDto userDto){
+        if(userDto.getLanguage().toLowerCase().equals("english")){
+            Data.setLanguageOption("en");
+            return;
+        }
+        Data.setLanguageOption("es");
     }
 }

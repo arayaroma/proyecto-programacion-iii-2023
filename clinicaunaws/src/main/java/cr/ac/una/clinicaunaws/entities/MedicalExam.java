@@ -24,6 +24,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import cr.ac.una.clinicaunaws.dto.MedicalExamDto;
 
+
 /**
  * 
  * @author arayaroma
@@ -47,7 +48,7 @@ public class MedicalExam implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "PATIENTHISTORY", referencedColumnName = "ID")
     private PatientPersonalHistory patientHistory;
 
@@ -83,7 +84,6 @@ public class MedicalExam implements Serializable {
      * @param dto to update entity
      */
     public void updateMedicalExam(MedicalExamDto dto) {
-        this.patientHistory = null;
         this.name = dto.getName();
         this.date = LocalDate.parse(dto.getDate());
         this.notes = dto.getNotes();

@@ -100,8 +100,6 @@ public class Report implements Serializable {
         this.query = dto.getQuery();
         this.date = LocalDate.parse(dto.getDate());
         this.frequency = dto.getFrequency();
-        this.reportParameters = null;
-        this.reportRecipients = null;
         this.version = dto.getVersion();
     }
 

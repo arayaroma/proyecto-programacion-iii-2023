@@ -53,15 +53,15 @@
                               <Insets top="20.0" />
                            </VBox.margin>
                         </ImageView>
-                        <Label styleClass="h1" text="%lblRecoveryPassword" VBox.vgrow="ALWAYS" />
+                        <Label styleClass="h1" text="%recoveryPassword" VBox.vgrow="ALWAYS" />
                         <VBox spacing="30.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <JFXTextField fx:id="txfRecoveryEmail" labelFloat="true" promptText="%lblEmail" styleClass="h3" />
+                              <JFXTextField fx:id="txfRecoveryEmail" labelFloat="true" promptText="%email" styleClass="h3" />
                            </children>
                         </VBox>
                         <HBox VBox.vgrow="ALWAYS">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#btnSendRecoveryEmailAction" styleClass="btn" text="%btnSendRecoveryEmail" />
+                              <Button mnemonicParsing="false" onAction="#btnSendRecoveryEmailAction" styleClass="btn" text="%sendRecoveryPassword" />
                            </children>
                         </HBox>
                      </children>
@@ -94,22 +94,22 @@
                               <Insets top="20.0" />
                            </VBox.margin>
                         </ImageView>
-                        <Label styleClass="h1" text="%lblLogin" VBox.vgrow="ALWAYS" />
+                        <Label styleClass="h1" text="%login" VBox.vgrow="ALWAYS" />
                         <VBox spacing="30.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <JFXTextField fx:id="txfUsername" labelFloat="true" promptText="%txfUser" styleClass="h3" />
-                              <JFXPasswordField fx:id="txfPassword" labelFloat="true" promptText="%txfPassword" styleClass="h3" />
+                              <JFXTextField fx:id="txfUsername" labelFloat="true" promptText="%user" styleClass="h3" />
+                              <JFXPasswordField fx:id="txfPassword" labelFloat="true" promptText="%password" styleClass="h3" />
                            </children>
                         </VBox>
                         <HBox VBox.vgrow="ALWAYS">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#btnLogInAction" styleClass="btn" text="%btLogin" />
+                              <Button mnemonicParsing="false" onAction="#btnLogInAction" styleClass="btn" text="%login" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Label text="%lblFpass" />
-                              <Label onMouseClicked="#forgotYourPasswordAction" styleClass="a" text="%lblClickHere" />
+                              <Label text="%forgotYourPassword" />
+                              <Label onMouseClicked="#forgotYourPasswordAction" styleClass="a" text="%clickHere" />
                            </children>
                         </HBox>
                      </children>

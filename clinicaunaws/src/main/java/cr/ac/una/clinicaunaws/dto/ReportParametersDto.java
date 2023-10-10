@@ -23,7 +23,8 @@ public class ReportParametersDto implements DtoMapper<ReportParameters, ReportPa
 
     @Override
     public ReportParametersDto convertFromEntityToDTO(ReportParameters entity, ReportParametersDto dto) {
-        return new ReportParametersDto(entity);
+        dto.setReport(new ReportDto(entity.getReport()));
+        return dto;
     }
 
     @Override
@@ -38,7 +39,6 @@ public class ReportParametersDto implements DtoMapper<ReportParameters, ReportPa
      */
     public ReportParametersDto(ReportParameters entity) {
         this.id = entity.getId();
-        this.report = null;
         this.name = entity.getName();
         this.value = entity.getValue();
         this.version = entity.getVersion();

@@ -60,7 +60,7 @@
                               <Insets top="20.0" />
                            </VBox.margin>
                         </ImageView>
-                        <Label styleClass="h1" text="%lblRegister" VBox.vgrow="ALWAYS">
+                        <Label styleClass="h1" text="%register" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="30.0" />
                            </VBox.margin></Label>
@@ -78,59 +78,59 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <JFXTextField fx:id="txfIdentification" labelFloat="true" promptText="%txfIdentification" styleClass="h3">
+                              <JFXTextField fx:id="txfIdentification" labelFloat="true" promptText="%identification" styleClass="h3">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXTextField>
-                              <JFXTextField fx:id="txfUsername" labelFloat="true" promptText="%txfUsername" styleClass="h3" GridPane.columnIndex="1">
+                              <JFXTextField fx:id="txfUsername" labelFloat="true" promptText="%userName" styleClass="h3" GridPane.columnIndex="1">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXTextField>
-                              <JFXPasswordField fx:id="txfPassword" labelFloat="true" promptText="%txfPassword" styleClass="h3" GridPane.columnIndex="2">
+                              <JFXPasswordField fx:id="txfPassword" labelFloat="true" promptText="%password" styleClass="h3" GridPane.columnIndex="2">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXPasswordField>
-                              <JFXTextField fx:id="txfName" labelFloat="true" promptText="%txfName" styleClass="h3" GridPane.rowIndex="1">
+                              <JFXTextField fx:id="txfName" labelFloat="true" promptText="%name" styleClass="h3" GridPane.rowIndex="1">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXTextField>
-                              <JFXTextField fx:id="txfLastName" labelFloat="true" promptText="%txfLastName" styleClass="h3" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <JFXTextField fx:id="txfLastName" labelFloat="true" promptText="%firstLastName" styleClass="h3" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXTextField>
-                              <JFXTextField fx:id="txfSencondLastName" labelFloat="true" promptText="%txfSecondLastName" styleClass="h3" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                              <JFXTextField fx:id="txfSencondLastName" labelFloat="true" promptText="%secondLastName" styleClass="h3" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXTextField>
-                              <JFXTextField fx:id="txfEmail" labelFloat="true" promptText="%txfEmail" styleClass="h3" GridPane.columnSpan="3" GridPane.rowIndex="2">
+                              <JFXTextField fx:id="txfEmail" labelFloat="true" promptText="%email" styleClass="h3" GridPane.columnSpan="3" GridPane.rowIndex="2">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXTextField>
-                              <JFXTextField fx:id="txfPhoneNumber" labelFloat="true" promptText="%txfPhoneNumber" styleClass="h3" GridPane.rowIndex="3">
+                              <JFXTextField fx:id="txfPhoneNumber" labelFloat="true" promptText="%phoneNumber" styleClass="h3" GridPane.rowIndex="3">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXTextField>
                               <FlowPane alignment="CENTER_LEFT" columnHalignment="CENTER" hgap="10.0" prefWrapLength="300.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                  <children>
-                                    <RadioButton mnemonicParsing="false" styleClass="p" text="%rbAdmin">
+                                    <RadioButton mnemonicParsing="false" styleClass="p" text="%admin">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="roleGroup" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton mnemonicParsing="false" styleClass="p" text="%rbDoctor" toggleGroup="$roleGroup" />
-                                    <RadioButton mnemonicParsing="false" styleClass="p" text="%rbReceptionist" toggleGroup="$roleGroup" />
+                                    <RadioButton mnemonicParsing="false" styleClass="p" text="%doctor" toggleGroup="$roleGroup" />
+                                    <RadioButton mnemonicParsing="false" styleClass="p" text="%recepcionist" toggleGroup="$roleGroup" />
                                  </children>
                               </FlowPane>
-                              <ComboBox fx:id="cbLanguage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="%cbLanguage" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnSelectPhotoProfileAction" text="%btnSelectPhotoProfile" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                              <ComboBox fx:id="cbLanguage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="%language" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnSelectPhotoProfileAction" text="%selectPhotoProfile" GridPane.columnIndex="2" GridPane.rowIndex="4">
                                  <styleClass>
                                     <String fx:value="btn" />
                                     <String fx:value="h3" />
@@ -140,7 +140,7 @@
                         </GridPane>
                         <HBox VBox.vgrow="ALWAYS">
                            <children>
-                              <Button  mnemonicParsing="false" onAction="#btnRegisterUserAction" text="%btnRegister">
+                              <Button mnemonicParsing="false" onAction="#btnRegisterUserAction" text="%register">
                                  <styleClass>
                                     <String fx:value="btn" />
                                     <String fx:value="orange-color" />
