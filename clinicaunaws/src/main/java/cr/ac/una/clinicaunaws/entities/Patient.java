@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.List;
 import cr.ac.una.clinicaunaws.dto.PatientDto;
 import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -38,8 +37,8 @@ import jakarta.persistence.QueryHint;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
-    @NamedQuery(name = "Patient.findAll", query = "SELECT p FROM Patient p", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
-    @NamedQuery(name = "Patient.findById", query = "SELECT p FROM Patient p WHERE p.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true"))
+        @NamedQuery(name = "Patient.findAll", query = "SELECT p FROM Patient p", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+        @NamedQuery(name = "Patient.findById", query = "SELECT p FROM Patient p WHERE p.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true"))
 })
 public class Patient implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -98,15 +97,15 @@ public class Patient implements Serializable {
     @Column(name = "BIRTHDATE")
     private LocalDate birthDate;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<MedicalAppointment> medicalAppointments;
-
     @OneToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "ID", insertable = false, updatable = false)
     private PatientPersonalHistory patientPersonalHistory;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
     private List<PatientFamilyHistory> patientFamilyHistories;
+
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
+    private List<MedicalAppointment> medicalAppointments;
 
     @Version
     @Column(name = "VERSION")
