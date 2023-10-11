@@ -46,8 +46,8 @@ public class ReportRecipientsService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not create the ReportRecipients.",
-                    e.getMessage());
+                    "Could not create the ReportRecipients: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -72,15 +72,15 @@ public class ReportRecipientsService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "ReportRecipients not found.",
-                        "ReportRecipients with id: " + id + " not found.");
+                        "ReportRecipients with id: " + id + " not found.",
+                        null);
             }
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "ReportRecipients could not be retrieved.",
-                    e.getMessage());
+                    "ReportRecipients could not be retrieved: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -110,8 +110,8 @@ public class ReportRecipientsService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "ReportRecipients could not be retrieved.",
-                    e.getMessage());
+                    "ReportRecipients could not be retrieved: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -138,15 +138,15 @@ public class ReportRecipientsService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "ReportRecipients not found.",
-                        "ReportRecipients with id: " + reportRecipientsDto.getId() + " not found.");
+                        "ReportRecipients with id: " + reportRecipientsDto.getId() + " not found.",
+                        null);
             }
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "ReportRecipients could not be updated.",
-                    e.getMessage());
+                    "ReportRecipients could not be updated: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -170,15 +170,15 @@ public class ReportRecipientsService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "ReportRecipients not found.",
-                        "ReportRecipients with id: " + id + " not found.");
+                        "ReportRecipients with id: " + id + " not found.",
+                        null);
             }
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "ReportRecipients could not be deleted.",
-                    e.getMessage());
+                    "ReportRecipients could not be deleted: " + e.getMessage(),
+                    null);
         }
     }
 
