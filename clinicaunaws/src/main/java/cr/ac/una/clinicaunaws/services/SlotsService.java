@@ -46,8 +46,8 @@ public class SlotsService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not create the Slots.",
-                    e.getMessage());
+                    "Could not create the Slots: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -72,15 +72,15 @@ public class SlotsService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "Slots not found.",
-                        "Slots with id " + id + " not found in the database.");
+                        "Slots with id: " + id + " not found",
+                        null);
             }
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not retrieve the Slots.",
-                    e.getMessage());
+                    "Could not retrieve the Slots: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -110,8 +110,8 @@ public class SlotsService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not retrieve all Slots.",
-                    e.getMessage());
+                    "Could not retrieve all Slots: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -138,15 +138,15 @@ public class SlotsService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "Slots not found.",
-                        "Slots with id " + slotsDto.getId() + " not found in the database.");
+                        "Slots with id: " + slotsDto.getId() + " not found",
+                        null);
             }
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Slots could not be updated.",
-                    e.getMessage());
+                    "Slots could not be updated: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -172,15 +172,15 @@ public class SlotsService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "Slots not found.",
-                        "Slots with id " + id + " not found in the database.");
+                        "Slots with id: " + id + " not found.",
+                        null);
             }
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Slots could not be deleted.",
-                    e.getMessage());
+                    "Slots could not be deleted: " + e.getMessage(),
+                    null);
         }
     }
 
