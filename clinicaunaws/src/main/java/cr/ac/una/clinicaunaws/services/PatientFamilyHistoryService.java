@@ -46,8 +46,8 @@ public class PatientFamilyHistoryService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not create the PatientFamilyHistory.",
-                    e.getMessage());
+                    "Could not create the PatientFamilyHistory: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -64,7 +64,7 @@ public class PatientFamilyHistoryService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "PatientFamilyHistory not found.",
+                        "PatientFamilyHistory with id: " + id + " not found",
                         null);
             }
             PatientFamilyHistoryDto patientFamilyHistoryDto = new PatientFamilyHistoryDto(patientFamilyHistory);
@@ -77,8 +77,8 @@ public class PatientFamilyHistoryService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not retrieve the PatientFamilyHistory.",
-                    e.getMessage());
+                    "Could not retrieve the PatientFamilyHistory: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -111,8 +111,8 @@ public class PatientFamilyHistoryService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not retrieve the PatientFamilyHistory.",
-                    e.getMessage());
+                    "Could not retrieve the PatientFamilyHistory: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -130,7 +130,7 @@ public class PatientFamilyHistoryService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "PatientFamilyHistory not found.",
+                        "PatientFamilyHistory with id: " + patientFamilyHistoryDto.getId() + " not found.",
                         null);
             }
             patientFamilyHistory.updatePatientFamilyHistory(patientFamilyHistoryDto);
@@ -146,8 +146,8 @@ public class PatientFamilyHistoryService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not update the PatientFamilyHistory.",
-                    e.getMessage());
+                    "Could not update the PatientFamilyHistory: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -164,7 +164,7 @@ public class PatientFamilyHistoryService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "PatientFamilyHistory not found.",
+                        "PatientFamilyHistory with id: " + id + " not found.",
                         null);
             }
             em.remove(patientFamilyHistory);
@@ -178,8 +178,8 @@ public class PatientFamilyHistoryService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not delete the PatientFamilyHistory.",
-                    e.getMessage());
+                    "Could not delete the PatientFamilyHistory: " + e.getMessage(),
+                    null);
         }
     }
 
