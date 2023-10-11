@@ -44,8 +44,8 @@ public class GeneralInformationService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not create the General Information.",
-                    e.getMessage());
+                    "Could not create the General Information: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -75,8 +75,8 @@ public class GeneralInformationService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not get the General Information.",
-                    e.getMessage());
+                    "Could not get the General Information: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -106,8 +106,8 @@ public class GeneralInformationService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not get the General Information.",
-                    e.getMessage());
+                    "Could not get the General Information: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -125,7 +125,8 @@ public class GeneralInformationService {
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
                         "General Information not found.",
-                        generalInformationDto);
+                        null);
+
             }
             generalInformation.updateGeneralInformation(generalInformationDto);
             em.merge(generalInformation);
@@ -139,8 +140,8 @@ public class GeneralInformationService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not update the General Information.",
-                    e.getMessage());
+                    "Could not update the General Information: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -171,8 +172,8 @@ public class GeneralInformationService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not delete the General Information.",
-                    e.getMessage());
+                    "Could not delete the General Information: " + e.getMessage(),
+                    null);
         }
     }
 
