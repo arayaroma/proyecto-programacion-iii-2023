@@ -20,19 +20,21 @@ import cr.ac.una.clinicaunaws.util.Constants;
 @Stateless
 @LocalBean
 public class ReportService {
-    
-    
-    /**FIXME: add returns null with errors
+
+    /**
+     * FIXME: add returns null with errors
+     * 
      * @param id patient id to be retrieved
-     * @return ResponseWrapper with the response and report from database, or null if an
+     * @return ResponseWrapper with the response and report from database, or null
+     *         if an
      *         exception occurred
      * @throws java.io.IOException
      * @throws net.sf.jasperreports.engine.JRException
      */
     public ResponseWrapper createReport(Long id) throws IOException, JRException {
-        //FALTA HACER REFRACTOR A ESTE CODIGO
+        // FALTA HACER REFRACTOR A ESTE CODIGO
         try {
-            // Ruta al archivo JRXML CAMBIAR ESTO 
+            // Ruta al archivo JRXML CAMBIAR ESTO
             String jasperPath = "C:\\Users\\varga\\Desktop\\ClinicaUna\\proyecto-programacion-iii-2023\\clinicaunaws\\src\\main\\resources\\cr\\ac\\una\\clinicaunaws\\reports\\medicalRecord.jrxml";
             JasperReport jReport = JasperCompileManager.compileReport(jasperPath);
 
@@ -43,7 +45,8 @@ public class ReportService {
             Map<String, Object> par = new HashMap<>();
             par.put("idPatientCare", id);
 
-            try (Connection connection = DriverManager.getConnection(Constants.URL_DB, Constants.USER_DB, Constants.PASS_DB)) {
+            try (Connection connection = DriverManager.getConnection(Constants.URL_DB, Constants.USER_DB,
+                    Constants.PASS_DB)) {
                 // Llenar el informe con datos y la conexión a la base de datos
                 JasperPrint jasperPrint = JasperFillManager.fillReport(jReport, par, connection);
                 byte[] pdfbytes = JasperExportManager.exportReportToPdf(jasperPrint);
@@ -56,7 +59,7 @@ public class ReportService {
                 return new ResponseWrapper(
                         ResponseCode.CONFLICT.getCode(),
                         ResponseCode.CONFLICT,
-                        "No conected.",
+                        "No connected: " + e.getMessage(),
                         null);
             }
         } catch (JRException e) {
