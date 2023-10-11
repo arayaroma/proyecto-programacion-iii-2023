@@ -46,8 +46,8 @@ public class MedicalExamService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not create the MedicalExam.",
-                    e.getMessage());
+                    "Could not create the MedicalExam: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -72,15 +72,15 @@ public class MedicalExamService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "MedicalExam not found.",
-                        "MedicalExam with id " + id + " not found in the database.");
+                        "MedicalExam with id: " + id.toString() + " not found.",
+                        null);
             }
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not retrieve the MedicalExam.",
-                    e.getMessage());
+                    "Could not retrieve the MedicalExam: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -110,8 +110,8 @@ public class MedicalExamService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not retrieve all the MedicalExam.",
-                    e.getMessage());
+                    "Could not retrieve all the MedicalExam: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -143,8 +143,8 @@ public class MedicalExamService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not update the MedicalExam.",
-                    e.getMessage());
+                    "Could not update the MedicalExam: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -175,8 +175,8 @@ public class MedicalExamService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not delete the MedicalExam.",
-                    e.getMessage());
+                    "Could not delete the MedicalExam: " + e.getMessage(),
+                    null);
         }
     }
 
