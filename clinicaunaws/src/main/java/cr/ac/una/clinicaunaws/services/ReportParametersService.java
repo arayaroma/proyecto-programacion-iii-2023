@@ -46,8 +46,8 @@ public class ReportParametersService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not create the ReportParameters.",
-                    e.getMessage());
+                    "Could not create the ReportParameters: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -72,15 +72,15 @@ public class ReportParametersService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "ReportParameters not found.",
-                        "ReportParameters with id " + id + " not found in the database.");
+                        "ReportParameters with id: " + id + " not found",
+                        null);
             }
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not retrieve the ReportParameters.",
-                    e.getMessage());
+                    "Could not retrieve the ReportParameters: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -110,8 +110,8 @@ public class ReportParametersService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not retrieve the ReportParameters.",
-                    e.getMessage());
+                    "Could not retrieve the ReportParameters: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -138,15 +138,15 @@ public class ReportParametersService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "ReportParameters not found.",
-                        "ReportParameters with id " + reportParametersDto.getId() + " not found in the database.");
+                        "ReportParameters with id: " + reportParametersDto.getId() + " not found",
+                        null);
             }
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not update the ReportParameters.",
-                    e.getMessage());
+                    "Could not update the ReportParameters: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -170,15 +170,15 @@ public class ReportParametersService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "ReportParameters not found.",
-                        "ReportParameters with id " + id + " not found in the database.");
+                        "ReportParameters with id: " + id + " not found.",
+                        null);
             }
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "ReportParameters could not be deleted.",
-                    e.getMessage());
+                    "ReportParameters could not be deleted: " + e.getMessage(),
+                    null);
         }
     }
 
