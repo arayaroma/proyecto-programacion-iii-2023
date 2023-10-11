@@ -6,7 +6,6 @@ import cr.ac.una.clinicaunaws.dto.SlotsDto;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,7 +22,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import static cr.ac.una.clinicaunaws.util.Database.*;
-import jakarta.persistence.OneToMany;
 
 @Entity
 @Table(name = "TBL_SLOTS", schema = SCHEMA)
@@ -45,7 +43,7 @@ public class Slots implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "AGENDA",referencedColumnName = "ID")
+    @JoinColumn(name = "AGENDA", referencedColumnName = "ID")
     private Agenda agenda;
 
     @ManyToOne

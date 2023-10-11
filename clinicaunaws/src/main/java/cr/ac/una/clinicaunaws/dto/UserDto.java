@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 public class UserDto implements DtoMapper<User, UserDto> {
 
     private Long id;
+    private DoctorDto doctor;
     private String username;
     private String password;
     private String name;
@@ -44,7 +45,7 @@ public class UserDto implements DtoMapper<User, UserDto> {
      */
     @Override
     public UserDto convertFromEntityToDTO(User entity, UserDto dto) {
-        dto.setMedicalAppointments(DtoMapper.fromEntityList(entity.getMedicalAppointments(), MedicalAppointmentDto.class));
+        dto.setDoctor(new DoctorDto(entity.getDoctor()));
         return dto;
     }
 

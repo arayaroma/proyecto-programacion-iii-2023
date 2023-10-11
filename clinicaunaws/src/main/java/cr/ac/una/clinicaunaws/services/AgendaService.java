@@ -44,8 +44,8 @@ public class AgendaService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not create the Agenda.",
-                    e.getMessage());
+                    "Could not create the Agenda: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -78,8 +78,8 @@ public class AgendaService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not retrieve the Agenda.: " + e.getMessage(),
-                    e.getMessage());
+                    "Could not retrieve the Agenda: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -110,8 +110,8 @@ public class AgendaService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not retrieve the Agenda.",
-                    e.getMessage());
+                    "Could not retrieve the Agenda: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -144,8 +144,8 @@ public class AgendaService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not update the Agenda.",
-                    e.getMessage());
+                    "Could not update the Agenda: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -178,8 +178,8 @@ public class AgendaService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not delete the Agenda.",
-                    e.getMessage());
+                    "Could not delete the Agenda: " + e.getMessage(),
+                    null);
         }
     }
 

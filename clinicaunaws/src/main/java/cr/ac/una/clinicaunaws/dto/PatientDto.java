@@ -1,12 +1,7 @@
 package cr.ac.una.clinicaunaws.dto;
 
 import java.util.List;
-
-import cr.ac.una.clinicaunaws.entities.MedicalExam;
 import cr.ac.una.clinicaunaws.entities.Patient;
-import cr.ac.una.clinicaunaws.entities.PatientCare;
-import cr.ac.una.clinicaunaws.entities.PatientFamilyHistory;
-import cr.ac.una.clinicaunaws.entities.PatientPersonalHistory;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
@@ -38,55 +33,19 @@ public class PatientDto implements DtoMapper<Patient, PatientDto> {
 
     @Override
     public PatientDto convertFromEntityToDTO(Patient entity, PatientDto dto) {
-        dto.setPatientPersonalHistory(new PatientPersonalHistoryDto(entity.getPatientPersonalHistory()));
-        dto.setPatientFamilyHistories(DtoMapper.fromEntityList(entity.getPatientFamilyHistories(), PatientFamilyHistoryDto.class));
-        dto.setMedicalAppointments(DtoMapper.fromEntityList(entity.getMedicalAppointments(), MedicalAppointmentDto.class));
-//        dto.setPatientPersonalHistory(
-//                DtoMapper.convertToDto(entity.getPatientPersonalHistory(), PatientPersonalHistoryDto.class));
-//        if (dto.getPatientPersonalHistory() != null) {
-//
-//            if (entity.getPatientPersonalHistory().getMedicalExams() != null) {
-//                dto.getPatientPersonalHistory().setMedicalExams(
-//                        DtoMapper.fromEntityList(entity.getPatientPersonalHistory().getMedicalExams(),
-//                                MedicalExamDto.class));
-//            }
-//
-//            if (entity.getPatientPersonalHistory().getPatientCares() != null) {
-//                dto.getPatientPersonalHistory().setPatientCares(
-//                        DtoMapper.fromEntityList(entity.getPatientPersonalHistory().getPatientCares(),
-//                                PatientCareDto.class));
-//            }
-//        }
-//
-//        if (entity.getPatientFamilyHistories() != null) {
-//            dto.setPatientFamilyHistories(
-//                    DtoMapper.fromEntityList(entity.getPatientFamilyHistories(), PatientFamilyHistoryDto.class));
-//        }validaciones malas
+        if (entity.getPatientPersonalHistory() != null) {
+            dto.setPatientPersonalHistory(new PatientPersonalHistoryDto(entity.getPatientPersonalHistory()));
+        }
+
+        dto.setPatientFamilyHistories(
+                DtoMapper.fromEntityList(entity.getPatientFamilyHistories(), PatientFamilyHistoryDto.class));
+        dto.setMedicalAppointments(
+                DtoMapper.fromEntityList(entity.getMedicalAppointments(), MedicalAppointmentDto.class));
         return dto;
     }
 
     @Override
     public Patient convertFromDTOToEntity(PatientDto dto, Patient entity) {
-
-//        entity.setPatientPersonalHistory(new PatientPersonalHistory(dto.getPatientPersonalHistory()));
-
-//        if (entity.getPatientPersonalHistory() != null) {
-//
-//            if (entity.getPatientPersonalHistory().getMedicalExams() != null) {
-//                entity.getPatientPersonalHistory().setMedicalExams(
-//                        DtoMapper.fromDtoList(dto.getPatientPersonalHistory().getMedicalExams(), MedicalExam.class));
-//            }
-//
-//            if (entity.getPatientPersonalHistory().getPatientCares() != null) {
-//                entity.getPatientPersonalHistory().setPatientCares(
-//                        DtoMapper.fromDtoList(dto.getPatientPersonalHistory().getPatientCares(), PatientCare.class));
-//            }
-//        }
-//
-//        if (entity.getPatientFamilyHistories() != null) {
-//            entity.setPatientFamilyHistories(
-//                    DtoMapper.fromDtoList(dto.getPatientFamilyHistories(), PatientFamilyHistory.class));
-//        }no es necesario para guardar ni actualizar
         return entity;
     }
 

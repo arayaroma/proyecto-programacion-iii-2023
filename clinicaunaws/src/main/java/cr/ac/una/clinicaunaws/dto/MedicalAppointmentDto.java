@@ -41,17 +41,13 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
         medicalAppointmentDto.setScheduledBy(new UserDto(entity.getScheduledBy()));
         medicalAppointmentDto.setPatientCare(new PatientCareDto(entity.getPatientCare()));
 
-        // Set the Slots List
-        for (int i = 0; i < entity.getSlots().size(); i++) {
-            medicalAppointmentDto.getSlots().add(new SlotsDto(entity.getSlots().get(i)));
-        }
-
+        // FIXME: Arrange this
         return medicalAppointmentDto;
     }
 
     @Override
     public MedicalAppointment convertFromDTOToEntity(MedicalAppointmentDto dto, MedicalAppointment entity) {
-    return entity;
+        return entity;
     }
 
     /**

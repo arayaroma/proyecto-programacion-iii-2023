@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -51,7 +52,8 @@ public class Doctor implements Serializable {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "ID", referencedColumnName = "ID",insertable = false, updatable = false)
+    @MapsId
+    @JoinColumn(name = "ID", referencedColumnName = "ID", unique = true)
     private User user;
 
     @NotNull

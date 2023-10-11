@@ -5,7 +5,6 @@ import cr.ac.una.clinicaunaws.dto.PatientFamilyHistoryDto;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -47,7 +46,7 @@ public class PatientFamilyHistory implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "PATIENT")
+    @JoinColumn(name = "PATIENT", referencedColumnName = "ID")
     private Patient patient;
 
     @Basic(optional = false)

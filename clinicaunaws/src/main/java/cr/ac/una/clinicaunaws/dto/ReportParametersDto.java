@@ -29,7 +29,7 @@ public class ReportParametersDto implements DtoMapper<ReportParameters, ReportPa
 
     @Override
     public ReportParameters convertFromDTOToEntity(ReportParametersDto dto, ReportParameters entity) {
-        return new ReportParameters(dto);
+        return entity;
     }
 
     /**

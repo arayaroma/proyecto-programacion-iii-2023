@@ -3,6 +3,7 @@ package cr.ac.una.clinicaunaws.dto;
 import java.util.List;
 
 import cr.ac.una.clinicaunaws.entities.Agenda;
+import cr.ac.una.clinicaunaws.entities.Doctor;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
@@ -30,16 +31,14 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
 
     @Override
     public AgendaDto convertFromEntityToDTO(Agenda entity, AgendaDto dto) {
-
-//        dto.setDoctor(new DoctorDto(entity.getDoctor()));
-//        dto.setSlots(DtoMapper.fromEntityList(entity.getSlots(), SlotsDto.class));
-//        dto.setMedicalAppointments(DtoMapper.fromEntityList(entity.getMedicalAppointments(), MedicalAppointmentDto.class));
-        
+        dto.setDoctor(new DoctorDto(entity.getDoctor()));
+        // FIXME: Arrange this
         return dto;
     }
 
     @Override
     public Agenda convertFromDTOToEntity(AgendaDto dto, Agenda entity) {
+        entity.setDoctor(new Doctor(dto.getDoctor()));
         return entity;
     }
 

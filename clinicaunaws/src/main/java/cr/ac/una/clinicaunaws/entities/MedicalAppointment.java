@@ -50,19 +50,19 @@ public class MedicalAppointment implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "AGENDA", referencedColumnName ="ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "AGENDA", referencedColumnName = "ID")
     private Agenda agenda;
 
-    @ManyToOne
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "PATIENT", referencedColumnName = "ID")
     private Patient patient;
 
-    @ManyToOne
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "PATIENTCARE", referencedColumnName = "ID")
     private PatientCare patientCare;
 
-    @ManyToOne
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "SCHEDULEDBY", referencedColumnName = "ID")
     private User scheduledBy;
 

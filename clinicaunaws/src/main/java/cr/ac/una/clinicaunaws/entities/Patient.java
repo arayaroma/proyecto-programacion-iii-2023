@@ -11,7 +11,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -97,8 +96,7 @@ public class Patient implements Serializable {
     @Column(name = "BIRTHDATE")
     private LocalDate birthDate;
 
-    @OneToOne
-    @JoinColumn(name = "ID", insertable = false, updatable = false)
+    @OneToOne(mappedBy = "patient", fetch = FetchType.LAZY)
     private PatientPersonalHistory patientPersonalHistory;
 
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)

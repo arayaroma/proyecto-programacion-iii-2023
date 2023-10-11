@@ -11,6 +11,8 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.QueryHint;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -24,8 +26,6 @@ import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
 import java.util.List;
 import cr.ac.una.clinicaunaws.dto.UserDto;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 
 /**
  *
@@ -55,6 +55,7 @@ public class User implements Serializable {
     private Long id;
 
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
     private Doctor doctor;
 
     @NotNull

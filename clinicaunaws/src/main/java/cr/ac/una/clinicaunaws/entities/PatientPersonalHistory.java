@@ -49,7 +49,7 @@ public class PatientPersonalHistory implements Serializable {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "ID", insertable = false, updatable = false)
+    @JoinColumn(name = "PATIENT", referencedColumnName = "ID")
     private Patient patient;
 
     @Basic(optional = false)

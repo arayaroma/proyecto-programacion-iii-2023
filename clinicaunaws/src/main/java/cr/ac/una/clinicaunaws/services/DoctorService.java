@@ -33,13 +33,14 @@ public class DoctorService {
     public ResponseWrapper createDoctor(DoctorDto doctorDto) {
         try {
             Doctor doctor = new Doctor(doctorDto);
+            doctor = doctorDto.convertFromDTOToEntity(doctorDto, doctor);
             em.persist(doctor);
             em.flush();
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
                     "Doctor created successfully.",
-                    new DoctorDto(doctor));
+                    doctorDto.convertFromEntityToDTO(doctor, doctorDto));
         } catch (Exception ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
@@ -56,7 +57,8 @@ public class DoctorService {
      */
     public ResponseWrapper getDoctorById(Long id) {
         try {
-//            Doctor doctor = em.createNamedQuery("Doctor.findById", Doctor.class).setParameter("id", id).getSingleResult();
+            // Doctor doctor = em.createNamedQuery("Doctor.findById",
+            // Doctor.class).setParameter("id", id).getSingleResult();
             Doctor doctor;
             doctor = em.find(Doctor.class, id);
             if (doctor == null) {
