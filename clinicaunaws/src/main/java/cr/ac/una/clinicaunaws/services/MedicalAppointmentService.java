@@ -46,8 +46,8 @@ public class MedicalAppointmentService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not create the MedicalAppointment.",
-                    e.getMessage());
+                    "Could not create the MedicalAppointment: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -72,15 +72,15 @@ public class MedicalAppointmentService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "MedicalAppointment not found.",
-                        "MedicalAppointment with id " + id + " not found in the database.");
+                        "MedicalAppointment with id:" + id + " not found.",
+                        null);
             }
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not get the MedicalAppointment.",
-                    e.getMessage());
+                    "Could not get the MedicalAppointment: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -111,8 +111,8 @@ public class MedicalAppointmentService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not get the MedicalAppointments.",
-                    e.getMessage());
+                    "Could not get the MedicalAppointments: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -140,16 +140,15 @@ public class MedicalAppointmentService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "MedicalAppointment not found.",
-                        "MedicalAppointment with id " + medicalAppointmentDto.getId()
-                                + " not found in the database.");
+                        "MedicalAppointment with id: " + medicalAppointmentDto.getId().toString() + " not found.",
+                        null);
             }
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not update the MedicalAppointment.",
-                    e.getMessage());
+                    "Could not update the MedicalAppointment: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -174,15 +173,15 @@ public class MedicalAppointmentService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "MedicalAppointment not found.",
-                        "MedicalAppointment with id " + id + " not found in the database.");
+                        "MedicalAppointment with id: " + id.toString() + " not found.",
+                        null);
             }
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not delete the MedicalAppointment.",
-                    e.getMessage());
+                    "Could not delete the MedicalAppointment: " + e.getMessage(),
+                    null);
         }
     }
 
