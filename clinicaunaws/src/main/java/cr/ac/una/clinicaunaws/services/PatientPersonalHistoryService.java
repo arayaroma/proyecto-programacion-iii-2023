@@ -46,8 +46,8 @@ public class PatientPersonalHistoryService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not create the PatientPersonalHistory.",
-                    e.getMessage());
+                    "Could not create the PatientPersonalHistory: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -64,7 +64,7 @@ public class PatientPersonalHistoryService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "PatientPersonalHistory not found.",
+                        "PatientPersonalHistory with id: " + id + " not found",
                         null);
             }
             PatientPersonalHistoryDto patientPersonalHistoryDto = new PatientPersonalHistoryDto(patientPersonalHistory);
@@ -78,8 +78,8 @@ public class PatientPersonalHistoryService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not retrieve the PatientPersonalHistory.: " + e.toString(),
-                    e.getMessage());
+                    "Could not retrieve the PatientPersonalHistory: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -97,7 +97,8 @@ public class PatientPersonalHistoryService {
             List<PatientPersonalHistoryDto> patientPersonalHistoryDtoList = new ArrayList<>();
 
             for (PatientPersonalHistory patientPersonalHistory : patientPersonalHistoryList) {
-                PatientPersonalHistoryDto patientPersonalHistoryDto = new PatientPersonalHistoryDto(patientPersonalHistory);
+                PatientPersonalHistoryDto patientPersonalHistoryDto = new PatientPersonalHistoryDto(
+                        patientPersonalHistory);
                 patientPersonalHistoryDtoList.add(patientPersonalHistoryDto
                         .convertFromEntityToDTO(patientPersonalHistory, patientPersonalHistoryDto));
             }
@@ -111,8 +112,8 @@ public class PatientPersonalHistoryService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not retrieve the PatientPersonalHistory.",
-                    e.getMessage());
+                    "Could not retrieve the PatientPersonalHistory: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -146,8 +147,8 @@ public class PatientPersonalHistoryService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not update the PatientPersonalHistory.",
-                    e.getMessage());
+                    "Could not update the PatientPersonalHistory: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -164,7 +165,7 @@ public class PatientPersonalHistoryService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "PatientPersonalHistory not found.",
+                        "PatientPersonalHistory with id: " + id + " not found.",
                         null);
             }
             em.remove(patientPersonalHistory);
@@ -178,8 +179,8 @@ public class PatientPersonalHistoryService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not delete the PatientPersonalHistory.",
-                    e.getMessage());
+                    "Could not delete the PatientPersonalHistory: " + e.getMessage(),
+                    null);
         }
     }
 
