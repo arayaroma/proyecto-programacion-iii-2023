@@ -62,7 +62,7 @@ public class PatientService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "Patient not found, id: " + id.toString() + ")",
+                        "Patient not found, id: " + id.toString(),
                         null);
             }
             PatientDto patientDto = new PatientDto(patient);
@@ -118,12 +118,12 @@ public class PatientService {
     public ResponseWrapper updatePatient(PatientDto patientDto) {
         try {
             Patient patient;
-            patient = em.find(Patient.class , patientDto.getId());
+            patient = em.find(Patient.class, patientDto.getId());
             if (patient == null) {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "Doctor not found, id: " + patientDto.getId() + ")",
+                        "Doctor not found, id: " + patientDto.getId(),
                         null);
             }
             patient.updatePatient(patientDto);
@@ -157,7 +157,7 @@ public class PatientService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "Patient not found, id: " + id + ")",
+                        "Patient not found, id: " + id,
                         null);
             }
             em.remove(patient);
