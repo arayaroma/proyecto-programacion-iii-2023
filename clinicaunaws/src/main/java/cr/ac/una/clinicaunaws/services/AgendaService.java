@@ -50,7 +50,6 @@ public class AgendaService {
     }
 
     /**
-     * FIXME: Need to test with the API Level Get a Agenda by id
      *
      * @param id of the Agenda to be retrieved
      * @return ResponseWrapper with the retrieved Agenda
