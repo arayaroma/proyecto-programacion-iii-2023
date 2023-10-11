@@ -24,6 +24,7 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.QueryHint;
 
 /**
@@ -97,6 +98,7 @@ public class Patient implements Serializable {
     private LocalDate birthDate;
 
     @OneToOne(mappedBy = "patient", fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
     private PatientPersonalHistory patientPersonalHistory;
 
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)

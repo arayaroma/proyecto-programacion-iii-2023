@@ -32,7 +32,7 @@ public class AgendaService {
      */
     public ResponseWrapper createAgenda(AgendaDto agendaDto) {
         try {
-            Agenda agenda = new Agenda(agendaDto);
+            Agenda agenda = agendaDto.convertFromDTOToEntity(agendaDto, new Agenda(agendaDto));
             em.persist(agenda);
             em.flush();
             return new ResponseWrapper(

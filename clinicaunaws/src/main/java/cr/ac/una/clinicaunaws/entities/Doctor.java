@@ -1,6 +1,7 @@
 package cr.ac.una.clinicaunaws.entities;
 
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -84,7 +85,7 @@ public class Doctor implements Serializable {
     @Column(name = "HOURLYSLOTS")
     private Long hourlySlots;
 
-    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Agenda> agendas;
 
     @Version

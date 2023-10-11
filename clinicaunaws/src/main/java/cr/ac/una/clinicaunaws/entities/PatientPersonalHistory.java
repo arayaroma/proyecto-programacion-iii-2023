@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
@@ -49,7 +50,8 @@ public class PatientPersonalHistory implements Serializable {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "PATIENT", referencedColumnName = "ID")
+    @MapsId
+    @JoinColumn(name = "ID", referencedColumnName = "ID")
     private Patient patient;
 
     @Basic(optional = false)

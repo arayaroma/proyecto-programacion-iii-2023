@@ -1,6 +1,7 @@
 package cr.ac.una.clinicaunaws.entities;
 
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -54,7 +55,7 @@ public class User implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @PrimaryKeyJoinColumn
     private Doctor doctor;
 
