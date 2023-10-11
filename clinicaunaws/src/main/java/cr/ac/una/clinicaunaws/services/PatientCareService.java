@@ -45,8 +45,8 @@ public class PatientCareService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not create the PatientCare.",
-                    e.getMessage());
+                    "Could not create the PatientCare: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -63,7 +63,7 @@ public class PatientCareService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "PatientCare not found.",
+                        "PatientCare with id: " + id + " not found",
                         null);
             }
             PatientCareDto patientCareDto = new PatientCareDto();
@@ -76,8 +76,8 @@ public class PatientCareService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not retrieve the PatientCare.",
-                    e.getMessage());
+                    "Could not retrieve the PatientCare: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -108,8 +108,8 @@ public class PatientCareService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not retrieve the PatientCare.",
-                    e.getMessage());
+                    "Could not retrieve the PatientCare: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -141,8 +141,8 @@ public class PatientCareService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not update the PatientCare.",
-                    e.getMessage());
+                    "Could not update the PatientCare: " + e.getMessage(),
+                    null);
         }
     }
 
@@ -173,8 +173,8 @@ public class PatientCareService {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not delete the PatientCare.",
-                    e.getMessage());
+                    "Could not delete the PatientCare: " + e.getMessage(),
+                    null);
         }
     }
 
