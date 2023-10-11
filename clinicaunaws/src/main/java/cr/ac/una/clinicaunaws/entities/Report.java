@@ -65,8 +65,8 @@ public class Report implements Serializable {
 
     @NotNull
     @Basic(optional = false)
-    @Column(name = "DATE")
-    private LocalDate date;
+    @Column(name = "REPORTDATE")
+    private LocalDate reportDate;
 
     @NotNull
     @Basic(optional = false)
@@ -98,7 +98,7 @@ public class Report implements Serializable {
         this.name = dto.getName();
         this.description = dto.getDescription();
         this.query = dto.getQuery();
-        this.date = LocalDate.parse(dto.getDate());
+        this.reportDate = LocalDate.parse(dto.getReportDate());
         this.frequency = dto.getFrequency();
         this.version = dto.getVersion();
     }

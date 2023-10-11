@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -20,6 +21,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import cr.ac.una.clinicaunaws.dto.AgendaDto;
 import static cr.ac.una.clinicaunaws.util.Database.*;
 
@@ -52,8 +54,8 @@ public class Agenda implements Serializable {
 
     @NotNull
     @Basic(optional = false)
-    @Column(name = "DATE")
-    private LocalDate date;
+    @Column(name = "AGENDADATE")
+    private LocalDate agendaDate;
 
     @NotNull
     @Basic(optional = false)
@@ -72,11 +74,11 @@ public class Agenda implements Serializable {
     @Column(name = "HOURLYSLOTS")
     private Long hourlySlots;
 
-//    @OneToMany(mappedBy = "agenda")
-//    private List<Slots> slots;
-//
-//    @OneToMany(mappedBy = "agenda")
-//    private List<MedicalAppointment> medicalAppointments;
+    @OneToMany(mappedBy = "agenda")
+    private List<Slots> slots;
+
+    @OneToMany(mappedBy = "agenda")
+    private List<MedicalAppointment> medicalAppointments;
 
     @Version
     @Column(name = "VERSION")
@@ -94,7 +96,7 @@ public class Agenda implements Serializable {
      * @param dto constructor from entity to dto
      */
     public void updateAgenda(AgendaDto dto) {
-        this.date = LocalDate.parse(dto.getDate());
+        this.agendaDate = LocalDate.parse(dto.getAgendaDate());
         this.shiftStartTime = dto.getShiftStartTime();
         this.shiftEndTime = dto.getShiftEndTime();
         this.hourlySlots = dto.getHourlySlots();

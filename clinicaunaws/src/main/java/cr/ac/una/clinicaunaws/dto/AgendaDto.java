@@ -21,7 +21,7 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
 
     private Long id;
     private DoctorDto doctor;
-    private String date;
+    private String agendaDate;
     private String shiftStartTime;
     private String shiftEndTime;
     private Long hourlySlots;
@@ -47,7 +47,7 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
      */
     public AgendaDto(Agenda entity) {
         this.id = entity.getId();
-        this.date = entity.getDate().toString();
+        this.agendaDate = entity.getAgendaDate().toString();
         this.shiftStartTime = entity.getShiftStartTime();
         this.shiftEndTime = entity.getShiftEndTime();
         this.hourlySlots = entity.getHourlySlots();

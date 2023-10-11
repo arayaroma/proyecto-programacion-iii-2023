@@ -57,8 +57,9 @@ public class AgendaService {
      */
     public ResponseWrapper getAgendaById(Long id) {
         try {
-
-            Agenda agenda = em.createNamedQuery("Agenda.findById", Agenda.class).setParameter("id", id).getSingleResult();
+            Agenda agenda = em.createNamedQuery("Agenda.findById", Agenda.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
 
             if (agenda != null) {
                 AgendaDto agendaDto = new AgendaDto(agenda);
@@ -154,7 +155,7 @@ public class AgendaService {
      *
      * @param id of the Agenda to be deleted
      * @return ResponseWrapper informing if the Agenda was deleted successfully
-     * or not
+     *         or not
      */
     public ResponseWrapper deleteAgenda(Long id) {
         try {

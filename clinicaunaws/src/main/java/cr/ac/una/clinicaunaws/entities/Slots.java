@@ -52,8 +52,8 @@ public class Slots implements Serializable {
 
     @NotNull
     @Basic(optional = false)
-    @Column(name = "DATE")
-    private LocalDate date;
+    @Column(name = "SLOTDATE")
+    private LocalDate slotDate;
 
     @NotNull
     @Basic(optional = false)
@@ -85,7 +85,7 @@ public class Slots implements Serializable {
      * @param dto constructor from dto to entity
      */
     public void updateSlots(SlotsDto dto) {
-        this.date = LocalDate.parse(dto.getDate());
+        this.slotDate = LocalDate.parse(dto.getSlotDate());
         this.timeSlot = dto.getTimeSlot();
         this.available = dto.getAvailable();
         this.version = dto.getVersion();

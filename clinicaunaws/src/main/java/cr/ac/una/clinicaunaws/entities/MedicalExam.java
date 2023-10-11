@@ -23,7 +23,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import cr.ac.una.clinicaunaws.dto.MedicalExamDto;
 
-
 /**
  * 
  * @author arayaroma
@@ -59,8 +58,8 @@ public class MedicalExam implements Serializable {
 
     @NotNull
     @Basic(optional = false)
-    @Column(name = "DATE")
-    private LocalDate date;
+    @Column(name = "MEDICALEXAMDATE")
+    private LocalDate medicalExamDate;
 
     @Basic(optional = false)
     @Size(min = 1, max = 256)
@@ -84,7 +83,7 @@ public class MedicalExam implements Serializable {
      */
     public void updateMedicalExam(MedicalExamDto dto) {
         this.name = dto.getName();
-        this.date = LocalDate.parse(dto.getDate());
+        this.medicalExamDate = LocalDate.parse(dto.getMedicalExamDate());
         this.notes = dto.getNotes();
         this.version = dto.getVersion();
     }

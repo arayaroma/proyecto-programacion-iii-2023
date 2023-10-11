@@ -18,7 +18,7 @@ public class MedicalExamDto implements DtoMapper<MedicalExam, MedicalExamDto> {
     private Long id;
     private PatientPersonalHistoryDto patientHistory;
     private String name;
-    private String date;
+    private String medicalExamDate;
     private String notes;
     private Long version;
 
@@ -41,7 +41,7 @@ public class MedicalExamDto implements DtoMapper<MedicalExam, MedicalExamDto> {
     public MedicalExamDto(MedicalExam entity) {
         this.id = entity.getId();
         this.name = entity.getName();
-        this.date = entity.getDate().toString();
+        this.medicalExamDate = entity.getMedicalExamDate().toString();
         this.notes = entity.getNotes();
         this.version = entity.getVersion();
     }

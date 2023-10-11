@@ -53,8 +53,8 @@ public class PatientCare implements Serializable {
 
     @NotNull
     @Basic(optional = false)
-    @Column(name = "DATE")
-    private LocalDate date;
+    @Column(name = "PATIENTCAREDATE")
+    private LocalDate patientCareDate;
 
     @ManyToOne
     @JoinColumn(name = "PATIENTHISTORY", referencedColumnName = "ID")
@@ -147,7 +147,7 @@ public class PatientCare implements Serializable {
      * @param dto constructor from dto to entity
      */
     public void updatePatientCare(PatientCareDto dto) {
-        this.date = LocalDate.parse(dto.getDate());
+        this.patientCareDate = LocalDate.parse(dto.getPatientCareDate());
         this.bloodPressure = dto.getBloodPressure();
         this.heartRate = dto.getHeartRate();
         this.weight = dto.getWeight();

@@ -23,7 +23,7 @@ public class ReportDto implements DtoMapper<Report, ReportDto> {
     private String name;
     private String description;
     private String query;
-    private String date;
+    private String reportDate;
     private Long frequency;
     private List<ReportParametersDto> reportParameters;
     private List<ReportRecipientsDto> reportRecipients;
@@ -52,7 +52,7 @@ public class ReportDto implements DtoMapper<Report, ReportDto> {
         this.name = entity.getName();
         this.description = entity.getDescription();
         this.query = entity.getQuery();
-        this.date = entity.getDate().toString();
+        this.reportDate = entity.getReportDate().toString();
         this.frequency = entity.getFrequency();
         this.version = entity.getVersion();
         this.reportParameters = new ArrayList<>();

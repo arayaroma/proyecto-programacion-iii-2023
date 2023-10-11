@@ -18,7 +18,7 @@ public class SlotsDto implements DtoMapper<Slots, SlotsDto> {
     private Long id;
     private AgendaDto agenda;
     private MedicalAppointmentDto medicalAppointment;
-    private String date;
+    private String slotDate;
     private String timeSlot;
     private String available;
     private Long version;
@@ -40,7 +40,7 @@ public class SlotsDto implements DtoMapper<Slots, SlotsDto> {
      */
     public SlotsDto(Slots entity) {
         this.id = entity.getId();
-        this.date = entity.getDate().toString();
+        this.slotDate = entity.getSlotDate().toString();
         this.timeSlot = entity.getTimeSlot();
         this.available = entity.getAvailable();
         this.version = entity.getVersion();

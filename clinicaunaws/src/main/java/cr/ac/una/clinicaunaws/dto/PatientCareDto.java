@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class PatientCareDto implements DtoMapper<PatientCare, PatientCareDto> {
 
     private Long id;
-    private String date;
+    private String patientCareDate;
     private PatientPersonalHistoryDto patientHistory;
     private String bloodPressure;
     private String heartRate;
@@ -53,7 +53,7 @@ public class PatientCareDto implements DtoMapper<PatientCare, PatientCareDto> {
      */
     public PatientCareDto(PatientCare entity) {
         this.id = entity.getId();
-        this.date = entity.getDate().toString();
+        this.patientCareDate = entity.getPatientCareDate().toString();
         this.bloodPressure = entity.getBloodPressure();
         this.heartRate = entity.getHeartRate();
         this.weight = entity.getWeight();
