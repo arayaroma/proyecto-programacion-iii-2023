@@ -1,5 +1,6 @@
 package cr.ac.una.clinicaunaws.dto;
 
+import cr.ac.una.clinicaunaws.entities.Patient;
 import cr.ac.una.clinicaunaws.entities.PatientFamilyHistory;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
 import lombok.AllArgsConstructor;
@@ -23,18 +24,16 @@ public class PatientFamilyHistoryDto implements DtoMapper<PatientFamilyHistory, 
 
     @Override
     public PatientFamilyHistoryDto convertFromEntityToDTO(PatientFamilyHistory entity, PatientFamilyHistoryDto dto) {
-        PatientFamilyHistoryDto patientFamilyHistoryDto = new PatientFamilyHistoryDto(entity);
-
-        patientFamilyHistoryDto.setPatient(new PatientDto(entity.getPatient()));
-        return patientFamilyHistoryDto;
+        dto.setPatient(new PatientDto(entity.getPatient()));
+        return dto;
     }
 
     @Override
     public PatientFamilyHistory convertFromDTOToEntity(PatientFamilyHistoryDto dto, PatientFamilyHistory entity) {
-    return entity;
+        entity.setPatient(new Patient(dto.getPatient()));
+        return entity;
     }
 
-    
     public PatientFamilyHistoryDto(PatientFamilyHistory entity) {
         this.id = entity.getId();
         this.disease = entity.getDisease();

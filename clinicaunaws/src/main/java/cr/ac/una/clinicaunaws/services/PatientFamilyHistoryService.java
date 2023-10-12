@@ -33,7 +33,9 @@ public class PatientFamilyHistoryService {
      */
     public ResponseWrapper createPatientFamilyHistory(PatientFamilyHistoryDto patientFamilyHistoryDto) {
         try {
-            PatientFamilyHistory patientFamilyHistory = new PatientFamilyHistory(patientFamilyHistoryDto);
+            PatientFamilyHistory patientFamilyHistory = patientFamilyHistoryDto
+                    .convertFromDTOToEntity(patientFamilyHistoryDto,
+                            new PatientFamilyHistory(patientFamilyHistoryDto));
             em.persist(patientFamilyHistory);
             em.flush();
             return new ResponseWrapper(
