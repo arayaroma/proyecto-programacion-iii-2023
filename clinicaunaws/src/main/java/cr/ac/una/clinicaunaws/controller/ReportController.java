@@ -1,12 +1,16 @@
 package cr.ac.una.clinicaunaws.controller;
 
 import java.util.logging.Logger;
+import cr.ac.una.clinicaunaws.dto.ReportDto;
 import cr.ac.una.clinicaunaws.services.ReportService;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -16,6 +20,7 @@ import jakarta.ws.rs.core.Response;
 /**
  *
  * @author varga
+ * @author arayaroma
  */
 @Path("/ReportController")
 @Produces(MediaType.APPLICATION_JSON)
@@ -27,6 +32,81 @@ public class ReportController {
 
     @EJB
     ReportService reportService;
+
+    @POST
+    @Path("/create")
+    public Response createReport(ReportDto reportDto) {
+        try {
+            ResponseWrapper response = reportService.createReport(reportDto);
+            return Response.status(response.getStatus())
+                    .entity(response.getData())
+                    .build();
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error creating the report: " + e.getMessage()).build();
+        }
+    }
+
+    @GET
+    @Path("/report/{id}")
+    public Response getReport(@PathParam("id") Long id) {
+        try {
+            ResponseWrapper response = reportService.getReportById(id);
+            return Response.status(response.getStatus())
+                    .entity(response.getData())
+                    .build();
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error getting the report: " + e.getMessage()).build();
+        }
+    }
+
+    @GET
+    @Path("/report")
+    public Response getAllReports() {
+        try {
+            ResponseWrapper response = reportService.getAllReports();
+            return Response.status(response.getStatus())
+                    .entity(response.getData())
+                    .build();
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error getting the reports: " + e.getMessage()).build();
+        }
+    }
+
+    @PUT
+    @Path("/update")
+    public Response updateReport(ReportDto reportDto) {
+        try {
+            ResponseWrapper response = reportService.updateReport(reportDto);
+            return Response.status(response.getStatus())
+                    .entity(response.getData())
+                    .build();
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error updating the report: " + e.getMessage()).build();
+        }
+    }
+
+    @DELETE
+    @Path("/delete/{id}")
+    public Response deleteReport(@PathParam("id") Long id) {
+        try {
+            ResponseWrapper response = reportService.deleteReport(id);
+            return Response.status(response.getStatus())
+                    .entity(response.getData())
+                    .build();
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error deleting the report: " + e.getMessage()).build();
+        }
+    }
 
     /**
      * FIXME: Finish implementation
@@ -47,8 +127,8 @@ public class ReportController {
                 contentType = MediaType.APPLICATION_JSON_TYPE;
             }
             return Response.status(response.getStatus())
-                    .entity(response.getData()) //cambio
-                    .type(contentType) //cambio
+                    .entity(response.getData()) // cambio
+                    .type(contentType) // cambio
                     .build();
         } catch (Exception e) {
             logger.severe(e.getMessage());

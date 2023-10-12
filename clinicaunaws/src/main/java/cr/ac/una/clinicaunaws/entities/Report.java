@@ -70,8 +70,9 @@ public class Report implements Serializable {
 
     @NotNull
     @Basic(optional = false)
+    @Size(min = 1, max = 32)
     @Column(name = "FREQUENCY")
-    private Long frequency;
+    private String frequency;
 
     @OneToMany(mappedBy = "report", fetch = FetchType.LAZY)
     private List<ReportParameters> reportParameters;

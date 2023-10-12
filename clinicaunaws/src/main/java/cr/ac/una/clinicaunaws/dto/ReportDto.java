@@ -24,19 +24,16 @@ public class ReportDto implements DtoMapper<Report, ReportDto> {
     private String description;
     private String query;
     private String reportDate;
-    private Long frequency;
+    private String frequency;
     private List<ReportParametersDto> reportParameters;
     private List<ReportRecipientsDto> reportRecipients;
     private Long version;
 
     @Override
     public ReportDto convertFromEntityToDTO(Report entity, ReportDto dto) {
-
-        // Set the Report Parameters List
         dto.setReportParameters(DtoMapper.fromEntityList(entity.getReportParameters(), ReportParametersDto.class));
         dto.setReportRecipients(DtoMapper.fromEntityList(entity.getReportRecipients(), ReportRecipientsDto.class));
-        // Set the Report Recipients List
-     return dto;
+        return dto;
     }
 
     @Override
