@@ -1,5 +1,6 @@
 package cr.ac.una.clinicaunaws.dto;
 
+import cr.ac.una.clinicaunaws.entities.Report;
 import cr.ac.una.clinicaunaws.entities.ReportParameters;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ public class ReportParametersDto implements DtoMapper<ReportParameters, ReportPa
 
     @Override
     public ReportParameters convertFromDTOToEntity(ReportParametersDto dto, ReportParameters entity) {
+        entity.setReport(new Report(dto.getReport()));
         return entity;
     }
 

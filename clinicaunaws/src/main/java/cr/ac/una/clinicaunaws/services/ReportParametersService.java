@@ -33,7 +33,8 @@ public class ReportParametersService {
      */
     public ResponseWrapper createReportParameters(ReportParametersDto reportParametersDto) {
         try {
-            ReportParameters reportParameters = new ReportParameters(reportParametersDto);
+            ReportParameters reportParameters = reportParametersDto.convertFromDTOToEntity(reportParametersDto,
+                    new ReportParameters(reportParametersDto));
             em.persist(reportParameters);
             em.flush();
             return new ResponseWrapper(

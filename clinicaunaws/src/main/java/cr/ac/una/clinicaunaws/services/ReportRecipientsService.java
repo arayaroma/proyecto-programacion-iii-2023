@@ -33,7 +33,8 @@ public class ReportRecipientsService {
      */
     public ResponseWrapper createReportRecipients(ReportRecipientsDto reportRecipientsDto) {
         try {
-            ReportRecipients reportRecipients = new ReportRecipients(reportRecipientsDto);
+            ReportRecipients reportRecipients = reportRecipientsDto.convertFromDTOToEntity(reportRecipientsDto,
+                    new ReportRecipients(reportRecipientsDto));
             em.persist(reportRecipients);
             em.flush();
             return new ResponseWrapper(

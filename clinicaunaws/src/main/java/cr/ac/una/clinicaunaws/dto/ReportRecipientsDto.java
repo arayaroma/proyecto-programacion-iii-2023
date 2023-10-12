@@ -1,5 +1,6 @@
 package cr.ac.una.clinicaunaws.dto;
 
+import cr.ac.una.clinicaunaws.entities.Report;
 import cr.ac.una.clinicaunaws.entities.ReportRecipients;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
 import lombok.AllArgsConstructor;
@@ -22,14 +23,13 @@ public class ReportRecipientsDto implements DtoMapper<ReportRecipients, ReportRe
 
     @Override
     public ReportRecipientsDto convertFromEntityToDTO(ReportRecipients entity, ReportRecipientsDto dto) {
-        ReportRecipientsDto reportRecipientsDto = new ReportRecipientsDto(entity);
-
-        reportRecipientsDto.setReport(new ReportDto(entity.getReport()));
-        return reportRecipientsDto;
+        dto.setReport(new ReportDto(entity.getReport()));
+        return dto;
     }
 
     @Override
     public ReportRecipients convertFromDTOToEntity(ReportRecipientsDto dto, ReportRecipients entity) {
+        entity.setReport(new Report(dto.getReport()));
         return entity;
     }
 
