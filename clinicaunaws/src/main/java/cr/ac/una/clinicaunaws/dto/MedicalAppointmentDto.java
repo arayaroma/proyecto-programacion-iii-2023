@@ -2,7 +2,11 @@ package cr.ac.una.clinicaunaws.dto;
 
 import java.util.List;
 
+import cr.ac.una.clinicaunaws.entities.Agenda;
 import cr.ac.una.clinicaunaws.entities.MedicalAppointment;
+import cr.ac.una.clinicaunaws.entities.Patient;
+import cr.ac.una.clinicaunaws.entities.PatientCare;
+import cr.ac.una.clinicaunaws.entities.User;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
@@ -34,19 +38,24 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
 
     @Override
     public MedicalAppointmentDto convertFromEntityToDTO(MedicalAppointment entity, MedicalAppointmentDto dto) {
-        MedicalAppointmentDto medicalAppointmentDto = new MedicalAppointmentDto(entity);
 
-        medicalAppointmentDto.setAgenda(new AgendaDto(entity.getAgenda()));
-        medicalAppointmentDto.setPatient(new PatientDto(entity.getPatient()));
-        medicalAppointmentDto.setScheduledBy(new UserDto(entity.getScheduledBy()));
-        medicalAppointmentDto.setPatientCare(new PatientCareDto(entity.getPatientCare()));
-
-        // FIXME: Arrange this
-        return medicalAppointmentDto;
+        dto.setAgenda(new AgendaDto(entity.getAgenda()));
+        dto.setPatient(new PatientDto(entity.getPatient()));
+        dto.setScheduledBy(new UserDto(entity.getScheduledBy()));
+        if (entity.getPatientCare() != null) {
+            dto.setPatientCare(new PatientCareDto(entity.getPatientCare()));
+        }
+        return dto;
     }
 
     @Override
     public MedicalAppointment convertFromDTOToEntity(MedicalAppointmentDto dto, MedicalAppointment entity) {
+        entity.setAgenda(new Agenda(dto.getAgenda()));
+        entity.setPatient(new Patient(dto.getPatient()));
+        entity.setScheduledBy(new User(dto.getScheduledBy()));
+        if (dto.getPatientCare() != null) {
+            entity.setPatientCare(new PatientCare(dto.getPatientCare()));
+        }
         return entity;
     }
 

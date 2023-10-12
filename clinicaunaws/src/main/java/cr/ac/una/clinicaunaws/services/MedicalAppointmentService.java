@@ -33,7 +33,8 @@ public class MedicalAppointmentService {
      */
     public ResponseWrapper createMedicalAppointment(MedicalAppointmentDto medicalAppointmentDto) {
         try {
-            MedicalAppointment medicalAppointment = new MedicalAppointment(medicalAppointmentDto);
+            MedicalAppointment medicalAppointment = medicalAppointmentDto.convertFromDTOToEntity(medicalAppointmentDto,
+                    new MedicalAppointment(medicalAppointmentDto));
             em.persist(medicalAppointment);
             em.flush();
             return new ResponseWrapper(

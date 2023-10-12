@@ -50,7 +50,9 @@ public class MedicalAppointmentController {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
             }
             return Response.ok(response.getStatus()).entity(response.getData()).build();
-        } catch (Exception e) {
+        } catch (Exception e) 
+        {
+            System.out.println("Error en el controller: "+e.getMessage());
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
