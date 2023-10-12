@@ -33,7 +33,9 @@ public class PatientPersonalHistoryService {
      */
     public ResponseWrapper createPatientPersonalHistory(PatientPersonalHistoryDto patientPersonalHistoryDto) {
         try {
-            PatientPersonalHistory patientPersonalHistory = new PatientPersonalHistory(patientPersonalHistoryDto);
+            PatientPersonalHistory patientPersonalHistory = patientPersonalHistoryDto
+                    .convertFromDTOToEntity(patientPersonalHistoryDto,
+                            new PatientPersonalHistory(patientPersonalHistoryDto));
             em.persist(patientPersonalHistory);
             em.flush();
             return new ResponseWrapper(
@@ -134,7 +136,7 @@ public class PatientPersonalHistoryService {
                         "PatientPersonalHistory not found.",
                         null);
             }
-            patientPersonalHistory = new PatientPersonalHistory(patientPersonalHistoryDto);
+            patientPersonalHistory.updatePatientPersonalHistory(patientPersonalHistoryDto);
             em.merge(patientPersonalHistory);
             em.flush();
             return new ResponseWrapper(

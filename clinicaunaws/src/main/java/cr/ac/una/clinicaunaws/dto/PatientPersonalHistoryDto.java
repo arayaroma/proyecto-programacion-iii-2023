@@ -2,6 +2,7 @@ package cr.ac.una.clinicaunaws.dto;
 
 import java.util.List;
 
+import cr.ac.una.clinicaunaws.entities.Patient;
 import cr.ac.una.clinicaunaws.entities.PatientPersonalHistory;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class PatientPersonalHistoryDto implements DtoMapper<PatientPersonalHisto
 
     @Override
     public PatientPersonalHistory convertFromDTOToEntity(PatientPersonalHistoryDto dto, PatientPersonalHistory entity) {
+        entity.setPatient(new Patient(dto.getPatient()));
         return entity;
     }
 
