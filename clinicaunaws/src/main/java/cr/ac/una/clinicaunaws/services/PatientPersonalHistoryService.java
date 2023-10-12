@@ -14,7 +14,6 @@ import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 
 /**
- * FIXME: Test it
  *
  * @author arayaroma
  */

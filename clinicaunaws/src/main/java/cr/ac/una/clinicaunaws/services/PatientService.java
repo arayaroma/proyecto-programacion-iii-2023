@@ -16,6 +16,7 @@ import java.util.List;
 /**
  *
  * @author vargas
+ * @author arayaroma
  */
 @Stateless
 @LocalBean
