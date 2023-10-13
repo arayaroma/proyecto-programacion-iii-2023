@@ -22,6 +22,7 @@ import cr.ac.una.clinicauna.model.PatientPersonalHistoryDto;
 import cr.ac.una.clinicauna.services.PatientService;
 import java.util.List;
 import javafx.collections.FXCollections;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -58,7 +59,7 @@ public class PatientHistoryController implements Initializable {
     @FXML
     private Label lblSurgical;
     @FXML
-    private Accordion acMedicalAppoimentHistory;
+    private Accordion acPatientCares;
     @FXML
     private VBox familyHistoryView;
     @FXML
@@ -81,6 +82,7 @@ public class PatientHistoryController implements Initializable {
         patientBuffer = (PatientDto) patientService.getPatientById(patientBuffer.getId()).getData();
         Data.setData("patientBuffer", patientBuffer);
         initializeList();
+        loadAccordion();
         bindPatient();
 
     }
@@ -93,11 +95,46 @@ public class PatientHistoryController implements Initializable {
 
     @FXML
     private void btnNewHistoryAction(ActionEvent event) {
+        Animation.MakeDefaultFadeTransition(mainView, "PatientCareRegister");
     }
 
     @FXML
     private void editPatientAction(MouseEvent event) {
         Animation.MakeDefaultFadeTransition(mainView, "PatientRegister");
+    }
+
+    @FXML
+    private void editPersonalHistoryAction(MouseEvent event) {
+        Animation.MakeDefaultFadeTransition(mainView, "PatientPersonalHistoryRegister");
+    }
+
+    @FXML
+    private void showPersonalHistoryView(MouseEvent event) {
+        new FlipInY(personalHistoryView).play();
+        personalHistoryView.toFront();
+    }
+
+    @FXML
+    private void editFamilyHistoryAction(MouseEvent event) {
+        Animation.MakeDefaultFadeTransition(mainView, "PatientFamilyHistoryRegister");
+
+    }
+
+    @FXML
+    private void showFamilyHistory(MouseEvent event) {
+        new FlipInY(familyHistoryView).play();
+        familyHistoryView.toFront();
+    }
+
+    private void loadAccordion() {
+        acPatientCares.getPanes().add(new TitledPane());
+        acPatientCares.getPanes().add(new TitledPane());
+        acPatientCares.getPanes().add(new TitledPane());
+        acPatientCares.getPanes().add(new TitledPane());
+        acPatientCares.getPanes().add(new TitledPane());
+        acPatientCares.getPanes().add(new TitledPane());
+        acPatientCares.getPanes().add(new TitledPane());
+        acPatientCares.getPanes().add(new TitledPane());
     }
 
     private void initializeList() {
@@ -124,26 +161,4 @@ public class PatientHistoryController implements Initializable {
         tblFamilyHistory.setItems(FXCollections.observableArrayList(patientFamilyHistoryDtos));
     }
 
-    @FXML
-    private void editPersonalHistoryAction(MouseEvent event) {
-        Animation.MakeDefaultFadeTransition(mainView, "PatientPersonalHistoryRegister");
-    }
-
-    @FXML
-    private void showPersonalHistoryView(MouseEvent event) {
-        new FlipInY(personalHistoryView).play();
-        personalHistoryView.toFront();
-    }
-
-    @FXML
-    private void editFamilyHistoryAction(MouseEvent event) {
-        Animation.MakeDefaultFadeTransition(mainView, "PatientFamilyHistoryRegister");
-
-    }
-
-    @FXML
-    private void showFamilyHistory(MouseEvent event) {
-        new FlipInY(familyHistoryView).play();
-        familyHistoryView.toFront();
-    }
 }

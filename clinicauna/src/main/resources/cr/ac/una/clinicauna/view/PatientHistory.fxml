@@ -301,7 +301,7 @@
                                     </Label>
                                     <ScrollPane fitToWidth="true" prefHeight="260.0" VBox.vgrow="ALWAYS">
                                        <content>
-                                          <Accordion fx:id="acMedicalAppoimentHistory">
+                                          <Accordion fx:id="acPatientCares">
                                              <panes>
                                                 <TitledPane text="3">
                                                    <content>
