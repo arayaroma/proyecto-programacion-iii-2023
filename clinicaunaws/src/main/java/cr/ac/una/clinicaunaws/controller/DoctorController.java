@@ -45,6 +45,7 @@ public class DoctorController {
     @Path("/create")
     public Response createDoctor(DoctorDto doctorDto) {
         try {
+            System.out.println(doctorDto.toString());
             ResponseWrapper response = doctorService.createDoctor(doctorDto);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();

@@ -29,7 +29,7 @@ public class PatientService {
      *
      * @param patientDto to be created
      * @return ResponseWrapper with the response from database, or null if an
-     *         exception occurred
+     * exception occurred
      */
     public ResponseWrapper createPatient(PatientDto patientDto) {
         try {
@@ -53,12 +53,12 @@ public class PatientService {
     /**
      * @param id user id to be retrieved
      * @return ResponseWrapper with the response from database, or null if an
-     *         exception occurred
+     * exception occurred
      */
     public ResponseWrapper getPatientById(Long id) {
         try {
             Patient patient;
-            patient = em.find(Patient.class, id);
+            patient = em.createNamedQuery("Patient.findById", Patient.class).setParameter("id", id).getSingleResult();
             if (patient == null) {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
@@ -67,11 +67,12 @@ public class PatientService {
                         null);
             }
             PatientDto patientDto = new PatientDto(patient);
+            patientDto = patientDto.convertFromEntityToDTO(patient, patientDto);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
                     "Patient retrieved successfully.",
-                    patientDto.convertFromEntityToDTO(patient, patientDto));
+                    patientDto);
         } catch (Exception ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
@@ -83,7 +84,7 @@ public class PatientService {
 
     /**
      * @return ResponseWrapper with the response from database, or null if an
-     *         exception occurred
+     * exception occurred
      */
     @SuppressWarnings("unchecked")
     public ResponseWrapper getPatients() {
@@ -114,7 +115,7 @@ public class PatientService {
     /**
      * @param patientDto User to be updated
      * @return ResponseWrapper with the response from database, or null if an
-     *         exception occurred
+     * exception occurred
      */
     public ResponseWrapper updatePatient(PatientDto patientDto) {
         try {
@@ -148,7 +149,7 @@ public class PatientService {
     /**
      * @param id id from user to be deleted
      * @return ResponseWrapper with the response from database, or null if an
-     *         exception occurred
+     * exception occurred
      */
     public ResponseWrapper deletePatientById(Long id) {
         try {

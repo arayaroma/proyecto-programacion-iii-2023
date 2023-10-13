@@ -24,9 +24,10 @@ import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
 import java.util.List;
 import cr.ac.una.clinicaunaws.dto.PatientPersonalHistoryDto;
+import jakarta.persistence.QueryHint;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Entity
@@ -35,10 +36,10 @@ import cr.ac.una.clinicaunaws.dto.PatientPersonalHistoryDto;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
-        @NamedQuery(name = "PatientPersonalHistory.findAll", query = "SELECT p FROM PatientPersonalHistory p"),
-        @NamedQuery(name = "PatientPersonalHistory.findById", query = "SELECT p FROM PatientPersonalHistory p WHERE p.id = :id"),
-})
+    @NamedQuery(name = "PatientPersonalHistory.findAll", query = "SELECT p FROM PatientPersonalHistory p", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+    @NamedQuery(name = "PatientPersonalHistory.findById", query = "SELECT p FROM PatientPersonalHistory p WHERE p.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),})
 public class PatientPersonalHistory implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -51,7 +52,7 @@ public class PatientPersonalHistory implements Serializable {
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "ID", referencedColumnName = "ID")
+    @JoinColumn(name = "ID", referencedColumnName = "ID", unique = true)
     private Patient patient;
 
     @Basic(optional = false)

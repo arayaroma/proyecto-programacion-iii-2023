@@ -1,11 +1,24 @@
 package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
+import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.model.PatientDto;
+import cr.ac.una.clinicauna.model.PatientPersonalHistoryDto;
+import cr.ac.una.clinicauna.services.PatientPersonalHistoryService;
+import cr.ac.una.clinicauna.util.Data;
+import cr.ac.una.clinicauna.util.Message;
+import cr.ac.una.clinicauna.util.MessageType;
+import cr.ac.una.clinicauna.util.ResponseCode;
+import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -34,21 +47,68 @@ public class PatientPersonalHistoryRegisterController implements Initializable {
     private JFXTextArea txfAlergies;
     @FXML
     private JFXTextArea txfTreatments;
+    private PatientPersonalHistoryDto patientPersonalHistoryDto;
+    private PatientPersonalHistoryService PatientPersonalHistoryService = new PatientPersonalHistoryService();
+    private PatientDto patientBuffer;
+    private boolean isEditing = true;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        patientBuffer = (PatientDto) Data.getData("patientBuffer");
+        if (patientBuffer != null) {
+            patientPersonalHistoryDto = (PatientPersonalHistoryDto) PatientPersonalHistoryService.getPatientPersonalHistoryById(patientBuffer.getId()).getData();
+        }
+        if (patientPersonalHistoryDto == null) {
+            patientPersonalHistoryDto = new PatientPersonalHistoryDto();
+
+        }
+        isEditing = patientPersonalHistoryDto.getId() != null;
+        bindPersonalHistory();
+    }
 
     @FXML
     private void backAction(MouseEvent event) {
+        Animation.MakeDefaultFadeTransition(mainView, "PatientHistory");
     }
 
     @FXML
     private void btnRegisterPatientPersonalHistoryAction(ActionEvent event) {
+        if (!verifyFields()) {
+            Message.showNotification("Ups", MessageType.INFO, "All the fields are required");
+            return;
+        }
+        patientPersonalHistoryDto.setPatient(new PatientDto(patientBuffer));
+        ResponseWrapper response = isEditing ? PatientPersonalHistoryService.updatePatientPersonalHistory(patientPersonalHistoryDto) : PatientPersonalHistoryService.createPatientPersonalHistory(patientPersonalHistoryDto);
+        if (response.getCode() == ResponseCode.OK) {
+            Message.showNotification(response.getCode().name(), MessageType.INFO, response.getMessage());
+            backAction(null);
+            return;
+        }
+        Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
+
     }
-    
+
+    private void bindPersonalHistory() {
+        txfAlergies.textProperty().bindBidirectional(patientPersonalHistoryDto.allergies);
+        txfHospitalizations.textProperty().bindBidirectional(patientPersonalHistoryDto.hospitalizations);
+        txfPathological.textProperty().bindBidirectional(patientPersonalHistoryDto.pathological);
+        txfSurgical.textProperty().bindBidirectional(patientPersonalHistoryDto.surgical);
+        txfTreatments.textProperty().bindBidirectional(patientPersonalHistoryDto.treatments);
+        
+    }
+
+    private boolean verifyFields() {
+        List<Node> fields = Arrays.asList(txfAlergies, txfHospitalizations, txfPathological, txfSurgical, txfTreatments);
+        for (Node i : fields) {
+            if (i instanceof JFXTextField && ((JFXTextField) i).getText() != null
+                    && ((JFXTextField) i).getText().isBlank()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

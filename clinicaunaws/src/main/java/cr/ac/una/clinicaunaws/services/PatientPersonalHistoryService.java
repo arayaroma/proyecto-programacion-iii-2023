@@ -135,15 +135,19 @@ public class PatientPersonalHistoryService {
                         "PatientPersonalHistory not found.",
                         null);
             }
+            System.out.println("Se queda aqui");
             patientPersonalHistory.updatePatientPersonalHistory(patientPersonalHistoryDto);
+            System.out.println("pasa");
             em.merge(patientPersonalHistory);
             em.flush();
+            System.out.println("Se queda");
+            patientPersonalHistoryDto = patientPersonalHistoryDto.convertFromEntityToDTO(patientPersonalHistory, patientPersonalHistoryDto);
+            System.out.println("Pasa");
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
                     "PatientPersonalHistory updated.",
-                    patientPersonalHistoryDto.convertFromEntityToDTO(patientPersonalHistory,
-                            patientPersonalHistoryDto));
+                    patientPersonalHistoryDto);
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),

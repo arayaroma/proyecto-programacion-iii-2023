@@ -28,6 +28,7 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
     public SimpleStringProperty activationCode;
     public SimpleStringProperty language;
     private byte[] profilePhoto;
+    private DoctorDto doctor;
     public SimpleLongProperty version;
 
     public UserDto() {
@@ -75,6 +76,14 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
         return id.get();
     }
 
+    public DoctorDto getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(DoctorDto doctor) {
+        this.doctor = doctor;
+    }
+    
     public String getUsername() {
         return this.username.getValue();
     }

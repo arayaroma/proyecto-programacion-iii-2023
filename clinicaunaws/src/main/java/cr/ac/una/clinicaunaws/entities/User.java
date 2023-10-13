@@ -55,7 +55,7 @@ public class User implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private Doctor doctor;
 

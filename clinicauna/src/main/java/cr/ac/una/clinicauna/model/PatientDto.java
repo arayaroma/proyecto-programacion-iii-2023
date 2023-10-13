@@ -1,6 +1,7 @@
 package cr.ac.una.clinicauna.model;
 
 import java.time.LocalDate;
+import java.util.List;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -16,6 +17,8 @@ public class PatientDto {
     public SimpleStringProperty email;
     public SimpleStringProperty gender;
     public ObjectProperty<LocalDate> birthDate;
+    private PatientPersonalHistoryDto patientPersonalHistory;
+    private List<PatientFamilyHistoryDto> patientFamilyHistories;
     public Long version;
 
     public PatientDto() {
@@ -27,6 +30,36 @@ public class PatientDto {
         email = new SimpleStringProperty();
         gender = new SimpleStringProperty();
         birthDate = new SimpleObjectProperty<>();
+    }
+
+    public PatientDto(PatientDto patientDto) {
+        this();
+        setId(patientDto.getId());
+        setVersion(patientDto.getVersion());
+        setName(patientDto.getName());
+        setFirstLastname(patientDto.getFirstLastname());
+        setSecondLastname(patientDto.getSecondLastname());
+        setIdentification(patientDto.getIdentification());
+        setPhoneNumber(patientDto.getPhoneNumber());
+        setEmail(patientDto.getEmail());
+        setGender(patientDto.getGender());
+        setBirthDate(patientDto.getBirthDate());
+    }
+
+    public List<PatientFamilyHistoryDto> getPatientFamilyHistories() {
+        return patientFamilyHistories;
+    }
+
+    public void setPatientFamilyHistories(List<PatientFamilyHistoryDto> patientFamilyHistories) {
+        this.patientFamilyHistories = patientFamilyHistories;
+    }
+
+    public PatientPersonalHistoryDto getPatientPersonalHistory() {
+        return patientPersonalHistory;
+    }
+
+    public void setPatientPersonalHistory(PatientPersonalHistoryDto patientPersonalHistoryDto) {
+        this.patientPersonalHistory = patientPersonalHistoryDto;
     }
 
     public Long getId() {

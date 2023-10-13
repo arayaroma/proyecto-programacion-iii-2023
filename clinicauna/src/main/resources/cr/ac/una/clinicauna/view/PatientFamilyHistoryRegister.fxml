@@ -38,10 +38,17 @@
                                     <JFXTextField fx:id="txfRelationship" labelFloat="true" promptText="%relationship" styleClass="h3" />
                                  </children>
                               </HBox>
-                              <Button mnemonicParsing="false" onAction="#btnSaveHistory" text="%save">
+                              <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#btnAddHistory" text="%add">
                                  <styleClass>
                                     <String fx:value="h3" />
                                     <String fx:value="btn" />
+                                 </styleClass>
+                              </Button>
+                              <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#btnEditHistory" text="%edit">
+                                 <styleClass>
+                                    <String fx:value="h3" />
+                                    <String fx:value="btn" />
+                                    <String fx:value="orange-color" />
                                  </styleClass>
                               </Button>
                            </children>
@@ -63,6 +70,12 @@
                                     <String fx:value="h3" />
                                     <String fx:value="btn" />
                                     <String fx:value="red-color" />
+                                 </styleClass>
+                              </Button>
+                              <Button mnemonicParsing="false" onAction="#btnSaveHistories" text="%save">
+                                 <styleClass>
+                                    <String fx:value="h3" />
+                                    <String fx:value="btn" />
                                  </styleClass>
                               </Button>
                            </children>

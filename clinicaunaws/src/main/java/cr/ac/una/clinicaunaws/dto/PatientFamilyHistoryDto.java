@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Data
@@ -24,7 +24,10 @@ public class PatientFamilyHistoryDto implements DtoMapper<PatientFamilyHistory, 
 
     @Override
     public PatientFamilyHistoryDto convertFromEntityToDTO(PatientFamilyHistory entity, PatientFamilyHistoryDto dto) {
-        dto.setPatient(new PatientDto(entity.getPatient()));
+        Patient patientEntity = entity.getPatient();
+        if (patientEntity != null) {
+            dto.setPatient(new PatientDto(patientEntity));
+        }
         return dto;
     }
 
