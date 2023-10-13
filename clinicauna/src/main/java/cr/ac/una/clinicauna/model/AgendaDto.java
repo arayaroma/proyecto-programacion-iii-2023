@@ -28,7 +28,6 @@ public class AgendaDto {
         setShiftEndTime(agendaDto.getShiftEndTime());
         setHourlySlots(agendaDto.getHourlySlots());
         setVersion(agendaDto.getVersion());
-        setDoctor(agendaDto.getDoctor());
     }
 
     public Long getId() {
