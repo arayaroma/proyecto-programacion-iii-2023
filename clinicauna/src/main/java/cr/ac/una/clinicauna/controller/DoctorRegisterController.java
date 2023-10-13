@@ -116,7 +116,7 @@ public class DoctorRegisterController implements Initializable {
         doctorBuffer.setShiftStartTime(startingTime);
         doctorBuffer.setShiftEndTime(endingTime);
         if (saveUser(userBuffer)) {
-            doctorBuffer.setId(userBuffer.getId());
+            doctorBuffer.setUserDto(new UserDto(userBuffer));
             ResponseWrapper response = !isEditing ? doctorService.createDoctor(doctorBuffer)
                     : doctorService.updateDoctor(doctorBuffer);
             if (response.getCode() != ResponseCode.OK) {

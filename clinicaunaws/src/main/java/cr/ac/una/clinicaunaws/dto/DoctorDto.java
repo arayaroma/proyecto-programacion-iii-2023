@@ -30,15 +30,21 @@ public class DoctorDto implements DtoMapper<Doctor, DoctorDto> {
 
     @Override
     public DoctorDto convertFromEntityToDTO(Doctor entity, DoctorDto dto) {
-        dto.setUser(new UserDto(entity.getUser()));
-        // FIXME: Arrange this
+        if (entity.getUser() != null) {
+            dto.setUser(new UserDto(entity.getUser()));
+        }
 
         return dto;
     }
 
     @Override
     public Doctor convertFromDTOToEntity(DoctorDto dto, Doctor entity) {
-        entity.setUser(new User(dto.getUser()));
+        if(dto.getUser()!=null){
+            System.out.println("Entra");
+            entity.setUser(new User(dto.getUser()));
+        }
+        System.out.println(dto.toString());
+        System.out.println(entity.toString());
         return entity;
     }
 
