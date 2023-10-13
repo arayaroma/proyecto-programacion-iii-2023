@@ -1,6 +1,8 @@
 package cr.ac.una.clinicaunaws.dto;
 
 import cr.ac.una.clinicaunaws.entities.MedicalExam;
+import cr.ac.una.clinicaunaws.entities.Patient;
+import cr.ac.una.clinicaunaws.entities.PatientPersonalHistory;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,14 +26,15 @@ public class MedicalExamDto implements DtoMapper<MedicalExam, MedicalExamDto> {
 
     @Override
     public MedicalExamDto convertFromEntityToDTO(MedicalExam entity, MedicalExamDto dto) {
-        MedicalExamDto medicalExamDto = new MedicalExamDto(entity);
-
-        medicalExamDto.setPatientHistory(new PatientPersonalHistoryDto(entity.getPatientHistory()));
-        return medicalExamDto;
+        dto.setPatientHistory(new PatientPersonalHistoryDto(entity.getPatientHistory()));
+        dto.getPatientHistory().setPatient(new PatientDto(entity.getPatientHistory().getPatient()));
+        return dto;
     }
 
     @Override
     public MedicalExam convertFromDTOToEntity(MedicalExamDto dto, MedicalExam entity) {
+        entity.setPatientHistory(new PatientPersonalHistory(dto.getPatientHistory()));
+        entity.getPatientHistory().setPatient(new Patient(dto.getPatientHistory().getPatient()));
         return entity;
     }
 

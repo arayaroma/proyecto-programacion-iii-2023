@@ -33,7 +33,8 @@ public class MedicalExamService {
      */
     public ResponseWrapper createMedicalExam(MedicalExamDto medicalExamDto) {
         try {
-            MedicalExam medicalExam = new MedicalExam(medicalExamDto);
+            MedicalExam medicalExam = medicalExamDto.convertFromDTOToEntity(medicalExamDto,
+                    new MedicalExam(medicalExamDto));
             em.persist(medicalExam);
             em.flush();
             return new ResponseWrapper(
