@@ -1,8 +1,11 @@
 package cr.ac.una.clinicaunaws.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import cr.ac.una.clinicaunaws.entities.Patient;
 import cr.ac.una.clinicaunaws.entities.PatientCare;
+import cr.ac.una.clinicaunaws.entities.PatientPersonalHistory;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,14 +40,15 @@ public class PatientCareDto implements DtoMapper<PatientCare, PatientCareDto> {
 
     @Override
     public PatientCareDto convertFromEntityToDTO(PatientCare entity, PatientCareDto dto) {
-        PatientCareDto patientCareDto = new PatientCareDto(entity);
-
-        patientCareDto.setPatientHistory(new PatientPersonalHistoryDto(entity.getPatientHistory()));
-        return patientCareDto;
+        dto.setPatientHistory(new PatientPersonalHistoryDto(entity.getPatientHistory()));
+        dto.getPatientHistory().setPatient(new PatientDto(entity.getPatientHistory().getPatient()));
+        return dto;
     }
 
     @Override
     public PatientCare convertFromDTOToEntity(PatientCareDto dto, PatientCare entity) {
+        entity.setPatientHistory(new PatientPersonalHistory(dto.getPatientHistory()));
+        entity.getPatientHistory().setPatient(new Patient(dto.getPatientHistory().getPatient()));
         return entity;
     }
 
@@ -66,6 +70,7 @@ public class PatientCareDto implements DtoMapper<PatientCare, PatientCareDto> {
         this.observations = entity.getObservations();
         this.physicalExam = entity.getPhysicalExam();
         this.treatment = entity.getTreatment();
+        this.medicalAppointments = new ArrayList<>();
         this.version = entity.getVersion();
     }
 

@@ -14,7 +14,6 @@ import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 
 /**
- * FIXME: Test it
  * 
  * @author arayaroma
  */
@@ -33,7 +32,8 @@ public class PatientCareService {
      */
     public ResponseWrapper createPatientCare(PatientCareDto patientCareDto) {
         try {
-            PatientCare patientCare = new PatientCare(patientCareDto);
+            PatientCare patientCare = patientCareDto.convertFromDTOToEntity(patientCareDto,
+                    new PatientCare(patientCareDto));
             em.persist(patientCare);
             em.flush();
             return new ResponseWrapper(
