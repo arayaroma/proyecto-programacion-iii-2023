@@ -1,5 +1,7 @@
 package cr.ac.una.clinicaunaws.dto;
 
+import cr.ac.una.clinicaunaws.entities.Agenda;
+import cr.ac.una.clinicaunaws.entities.MedicalAppointment;
 import cr.ac.una.clinicaunaws.entities.Slots;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
 import lombok.AllArgsConstructor;
@@ -32,6 +34,8 @@ public class SlotsDto implements DtoMapper<Slots, SlotsDto> {
 
     @Override
     public Slots convertFromDTOToEntity(SlotsDto dto, Slots entity) {
+        entity.setAgenda(new Agenda(dto.getAgenda()));
+        entity.setMedicalAppointment(new MedicalAppointment(dto.getMedicalAppointment()));
         return entity;
     }
 

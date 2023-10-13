@@ -14,7 +14,6 @@ import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 
 /**
- * FIXME: Test it
  * 
  * @author arayaroma
  */
@@ -33,7 +32,8 @@ public class SlotsService {
      */
     public ResponseWrapper createSlots(SlotsDto slotsDto) {
         try {
-            Slots slots = new Slots(slotsDto);
+            Slots slots = slotsDto.convertFromDTOToEntity(slotsDto,
+                    new Slots(slotsDto));
             em.persist(slots);
             em.flush();
             return new ResponseWrapper(
