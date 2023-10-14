@@ -16,6 +16,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import java.util.Date;
 
 /**
  *
@@ -115,12 +116,35 @@ public class ReportController {
      * @return
      */
     @GET
-    @Path("/createReport/{id}")
+    @Path("/createPatientReport/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response generarInforme(@PathParam("id") Long id) {
+    public Response createPatientReport(@PathParam("id") Long id) {
         try {
             MediaType contentType;
-            ResponseWrapper response = reportService.createReport(id);
+            ResponseWrapper response = reportService.createPatientReport(id);
+            if (response.getData() instanceof byte[]) {
+                contentType = MediaType.APPLICATION_OCTET_STREAM_TYPE;
+            } else {
+                contentType = MediaType.APPLICATION_JSON_TYPE;
+            }
+            return Response.status(response.getStatus())
+                    .entity(response.getData()) // cambio
+                    .type(contentType) // cambio
+                    .build();
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error al generar el informe").type(MediaType.TEXT_PLAIN).build();
+        }
+    }
+    
+    @GET
+    @Path("/createAgendaReport/{doctorId}/{startDate}/{endDate}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createAgendaReport(@PathParam("doctorId") Long dId, @PathParam("startDate") Date sDate, @PathParam("endDate") Date eDate) {
+        try {
+            MediaType contentType;
+            ResponseWrapper response = reportService.createAgendaReport(dId, sDate, eDate);
             if (response.getData() instanceof byte[]) {
                 contentType = MediaType.APPLICATION_OCTET_STREAM_TYPE;
             } else {

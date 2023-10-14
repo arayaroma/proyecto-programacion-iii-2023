@@ -20,6 +20,7 @@ import static cr.ac.una.clinicaunaws.util.PersistenceContext.PERSISTENCE_UNIT_NA
 import cr.ac.una.clinicaunaws.dto.ReportDto;
 import cr.ac.una.clinicaunaws.entities.Report;
 import cr.ac.una.clinicaunaws.util.Constants;
+import java.util.Date;
 
 /**
  *
@@ -195,11 +196,11 @@ public class ReportService {
      * @throws java.io.IOException
      * @throws net.sf.jasperreports.engine.JRException
      */
-    public ResponseWrapper createReport(Long id) throws IOException, JRException {
+    public ResponseWrapper createPatientReport(Long id) throws IOException, JRException {
         // FALTA HACER REFRACTOR A ESTE CODIGO
         try {
             // Ruta al archivo JRXML CAMBIAR ESTO
-            String jasperPath = "C:\\Users\\varga\\Desktop\\ClinicaUna\\proyecto-programacion-iii-2023\\clinicaunaws\\src\\main\\resources\\cr\\ac\\una\\clinicaunaws\\reports\\medicalRecord.jrxml";
+            String jasperPath = "C:\\Users\\varga\\Desktop\\ClinicaUna\\proyecto-programacion-iii-2023\\clinicaunaws\\src\\main\\resources\\jrxml\\medicalRecord.jrxml";
             JasperReport jReport = JasperCompileManager.compileReport(jasperPath);
 
             if (jReport == null) {
@@ -208,6 +209,46 @@ public class ReportService {
 
             Map<String, Object> par = new HashMap<>();
             par.put("idPatientCare", id);
+
+            try (Connection connection = DriverManager.getConnection(Constants.URL_DB, Constants.USER_DB,
+                    Constants.PASS_DB)) {
+                // Llenar el informe con datos y la conexión a la base de datos
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jReport, par, connection);
+                byte[] pdfbytes = JasperExportManager.exportReportToPdf(jasperPrint);
+                return new ResponseWrapper(
+                        ResponseCode.OK.getCode(),
+                        ResponseCode.OK,
+                        "Report created successfully.",
+                        pdfbytes);
+            } catch (SQLException e) {
+                return new ResponseWrapper(
+                        ResponseCode.CONFLICT.getCode(),
+                        ResponseCode.CONFLICT,
+                        "No connected: " + e.getMessage(),
+                        null);
+            }
+        } catch (JRException e) {
+            // Manejar la excepción (log, enviar alerta, etc.)
+            e.printStackTrace();
+            throw new RuntimeException("Error al generar el informe", e);
+        }
+    }
+    
+    public ResponseWrapper createAgendaReport(Long doctorId, Date startDate, Date endDate) throws IOException, JRException {
+        // FALTA HACER REFRACTOR A ESTE CODIGO
+        try {
+            // Ruta al archivo JRXML CAMBIAR ESTO
+            String jasperPath = "C:\\Users\\varga\\Desktop\\ClinicaUna\\proyecto-programacion-iii-2023\\clinicaunaws\\src\\main\\resources\\jrxml\\agendaReport.jrxml";
+            JasperReport jReport = JasperCompileManager.compileReport(jasperPath);
+
+            if (jReport == null) {
+                System.out.println("ERROR: NO EXISTE EL JASPER");
+            }
+
+            Map<String, Object> par = new HashMap<>();
+            par.put("doctorId", doctorId);
+            par.put("startDate", startDate);
+            par.put("endDate", endDate);
 
             try (Connection connection = DriverManager.getConnection(Constants.URL_DB, Constants.USER_DB,
                     Constants.PASS_DB)) {
