@@ -1,12 +1,13 @@
 package cr.ac.una.clinicauna.model;
 
+import cr.ac.una.clinicauna.util.DtoMapper;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
  * @author estebannajera
  */
-public class PatientPersonalHistoryDto {
+public class PatientPersonalHistoryDto implements DtoMapper<PatientPersonalHistoryDto, PatientPersonalHistoryDto> {
 
     public Long id;
     public PatientDto patient;
@@ -23,6 +24,17 @@ public class PatientPersonalHistoryDto {
         treatments = new SimpleStringProperty();
         hospitalizations = new SimpleStringProperty();
         surgical = new SimpleStringProperty();
+    }
+
+    public PatientPersonalHistoryDto(PatientPersonalHistoryDto patientPersonalHistoryDto) {
+        this();
+        setId(patientPersonalHistoryDto.getId());
+        setPathological(patientPersonalHistoryDto.getPathological());
+        setHospitalizations(patientPersonalHistoryDto.getHospitalizations());
+        setSurgical(patientPersonalHistoryDto.getSurgical());
+        setAllergies(patientPersonalHistoryDto.getAllergies());
+        setTreatments(patientPersonalHistoryDto.getTreatments());
+        setVersion(patientPersonalHistoryDto.getVersion());
     }
 
     public Long getId() {
@@ -87,6 +99,17 @@ public class PatientPersonalHistoryDto {
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    @Override
+    public PatientPersonalHistoryDto convertFromGeneratedToDTO(PatientPersonalHistoryDto generated, PatientPersonalHistoryDto dto) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public PatientPersonalHistoryDto convertFromDTOToGenerated(PatientPersonalHistoryDto dto, PatientPersonalHistoryDto generated) {
+        generated.setPatient(new PatientDto(dto.getPatient()));
+        return generated;
     }
 
 }

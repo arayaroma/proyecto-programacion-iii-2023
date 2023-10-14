@@ -95,6 +95,8 @@ public class PatientHistoryController implements Initializable {
 
     @FXML
     private void btnNewHistoryAction(ActionEvent event) {
+        //Data.setData("patientCareBuffer", null);
+        Data.setData("patientPersonalHistoryBuffer", patientBuffer.getPatientPersonalHistory());
         Animation.MakeDefaultFadeTransition(mainView, "PatientCareRegister");
     }
 

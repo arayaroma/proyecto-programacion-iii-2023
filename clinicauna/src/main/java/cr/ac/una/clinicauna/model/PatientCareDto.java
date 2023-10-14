@@ -6,24 +6,25 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class PatientCareDto {
     private Long id;
-    private SimpleStringProperty patientCareDate;
     private PatientPersonalHistoryDto patientHistory;
-    private String bloodPressure;
-    private SimpleStringProperty heartRate;
-    private SimpleStringProperty weight;
-    private SimpleStringProperty height;
-    private SimpleStringProperty temperature;
-    private SimpleStringProperty bodyMassIndex;
-    private SimpleStringProperty nursingNotes;
-    private SimpleStringProperty reason;
-    private SimpleStringProperty carePlan;
-    private SimpleStringProperty observations;
-    private SimpleStringProperty physicalExam;
-    private SimpleStringProperty treatment;
+    public SimpleStringProperty patientCareDate;
+    public SimpleStringProperty bloodPressure;
+    public SimpleStringProperty heartRate;
+    public SimpleStringProperty weight;
+    public SimpleStringProperty height;
+    public SimpleStringProperty temperature;
+    public SimpleStringProperty bodyMassIndex;
+    public SimpleStringProperty nursingNotes;
+    public SimpleStringProperty reason;
+    public SimpleStringProperty carePlan;
+    public SimpleStringProperty observations;
+    public SimpleStringProperty physicalExam;
+    public SimpleStringProperty treatment;
     private List<MedicalAppointmentDto> medicalAppointments;
     private Long version;
 
     public PatientCareDto(){
+        bloodPressure = new SimpleStringProperty();
         patientCareDate = new SimpleStringProperty();
         heartRate = new SimpleStringProperty();
         weight = new SimpleStringProperty();
@@ -97,7 +98,7 @@ public class PatientCareDto {
         return patientHistory;
     }
     public String getBloodPressure() {
-        return bloodPressure;
+        return bloodPressure.get();
     }
     public List<MedicalAppointmentDto> getMedicalAppointments() {
         return medicalAppointments;
@@ -148,7 +149,7 @@ public class PatientCareDto {
         this.patientHistory = patientHistory;
     }
     public void setBloodPressure(String bloodPressure) {
-        this.bloodPressure = bloodPressure;
+        this.bloodPressure.set(bloodPressure);
     }
     public void setMedicalAppointments(List<MedicalAppointmentDto> medicalAppointments) {
         this.medicalAppointments = medicalAppointments;

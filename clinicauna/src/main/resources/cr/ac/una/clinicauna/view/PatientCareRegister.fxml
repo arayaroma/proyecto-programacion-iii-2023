@@ -176,7 +176,7 @@
                               <VBox GridPane.rowIndex="1">
                                  <children>
                                     <Label styleClass="h3" text="%treatment" />
-                                    <JFXTextArea fx:id="txaTreatmen" labelFloat="true" prefHeight="60.0" prefWidth="250.0" styleClass="bg-black" />
+                                    <JFXTextArea fx:id="txfTreatment" labelFloat="true" prefHeight="60.0" prefWidth="250.0" styleClass="bg-black" />
                                  </children>
                               </VBox>
                            </children>

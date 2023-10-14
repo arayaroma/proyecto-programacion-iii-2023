@@ -34,34 +34,6 @@ public class MedicalAppointmentService {
 
     }
 
-    public ResponseWrapper getMedicalAppointmentsByPatientId(Long id) {
-        // try {
-        // Map params = new HashMap<>();
-        // params.put("id", id);
-        // Request request = new Request();
-        // request.get();
-        // if (request.isError()) {
-        // return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
-        // ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: "
-        // + request.getError(),
-        // null);
-        // }
-        // List<MedicalAppointmentDto> medicalAppointmentDtos =
-        // (List<MedicalAppointmentDto>) request
-        // .readEntity(new GenericType<List<MedicalAppointmentDto>>() {
-        // });
-        // return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK,
-        // "Medical Appointments retrieved successfully: ",
-        // medicalAppointmentDtos);
-        // } catch (Exception e) {
-        // return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
-        // ResponseCode.INTERNAL_SERVER_ERROR, "Error in the service: " + e.toString(),
-        // null);
-        // }
-        return null;
-
-    }
-
     public ResponseWrapper createMedicalAppointments(MedicalAppointmentDto medicalAppointmentDto) {
         try {
             Request request = new Request("MedicalAppointmentController/create");

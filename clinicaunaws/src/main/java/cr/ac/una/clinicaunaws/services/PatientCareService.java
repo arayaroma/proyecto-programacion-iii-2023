@@ -30,10 +30,12 @@ public class PatientCareService {
      * @param patientCareDto to be created
      * @return ResponseWrapper with the created PatientCare
      */
-    public ResponseWrapper createPatientCare(PatientCareDto patientCareDto) {
+     public ResponseWrapper createPatientCare(PatientCareDto patientCareDto) {
         try {
+            System.out.println(patientCareDto.toString());
             PatientCare patientCare = patientCareDto.convertFromDTOToEntity(patientCareDto,
                     new PatientCare(patientCareDto));
+            System.out.println(patientCare.toString());
             em.persist(patientCare);
             em.flush();
             return new ResponseWrapper(

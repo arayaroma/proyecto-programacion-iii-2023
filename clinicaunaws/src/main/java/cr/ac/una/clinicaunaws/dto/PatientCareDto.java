@@ -1,9 +1,8 @@
 package cr.ac.una.clinicaunaws.dto;
 
+import cr.ac.una.clinicaunaws.entities.Patient;
 import java.util.ArrayList;
 import java.util.List;
-
-import cr.ac.una.clinicaunaws.entities.Patient;
 import cr.ac.una.clinicaunaws.entities.PatientCare;
 import cr.ac.una.clinicaunaws.entities.PatientPersonalHistory;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
@@ -19,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PatientCareDto implements DtoMapper<PatientCare, PatientCareDto> {
-
+    
     private Long id;
     private String patientCareDate;
     private PatientPersonalHistoryDto patientHistory;
@@ -37,18 +36,25 @@ public class PatientCareDto implements DtoMapper<PatientCare, PatientCareDto> {
     private String treatment;
     private List<MedicalAppointmentDto> medicalAppointments;
     private Long version;
-
+    
     @Override
     public PatientCareDto convertFromEntityToDTO(PatientCare entity, PatientCareDto dto) {
-        dto.setPatientHistory(new PatientPersonalHistoryDto(entity.getPatientHistory()));
-        dto.getPatientHistory().setPatient(new PatientDto(entity.getPatientHistory().getPatient()));
+        PatientPersonalHistory personalHistory = entity.getPatientHistory();
+        if (personalHistory != null) {
+            dto.setPatientHistory(new PatientPersonalHistoryDto(personalHistory));
+        }
+        dto.setMedicalAppointments(DtoMapper.fromEntityList(entity.getMedicalAppointments(), MedicalAppointmentDto.class));
         return dto;
     }
-
+    
     @Override
     public PatientCare convertFromDTOToEntity(PatientCareDto dto, PatientCare entity) {
-        entity.setPatientHistory(new PatientPersonalHistory(dto.getPatientHistory()));
-        entity.getPatientHistory().setPatient(new Patient(dto.getPatientHistory().getPatient()));
+        if (dto.getPatientHistory() != null) {
+            entity.setPatientHistory(new PatientPersonalHistory(dto.getPatientHistory()));
+            if (dto.getPatientHistory().getPatient() != null) {
+                entity.getPatientHistory().setPatient(new Patient(dto.getPatientHistory().getPatient()));
+            }
+        }
         return entity;
     }
 
@@ -73,5 +79,5 @@ public class PatientCareDto implements DtoMapper<PatientCare, PatientCareDto> {
         this.medicalAppointments = new ArrayList<>();
         this.version = entity.getVersion();
     }
-
+    
 }
