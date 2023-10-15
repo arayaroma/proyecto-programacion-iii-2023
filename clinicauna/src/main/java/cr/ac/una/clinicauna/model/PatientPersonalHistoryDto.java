@@ -1,6 +1,8 @@
 package cr.ac.una.clinicauna.model;
 
 import cr.ac.una.clinicauna.util.DtoMapper;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -16,6 +18,8 @@ public class PatientPersonalHistoryDto implements DtoMapper<PatientPersonalHisto
     public SimpleStringProperty surgical;
     public SimpleStringProperty allergies;
     public SimpleStringProperty treatments;
+    //private List<MedicalExamDto> medicalExams;
+    private List<PatientCareDto> patientCares;
     public Long version;
 
     public PatientPersonalHistoryDto() {
@@ -24,6 +28,7 @@ public class PatientPersonalHistoryDto implements DtoMapper<PatientPersonalHisto
         treatments = new SimpleStringProperty();
         hospitalizations = new SimpleStringProperty();
         surgical = new SimpleStringProperty();
+        patientCares = new ArrayList<>();
     }
 
     public PatientPersonalHistoryDto(PatientPersonalHistoryDto patientPersonalHistoryDto) {
@@ -35,6 +40,14 @@ public class PatientPersonalHistoryDto implements DtoMapper<PatientPersonalHisto
         setAllergies(patientPersonalHistoryDto.getAllergies());
         setTreatments(patientPersonalHistoryDto.getTreatments());
         setVersion(patientPersonalHistoryDto.getVersion());
+    }
+
+    public void setPatientCares(List<PatientCareDto> patientCares) {
+        this.patientCares = patientCares;
+    }
+
+    public List<PatientCareDto> getPatientCares() {
+        return patientCares;
     }
 
     public Long getId() {

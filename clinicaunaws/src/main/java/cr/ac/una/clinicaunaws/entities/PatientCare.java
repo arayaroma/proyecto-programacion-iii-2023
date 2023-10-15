@@ -18,6 +18,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.QueryHint;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -28,7 +29,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Entity
@@ -37,10 +38,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
-        @NamedQuery(name = "PatientCare.findAll", query = "SELECT p FROM PatientCare p"),
-        @NamedQuery(name = "PatientCare.findById", query = "SELECT p FROM PatientCare p WHERE p.id = :id"),
-})
+    @NamedQuery(name = "PatientCare.findAll", query = "SELECT p FROM PatientCare p", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+    @NamedQuery(name = "PatientCare.findById", query = "SELECT p FROM PatientCare p WHERE p.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),})
 public class PatientCare implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id

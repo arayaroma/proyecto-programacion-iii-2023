@@ -20,7 +20,7 @@ import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 @Stateless
 @LocalBean
 public class PatientPersonalHistoryService {
-
+    
     @PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
     private EntityManager em;
 
@@ -60,7 +60,8 @@ public class PatientPersonalHistoryService {
      */
     public ResponseWrapper getPatientPersonalHistoryById(Long id) {
         try {
-            PatientPersonalHistory patientPersonalHistory = em.find(PatientPersonalHistory.class, id);
+            PatientPersonalHistory patientPersonalHistory = em.createNamedQuery("PatientPersonalHistory.findById", PatientPersonalHistory.class)
+                    .setParameter("id", id).getSingleResult();
             if (patientPersonalHistory == null) {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
@@ -96,14 +97,14 @@ public class PatientPersonalHistoryService {
             List<PatientPersonalHistory> patientPersonalHistoryList = (List<PatientPersonalHistory>) query
                     .getResultList();
             List<PatientPersonalHistoryDto> patientPersonalHistoryDtoList = new ArrayList<>();
-
+            
             for (PatientPersonalHistory patientPersonalHistory : patientPersonalHistoryList) {
                 PatientPersonalHistoryDto patientPersonalHistoryDto = new PatientPersonalHistoryDto(
                         patientPersonalHistory);
                 patientPersonalHistoryDtoList.add(patientPersonalHistoryDto
                         .convertFromEntityToDTO(patientPersonalHistory, patientPersonalHistoryDto));
             }
-
+            
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
@@ -188,5 +189,5 @@ public class PatientPersonalHistoryService {
                     null);
         }
     }
-
+    
 }

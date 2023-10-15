@@ -60,7 +60,7 @@ public class PatientCareService {
      */
     public ResponseWrapper getPatientCareById(Long id) {
         try {
-            PatientCare patientCare = em.find(PatientCare.class, id);
+            PatientCare patientCare = em.createNamedQuery("PatientCare.findById", PatientCare.class).setParameter("id", id).getSingleResult();
             if (patientCare == null) {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
