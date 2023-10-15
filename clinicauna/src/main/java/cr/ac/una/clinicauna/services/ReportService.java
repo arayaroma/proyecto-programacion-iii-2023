@@ -60,7 +60,7 @@ public class ReportService {
         }
     }
     
-        public ResponseWrapper createAgendaReport(Long DoctorId, Date sDate, Date eDate) {
+        public ResponseWrapper createAgendaReport(Long DoctorId, String sDate, String eDate) {
         try {
             HashMap params = new HashMap();
             params.put("id", DoctorId);

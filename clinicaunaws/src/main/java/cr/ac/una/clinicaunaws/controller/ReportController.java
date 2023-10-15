@@ -141,7 +141,7 @@ public class ReportController {
     @GET
     @Path("/createAgendaReport/{doctorId}/{startDate}/{endDate}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createAgendaReport(@PathParam("doctorId") Long dId, @PathParam("startDate") Date sDate, @PathParam("endDate") Date eDate) {
+    public Response createAgendaReport(@PathParam("doctorId") Long dId, @PathParam("startDate") String sDate, @PathParam("endDate") String eDate) {
         try {
             MediaType contentType;
             ResponseWrapper response = reportService.createAgendaReport(dId, sDate, eDate);

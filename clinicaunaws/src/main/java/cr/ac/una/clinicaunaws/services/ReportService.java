@@ -234,7 +234,7 @@ public class ReportService {
         }
     }
     
-    public ResponseWrapper createAgendaReport(Long doctorId, Date startDate, Date endDate) throws IOException, JRException {
+    public ResponseWrapper createAgendaReport(Long doctorId, String startDate, String endDate) throws IOException, JRException {
         // FALTA HACER REFRACTOR A ESTE CODIGO
         try {
             // Ruta al archivo JRXML CAMBIAR ESTO
