@@ -5,6 +5,7 @@ module Clinicauna {
     requires com.jfoenix;
     requires java.base;
     requires java.logging;
+    requires java.desktop;
    
     //JAKARTA
     requires jakarta.xml.bind;

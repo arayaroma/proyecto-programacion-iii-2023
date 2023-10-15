@@ -8,19 +8,19 @@ import cr.ac.una.clinicauna.util.Request;
 import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.HashMap;
+import java.awt.Desktop;
 
 /**
  *
  * @author vargas
  */
 public class ReportService {
-    //FALTA AGREGAR QUE SE ABRA EL REPORTE
     public ResponseWrapper createPatientReport(Long id) {
         try {
             HashMap params = new HashMap();
@@ -45,12 +45,13 @@ public class ReportService {
                 while ((tamInput = b.read(datosPdf)) != -1) {
                     out.write(datosPdf, 0, tamInput);
                 }
-
                 System.out.println("Archivo PDF creado exitosamente.");
             } catch (IOException e) {
                 e.printStackTrace(); 
             }
-
+            
+            Desktop.getDesktop().open(new File("new.pdf"));
+            
             return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK, "Report created successfully: ",
                     pdf);
 
@@ -63,10 +64,10 @@ public class ReportService {
         public ResponseWrapper createAgendaReport(Long DoctorId, String sDate, String eDate) {
         try {
             HashMap params = new HashMap();
-            params.put("id", DoctorId);
+            params.put("doctorId", DoctorId);
             params.put("startDate", sDate);
             params.put("endDate", eDate);
-            Request request = new Request("ReportController/createAgendaReport", "/{doctorId},{startDate},{endDate}", params);
+            Request request = new Request("ReportController/createAgendaReport", "/{doctorId}/{startDate}/{endDate}", params);
             request.get();
 
             if (request.isError()) {
@@ -91,6 +92,8 @@ public class ReportService {
             } catch (IOException e) {
                 e.printStackTrace(); 
             }
+            
+            Desktop.getDesktop().open(new File("new.pdf"));
 
             return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK, "Report created successfully: ",
                     pdf);
