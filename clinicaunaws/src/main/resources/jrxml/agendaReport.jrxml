@@ -2,17 +2,10 @@
 <!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AgendaReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="46f8091a-156f-4eb2-a6cf-c025f5009873">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="conectorOracleDb"/>
-	<property name="com.jaspersoft.studio.data.sql.tables">
-		<![CDATA[IlRCTF9BR0VOREEiICwyMDgsODc5LGJjMjI0YjUxLWVkMTUtNDNiNy05ZWFmLTczNzI0ODQyZjkx
-MjsiVEJMX1VTRVIiICwyMDgsMzczLGQyNDJkZDJkLTg3MDItNDc2Zi1hZWY5LTg1MGMzNjA2ZTNj
-MjsiVEJMX01FRElDQUxfQVBQT0lOVE1FTlQiICwzOTEsODE0LDdkYWE1ZDJlLWI1OGMtNDc1OC04
-OGM4LWY1MDVkMDk4NWJjMjsiVEJMX0RPQ1RPUiIgLDU1LDY5MSxjNTUxMjg3Zi00YzFjLTQ4YTgt
-YWIwZS1kNjQzNDZjNTExNWU7IlRCTF9QQVRJRU5UIiAsNjExLDg0MCw0ODE4NjYyOC1mZjc2LTRh
-NjYtYmJhYS00NzZiMmUwNWVjODY7]]>
-	</property>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="doctorId" class="java.lang.Long"/>
-	<parameter name="startDate" class="java.util.Date"/>
-	<parameter name="endDate" class="java.util.Date"/>
+	<parameter name="startDate" class="java.lang.String"/>
+	<parameter name="endDate" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT U."NAME" AS DOCTOR_NAME,
 	U."FIRSTLASTNAME" AS DOCTOR_FIRSTLASTNAME,
@@ -37,7 +30,8 @@ FROM "TBL_DOCTOR" D
 	 MA."PATIENT" = PA."ID" 
 WHERE 
 	 D."ID" = $P{doctorId} 
-	 AND A."AGENDADATE" BETWEEN $P{startDate} AND $P{endDate}]]>
+	 AND A."AGENDADATE" >=TO_DATE($P{startDate}, 'dd-MM-yyyy')
+	 AND A."AGENDADATE" <=TO_DATE($P{endDate}, 'dd-MM-yyyy')]]>
 	</queryString>
 	<field name="DOCTOR_NAME" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="DOCTOR_NAME"/>
