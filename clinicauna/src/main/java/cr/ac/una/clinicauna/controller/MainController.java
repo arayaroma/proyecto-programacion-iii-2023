@@ -112,6 +112,13 @@ public class MainController implements Initializable {
     }
 
     @FXML
+    private void btnDoctorModuleAction(ActionEvent event) throws IOException {
+        FXMLLoader loader = App.getFXMLLoader("DoctorModule");
+        container.getChildren().clear();
+        container.getChildren().add(loader.load());
+    }
+
+    @FXML
     private void editUserLogguedAction(MouseEvent event) {
         userLoggued = (UserDto) userService.findUserById(userLoggued.getId()).getData();
         Data.setData("userBuffer", userLoggued);
@@ -180,4 +187,5 @@ public class MainController implements Initializable {
             hamburguerMenu.setDisable(false);
         }
     }
+
 }

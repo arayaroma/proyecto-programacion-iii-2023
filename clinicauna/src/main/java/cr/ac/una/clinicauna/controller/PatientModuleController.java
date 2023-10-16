@@ -118,27 +118,28 @@ public class PatientModuleController implements Initializable {
     private List<PatientDto> filterPatients(List<PatientDto> patients, String parameter, String key) {
         List<PatientDto> patientsFiltered = new ArrayList<>();
         if (patients != null) {
-            if (parameter.equals("Name") || parameter.equals("Nombre")) {
+            parameter = parameter.toLowerCase();
+            if (parameter.equals("name") || parameter.equals("nombre")) {
                 patientsFiltered = patients
                         .stream()
                         .filter(user -> user.getName().toLowerCase().contains(key.toLowerCase()))
                         .collect(Collectors.toList());
-            } else if (parameter.equals("Last Name") || parameter.equals("Apellido")) {
+            } else if (parameter.equals("last name") || parameter.equals("apellido")) {
                 patientsFiltered = patients
                         .stream()
                         .filter(user -> user.getFirstLastname().toLowerCase().contains(key.toLowerCase()))
                         .collect(Collectors.toList());
-            } else if (parameter.equals("Phone") || parameter.equals("Telefono")) {
+            } else if (parameter.equals("phone") || parameter.equals("telefono")) {
                 patientsFiltered = patients
                         .stream()
-                        .filter(user -> user.getSecondLastname().toLowerCase().contains(key.toLowerCase()))
+                        .filter(user -> user.getPhoneNumber().toLowerCase().contains(key.toLowerCase()))
                         .collect(Collectors.toList());
-            } else if (parameter.equals("Identification") || parameter.equals("Cédula")) {
+            } else if (parameter.equals("identification") || parameter.equals("cédula")) {
                 patientsFiltered = patients
                         .stream()
                         .filter(user -> user.getIdentification().contains(key))
                         .collect(Collectors.toList());
-            } else if (parameter.equals("Birth Date") || parameter.equals("Fecha de Nacimiento")) {
+            } else if (parameter.equals("birth date") || parameter.equals("fecha de nacimiento")) {
                 patientsFiltered = patients
                         .stream()
                         .filter(user -> user.getBirthDate().toLowerCase().contains(key.toLowerCase()))

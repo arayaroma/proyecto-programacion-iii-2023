@@ -33,8 +33,6 @@ public class Message {
             case CONFIRMATION:
                 notification.showConfirm();
                 break;
-            case WARNING:
-                notification.showWarning();
             default:
                 throw new AssertionError(type.name());
         }

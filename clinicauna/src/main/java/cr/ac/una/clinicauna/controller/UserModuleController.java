@@ -80,7 +80,6 @@ public class UserModuleController implements Initializable {
 
     @FXML
     private void btnNewUserAction(ActionEvent event) throws IOException {
-        Data.removeData("userBuffer");
         Animation.MakeDefaultFadeTransition(parent, "UserRegister");
     }
 

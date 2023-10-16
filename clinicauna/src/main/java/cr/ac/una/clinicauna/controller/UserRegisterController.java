@@ -80,6 +80,8 @@ public class UserRegisterController implements Initializable {
         UserDto userDto = (UserDto) Data.getData("userBuffer");
         if (userDto != null) {
             userModified = userDto;
+        } else {
+            userModified = new UserDto();
         }
         if (Data.languageOption.equals("en")) {
             cbLanguage.getItems().addAll("English", "Spanish");
@@ -93,7 +95,7 @@ public class UserRegisterController implements Initializable {
     private void backFromRegister(MouseEvent event) throws IOException {
         Data.removeData("userBuffer");
         updateUserLoggued();
-        loadView("Main");
+        Animation.MakeDefaultFadeTransition(mainView, "Main");
     }
 
     @FXML
@@ -102,7 +104,8 @@ public class UserRegisterController implements Initializable {
             setPrivilegesUser(userModified);
 
             if (userModified.getRole().toLowerCase().equals("doctor")) {//Verifiy if is a Doctor
-                loadView("DoctorRegister");
+                Data.setData("userBuffer", userModified);
+                Animation.MakeDefaultFadeTransition(mainView, "DoctorRegister");
                 return;
             } else {
                 saveUser(userModified);
@@ -136,7 +139,7 @@ public class UserRegisterController implements Initializable {
     }
 
     public void saveUser(UserDto user) throws IOException {
-        ResponseWrapper response = user.getId() == 0 ? userService.createUser(user)
+        ResponseWrapper response = user.getId() == null ? userService.createUser(user)
                 : userService.updateUser(user);
         if (response.getCode() == ResponseCode.OK) {
             Message.showNotification("Success", MessageType.CONFIRMATION, response.getMessage());
@@ -148,10 +151,6 @@ public class UserRegisterController implements Initializable {
         System.out.println(response.getMessage());
     }
 
-    private void loadView(String nameView) {
-        Animation.MakeDefaultFadeTransition(mainView, nameView);
-    }
-
     private void setPrivilegesUser(UserDto userDto) {
         userDto.setLanguage(userModified.parseLanguage(userModified.getLanguage()));
         userDto.setRole(userModified.parseRole(userModified.getRole().toLowerCase()));
@@ -160,7 +159,7 @@ public class UserRegisterController implements Initializable {
         } else {
             userDto.setIsAdmin("N");
         }
-        if (userDto.getId() == 0) {
+        if (userDto.getId() == null) {
             userDto.setIsActive("N");
             userDto.setPasswordChanged("N");
         }

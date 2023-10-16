@@ -111,13 +111,16 @@ public class PatientCareRegisterController implements Initializable {
         }
         setParameters(patientCareBuffer);
         patientCareBuffer.setPatientHistory(patientPersonalHistoryDto.convertFromDTOToGenerated(patientPersonalHistoryDto, patientPersonalHistoryDto));
-        patientCareBuffer.setPatientCareDate(LocalDate.now().toString());
+        if (patientCareBuffer.getPatientCareDate() == null) {
+            patientCareBuffer.setPatientCareDate(LocalDate.now().toString());
+        }
         ResponseWrapper response = isEditing ? patientCareService.updatePatientCare(patientCareBuffer)
                 : patientCareService.createPatientCare(patientCareBuffer);
         if (response.getCode() != ResponseCode.OK) {
             Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
-            backFromRegister(null);
+            return;
         }
+        backFromRegister(null);
         Message.showNotification(response.getCode().name(), MessageType.INFO, response.getMessage());
 
     }
@@ -212,6 +215,9 @@ public class PatientCareRegisterController implements Initializable {
         txfCarePlan.textProperty().bindBidirectional(patientCareBuffer.carePlan);
         txfObservations.textProperty().bindBidirectional(patientCareBuffer.observations);
         txfPhysicalExam.textProperty().bindBidirectional(patientCareBuffer.physicalExam);
+        if (patientCareBuffer.getBodyMassIndex() != null) {
+            lblBodyMassIndex.setText(patientCareBuffer.getBodyMassIndex());
+        }
     }
 
     private void calculateIMC() {

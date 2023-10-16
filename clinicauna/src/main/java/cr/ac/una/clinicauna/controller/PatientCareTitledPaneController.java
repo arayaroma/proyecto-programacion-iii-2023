@@ -1,15 +1,17 @@
 package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXTextArea;
-import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.model.PatientCareDto;
 import cr.ac.una.clinicauna.model.PatientPersonalHistoryDto;
 import cr.ac.una.clinicauna.util.Data;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -43,6 +45,8 @@ public class PatientCareTitledPaneController implements Initializable {
     private JFXTextArea txfTreatment;
     @FXML
     private Label lblIMC;
+    @FXML
+    private Button btnViewMedicalAppointment;
     private PatientCareDto patientCareBuffer;
     private PatientPersonalHistoryDto patientPersonalHistoryBuffer;
 
@@ -54,10 +58,10 @@ public class PatientCareTitledPaneController implements Initializable {
     }
 
     @FXML
-    private void btnEditPatientCareAction(ActionEvent event) {
+    private void btnEditPatientCareAction(ActionEvent event) throws IOException {
         Data.setData("patientPersonalHistoryBuffer", patientPersonalHistoryBuffer);
         Data.setData("patientCareBuffer", patientCareBuffer);
-        Animation.MakeDefaultFadeTransition(mainView, "PatientCareRegister");
+        App.setRoot("PatientCareRegister");
     }
 
     @FXML
@@ -68,6 +72,7 @@ public class PatientCareTitledPaneController implements Initializable {
         patientCareBuffer = patientCareDto;
         patientPersonalHistoryBuffer = personalHistoryDto;
         bindPatientCare();
+        btnViewMedicalAppointment.setVisible(false);
     }
 
     public void bindPatientCare() {
