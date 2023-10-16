@@ -148,25 +148,29 @@ public class PatientHistoryController implements Initializable {
     }
 
     private void loadAccordion() throws IOException {
-        List<PatientCareDto> patientCareDtos = patientPersonalHistoryBuffer.getPatientCares();
-        Collections.sort(patientCareDtos, (PatientCareDto o1, PatientCareDto o2) -> o1.getPatientCareDate().compareTo(o2.getPatientCareDate()));
-        for (PatientCareDto patientCareDto : patientCareDtos) {
-            FXMLLoader loader = App.getFXMLLoader("PatientCareTitledPane");
-            acPatientCares.getPanes().add(new TitledPane(patientCareDto.getPatientCareDate(), loader.load()));
-            PatientCareTitledPaneController controller = loader.getController();
-            controller.setData(patientCareDto, patientPersonalHistoryBuffer);
+        if (patientPersonalHistoryBuffer != null) {
+            List<PatientCareDto> patientCareDtos = patientPersonalHistoryBuffer.getPatientCares();
+            Collections.sort(patientCareDtos, (PatientCareDto o1, PatientCareDto o2) -> o1.getPatientCareDate().compareTo(o2.getPatientCareDate()));
+            for (PatientCareDto patientCareDto : patientCareDtos) {
+                FXMLLoader loader = App.getFXMLLoader("PatientCareTitledPane");
+                acPatientCares.getPanes().add(new TitledPane(patientCareDto.getPatientCareDate(), loader.load()));
+                PatientCareTitledPaneController controller = loader.getController();
+                controller.setData(patientCareDto, patientPersonalHistoryBuffer);
 
+            }
         }
     }
 
     private void loadChart() {
-        XYChart.Series<String, Number> data = new XYChart.Series<>();
-        chartMassIndex.getXAxis().setLabel("Dates");
-        chartMassIndex.getYAxis().setLabel("IMC");
-        for (PatientCareDto patientCareDto : patientPersonalHistoryBuffer.getPatientCares()) {
-            data.getData().add(new XYChart.Data<>(patientCareDto.getPatientCareDate(), Double.valueOf(patientCareDto.getBodyMassIndex())));
+        if (patientPersonalHistoryBuffer != null) {
+            XYChart.Series<String, Number> data = new XYChart.Series<>();
+            chartMassIndex.getXAxis().setLabel("Dates");
+            chartMassIndex.getYAxis().setLabel("IMC");
+            for (PatientCareDto patientCareDto : patientPersonalHistoryBuffer.getPatientCares()) {
+                data.getData().add(new XYChart.Data<>(patientCareDto.getPatientCareDate(), Double.valueOf(patientCareDto.getBodyMassIndex())));
+            }
+            chartMassIndex.getData().add(data);
         }
-        chartMassIndex.getData().add(data);
     }
 
     private void initializeList() {

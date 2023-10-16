@@ -158,6 +158,14 @@ public class MainController implements Initializable {
         }
     }
 
+    @FXML
+    private void btnAgendaModuleAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void btnReportModuleAction(ActionEvent event) {
+    }
+
     private void intializeSliderMenu() {
         HamburgerBackArrowBasicTransition transition = new HamburgerBackArrowBasicTransition(hamburguerMenu);
         sliderMenu.setSidePane(menuLateral);
