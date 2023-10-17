@@ -4,15 +4,36 @@
 */
 .chart-plot-background{
     -fx-background-color: transparent ;
-
 }
-.chart-line-symbol {
-    -fx-background-color: red;
-}
-.chart-series-line {
+.chart-vertical-grid-lines {
     -fx-stroke: -fx-orange;
-    -fx-stroke-width: 2px;
 }
+/*.chart-horizontal-grid-lines {
+    -fx-stroke: red;
+}*/
+.axis {
+    -fx-tick-label-fill: -fx-orange;
+}
+
+.default-color0.chart-line-symbol {
+    -fx-background-color: -fx-orange;
+}
+.default-color1.chart-line-symbol {
+    -fx-background-color: -fx-green;
+}
+.default-color0.chart-series-line {
+    -fx-stroke: -fx-orange;
+}
+.default-color1.chart-series-line {
+    -fx-stroke: -fx-green;
+}
+.axis-label{
+    -fx-text-fill:-fx-orange;
+}
+.chart-legend{
+    -fx-background-color: transparent;
+}
+
 
 .component{
     -fx-background-radius:20px;

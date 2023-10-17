@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
+import javafx.geometry.Side;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -44,7 +45,7 @@ import javafx.scene.layout.StackPane;
  * @author estebannajera
  */
 public class PatientHistoryController implements Initializable {
-    
+
     @FXML
     private Label lblIdentification;
     @FXML
@@ -117,9 +118,9 @@ public class PatientHistoryController implements Initializable {
             System.out.println(e.toString());
             backAction(null);
         }
-        
+
     }
-    
+
     @FXML
     private void backAction(MouseEvent event) {
         try {
@@ -133,52 +134,52 @@ public class PatientHistoryController implements Initializable {
         } catch (IOException e) {
         }
     }
-    
+
     @FXML
     private void btnNewHistoryAction(ActionEvent event) throws IOException {
         Data.setData("patientPersonalHistoryBuffer", patientBuffer.getPatientPersonalHistory());
         Animation.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("PatientCareRegister").load());
     }
-    
+
     @FXML
     private void editPatientAction(MouseEvent event) throws IOException {
         Animation.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("PatientRegister").load());
     }
-    
+
     @FXML
     private void editPersonalHistoryAction(MouseEvent event) throws IOException {
         Animation.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("PatientPersonalHistoryRegister").load());
     }
-    
+
     @FXML
     private void showPersonalHistoryView(MouseEvent event) {
         new FlipInY(personalHistoryView).play();
         personalHistoryView.toFront();
     }
-    
+
     @FXML
     private void editFamilyHistoryAction(MouseEvent event) throws IOException {
         Animation.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("PatientFamilyHistoryRegister").load());
     }
-    
+
     @FXML
     private void showFamilyHistory(MouseEvent event) {
         new FlipInY(familyHistoryView).play();
         familyHistoryView.toFront();
     }
-    
+
     @FXML
     private void showMainView(MouseEvent event) {
         new FlipInY(mainView).play();
         mainView.toFront();
     }
-    
+
     @FXML
     private void showPatientCareView(MouseEvent event) {
         new FlipInY(patientCareView).play();
         patientCareView.toFront();
     }
-    
+
     private void searchPatientCareAction(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             String key = txfSearchByDate.getText();
@@ -189,7 +190,7 @@ public class PatientHistoryController implements Initializable {
             loadAccordion(patientCareDtos.stream().filter(t -> t.getPatientCareDate().contains(key)).collect(Collectors.toList()));
         }
     }
-    
+
     private void initializeAccordion() {
         try {
             if (patientPersonalHistoryBuffer != null) {
@@ -200,7 +201,7 @@ public class PatientHistoryController implements Initializable {
             System.out.println(e.toString());
         }
     }
-    
+
     private void loadAccordion(List<PatientCareDto> patientCareDtos) {
         try {
             acPatientCares.getPanes().clear();
@@ -210,30 +211,42 @@ public class PatientHistoryController implements Initializable {
                 acPatientCares.getPanes().add(new TitledPane(patientCareDto.getPatientCareDate(), loader.load()));
                 PatientCareTitledPaneController controller = loader.getController();
                 controller.setData(patientCareDto, patientPersonalHistoryBuffer);
-                
+
             }
         } catch (Exception e) {
             System.out.println(e.toString());
         }
     }
-    
+
     private void loadChart() {
         if (patientPersonalHistoryBuffer != null) {
-            XYChart.Series<String, Number> data = new XYChart.Series<>();
             chartMassIndex.getXAxis().setLabel("Dates");
             chartMassIndex.getYAxis().setLabel("IMC");
+            XYChart.Series<String, Number> imc = new XYChart.Series<>();
+            XYChart.Series<String, Number> imcIdeal = new XYChart.Series<>();
+            imc.setName("IMC");
+            imcIdeal.setName("IMC Ideal");
+
             for (PatientCareDto patientCareDto : patientPersonalHistoryBuffer.getPatientCares()) {
-                data.getData().add(new XYChart.Data<>(patientCareDto.getPatientCareDate(), Double.valueOf(patientCareDto.getBodyMassIndex())));
+                Double heightInCM = Double.parseDouble(patientCareDto.getHeight()) * 100;
+                Double height = Double.valueOf(patientCareDto.getHeight());
+                Double idealWeight = heightInCM - 100 - ((heightInCM - 150) / 4);
+                Double idealIMC = idealWeight / (height * height);
+                imc.getData().add(new XYChart.Data<>(patientCareDto.getPatientCareDate(), Double.valueOf(patientCareDto.getBodyMassIndex())));
+                imcIdeal.getData().add(new XYChart.Data<>(patientCareDto.getPatientCareDate(), idealIMC));
             }
-            chartMassIndex.getData().add(data);
+
+            chartMassIndex.getData().add(imc);
+            chartMassIndex.getData().add(imcIdeal);
+
         }
     }
-    
+
     private void initializeList() {
         tcDisease.setCellValueFactory(new PropertyValueFactory<>("disease"));
         tcRelationship.setCellValueFactory(new PropertyValueFactory<>("relationship"));
     }
-    
+
     private void bindPatient() {
         lblFullName.setText(patientBuffer.getName() + " " + patientBuffer.getFirstLastname() + " " + patientBuffer.getSecondLastname());
         lblGender.textProperty().bindBidirectional(patientBuffer.gender);
@@ -252,7 +265,7 @@ public class PatientHistoryController implements Initializable {
         List<PatientFamilyHistoryDto> patientFamilyHistoryDtos = patientBuffer.getPatientFamilyHistories();
         tblFamilyHistory.setItems(FXCollections.observableArrayList(patientFamilyHistoryDtos));
     }
-    
+
     public void loadView(String option) {
         if (option.toLowerCase().equals("mainview")) {
             mainView.toFront();

@@ -384,7 +384,7 @@
                                                 <String fx:value="title" />
                                              </styleClass>
                                           </Label>
-                                          <LineChart fx:id="chartMassIndex" alternativeColumnFillVisible="true" legendVisible="false" maxHeight="1.7976931348623157E308" prefHeight="250.0" VBox.vgrow="ALWAYS">
+                                          <LineChart fx:id="chartMassIndex" alternativeColumnFillVisible="true" maxHeight="1.7976931348623157E308" prefHeight="250.0" VBox.vgrow="ALWAYS">
                                             <xAxis>
                                               <CategoryAxis side="BOTTOM" />
                                             </xAxis>
