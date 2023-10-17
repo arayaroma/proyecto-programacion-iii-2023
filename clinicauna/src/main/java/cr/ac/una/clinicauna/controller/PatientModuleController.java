@@ -1,6 +1,7 @@
 package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXTextField;
+import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.PatientDto;
 import cr.ac.una.clinicauna.services.PatientService;
@@ -9,6 +10,7 @@ import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
 import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
+import java.io.IOException;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -82,14 +84,14 @@ public class PatientModuleController implements Initializable {
     }
 
     @FXML
-    private void btnNewPatientAction(ActionEvent event) {
-        Animation.MakeDefaultFadeTransition(parent, "PatientRegister");
+    private void btnNewPatientAction(ActionEvent event) throws IOException {
+        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("PatientRegister").load());
     }
 
     @FXML
-    private void btnViewPatientAction(ActionEvent event) {
+    private void btnViewPatientAction(ActionEvent event) throws IOException {
         Data.setData("patientBuffer", patientBuffer);
-        Animation.MakeDefaultFadeTransition(parent, "PatientHistory");
+        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("PatientHistory").load());
     }
 
     @FXML

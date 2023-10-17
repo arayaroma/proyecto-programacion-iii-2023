@@ -18,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import animatefx.animation.FlipInY;
+import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.model.PatientCareDto;
 import cr.ac.una.clinicauna.model.PatientFamilyHistoryDto;
@@ -25,13 +26,17 @@ import cr.ac.una.clinicauna.model.PatientPersonalHistoryDto;
 import cr.ac.una.clinicauna.services.PatientPersonalHistoryService;
 import cr.ac.una.clinicauna.services.PatientService;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 
 /**
  * FXML Controller class
@@ -39,7 +44,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * @author estebannajera
  */
 public class PatientHistoryController implements Initializable {
-
+    
     @FXML
     private Label lblIdentification;
     @FXML
@@ -78,10 +83,17 @@ public class PatientHistoryController implements Initializable {
     private TableColumn<PatientFamilyHistoryDto, String> tcRelationship;
     @FXML
     private VBox personalHistoryView;
+    @FXML
+    private VBox patientCareView;
+    @FXML
+    private StackPane mainStack;
+    @FXML
+    private JFXTextField txfSearchByDate;
     private PatientDto patientBuffer;
     private PatientPersonalHistoryDto patientPersonalHistoryBuffer;
     private PatientService patientService = new PatientService();
     private PatientPersonalHistoryService patientPersonalHistoryService = new PatientPersonalHistoryService();
+    private List<PatientCareDto> patientCareDtos = new ArrayList<>();
 
     /**
      * Initializes the controller class.
@@ -97,70 +109,114 @@ public class PatientHistoryController implements Initializable {
             }
             Data.setData("patientBuffer", patientBuffer);
             initializeList();
-            loadAccordion();
+            initializeAccordion();
             loadChart();
             bindPatient();
+            txfSearchByDate.setOnKeyPressed(t -> searchPatientCareAction(t));
         } catch (Exception e) {
             System.out.println(e.toString());
             backAction(null);
         }
-
+        
     }
-
+    
     @FXML
     private void backAction(MouseEvent event) {
-        Data.removeData("patientBuffer");
-        Animation.MakeDefaultFadeTransition(mainView, "Main");
+        try {
+            Data.removeData("patientBuffer");
+            FXMLLoader loader = App.getFXMLLoader("Main");
+            Animation.MakeDefaultFadeTransition(mainStack, loader.load());
+            MainController controller = loader.getController();
+            if (controller != null) {
+                controller.loadView("patientModule");
+            }
+        } catch (IOException e) {
+        }
     }
-
+    
     @FXML
-    private void btnNewHistoryAction(ActionEvent event) {
+    private void btnNewHistoryAction(ActionEvent event) throws IOException {
         Data.setData("patientPersonalHistoryBuffer", patientBuffer.getPatientPersonalHistory());
-        Animation.MakeDefaultFadeTransition(mainView, "PatientCareRegister");
+        Animation.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("PatientCareRegister").load());
     }
-
+    
     @FXML
-    private void editPatientAction(MouseEvent event) {
-        Animation.MakeDefaultFadeTransition(mainView, "PatientRegister");
+    private void editPatientAction(MouseEvent event) throws IOException {
+        Animation.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("PatientRegister").load());
     }
-
+    
     @FXML
-    private void editPersonalHistoryAction(MouseEvent event) {
-        Animation.MakeDefaultFadeTransition(mainView, "PatientPersonalHistoryRegister");
+    private void editPersonalHistoryAction(MouseEvent event) throws IOException {
+        Animation.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("PatientPersonalHistoryRegister").load());
     }
-
+    
     @FXML
     private void showPersonalHistoryView(MouseEvent event) {
         new FlipInY(personalHistoryView).play();
         personalHistoryView.toFront();
     }
-
+    
     @FXML
-    private void editFamilyHistoryAction(MouseEvent event) {
-        Animation.MakeDefaultFadeTransition(mainView, "PatientFamilyHistoryRegister");
-
+    private void editFamilyHistoryAction(MouseEvent event) throws IOException {
+        Animation.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("PatientFamilyHistoryRegister").load());
     }
-
+    
     @FXML
     private void showFamilyHistory(MouseEvent event) {
         new FlipInY(familyHistoryView).play();
         familyHistoryView.toFront();
     }
-
-    private void loadAccordion() throws IOException {
-        if (patientPersonalHistoryBuffer != null) {
-            List<PatientCareDto> patientCareDtos = patientPersonalHistoryBuffer.getPatientCares();
+    
+    @FXML
+    private void showMainView(MouseEvent event) {
+        new FlipInY(mainView).play();
+        mainView.toFront();
+    }
+    
+    @FXML
+    private void showPatientCareView(MouseEvent event) {
+        new FlipInY(patientCareView).play();
+        patientCareView.toFront();
+    }
+    
+    private void searchPatientCareAction(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            String key = txfSearchByDate.getText();
+            if (key.isBlank()) {
+                loadAccordion(patientCareDtos);
+                return;
+            }
+            loadAccordion(patientCareDtos.stream().filter(t -> t.getPatientCareDate().contains(key)).collect(Collectors.toList()));
+        }
+    }
+    
+    private void initializeAccordion() {
+        try {
+            if (patientPersonalHistoryBuffer != null) {
+                patientCareDtos = patientPersonalHistoryBuffer.getPatientCares();
+                loadAccordion(patientCareDtos);
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+    
+    private void loadAccordion(List<PatientCareDto> patientCareDtos) {
+        try {
+            acPatientCares.getPanes().clear();
             Collections.sort(patientCareDtos, (PatientCareDto o1, PatientCareDto o2) -> o1.getPatientCareDate().compareTo(o2.getPatientCareDate()));
             for (PatientCareDto patientCareDto : patientCareDtos) {
                 FXMLLoader loader = App.getFXMLLoader("PatientCareTitledPane");
                 acPatientCares.getPanes().add(new TitledPane(patientCareDto.getPatientCareDate(), loader.load()));
                 PatientCareTitledPaneController controller = loader.getController();
                 controller.setData(patientCareDto, patientPersonalHistoryBuffer);
-
+                
             }
+        } catch (Exception e) {
+            System.out.println(e.toString());
         }
     }
-
+    
     private void loadChart() {
         if (patientPersonalHistoryBuffer != null) {
             XYChart.Series<String, Number> data = new XYChart.Series<>();
@@ -172,12 +228,12 @@ public class PatientHistoryController implements Initializable {
             chartMassIndex.getData().add(data);
         }
     }
-
+    
     private void initializeList() {
         tcDisease.setCellValueFactory(new PropertyValueFactory<>("disease"));
         tcRelationship.setCellValueFactory(new PropertyValueFactory<>("relationship"));
     }
-
+    
     private void bindPatient() {
         lblFullName.setText(patientBuffer.getName() + " " + patientBuffer.getFirstLastname() + " " + patientBuffer.getSecondLastname());
         lblGender.textProperty().bindBidirectional(patientBuffer.gender);
@@ -196,5 +252,13 @@ public class PatientHistoryController implements Initializable {
         List<PatientFamilyHistoryDto> patientFamilyHistoryDtos = patientBuffer.getPatientFamilyHistories();
         tblFamilyHistory.setItems(FXCollections.observableArrayList(patientFamilyHistoryDtos));
     }
-
+    
+    public void loadView(String option) {
+        if (option.toLowerCase().equals("mainview")) {
+            mainView.toFront();
+        }
+        if (option.toLowerCase().equals("patientcareview")) {
+            patientCareView.toFront();
+        }
+    }
 }

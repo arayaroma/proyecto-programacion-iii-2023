@@ -1,6 +1,7 @@
 package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXTextField;
+import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.DoctorDto;
 import cr.ac.una.clinicauna.model.UserDto;
@@ -10,6 +11,7 @@ import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
 import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -75,16 +78,16 @@ public class DoctorModuleController implements Initializable {
     }
 
     @FXML
-    private void btnNewUserAction(ActionEvent event) {
+    private void btnNewUserAction(ActionEvent event) throws IOException {
         Data.removeData("userBuffer");
-        Animation.MakeDefaultFadeTransition(parent, "UserRegister");
+        loadUserRegisterView();
     }
 
     @FXML
-    private void btnEditDoctorAction(ActionEvent event) {
+    private void btnEditDoctorAction(ActionEvent event) throws IOException {
         UserDto userBuffer = (UserDto) userService.findUserById(doctorBuffer.getId()).getData();
         Data.setData("userBuffer", userBuffer);
-        Animation.MakeDefaultFadeTransition(parent, "UserRegister");
+        loadUserRegisterView();
     }
 
     @FXML
@@ -97,6 +100,18 @@ public class DoctorModuleController implements Initializable {
             } else {
                 Message.showNotification("Error", MessageType.ERROR, response.getMessage());
             }
+        }
+    }
+
+    private void loadUserRegisterView() {
+        try {
+            FXMLLoader loader = App.getFXMLLoader("UserRegister");
+            Animation.MakeDefaultFadeTransition(parent, loader.load());
+            UserRegisterController controller = loader.getController();
+            if (controller != null) {
+                controller.loadFlags(true);
+            }
+        } catch (Exception e) {
         }
     }
 

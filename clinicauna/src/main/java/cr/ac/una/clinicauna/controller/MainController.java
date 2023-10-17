@@ -17,6 +17,8 @@ import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -86,8 +88,12 @@ public class MainController implements Initializable {
             }
             loadPrivileges();
         } catch (Exception e) {
-            Animation.MakeDefaultFadeTransition(parent, "Login");
-            System.out.println(e.toString());
+            try {
+                Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Login").load());
+                System.out.println(e.toString());
+            } catch (IOException ex) {
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
         }
     }
@@ -108,7 +114,10 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnLogOutAction(ActionEvent event) {
-        Animation.MakeDefaultFadeTransition(parent, "Login");
+        try {
+            Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Login").load());
+        } catch (IOException e) {
+        }
     }
 
     @FXML
@@ -119,15 +128,15 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void editUserLogguedAction(MouseEvent event) {
+    private void editUserLogguedAction(MouseEvent event) throws IOException {
         userLoggued = (UserDto) userService.findUserById(userLoggued.getId()).getData();
         Data.setData("userBuffer", userLoggued);
-        Animation.MakeDefaultFadeTransition(parent, "UserRegister");
+        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("UserRegister").load());
     }
 
     @FXML
-    private void discardChangesAction(ActionEvent event) {
-        Animation.MakeDefaultFadeTransition(parent, "Login");
+    private void discardChangesAction(ActionEvent event) throws IOException {
+        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Login").load());
     }
 
     @FXML
@@ -171,7 +180,7 @@ public class MainController implements Initializable {
         sliderMenu.setSidePane(menuLateral);
         sliderMenu.open();
         transition.setRate(1);
-        transition.play();
+        //transition.play();
         hamburguerMenu.setOnMouseClicked(t -> {
             transition.setRate(transition.getRate() * -1);
             transition.play();
@@ -181,6 +190,21 @@ public class MainController implements Initializable {
                 sliderMenu.open();
             }
         });
+    }
+
+    public void loadView(String option) {
+        try {
+            if (option.toLowerCase().equals("usermodule")) {
+                btnUserModuleAction(null);
+            }
+            if (option.toLowerCase().equals("doctormodule")) {
+                btnDoctorModuleAction(null);
+            }
+            if (option.toLowerCase().equals("patientmodule")) {
+                btnPatientModuleAction(null);
+            }
+        } catch (IOException e) {
+        }
     }
 
     private void loadPrivileges() {

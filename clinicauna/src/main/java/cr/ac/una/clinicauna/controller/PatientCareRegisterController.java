@@ -2,6 +2,7 @@ package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import cr.ac.una.clinicauna.App;
 
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.PatientCareDto;
@@ -13,6 +14,7 @@ import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
 import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -22,6 +24,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -98,9 +101,17 @@ public class PatientCareRegisterController implements Initializable {
 
     @FXML
     private void backFromRegister(MouseEvent event) {
-        Data.removeData("patientCareBuffer");
-        Data.removeData("patientPersonalHistoryBuffer");
-        Animation.MakeDefaultFadeTransition(mainView, "PatientHistory");
+        try {
+            Data.removeData("patientCareBuffer");
+            Data.removeData("patientPersonalHistoryBuffer");
+            FXMLLoader loader = App.getFXMLLoader("PatientHistory");
+            Animation.MakeDefaultFadeTransition(mainView, loader.load());
+            PatientHistoryController controller = loader.getController();
+            if (controller != null) {
+                controller.loadView("patientCareView");
+            }
+        } catch (IOException e) {
+        }
     }
 
     @FXML
