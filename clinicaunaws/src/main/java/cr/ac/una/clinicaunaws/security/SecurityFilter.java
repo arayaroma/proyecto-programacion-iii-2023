@@ -21,12 +21,17 @@ import jakarta.ws.rs.core.SecurityContext;
  * 
  * @author arayaroma
  */
-@Provider
 @Secure
+@Provider
 @Priority(Priorities.AUTHENTICATION)
 public class SecurityFilter implements ContainerRequestFilter {
-    private static final String AUTHORIZATION_SERVICE_PATH = "getUser";
     private static final String AUTHENTICATION_SCHEME = "Bearer";
+
+    /**
+     * Services methods names that are filtered by this class
+     */
+    private static final String AUTHORIZATION_SERVICE_PATH = "getUserById";
+    private static final String RENEWAL_SERVICE_PATH = "renewToken";
 
     @Context
     private ResourceInfo resourceInfo;
@@ -34,6 +39,7 @@ public class SecurityFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext request) throws IOException {
         Method method = resourceInfo.getResourceMethod();
+        
         if (method.getName().equals(AUTHORIZATION_SERVICE_PATH)) {
             return;
         }
@@ -49,17 +55,14 @@ public class SecurityFilter implements ContainerRequestFilter {
 
         String token = authorizationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
         try {
-
-            // Validate the token
             try {
                 Claims claims = JwtManager.getInstance().claimKey(token);
-                /*
-                 * if (method.getName().equals(RENEWAL_SERVICE_PATH)) {
-                 * if (!(boolean) claims.getOrDefault("rnw", false)) {
-                 * abortWithUnauthorized(request, "Invalid authorization");
-                 * }
-                 * }
-                 */
+                if (method.getName().equals(RENEWAL_SERVICE_PATH)) {
+                    if (!(boolean) claims.getOrDefault("rnw", false)) {
+                        abortWithUnauthorized(request, "Invalid authorization");
+                    }
+                }
+
                 final SecurityContext currentSecurityContext = request.getSecurityContext();
                 request.setSecurityContext(new SecurityContext() {
 

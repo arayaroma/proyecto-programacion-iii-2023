@@ -21,7 +21,6 @@ import cr.ac.una.clinicaunaws.dto.ReportDto;
 import cr.ac.una.clinicaunaws.entities.Report;
 import cr.ac.una.clinicaunaws.util.Constants;
 import java.net.URL;
-import java.util.Date;
 
 /**
  *

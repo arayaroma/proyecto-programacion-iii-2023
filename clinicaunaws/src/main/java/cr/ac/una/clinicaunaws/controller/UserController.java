@@ -2,12 +2,15 @@ package cr.ac.una.clinicaunaws.controller;
 
 import java.util.logging.Logger;
 import cr.ac.una.clinicaunaws.dto.UserDto;
+import cr.ac.una.clinicaunaws.security.JwtManager;
+import cr.ac.una.clinicaunaws.security.Secure;
 import cr.ac.una.clinicaunaws.services.UserService;
 import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -17,6 +20,7 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.GenericEntity;
 import java.util.List;
 
@@ -24,13 +28,16 @@ import java.util.List;
  *
  * @author arayaroma
  */
+@Secure
 @Path("/UserController")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Tag(name = "UserController", description = "Manage endpoints related to the User.")
 public class UserController {
-
     private static final Logger logger = Logger.getLogger(UserController.class.getName());
+
+    @Context
+    SecurityContext securityContext;
 
     @EJB
     UserService userService;
@@ -51,74 +58,6 @@ public class UserController {
             }
             return Response.ok(response.getStatus()).entity(response.getData()).build();
 
-        } catch (Exception e) {
-            logger.severe(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-        }
-    }
-
-    /**
-     * Activate a user by hash
-     *
-     * @param hash of the user
-     * @return Response with the activated user
-     */
-    @POST
-    @Path("/activate/{hash}")
-    public Response activateUser(@PathParam("hash") String hash) {
-        try {
-            ResponseWrapper response = userService.activateUser(hash);
-            if (response.getCode() != ResponseCode.OK) {
-                return Response.status(response.getStatus()).entity(response.getMessage()).build();
-            }
-            return Response.ok(response.getStatus()).entity(response.getData()).build();
-        } catch (Exception e) {
-            logger.severe(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-        }
-    }
-
-    /**
-     * Recover the password of a user by email
-     *
-     * @param email of the user
-     * @return Response with the user with the new password
-     */
-    @POST
-    @Path("/recoverPassword")
-    public Response recoverPassword(String email) {
-        try {
-            ResponseWrapper response = userService.recoverPassword(email);
-            if (response.getCode() != ResponseCode.OK) {
-                return Response.status(response.getStatus()).entity(response.getMessage()).build();
-            }
-            return Response.ok(response.getStatus()).entity(response.getData()).build();
-        } catch (Exception e) {
-            logger.severe(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-        }
-    }
-
-    /**
-     * Change the password of a user
-     *
-     * @param id          of the user
-     * @param oldPassword to be changed
-     * @param newPassword to be set
-     * @return Response with the updated user
-     */
-    @PUT
-    @Path("/changePassword/{id}/{oldPassword}/{newPassword}")
-    public Response changePassword(
-            @PathParam("id") Long id,
-            @PathParam("oldPassword") String oldPassword,
-            @PathParam("newPassword") String newPassword) {
-        try {
-            ResponseWrapper response = userService.changePassword(id, oldPassword, newPassword);
-            if (response.getCode() != ResponseCode.OK) {
-                return Response.status(response.getStatus()).entity(response.getMessage()).build();
-            }
-            return Response.ok(response.getStatus()).entity(response.getData()).build();
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -231,6 +170,95 @@ public class UserController {
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+    }
+
+    /**
+     * Activate a user by hash
+     *
+     * @param hash of the user
+     * @return Response with the activated user
+     */
+    @POST
+    @Path("/activate/{hash}")
+    public Response activateUser(@PathParam("hash") String hash) {
+        try {
+            ResponseWrapper response = userService.activateUser(hash);
+            if (response.getCode() != ResponseCode.OK) {
+                return Response.status(response.getStatus()).entity(response.getMessage()).build();
+            }
+            return Response.ok(response.getStatus()).entity(response.getData()).build();
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+    }
+
+    /**
+     * Recover the password of a user by email
+     *
+     * @param email of the user
+     * @return Response with the user with the new password
+     */
+    @POST
+    @Path("/recoverPassword")
+    public Response recoverPassword(String email) {
+        try {
+            ResponseWrapper response = userService.recoverPassword(email);
+            if (response.getCode() != ResponseCode.OK) {
+                return Response.status(response.getStatus()).entity(response.getMessage()).build();
+            }
+            return Response.ok(response.getStatus()).entity(response.getData()).build();
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+    }
+
+    /**
+     * Change the password of a user
+     *
+     * @param id          of the user
+     * @param oldPassword to be changed
+     * @param newPassword to be set
+     * @return Response with the updated user
+     */
+    @PUT
+    @Path("/changePassword/{id}/{oldPassword}/{newPassword}")
+    public Response changePassword(
+            @PathParam("id") Long id,
+            @PathParam("oldPassword") String oldPassword,
+            @PathParam("newPassword") String newPassword) {
+        try {
+            ResponseWrapper response = userService.changePassword(id, oldPassword, newPassword);
+            if (response.getCode() != ResponseCode.OK) {
+                return Response.status(response.getStatus()).entity(response.getMessage()).build();
+            }
+            return Response.ok(response.getStatus()).entity(response.getData()).build();
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+    }
+
+    /**
+     * Renew the token of a user
+     * 
+     * @return Response with the new token
+     */
+    @GET
+    @Path("/renewToken")
+    public Response renewToken() {
+        try {
+            String userRequest = securityContext.getUserPrincipal().getName();
+            if (userRequest != null && !userRequest.isEmpty()) {
+                return Response.ok(JwtManager.getInstance().generatePrivateKey(userRequest)).build();
+            } else {
+                return Response.status(ResponseCode.UNAUTHORIZED.getCode()).entity("Can't renew token").build();
+            }
+        } catch (Exception ex) {
+            logger.severe(ex.getMessage());
+            return Response.status(ResponseCode.UNAUTHORIZED.getCode()).entity("Can't renew token").build();
         }
     }
 
