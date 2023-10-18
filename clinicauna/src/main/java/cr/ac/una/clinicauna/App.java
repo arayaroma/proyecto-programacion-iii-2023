@@ -16,7 +16,6 @@ public class App extends Application {
 
     private static Scene scene;
     public static final String DOMAIN_PATH = "/cr/ac/una/clinicauna/";
-
     @Override
     public void start(Stage stage) throws IOException {
         Parent root = getFXMLLoader("Login").load();
@@ -30,8 +29,8 @@ public class App extends Application {
         scene.setRoot(getFXMLLoader(fxml).load());
     }
 
-    public static void setRoot(FXMLLoader loader) throws IOException {
-        scene.setRoot(loader.load());
+    public static void setRoot(Parent parent) throws IOException {
+        scene.setRoot(parent);
     }
 
     public static FXMLLoader getFXMLLoader(String fxml) {

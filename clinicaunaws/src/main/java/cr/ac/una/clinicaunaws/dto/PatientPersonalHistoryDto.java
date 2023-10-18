@@ -32,11 +32,13 @@ public class PatientPersonalHistoryDto implements DtoMapper<PatientPersonalHisto
 
     @Override
     public PatientPersonalHistoryDto convertFromEntityToDTO(PatientPersonalHistory entity,
-            PatientPersonalHistoryDto dto) { 
-            dto.setPatient(new PatientDto(entity.getPatient()));
+            PatientPersonalHistoryDto dto) {
+        PatientDto patientDto = new PatientDto(entity.getPatient());
+        if (patientDto != null) {
+            dto.setPatient(patientDto);
+        }
         dto.setMedicalExams(DtoMapper.fromEntityList(entity.getMedicalExams(), MedicalExamDto.class));
         dto.setPatientCares(DtoMapper.fromEntityList(entity.getPatientCares(), PatientCareDto.class));
-
         return dto;
     }
 

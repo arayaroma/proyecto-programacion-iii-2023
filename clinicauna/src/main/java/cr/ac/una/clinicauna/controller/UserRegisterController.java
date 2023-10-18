@@ -2,6 +2,7 @@ package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.DoctorService;
@@ -30,6 +31,7 @@ import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.File;
 import java.util.Objects;
 import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.image.ImageView;
@@ -71,6 +73,7 @@ public class UserRegisterController implements Initializable {
     private UserService userService = new UserService();
     private UserDto userModified = new UserDto();
     private DoctorService doctorService = new DoctorService();
+    private boolean isFromDoctorModule = false;
 
     /**
      * Initializes the controller class.
@@ -93,9 +96,23 @@ public class UserRegisterController implements Initializable {
 
     @FXML
     private void backFromRegister(MouseEvent event) throws IOException {
-        Data.removeData("userBuffer");
-        updateUserLoggued();
-        Animation.MakeDefaultFadeTransition(mainView, "Main");
+        try {
+            Data.removeData("userBuffer");
+            updateUserLoggued();
+            FXMLLoader loader = App.getFXMLLoader("Main");
+            Animation.MakeDefaultFadeTransition(mainView, loader.load());
+            MainController controller = loader.getController();
+            if (controller != null) {
+                if (isFromDoctorModule) {
+                    controller.loadView("doctormodule");
+                    return;
+
+                }
+                controller.loadView("usermodule");
+            }
+        } catch (IOException e) {
+        }
+
     }
 
     @FXML
@@ -105,7 +122,7 @@ public class UserRegisterController implements Initializable {
 
             if (userModified.getRole().toLowerCase().equals("doctor")) {//Verifiy if is a Doctor
                 Data.setData("userBuffer", userModified);
-                Animation.MakeDefaultFadeTransition(mainView, "DoctorRegister");
+                Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("DoctorRegister").load());
                 return;
             } else {
                 saveUser(userModified);
@@ -245,4 +262,7 @@ public class UserRegisterController implements Initializable {
         return roleGroup.getSelectedToggle() != null;
     }
 
+    public void loadFlags(boolean isFromDoctorModule) {
+        this.isFromDoctorModule = isFromDoctorModule;
+    }
 }

@@ -1,6 +1,7 @@
 package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXTextField;
+import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.PatientDto;
 import cr.ac.una.clinicauna.model.PatientFamilyHistoryDto;
@@ -10,6 +11,7 @@ import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
 import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +28,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
@@ -76,7 +77,10 @@ public class PatientFamilyHistoryRegisterController implements Initializable {
 
     @FXML
     private void btnBackAction(MouseEvent event) {
-        Animation.MakeDefaultFadeTransition(familyHistoryView, "PatientHistory");
+        try {
+            Animation.MakeDefaultFadeTransition(familyHistoryView, App.getFXMLLoader("PatientHistory").load());
+        } catch (IOException e) {
+        }
     }
 
     @FXML
@@ -102,7 +106,7 @@ public class PatientFamilyHistoryRegisterController implements Initializable {
                 return;
             }
         }
-        Animation.MakeDefaultFadeTransition(familyHistoryView, "PatientHistory");
+        btnBackAction(null);
     }
 
     @FXML
