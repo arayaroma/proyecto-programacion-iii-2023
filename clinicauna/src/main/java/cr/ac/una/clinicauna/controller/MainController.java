@@ -172,7 +172,11 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void btnReportModuleAction(ActionEvent event) {
+    private void btnReportModuleAction(ActionEvent event) throws IOException {
+        FXMLLoader loader = App.getFXMLLoader("ReportModule");
+        container.getChildren().clear();
+        container.getChildren().add(loader.load());
+
     }
 
     private void intializeSliderMenu() {

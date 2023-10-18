@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="parent" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="750.0" spacing="30.0" styleClass="bg-gray" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.clinicauna.controller.ReportModuleController">
+   <children>
+      <VBox>
+         <children>
+            <TabPane tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab fx:id="tabDoctorReport" closable="false" onSelectionChanged="#doctorReportAction" text="%doctorReport" />
+                <Tab fx:id="tabPatientReport" closable="false" onSelectionChanged="#patientReportAction" text="%patientReport" />
+              </tabs>
+            </TabPane>
+         </children></VBox>
+   </children>
+   <stylesheets>
+      <URL value="@../style/index.css" />
+      <URL value="@../style/reportmodule.css" />
+   </stylesheets>
+</VBox>
