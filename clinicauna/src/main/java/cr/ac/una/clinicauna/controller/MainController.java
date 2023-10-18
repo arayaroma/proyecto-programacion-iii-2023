@@ -58,7 +58,6 @@ public class MainController implements Initializable {
     private StackPane container;
     @FXML
     private StackPane stack;
-    private UserDto userLoggued;
     @FXML
     private HBox profileContainer;
     @FXML
@@ -71,6 +70,7 @@ public class MainController implements Initializable {
     private JFXPasswordField txfConfirmPassword;
 
     private UserService userService = new UserService();
+    private UserDto userLoggued;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -158,7 +158,6 @@ public class MainController implements Initializable {
 
     @FXML
     private void passwordsEquals(KeyEvent event) {
-
         if (!txfNewPassword.getText().equals(txfConfirmPassword.getText())) {
             lblChangePasswordInfo.setText("New password and confirm is not equals");
             lblChangePasswordInfo.getStyleClass().add("red-color");
@@ -169,6 +168,14 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnAgendaModuleAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void btnMedicalAppointmentModuleAction(ActionEvent event) throws IOException {
+        FXMLLoader loader = App.getFXMLLoader("MedicalAppointmentModule");
+        container.getChildren().clear();
+        container.getChildren().add(loader.load());
     }
 
     @FXML

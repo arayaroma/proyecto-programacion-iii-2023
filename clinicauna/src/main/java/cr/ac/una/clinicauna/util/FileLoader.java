@@ -48,9 +48,7 @@ public class FileLoader {
     public static String chooseSavePath() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Guardar Archivo");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Archivo de PDF", "*.pdf")
-        );
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Archivo de PDF", "*.pdf"));
         File file = fileChooser.showSaveDialog(new Stage());
         if (file != null) {
             return file.getAbsolutePath();
