@@ -2,13 +2,16 @@ package cr.ac.una.clinicauna.components;
 
 import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.controller.LoginController;
+import java.lang.ModuleLayer.Controller;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.util.Duration;
 
 /**
@@ -40,10 +43,10 @@ public class Animation {
      *
      * @param viewName
      */
-    public static void MakeDefaultFadeTransition(Node transitionNode, String viewName) {
+    public static void MakeDefaultFadeTransition(Node transitionNode, Parent parent) {
         Animation.fadeTransition(transitionNode, Duration.seconds(0.5), 0, 1, 0, (t) -> {
             try {
-                App.setRoot(viewName);
+                App.setRoot(parent);
             } catch (Exception ex) {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
             }

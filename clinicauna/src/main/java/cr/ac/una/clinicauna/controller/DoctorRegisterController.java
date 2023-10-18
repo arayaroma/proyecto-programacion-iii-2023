@@ -1,6 +1,7 @@
 package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXTextField;
+import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.DoctorDto;
 import cr.ac.una.clinicauna.model.UserDto;
@@ -79,17 +80,19 @@ public class DoctorRegisterController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             userBuffer = (UserDto) Data.getData("userBuffer");
-            DoctorDto doctorEncountered = (DoctorDto) doctorService.getDoctorById(userBuffer.getId()).getData();
-            if (doctorEncountered == null) {
-                doctorBuffer = new DoctorDto();
-                isEditing = false;
-            } else {
-                doctorBuffer = doctorEncountered;
-                isEditing = true;
+            if (userBuffer != null) {
+                DoctorDto doctorEncountered = (DoctorDto) doctorService.getDoctorById(userBuffer.getId()).getData();
+                if (doctorEncountered == null) {
+                    doctorBuffer = new DoctorDto();
+                    isEditing = false;
+                } else {
+                    doctorBuffer = doctorEncountered;
+                    isEditing = true;
+                }
             }
-
             initializeSpinners();
             validNumbersInTextField(txfHourlySlots);
+            validNumbersInTextField(txfCarne);
             bindDoctor();
 
         } catch (Exception e) {
@@ -101,8 +104,10 @@ public class DoctorRegisterController implements Initializable {
 
     @FXML
     private void backFromRegister(MouseEvent event) {
-        Animation.MakeDefaultFadeTransition(mainView, "UserRegister");
-
+        try {
+            Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("UserRegister").load());
+        } catch (IOException e) {
+        }
     }
 
     @FXML
@@ -125,7 +130,8 @@ public class DoctorRegisterController implements Initializable {
             }
             Message.showNotification("Success", MessageType.INFO, "Doctor registered successfully");
             updateUserLoggued();
-            Animation.MakeDefaultFadeTransition(mainView, "Main");
+            Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("Main").load());
+            Data.removeData("userBuffer");
         }
 
     }
@@ -244,11 +250,14 @@ public class DoctorRegisterController implements Initializable {
     }
 
     public boolean saveUser(UserDto user) throws IOException {
-        ResponseWrapper response = user.getId() == 0 ? userService.createUser(user)
+        ResponseWrapper response = user.getId() == null ? userService.createUser(user)
                 : userService.updateUser(user);
         if (response.getCode() == ResponseCode.OK) {
             Message.showNotification("Success", MessageType.CONFIRMATION, response.getMessage());
             user = (UserDto) response.getData();
+            if (user != null) {
+                userBuffer = user;
+            }
             return true;
         }
         Message.showNotification("Ups", MessageType.ERROR, response.getMessage());

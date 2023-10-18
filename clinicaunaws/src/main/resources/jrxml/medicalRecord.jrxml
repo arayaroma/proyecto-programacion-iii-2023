@@ -81,10 +81,10 @@ WHERE
 		<property name="com.jaspersoft.studio.field.name" value="VERSION"/>
 		<property name="com.jaspersoft.studio.field.label" value="VERSION"/>
 	</field>
-	<field name="COLUMN_11" class="java.math.BigDecimal">
+	<!-- <field name="COLUMN_11" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.name" value="ID"/>
 		<property name="com.jaspersoft.studio.field.label" value="ID"/>
-	</field>
+	</field> -->
 	<field name="PATHOLOGICAL" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="PATHOLOGICAL"/>
 		<property name="com.jaspersoft.studio.field.label" value="PATHOLOGICAL"/>
@@ -105,14 +105,14 @@ WHERE
 		<property name="com.jaspersoft.studio.field.name" value="TREATMENTS"/>
 		<property name="com.jaspersoft.studio.field.label" value="TREATMENTS"/>
 	</field>
-	<field name="COLUMN_17" class="java.math.BigDecimal">
+	<!-- <field name="COLUMN_17" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.name" value="VERSION"/>
 		<property name="com.jaspersoft.studio.field.label" value="VERSION"/>
 	</field>
 	<field name="COLUMN_18" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.name" value="ID"/>
 		<property name="com.jaspersoft.studio.field.label" value="ID"/>
-	</field>
+	</field> -->
 	<field name="PATIENTCAREDATE" class="java.sql.Timestamp">
 		<property name="com.jaspersoft.studio.field.name" value="PATIENTCAREDATE"/>
 		<property name="com.jaspersoft.studio.field.label" value="PATIENTCAREDATE"/>
@@ -169,10 +169,10 @@ WHERE
 		<property name="com.jaspersoft.studio.field.name" value="TREATMENT"/>
 		<property name="com.jaspersoft.studio.field.label" value="TREATMENT"/>
 	</field>
-	<field name="COLUMN_33" class="java.math.BigDecimal">
+	<!-- <field name="COLUMN_33" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.name" value="VERSION"/>
 		<property name="com.jaspersoft.studio.field.label" value="VERSION"/>
-	</field>
+	</field> -->
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -338,7 +338,7 @@ WHERE
 				<textElement>
 					<font size="16"/>
 				</textElement>
-				<text><![CDATA[Información de la atención:]]></text>
+				<text><![CDATA[Información de la atención]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="4" y="43" width="40" height="20" uuid="6d261b5a-18da-4cfc-b3dd-5ed659e832e9"/>
@@ -493,7 +493,7 @@ WHERE
 					<categorySeries>
 						<seriesExpression><![CDATA["BMI"]]></seriesExpression>
 						<categoryExpression><![CDATA[$F{PATIENTCAREDATE}]]></categoryExpression>
-						<valueExpression><![CDATA[Integer.parseInt($F{BODYMASSINDEX})]]></valueExpression>
+						<valueExpression><![CDATA[Double.valueOf($F{BODYMASSINDEX})]]></valueExpression>
 					</categorySeries>
 				</categoryDataset>
 				<areaPlot>

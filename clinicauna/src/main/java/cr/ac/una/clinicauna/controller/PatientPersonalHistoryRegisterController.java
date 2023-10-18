@@ -2,6 +2,7 @@ package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.PatientDto;
 import cr.ac.una.clinicauna.model.PatientPersonalHistoryDto;
@@ -11,6 +12,7 @@ import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
 import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -71,7 +73,10 @@ public class PatientPersonalHistoryRegisterController implements Initializable {
 
     @FXML
     private void backAction(MouseEvent event) {
-        Animation.MakeDefaultFadeTransition(mainView, "PatientHistory");
+        try {
+            Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("PatientHistory").load());
+        } catch (IOException e) {
+        }
     }
 
     @FXML
@@ -97,7 +102,7 @@ public class PatientPersonalHistoryRegisterController implements Initializable {
         txfPathological.textProperty().bindBidirectional(patientPersonalHistoryDto.pathological);
         txfSurgical.textProperty().bindBidirectional(patientPersonalHistoryDto.surgical);
         txfTreatments.textProperty().bindBidirectional(patientPersonalHistoryDto.treatments);
-        
+
     }
 
     private boolean verifyFields() {

@@ -2,6 +2,7 @@ package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import cr.ac.una.clinicauna.App;
 
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.PatientCareDto;
@@ -13,6 +14,7 @@ import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
 import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -22,6 +24,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -39,7 +42,7 @@ import javafx.util.StringConverter;
  * @author estebannajera
  */
 public class PatientCareRegisterController implements Initializable {
-    
+
     @FXML
     private HBox parent;
     @FXML
@@ -66,7 +69,7 @@ public class PatientCareRegisterController implements Initializable {
     private JFXTextArea txfObservations;
     @FXML
     private JFXTextArea txfTreatment;
-    
+
     private PatientCareDto patientCareBuffer;
     private PatientPersonalHistoryDto patientPersonalHistoryDto;
     private PatientCareService patientCareService = new PatientCareService();
@@ -81,7 +84,9 @@ public class PatientCareRegisterController implements Initializable {
         try {
             patientCareBuffer = (PatientCareDto) Data.getData("patientCareBuffer");
             patientPersonalHistoryDto = (PatientPersonalHistoryDto) Data.getData("patientPersonalHistoryBuffer");
-            patientPersonalHistoryDto = (PatientPersonalHistoryDto) personalHistoryService.getPatientPersonalHistoryById(patientPersonalHistoryDto.getId()).getData();
+            if (patientPersonalHistoryDto != null) {
+                patientPersonalHistoryDto = (PatientPersonalHistoryDto) personalHistoryService.getPatientPersonalHistoryById(patientPersonalHistoryDto.getId()).getData();
+            }
             isEditing = patientCareBuffer != null;
             if (patientCareBuffer == null) {
                 patientCareBuffer = new PatientCareDto();
@@ -93,12 +98,22 @@ public class PatientCareRegisterController implements Initializable {
             backFromRegister(null);
         }
     }
-    
+
     @FXML
     private void backFromRegister(MouseEvent event) {
-        Animation.MakeDefaultFadeTransition(mainView, "PatientHistory");
+        try {
+            Data.removeData("patientCareBuffer");
+            Data.removeData("patientPersonalHistoryBuffer");
+            FXMLLoader loader = App.getFXMLLoader("PatientHistory");
+            Animation.MakeDefaultFadeTransition(mainView, loader.load());
+            PatientHistoryController controller = loader.getController();
+            if (controller != null) {
+                controller.loadView("patientCareView");
+            }
+        } catch (IOException e) {
+        }
     }
-    
+
     @FXML
     private void btnRegisterPatientCareAction(ActionEvent event) {
         if (!verifyFields()) {
@@ -107,16 +122,20 @@ public class PatientCareRegisterController implements Initializable {
         }
         setParameters(patientCareBuffer);
         patientCareBuffer.setPatientHistory(patientPersonalHistoryDto.convertFromDTOToGenerated(patientPersonalHistoryDto, patientPersonalHistoryDto));
-        patientCareBuffer.setPatientCareDate(LocalDate.now().toString());
+        if (patientCareBuffer.getPatientCareDate() == null) {
+            patientCareBuffer.setPatientCareDate(LocalDate.now().toString());
+        }
         ResponseWrapper response = isEditing ? patientCareService.updatePatientCare(patientCareBuffer)
                 : patientCareService.createPatientCare(patientCareBuffer);
         if (response.getCode() != ResponseCode.OK) {
             Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
+            return;
         }
+        backFromRegister(null);
         Message.showNotification(response.getCode().name(), MessageType.INFO, response.getMessage());
-        
+
     }
-    
+
     private void setParameters(PatientCareDto patientCareDto) {
         patientCareDto.setBloodPressure(spBloodPresure.getEditor().getText());
         patientCareDto.setBodyMassIndex(lblBodyMassIndex.getText());
@@ -125,7 +144,7 @@ public class PatientCareRegisterController implements Initializable {
         patientCareDto.setWeight(spWeight.getEditor().getText());
         patientCareDto.setTemperature(spTemperature.getEditor().getText());
     }
-    
+
     private void initializeSpinners() {
         spBloodPresure.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(50.0, 250.0, 0.0, 0.1));
         spHeartRate.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(30.0, 250.0, 0.0, 0.1));
@@ -137,7 +156,7 @@ public class PatientCareRegisterController implements Initializable {
             public String toString(Double object) {
                 return String.format("%.2f", object);
             }
-            
+
             @Override
             public Double fromString(String string) {
                 try {
@@ -157,7 +176,7 @@ public class PatientCareRegisterController implements Initializable {
             public void changed(ObservableValue<? extends Double> observable, Double oldValue, Double newValue) {
                 calculateIMC();
             }
-            
+
         });
         spWeight.valueProperty().addListener(new ChangeListener<Double>() {
             @Override
@@ -166,7 +185,7 @@ public class PatientCareRegisterController implements Initializable {
             }
         });
     }
-    
+
     private boolean verifyFields() {
         List<Node> fields = Arrays.asList(txfCarePlan, txfObservations, txfPhysicalExam, txfTreatment, spBloodPresure,
                 spHeartRate, spHeight, spTemperature, spWeight);
@@ -183,7 +202,7 @@ public class PatientCareRegisterController implements Initializable {
         }
         return true;
     }
-    
+
     private void bindPatientCare() {
         String bloodPressure = patientCareBuffer.getBloodPressure(), heartRate = patientCareBuffer.getHeartRate(),
                 temperature = patientCareBuffer.getTemperature(), weight = patientCareBuffer.getWeight(),
@@ -207,17 +226,20 @@ public class PatientCareRegisterController implements Initializable {
         txfCarePlan.textProperty().bindBidirectional(patientCareBuffer.carePlan);
         txfObservations.textProperty().bindBidirectional(patientCareBuffer.observations);
         txfPhysicalExam.textProperty().bindBidirectional(patientCareBuffer.physicalExam);
+        if (patientCareBuffer.getBodyMassIndex() != null) {
+            lblBodyMassIndex.setText(patientCareBuffer.getBodyMassIndex());
+        }
     }
-    
+
     private void calculateIMC() {
         double weight = spWeight.getValue();
         double height = spHeight.getValue();
-        
+
         double imc = weight / (height * height);
         if (height == 0) {
             imc = 0d;
         }
         lblBodyMassIndex.setText(String.format("%.2f", imc));
     }
-    
+
 }

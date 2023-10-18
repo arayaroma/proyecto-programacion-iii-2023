@@ -5,13 +5,13 @@ import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.PatientDto;
 import cr.ac.una.clinicauna.services.PatientService;
+import cr.ac.una.clinicauna.services.ReportService;
 import cr.ac.una.clinicauna.util.Data;
 import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
 import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.IOException;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +20,10 @@ import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -35,7 +36,7 @@ import javafx.scene.layout.VBox;
  *
  * @author estebannajera
  */
-public class PatientModuleController implements Initializable {
+public class PatientCareReportController implements Initializable {
 
     @FXML
     private VBox parent;
@@ -56,9 +57,17 @@ public class PatientModuleController implements Initializable {
     @FXML
     private TableColumn<PatientDto, String> tcRole;
     @FXML
-    private Button btnEdit;
-
+    private Label lblIdentification;
+    @FXML
+    private Label lblFullName;
+    @FXML
+    private Label lblBirthDate;
+    @FXML
+    private Label lblPhoneNumber;
+    @FXML
+    private Label lblGender;
     private PatientService patientService = new PatientService();
+    private ReportService reportService = new ReportService();
     private PatientDto patientBuffer;
     private List<PatientDto> patientDtos = new ArrayList<>();
 
@@ -73,40 +82,16 @@ public class PatientModuleController implements Initializable {
             } else {
                 cbSearchParameter.getItems().addAll("Nombre", "Apellido", "Telefono", "Cédula", "Fecha de Nacimiento");
             }
-            btnEdit.setDisable(true);
             initializeList();
             patientDtos = (List<PatientDto>) patientService.getPatients().getData();
             loadPatients(patientDtos);
-            txfSearchPatient.setOnKeyPressed(e -> searchPatientAction(e));
         } catch (Exception e) {
             System.out.println(e.toString());
         }
     }
 
     @FXML
-    private void btnNewPatientAction(ActionEvent event) throws IOException {
-        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("PatientRegister").load());
-    }
-
-    @FXML
-    private void btnViewPatientAction(ActionEvent event) throws IOException {
-        Data.setData("patientBuffer", patientBuffer);
-        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("PatientHistory").load());
-    }
-
-    @FXML
-    private void btnDeletePatientAction(ActionEvent event) {
-        if (patientBuffer != null) {
-            ResponseWrapper response = patientService.deletePatient(patientBuffer);
-            if (response.getCode() == ResponseCode.OK) {
-                tblPatientsView.getItems().remove(patientBuffer);
-            } else {
-                Message.showNotification("Error", MessageType.ERROR, response.getMessage());
-            }
-        }
-    }
-
-    private void searchPatientAction(KeyEvent event) {
+    private void searchPatientKeyEvent(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             String key = txfSearchPatient.getText(), parameterKey = cbSearchParameter.getValue();
             if (key.isBlank() || parameterKey == null) {
@@ -114,6 +99,30 @@ public class PatientModuleController implements Initializable {
                 return;
             }
             loadPatients(filterPatients(patientDtos, parameterKey, key));
+        }
+    }
+
+    @FXML
+    private void btnViewPatientCare(ActionEvent event) throws IOException {
+        if (patientBuffer != null) {
+            Data.setData("patientBuffer", patientBuffer);
+            FXMLLoader loader = App.getFXMLLoader("PatientHistory");
+            Animation.MakeDefaultFadeTransition(parent, loader.load());
+            PatientHistoryController controller = loader.getController();
+            if (controller != null) {
+                controller.loadView("patientCareView");
+            }
+        }
+    }
+
+    @FXML
+    private void btnGeneratePatientCareReport(ActionEvent event) {
+        if (patientBuffer != null) {
+            ResponseWrapper response = reportService.createPatientReport(patientBuffer.getId());
+            if (response.getCode() != ResponseCode.OK) {
+                Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
+            }
+            
         }
     }
 
@@ -160,17 +169,24 @@ public class PatientModuleController implements Initializable {
         tblPatientsView.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
                     patientBuffer = newValue;
-                    if (patientBuffer != null) {
-                        btnEdit.setDisable(false);
-                        return;
-                    }
-                    btnEdit.setDisable(true);
+                    bindPatient();
 
                 });
     }
 
     private void loadPatients(List<PatientDto> patients) {
         tblPatientsView.setItems(FXCollections.observableArrayList(patients));
+    }
+
+    private void bindPatient() {
+        if (patientBuffer != null) {
+            lblFullName.setText(patientBuffer.getName() + " " + patientBuffer.getFirstLastname() + " " + patientBuffer.getSecondLastname());
+            lblIdentification.setText(patientBuffer.getIdentification());
+            lblBirthDate.setText(patientBuffer.getBirthDate());
+            lblPhoneNumber.setText(patientBuffer.getPhoneNumber());
+            lblGender.setText(patientBuffer.getGender());
+
+        }
     }
 
 }

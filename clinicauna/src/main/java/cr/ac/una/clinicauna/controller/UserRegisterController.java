@@ -2,6 +2,7 @@ package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.DoctorService;
@@ -30,6 +31,7 @@ import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.File;
 import java.util.Objects;
 import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.image.ImageView;
@@ -71,6 +73,7 @@ public class UserRegisterController implements Initializable {
     private UserService userService = new UserService();
     private UserDto userModified = new UserDto();
     private DoctorService doctorService = new DoctorService();
+    private boolean isFromDoctorModule = false;
 
     /**
      * Initializes the controller class.
@@ -80,6 +83,8 @@ public class UserRegisterController implements Initializable {
         UserDto userDto = (UserDto) Data.getData("userBuffer");
         if (userDto != null) {
             userModified = userDto;
+        } else {
+            userModified = new UserDto();
         }
         if (Data.languageOption.equals("en")) {
             cbLanguage.getItems().addAll("English", "Spanish");
@@ -91,9 +96,23 @@ public class UserRegisterController implements Initializable {
 
     @FXML
     private void backFromRegister(MouseEvent event) throws IOException {
-        Data.removeData("userBuffer");
-        updateUserLoggued();
-        loadView("Main");
+        try {
+            Data.removeData("userBuffer");
+            updateUserLoggued();
+            FXMLLoader loader = App.getFXMLLoader("Main");
+            Animation.MakeDefaultFadeTransition(mainView, loader.load());
+            MainController controller = loader.getController();
+            if (controller != null) {
+                if (isFromDoctorModule) {
+                    controller.loadView("doctormodule");
+                    return;
+
+                }
+                controller.loadView("usermodule");
+            }
+        } catch (IOException e) {
+        }
+
     }
 
     @FXML
@@ -102,7 +121,8 @@ public class UserRegisterController implements Initializable {
             setPrivilegesUser(userModified);
 
             if (userModified.getRole().toLowerCase().equals("doctor")) {//Verifiy if is a Doctor
-                loadView("DoctorRegister");
+                Data.setData("userBuffer", userModified);
+                Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("DoctorRegister").load());
                 return;
             } else {
                 saveUser(userModified);
@@ -136,7 +156,7 @@ public class UserRegisterController implements Initializable {
     }
 
     public void saveUser(UserDto user) throws IOException {
-        ResponseWrapper response = user.getId() == 0 ? userService.createUser(user)
+        ResponseWrapper response = user.getId() == null ? userService.createUser(user)
                 : userService.updateUser(user);
         if (response.getCode() == ResponseCode.OK) {
             Message.showNotification("Success", MessageType.CONFIRMATION, response.getMessage());
@@ -148,10 +168,6 @@ public class UserRegisterController implements Initializable {
         System.out.println(response.getMessage());
     }
 
-    private void loadView(String nameView) {
-        Animation.MakeDefaultFadeTransition(mainView, nameView);
-    }
-
     private void setPrivilegesUser(UserDto userDto) {
         userDto.setLanguage(userModified.parseLanguage(userModified.getLanguage()));
         userDto.setRole(userModified.parseRole(userModified.getRole().toLowerCase()));
@@ -160,7 +176,7 @@ public class UserRegisterController implements Initializable {
         } else {
             userDto.setIsAdmin("N");
         }
-        if (userDto.getId() == 0) {
+        if (userDto.getId() == null) {
             userDto.setIsActive("N");
             userDto.setPasswordChanged("N");
         }
@@ -246,4 +262,7 @@ public class UserRegisterController implements Initializable {
         return roleGroup.getSelectedToggle() != null;
     }
 
+    public void loadFlags(boolean isFromDoctorModule) {
+        this.isFromDoctorModule = isFromDoctorModule;
+    }
 }

@@ -12,7 +12,7 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class UserDto implements DtoMapper<UserDto, UserDto> {
 
-    private SimpleLongProperty id;
+    private Long id;
     public SimpleStringProperty username;
     public SimpleStringProperty password;
     public SimpleStringProperty name;
@@ -29,10 +29,9 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
     public SimpleStringProperty language;
     private byte[] profilePhoto;
     private DoctorDto doctor;
-    public SimpleLongProperty version;
+    private Long version;
 
     public UserDto() {
-        this.id = new SimpleLongProperty();
         this.username = new SimpleStringProperty();
         this.password = new SimpleStringProperty();
         this.name = new SimpleStringProperty();
@@ -47,7 +46,7 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
         this.passwordChanged = new SimpleStringProperty();
         this.activationCode = new SimpleStringProperty();
         this.language = new SimpleStringProperty();
-        this.version = new SimpleLongProperty();
+        
     }
 
     public UserDto(UserDto userDto) {
@@ -73,7 +72,7 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
     }
 
     public Long getId() {
-        return id.get();
+        return id;
     }
 
     public DoctorDto getDoctor() {
@@ -145,7 +144,7 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
     }
 
     public Long getVersion() {
-        return this.version.getValue();
+        return this.version;
     }
 
     public void setName(String name) {
@@ -209,11 +208,11 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
     }
 
     public void setId(Long id) {
-        this.id.set(id);
+        this.id = id;
     }
 
     public void setVersion(Long version) {
-        this.version.set(version);
+        this.version = version;
     }
 
     public String parseLanguage(String language) {

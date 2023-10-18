@@ -1,0 +1,21 @@
+.tab-header-area .tab-header-background {
+    -fx-background-color: -fx-white-black;
+}
+.tab-pane .tab:selected {
+    -fx-background-color: -fx-white-orange;
+
+}
+.tab .tab-label {
+    -fx-text-fill: -fx-white-black;
+}
+.tab-pane {
+    -fx-background-color: transparent;
+}
+.tab-pane .tab {
+    -fx-background-color: -fx-orange;
+}
+.tab-pane:focused .tab-header-area .headers-region .tab:selected .focus-indicator {
+    -fx-border-width: 0;
+    -fx-border-insets: 0 0 0 0;
+    -fx-border-radius: 0;
+}

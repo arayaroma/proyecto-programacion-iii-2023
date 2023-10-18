@@ -3,6 +3,7 @@ package cr.ac.una.clinicauna.controller;
 import animatefx.animation.FadeIn;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.UserService;
@@ -74,8 +75,8 @@ public class LoginController implements Initializable {
             Message.showNotification("Ups", MessageType.ERROR, "All the fields are required");
             return;
         }
-        if(user.equals("admin") && password.equals("admin")){
-            Animation.MakeDefaultFadeTransition(parent, "Main");
+        if (user.equals("admin") && password.equals("admin")) {
+            Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Main").load());
             return;
         }
         ResponseWrapper response = userService.verifyUser(user, password);
@@ -87,7 +88,7 @@ public class LoginController implements Initializable {
             }
             Data.setData("userLoggued", userDto);
             loadLanguage(userDto);
-            Animation.MakeDefaultFadeTransition(parent, "Main");
+            Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Main").load());
             return;
         }
         Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
@@ -111,7 +112,7 @@ public class LoginController implements Initializable {
 
                 break;
         }
-        Animation.MakeDefaultFadeTransition(parent, "Login");
+        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Login").load());
     }
 
     @FXML
@@ -144,8 +145,9 @@ public class LoginController implements Initializable {
             System.out.println(e.toString());
         }
     }
-    private void loadLanguage(UserDto userDto){
-        if(userDto.getLanguage().toLowerCase().equals("english")){
+
+    private void loadLanguage(UserDto userDto) {
+        if (userDto.getLanguage().toLowerCase().equals("english")) {
             Data.setLanguageOption("en");
             return;
         }
