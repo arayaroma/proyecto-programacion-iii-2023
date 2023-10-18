@@ -1,7 +1,6 @@
 package cr.ac.una.clinicauna.controller;
 
 import cr.ac.una.clinicauna.App;
-import cr.ac.una.clinicauna.components.Animation;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -47,8 +46,8 @@ public class ReportModuleController implements Initializable {
     @FXML
     private void patientReportAction(Event event) {
         try {
-            FXMLLoader loader = App.getFXMLLoader("PatientReport");
-            tabDoctorReport.setContent(loader.load());
+            FXMLLoader loader = App.getFXMLLoader("PatientCareReport");
+            tabPatientReport.setContent(loader.load());
         } catch (IOException e) {
             System.out.println(e.toString());
         }

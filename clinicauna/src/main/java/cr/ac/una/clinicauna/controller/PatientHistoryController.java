@@ -266,6 +266,11 @@ public class PatientHistoryController implements Initializable {
         tblFamilyHistory.setItems(FXCollections.observableArrayList(patientFamilyHistoryDtos));
     }
 
+    /**
+     * *
+     *
+     * @param option MainView, PatientCareView
+     */
     public void loadView(String option) {
         if (option.toLowerCase().equals("mainview")) {
             mainView.toFront();
