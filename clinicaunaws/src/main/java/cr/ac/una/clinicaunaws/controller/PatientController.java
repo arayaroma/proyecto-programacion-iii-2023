@@ -2,9 +2,14 @@ package cr.ac.una.clinicaunaws.controller;
 
 import cr.ac.una.clinicaunaws.dto.PatientDto;
 import cr.ac.una.clinicaunaws.dto.UserDto;
+import cr.ac.una.clinicaunaws.security.Secure;
 import cr.ac.una.clinicaunaws.services.PatientService;
 import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.Consumes;
@@ -15,23 +20,30 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.GenericEntity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 import java.util.List;
 import java.util.logging.Logger;
 
 /**
  *
+ * @author arayaroma
  * @author vargas
  */
+@Secure
 @Path("/PatientController")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@SecurityRequirement(name = "jwt-auth")
 @Tag(name = "PatientController", description = "Manage endpoints related to the Patient.")
 public class PatientController {
-
     private static final Logger logger = Logger.getLogger(PatientController.class.getName());
+
+    @Context
+    SecurityContext securityContext;
 
     @EJB
     PatientService patientService;
@@ -44,6 +56,14 @@ public class PatientController {
      */
     @POST
     @Path("/create")
+    @Operation(summary = "Create a new Patient", description = "Create a new Patient", tags = {
+            "PatientController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Patient created"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "409", description = "Patient already exists"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public Response createPatient(PatientDto patientDto) {
         try {
             ResponseWrapper response = patientService.createPatient(patientDto);
@@ -65,6 +85,14 @@ public class PatientController {
      */
     @GET
     @Path("/patient/{id}")
+    @Operation(summary = "Get a Patient by id", description = "Get a Patient by id", tags = {
+            "PatientController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Patient found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Patient not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public Response getPatientById(@PathParam("id") Long id) {
         try {
             ResponseWrapper response = patientService.getPatientById(id);
@@ -86,6 +114,14 @@ public class PatientController {
     @GET
     @Path("/patients")
     @SuppressWarnings("unchecked")
+    @Operation(summary = "Get all Patients", description = "Get all Patients", tags = {
+            "PatientController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Patients found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Patients not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public Response getPatients() {
         try {
             ResponseWrapper response = patientService.getPatients();
@@ -108,6 +144,14 @@ public class PatientController {
      */
     @PUT
     @Path("/update")
+    @Operation(summary = "Update a Patient", description = "Update a Patient", tags = {
+            "PatientController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Patient updated"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Patient not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public Response updatePatient(PatientDto patientDto) {
         try {
             ResponseWrapper response = patientService.updatePatient(patientDto);
@@ -129,6 +173,14 @@ public class PatientController {
      */
     @DELETE
     @Path("/delete/{id}")
+    @Operation(summary = "Delete a Patient by id", description = "Delete a Patient by id", tags = {
+            "PatientController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Patient deleted"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Patient not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public Response deletePatientById(@PathParam("id") Long id) {
         try {
             ResponseWrapper response = patientService.deletePatientById(id);
