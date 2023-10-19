@@ -167,6 +167,12 @@ public class MainController implements Initializable {
     }
 
     @FXML
+    private void btnGeneralInformationModuleAction(ActionEvent event) throws IOException {
+        FXMLLoader loader = App.getFXMLLoader("GeneralInformationModule");
+        container.getChildren().clear();
+        container.getChildren().add(loader.load());
+    }
+    @FXML
     private void btnAgendaModuleAction(ActionEvent event) {
 
     }
@@ -230,5 +236,7 @@ public class MainController implements Initializable {
             hamburguerMenu.setDisable(false);
         }
     }
+
+    
 
 }

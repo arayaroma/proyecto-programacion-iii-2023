@@ -104,16 +104,18 @@ public class PatientHistoryController implements Initializable {
         try {
             patientBuffer = (PatientDto) Data.getData("patientBuffer");
             patientBuffer = (PatientDto) patientService.getPatientById(patientBuffer.getId()).getData();
-            patientPersonalHistoryBuffer = patientBuffer.getPatientPersonalHistory();
-            if (patientPersonalHistoryBuffer != null) {
-                patientPersonalHistoryBuffer = (PatientPersonalHistoryDto) patientPersonalHistoryService.getPatientPersonalHistoryById(patientBuffer.getPatientPersonalHistory().getId()).getData();
+            if (patientBuffer != null) {
+                patientPersonalHistoryBuffer = patientBuffer.getPatientPersonalHistory();
+                if (patientPersonalHistoryBuffer != null) {
+                    patientPersonalHistoryBuffer = (PatientPersonalHistoryDto) patientPersonalHistoryService.getPatientPersonalHistoryById(patientBuffer.getPatientPersonalHistory().getId()).getData();
+                }
+                Data.setData("patientBuffer", patientBuffer);
+                initializeList();
+                initializeAccordion();
+                loadChart();
+                bindPatient();
+                txfSearchByDate.setOnKeyPressed(t -> searchPatientCareAction(t));
             }
-            Data.setData("patientBuffer", patientBuffer);
-            initializeList();
-            initializeAccordion();
-            loadChart();
-            bindPatient();
-            txfSearchByDate.setOnKeyPressed(t -> searchPatientCareAction(t));
         } catch (Exception e) {
             System.out.println(e.toString());
             backAction(null);

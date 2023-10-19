@@ -5,9 +5,12 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.model.GeneralInformationDto;
 import cr.ac.una.clinicauna.model.UserDto;
+import cr.ac.una.clinicauna.services.GeneralInformationService;
 import cr.ac.una.clinicauna.services.UserService;
 import cr.ac.una.clinicauna.util.Data;
+import cr.ac.una.clinicauna.util.ImageLoader;
 import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
 import cr.ac.una.clinicauna.util.ResponseCode;
@@ -15,11 +18,14 @@ import cr.ac.una.clinicauna.util.ResponseWrapper;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -49,6 +55,16 @@ public class LoginController implements Initializable {
     private Label lblLanguage;
 
     private UserService userService = new UserService();
+    @FXML
+    private VBox aboutUsView;
+    @FXML
+    private ImageView imgPhoto;
+    @FXML
+    private Label lblName;
+    @FXML
+    private Label lblEmail;
+
+    private GeneralInformationService generalInformationService = new GeneralInformationService();
 
     /**
      * Initializes the controller class.
@@ -63,6 +79,7 @@ public class LoginController implements Initializable {
             }
             txfPassword.setOnKeyPressed(event -> keyLoginHandler(event));
             txfUsername.setOnKeyPressed(event -> keyLoginHandler(event));
+
         } catch (Exception e) {
             System.out.println(e.toString());
         }
@@ -136,6 +153,13 @@ public class LoginController implements Initializable {
         }
     }
 
+    @FXML
+    private void aboutUsAction(MouseEvent event) {
+        loadGeneralInformation();
+        new FadeIn(aboutUsView).play();
+        aboutUsView.toFront();
+    }
+
     private void keyLoginHandler(KeyEvent ev) {
         try {
             if (ev.getCode() == KeyCode.ENTER) {
@@ -152,5 +176,18 @@ public class LoginController implements Initializable {
             return;
         }
         Data.setLanguageOption("es");
+    }
+
+    private void loadGeneralInformation() {
+        List<GeneralInformationDto> informationDtos = (List<GeneralInformationDto>) generalInformationService.getAllGeneralInformation().getData();
+        if (informationDtos != null && !informationDtos.isEmpty()) {
+            GeneralInformationDto generalInformationDto = informationDtos.get(0);
+            if (generalInformationDto != null) {
+                lblEmail.setText(generalInformationDto.getEmail());
+                lblName.setText(generalInformationDto.getName());
+                imgPhoto.setImage(ImageLoader.setImage(generalInformationDto.getPhoto()));
+            }
+
+        }
     }
 }
