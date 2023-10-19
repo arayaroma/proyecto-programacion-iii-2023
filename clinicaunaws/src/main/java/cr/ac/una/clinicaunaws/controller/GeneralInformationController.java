@@ -3,11 +3,16 @@ package cr.ac.una.clinicaunaws.controller;
 import java.util.List;
 import java.util.logging.Logger;
 import cr.ac.una.clinicaunaws.dto.GeneralInformationDto;
+import cr.ac.una.clinicaunaws.security.Secure;
 import cr.ac.una.clinicaunaws.services.GeneralInformationService;
 import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ejb.EJB;
+import jakarta.resource.spi.work.SecurityContext;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -16,21 +21,27 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.GenericEntity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 /**
  * 
  * @author arayaroma
  */
+@Secure
 @Path("/GeneralInformationController")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@SecurityRequirement(name = "jwt-auth")
 @Tag(name = "GeneralInformationController", description = "Manage endpoints related to the General Information.")
 public class GeneralInformationController {
-
     private static final Logger logger = Logger.getLogger(GeneralInformationController.class.getName());
+
+    @Context
+    SecurityContext securityContext;
 
     @EJB
     GeneralInformationService generalInformationService;
@@ -43,6 +54,13 @@ public class GeneralInformationController {
      */
     @POST
     @Path("/create")
+    @Operation(summary = "Create a new General Information", description = "Create a new General Information", tags = {
+            "GeneralInformationController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "General Information created"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public Response createGeneralInformation(GeneralInformationDto generalInformationDto) {
         try {
             System.out.println(generalInformationDto);
@@ -65,6 +83,14 @@ public class GeneralInformationController {
      */
     @GET
     @Path("/generalInformation/{id}")
+    @Operation(summary = "Get a General Information by id", description = "Get a General Information by id", tags = {
+            "GeneralInformationController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "General Information found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "General Information not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public Response getGeneralInformationById(@PathParam("id") Long id) {
         try {
             ResponseWrapper response = generalInformationService.getGeneralInformationById(id);
@@ -86,6 +112,14 @@ public class GeneralInformationController {
     @GET
     @Path("/generalInformation")
     @SuppressWarnings("unchecked")
+    @Operation(summary = "Get all General Information", description = "Get all General Information", tags = {
+            "GeneralInformationController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "General Information found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "General Information not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public Response getAllGeneralInformation() {
         try {
             ResponseWrapper response = generalInformationService.getAllGeneralInformation();
@@ -109,6 +143,14 @@ public class GeneralInformationController {
      */
     @PUT
     @Path("/update")
+    @Operation(summary = "Update a General Information", description = "Update a General Information", tags = {
+            "GeneralInformationController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "General Information updated"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "General Information not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public Response updateGeneralInformation(GeneralInformationDto generalInformationDto) {
         try {
             ResponseWrapper response = generalInformationService.updateGeneralInformation(generalInformationDto);
@@ -130,6 +172,14 @@ public class GeneralInformationController {
      */
     @DELETE
     @Path("/delete/{id}")
+    @Operation(summary = "Delete a General Information", description = "Delete a General Information", tags = {
+            "GeneralInformationController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "General Information deleted"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "General Information not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public Response deleteGeneralInformation(@PathParam("id") Long id) {
         try {
             ResponseWrapper response = generalInformationService.deleteGeneralInformation(id);
