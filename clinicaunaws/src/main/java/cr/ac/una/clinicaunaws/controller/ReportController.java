@@ -2,8 +2,13 @@ package cr.ac.una.clinicaunaws.controller;
 
 import java.util.logging.Logger;
 import cr.ac.una.clinicaunaws.dto.ReportDto;
+import cr.ac.una.clinicaunaws.security.Secure;
 import cr.ac.una.clinicaunaws.services.ReportService;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.Consumes;
@@ -14,28 +19,40 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.util.Date;
+import jakarta.ws.rs.core.SecurityContext;
 
 /**
  *
  * @author varga
  * @author arayaroma
  */
+@Secure
 @Path("/ReportController")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@SecurityRequirement(name = "jwt-auth")
 @Tag(name = "ReportController", description = "Manage endpoints related to the Report.")
 public class ReportController {
-
     private static final Logger logger = Logger.getLogger(ReportController.class.getName());
+
+    @Context
+    SecurityContext securityContext;
 
     @EJB
     ReportService reportService;
 
     @POST
     @Path("/create")
+    @Operation(summary = "Create a new Report", description = "Create a new Report", tags = { "ReportController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Report created"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     public Response createReport(ReportDto reportDto) {
         try {
             ResponseWrapper response = reportService.createReport(reportDto);
@@ -51,6 +68,13 @@ public class ReportController {
 
     @GET
     @Path("/report/{id}")
+    @Operation(summary = "Get a Report by id", description = "Get a Report by id", tags = { "ReportController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Report found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Report not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     public Response getReport(@PathParam("id") Long id) {
         try {
             ResponseWrapper response = reportService.getReportById(id);
@@ -66,6 +90,13 @@ public class ReportController {
 
     @GET
     @Path("/report")
+    @Operation(summary = "Get all Reports", description = "Get all Reports", tags = { "ReportController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Reports found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Reports not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     public Response getAllReports() {
         try {
             ResponseWrapper response = reportService.getAllReports();
@@ -81,6 +112,14 @@ public class ReportController {
 
     @PUT
     @Path("/update")
+    @Operation(summary = "Update a Report", description = "Update a Report", tags = { "ReportController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Report updated"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "404", description = "Report not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     public Response updateReport(ReportDto reportDto) {
         try {
             ResponseWrapper response = reportService.updateReport(reportDto);
@@ -96,6 +135,14 @@ public class ReportController {
 
     @DELETE
     @Path("/delete/{id}")
+    @Operation(summary = "Delete a Report by id", description = "Delete a Report by id", tags = { "ReportController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Report deleted"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "404", description = "Report not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     public Response deleteReport(@PathParam("id") Long id) {
         try {
             ResponseWrapper response = reportService.deleteReport(id);
@@ -117,7 +164,14 @@ public class ReportController {
      */
     @GET
     @Path("/createPatientReport/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Create a Patient Report", description = "Create a Patient Report", tags = {
+            "ReportController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Patient Report created"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Patient Report not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     public Response createPatientReport(@PathParam("id") Long id) {
         try {
             MediaType contentType;
@@ -137,11 +191,19 @@ public class ReportController {
                     .entity("Error al generar el informe").type(MediaType.TEXT_PLAIN).build();
         }
     }
-    
+
     @GET
     @Path("/createAgendaReport/{doctorId}/{startDate}/{endDate}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response createAgendaReport(@PathParam("doctorId") Long dId, @PathParam("startDate") String sDate, @PathParam("endDate") String eDate) {
+    @Operation(summary = "Create a Agenda Report", description = "Create a Agenda Report", tags = {
+            "ReportController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Agenda Report created"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Agenda Report not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    public Response createAgendaReport(@PathParam("doctorId") Long dId, @PathParam("startDate") String sDate,
+            @PathParam("endDate") String eDate) {
         try {
             MediaType contentType;
             ResponseWrapper response = reportService.createAgendaReport(dId, sDate, eDate);
