@@ -11,7 +11,6 @@ import cr.ac.una.clinicauna.util.MessageType;
 import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.IOException;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +33,7 @@ import javafx.scene.layout.VBox;
  * FXML Controller class
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class PatientModuleController implements Initializable {
 
@@ -61,6 +61,7 @@ public class PatientModuleController implements Initializable {
     private PatientService patientService = new PatientService();
     private PatientDto patientBuffer;
     private List<PatientDto> patientDtos = new ArrayList<>();
+    private Data data = Data.getInstance();
 
     /**
      * Initializes the controller class.
@@ -68,7 +69,7 @@ public class PatientModuleController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            if (Data.getLanguageOption().equals("en")) {
+            if (data.getLanguageOption().equals("en")) {
                 cbSearchParameter.getItems().addAll("Name", "Last Name", "Phone", "Identification", "Birth Date");
             } else {
                 cbSearchParameter.getItems().addAll("Nombre", "Apellido", "Telefono", "Cédula", "Fecha de Nacimiento");
@@ -90,7 +91,7 @@ public class PatientModuleController implements Initializable {
 
     @FXML
     private void btnViewPatientAction(ActionEvent event) throws IOException {
-        Data.setData("patientBuffer", patientBuffer);
+        data.setData("patientBuffer", patientBuffer);
         Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("PatientHistory").load());
     }
 

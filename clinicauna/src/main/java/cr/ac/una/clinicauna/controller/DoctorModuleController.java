@@ -35,6 +35,7 @@ import javafx.scene.layout.VBox;
  * FXML Controller class
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class DoctorModuleController implements Initializable {
 
@@ -60,12 +61,15 @@ public class DoctorModuleController implements Initializable {
     private UserService userService = new UserService();
     private List<UserDto> userDtos = new ArrayList<>();
 
+    private Data data = Data.getInstance();
+
     /**
      * Initializes the controller class.
      */
     @Override
+    @SuppressWarnings("unchecked")
     public void initialize(URL url, ResourceBundle rb) {
-        if (Data.getLanguageOption().equals("en")) {
+        if (data.getLanguageOption().equals("en")) {
             cbSearchParameter.getItems().addAll("Carne", "Code", "Starting Time", "Ending Time");
         } else {
             cbSearchParameter.getItems().addAll("Carne", "Codigo", "Hora de Inicio", "Hora de Fin");
@@ -79,14 +83,14 @@ public class DoctorModuleController implements Initializable {
 
     @FXML
     private void btnNewUserAction(ActionEvent event) throws IOException {
-        Data.removeData("userBuffer");
+        data.removeData("userBuffer");
         loadUserRegisterView();
     }
 
     @FXML
     private void btnEditDoctorAction(ActionEvent event) throws IOException {
         UserDto userBuffer = (UserDto) userService.findUserById(doctorBuffer.getId()).getData();
-        Data.setData("userBuffer", userBuffer);
+        data.setData("userBuffer", userBuffer);
         loadUserRegisterView();
     }
 
@@ -133,22 +137,26 @@ public class DoctorModuleController implements Initializable {
             if (parameter.equals("carne")) {
                 usersFiltered = users
                         .stream()
-                        .filter(user -> user.getDoctor() != null && user.getDoctor().getIdCard().toString().toLowerCase().contains(key))
+                        .filter(user -> user.getDoctor() != null
+                                && user.getDoctor().getIdCard().toString().toLowerCase().contains(key))
                         .collect(Collectors.toList());
             } else if (parameter.equals("code") || parameter.equals("codigo")) {
                 usersFiltered = users
                         .stream()
-                        .filter(user -> user.getDoctor() != null && user.getDoctor().getCode().toLowerCase().contains(key))
+                        .filter(user -> user.getDoctor() != null
+                                && user.getDoctor().getCode().toLowerCase().contains(key))
                         .collect(Collectors.toList());
             } else if (parameter.equals("starting time") || parameter.equals("hora de inicio")) {
                 usersFiltered = users
                         .stream()
-                        .filter(user -> user.getDoctor() != null && user.getDoctor().getShiftStartTime().toLowerCase().contains(key))
+                        .filter(user -> user.getDoctor() != null
+                                && user.getDoctor().getShiftStartTime().toLowerCase().contains(key))
                         .collect(Collectors.toList());
             } else if (parameter.equals("ending time") || parameter.equals("hora de fin")) {
                 usersFiltered = users
                         .stream()
-                        .filter(user -> user.getDoctor() != null && user.getDoctor().getShiftEndTime().toLowerCase().contains(key))
+                        .filter(user -> user.getDoctor() != null
+                                && user.getDoctor().getShiftEndTime().toLowerCase().contains(key))
                         .collect(Collectors.toList());
             }
         }
@@ -175,7 +183,8 @@ public class DoctorModuleController implements Initializable {
 
     private void loadDoctors(List<UserDto> users) {
         if (users != null) {
-            List<DoctorDto> doctorDtos = users.stream().filter(user -> user.getDoctor() != null).map(t -> t.getDoctor()).collect(Collectors.toList());
+            List<DoctorDto> doctorDtos = users.stream().filter(user -> user.getDoctor() != null).map(t -> t.getDoctor())
+                    .collect(Collectors.toList());
             tblDoctorsView.setItems(FXCollections.observableArrayList(doctorDtos));
         }
     }

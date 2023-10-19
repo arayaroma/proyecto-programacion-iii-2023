@@ -11,35 +11,89 @@ import java.util.List;
 /**
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class UserService {
-
-    public ResponseWrapper getUsers() {
-        try {
-            Request request = new Request("UserController/users");
-            request.get();
-            if (request.isError()) {
-                return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: " + request.getError(), null);
-            }
-            List<UserDto> userDtos = (List<UserDto>) request.readEntity(new GenericType<List<UserDto>>() {
-            });
-            return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK, "Users retrieved successfully: ", userDtos);
-        } catch (Exception ex) {
-            return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the service: " + ex.toString(), null);
-        }
-    }
 
     public ResponseWrapper createUser(UserDto userDto) {
         try {
             Request request = new Request("UserController/create");
             request.post(userDto);
             if (request.isError()) {
-                return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: " + request.getError(), null);
+                return new ResponseWrapper(
+                        ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                        ResponseCode.INTERNAL_SERVER_ERROR,
+                        "Error in the request: " + request.getError(),
+                        null);
             }
             userDto = (UserDto) request.readEntity(UserDto.class);
-            return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK, "User created successfully: ", userDto);
+            return new ResponseWrapper(
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
+                    "User created successfully: ",
+                    userDto);
         } catch (Exception ex) {
-            return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the service: " + ex.toString(), null);
+            return new ResponseWrapper(
+                    ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                    ResponseCode.INTERNAL_SERVER_ERROR,
+                    "Error in the service: " + ex.getMessage(),
+                    null);
+        }
+    }
+
+    public ResponseWrapper findUserById(Long id) {
+        try {
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("id", id);
+            Request request = new Request("UserController/user", "/{id}", params);
+            request.get();
+            if (request.isError()) {
+                return new ResponseWrapper(
+                        ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                        ResponseCode.INTERNAL_SERVER_ERROR,
+                        "Error in the request: " + request.getError(),
+                        null);
+            }
+            UserDto userDto = (UserDto) request.readEntity(UserDto.class);
+            return new ResponseWrapper(
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
+                    "User retrieved successfully: ",
+                    userDto);
+        } catch (Exception ex) {
+            return new ResponseWrapper(
+                    ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                    ResponseCode.INTERNAL_SERVER_ERROR,
+                    "Error in the service: " + ex.getMessage(),
+                    null);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public ResponseWrapper getUsers() {
+        try {
+            Request request = new Request("UserController/users");
+            request.get();
+            if (request.isError()) {
+                return new ResponseWrapper(
+                        ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                        ResponseCode.INTERNAL_SERVER_ERROR,
+                        "Error in the request: " + request.getError(),
+                        null);
+            }
+            List<UserDto> userDtos = (List<UserDto>) request.readEntity(new GenericType<List<UserDto>>() {
+            });
+            return new ResponseWrapper(
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
+                    "Users retrieved successfully: ",
+                    userDtos);
+        } catch (Exception ex) {
+            return new ResponseWrapper(
+                    ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                    ResponseCode.INTERNAL_SERVER_ERROR,
+                    "Error in the service: " + ex.getMessage(),
+                    null);
         }
     }
 
@@ -48,90 +102,162 @@ public class UserService {
             Request request = new Request("UserController/update");
             request.put(userDto);
             if (request.isError()) {
-                return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: " + request.getError(), null);
+                return new ResponseWrapper(
+                        ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                        ResponseCode.INTERNAL_SERVER_ERROR,
+                        "Error in the request: " + request.getError(),
+                        null);
             }
             userDto = (UserDto) request.readEntity(UserDto.class);
-            return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK, "User updated successfully: ", userDto);
+            return new ResponseWrapper(
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
+                    "User updated successfully: ",
+                    userDto);
         } catch (Exception ex) {
-            return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the service: " + ex.toString(), null);
+            return new ResponseWrapper(
+                    ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                    ResponseCode.INTERNAL_SERVER_ERROR,
+                    "Error in the service: " + ex.getMessage(),
+                    null);
         }
     }
 
     public ResponseWrapper deleteUser(UserDto userDto) {
         try {
-            HashMap params = new HashMap();
+            HashMap<String, Object> params = new HashMap<>();
             params.put("id", userDto.getId());
             Request request = new Request("UserController/delete", "/{id}", params);
             request.delete();
             if (request.isError()) {
-                return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: " + request.getError(), null);
+                return new ResponseWrapper(
+                        ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                        ResponseCode.INTERNAL_SERVER_ERROR,
+                        "Error in the request: " + request.getError(),
+                        null);
             }
-            return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK, "User removed successfully: ", null);
+            return new ResponseWrapper(
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK, "User removed successfully: ",
+                    null);
         } catch (Exception ex) {
-            return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the service: " + ex.toString(), null);
+            return new ResponseWrapper(
+                    ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                    ResponseCode.INTERNAL_SERVER_ERROR,
+                    "Error in the service: " + ex.getMessage(),
+                    null);
         }
     }
 
-    public ResponseWrapper findUserById(Long id) {
+    public ResponseWrapper changePassword(Long id, String oldPassword, String newPassword) {
         try {
-            HashMap params = new HashMap();
-            params.put("id", id);
-            Request request = new Request("UserController/user", "/{id}", params);
-            request.get();
-            if (request.isError()) {
-                return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: " + request.getError(), null);
-            }
-            UserDto userDto = (UserDto) request.readEntity(UserDto.class);
-            return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK, "User retrieved successfully: ", userDto);
-        } catch (Exception ex) {
-            return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the service: " + ex.toString(), null);
-        }
-    }
-
-    public ResponseWrapper changePassword(Long id, String oldPassword, String newPassword){
-        try {
-            HashMap params = new HashMap();
+            HashMap<String, Object> params = new HashMap<>();
             params.put("id", id);
             params.put("oldPassword", oldPassword);
             params.put("newPassword", newPassword);
             Request request = new Request("UserController/changePassword", "/{id}/{oldPassword}/{newPassword}", params);
             request.put(params);
             if (request.isError()) {
-                return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: " + request.getError(), null);
+                return new ResponseWrapper(
+                        ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                        ResponseCode.INTERNAL_SERVER_ERROR,
+                        "Error in the request: " + request.getError(),
+                        null);
             }
             UserDto userDto = (UserDto) request.readEntity(UserDto.class);
-            return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK, "User retrieved successfully: ", userDto);
+            return new ResponseWrapper(
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
+                    "User retrieved successfully: ",
+                    userDto);
         } catch (Exception ex) {
-            return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the service: " + ex.toString(), null);
+            return new ResponseWrapper(
+                    ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                    ResponseCode.INTERNAL_SERVER_ERROR,
+                    "Error in the service: " + ex.getMessage(),
+                    null);
         }
     }
-    public ResponseWrapper recoverPassword(String email){
+
+    public ResponseWrapper recoverPassword(String email) {
         try {
             Request request = new Request("UserController/recoverPassword");
             request.post(email);
             if (request.isError()) {
-                return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: " + request.getError(), null);
+                return new ResponseWrapper(
+                        ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                        ResponseCode.INTERNAL_SERVER_ERROR,
+                        "Error in the request: " + request.getError(),
+                        null);
             }
             UserDto userDto = (UserDto) request.readEntity(UserDto.class);
-            return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK, "User retrieved successfully: ", userDto);
+            return new ResponseWrapper(
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
+                    "User retrieved successfully: ",
+                    userDto);
         } catch (Exception ex) {
-            return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the service: " + ex.toString(), null);
-        }        
+            return new ResponseWrapper(
+                    ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                    ResponseCode.INTERNAL_SERVER_ERROR,
+                    "Error in the service: " + ex.getMessage(),
+                    null);
+        }
     }
+
     public ResponseWrapper verifyUser(String user, String password) {
         try {
-            HashMap params = new HashMap();
+            HashMap<String, Object> params = new HashMap<>();
             params.put("username", user);
             params.put("password", password);
             Request request = new Request("UserController/user", "/{username}/{password}", params);
             request.get();
             if (request.isError()) {
-                return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: " + request.getError(), null);
+                return new ResponseWrapper(
+                        ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                        ResponseCode.INTERNAL_SERVER_ERROR,
+                        "Error in the request: " + request.getError(),
+                        null);
             }
             UserDto userDto = (UserDto) request.readEntity(UserDto.class);
-            return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK, "User retrieved successfully: ", userDto);
+            System.out.println(userDto.getToken());
+            return new ResponseWrapper(
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
+                    "User verified successfully: ",
+                    userDto);
         } catch (Exception ex) {
-            return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR, "Error in the service: " + ex.toString(), null);
+            return new ResponseWrapper(
+                    ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                    ResponseCode.INTERNAL_SERVER_ERROR,
+                    "Error verifying the user: " + ex.getMessage(),
+                    null);
+        }
+    }
+
+    public ResponseWrapper renewToken() {
+        try {
+            Request request = new Request("UserController/renewToken");
+            request.getRenewal();
+            if (request.isError()) {
+                return new ResponseWrapper(
+                        ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                        ResponseCode.INTERNAL_SERVER_ERROR,
+                        "Error in the request: " + request.getError(),
+                        null);
+            }
+            String token = (String) request.readEntity(String.class);
+            return new ResponseWrapper(
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
+                    "Token renewed successfully: ",
+                    token);
+        } catch (Exception ex) {
+            return new ResponseWrapper(
+                    ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                    ResponseCode.INTERNAL_SERVER_ERROR,
+                    "Error renewing the token: " + ex.getMessage(),
+                    null);
         }
     }
 

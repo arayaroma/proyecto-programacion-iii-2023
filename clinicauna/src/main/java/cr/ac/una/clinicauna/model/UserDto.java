@@ -2,17 +2,18 @@ package cr.ac.una.clinicauna.model;
 
 import cr.ac.una.clinicauna.util.DtoMapper;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class UserDto implements DtoMapper<UserDto, UserDto> {
 
     private Long id;
+    private DoctorDto doctor;
     public SimpleStringProperty username;
     public SimpleStringProperty password;
     public SimpleStringProperty name;
@@ -28,8 +29,20 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
     public SimpleStringProperty activationCode;
     public SimpleStringProperty language;
     private byte[] profilePhoto;
-    private DoctorDto doctor;
+    private String token;
     private Long version;
+
+    @Override
+    public UserDto convertFromGeneratedToDTO(UserDto generated, UserDto dto) {
+        return dto;
+    }
+
+    @Override
+    public UserDto convertFromDTOToGenerated(UserDto dto, UserDto generated) {
+        dto.parseLanguage(generated.getLanguage());
+        dto.parseRole(generated.getRole());
+        return dto;
+    }
 
     public UserDto() {
         this.username = new SimpleStringProperty();
@@ -46,7 +59,6 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
         this.passwordChanged = new SimpleStringProperty();
         this.activationCode = new SimpleStringProperty();
         this.language = new SimpleStringProperty();
-        
     }
 
     public UserDto(UserDto userDto) {
@@ -67,8 +79,8 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
         setActivationCode(userDto.getActivationCode());
         setLanguage(userDto.getLanguage());
         setProfilePhoto(userDto.getProfilePhoto());
+        setToken(userDto.getToken());
         setVersion(userDto.getVersion());
-        
     }
 
     public Long getId() {
@@ -82,7 +94,7 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
     public void setDoctor(DoctorDto doctor) {
         this.doctor = doctor;
     }
-    
+
     public String getUsername() {
         return this.username.getValue();
     }
@@ -141,6 +153,10 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
 
     public byte[] getProfilePhoto() {
         return this.profilePhoto;
+    }
+
+    public String getToken() {
+        return this.token;
     }
 
     public Long getVersion() {
@@ -207,6 +223,10 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
         this.profilePhoto = profilePhoto;
     }
 
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -251,15 +271,27 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
     }
 
     @Override
-    public UserDto convertFromGeneratedToDTO(UserDto generated, UserDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+    public String toString() {
+        return "{" +
+                " id='" + getId() + "'" +
+                ", doctor='" + getDoctor() + "'" +
+                ", username='" + getUsername() + "'" +
+                ", password='" + getPassword() + "'" +
+                ", name='" + getName() + "'" +
+                ", firstLastname='" + getFirstLastname() + "'" +
+                ", secondLastname='" + getSecondLastname() + "'" +
+                ", identification='" + getIdentification() + "'" +
+                ", email='" + getEmail() + "'" +
+                ", role='" + getRole() + "'" +
+                ", phoneNumber='" + getPhoneNumber() + "'" +
+                ", isActive='" + getIsActive() + "'" +
+                ", isAdmin='" + getIsAdmin() + "'" +
+                ", passwordChanged='" + getPasswordChanged() + "'" +
+                ", activationCode='" + getActivationCode() + "'" +
+                ", language='" + getLanguage() + "'" +
+                ", profilePhoto='" + getProfilePhoto() + "'" +
+                ", token='" + getToken() + "'" +
+                ", version='" + getVersion() + "'" +
+                "}";
     }
-
-    @Override
-    public UserDto convertFromDTOToGenerated(UserDto dto, UserDto generated) {
-        dto.parseLanguage(generated.getLanguage());
-        dto.parseRole(generated.getRole());
-        return dto;
-    }
-
 }

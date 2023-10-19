@@ -37,6 +37,7 @@ import javafx.scene.shape.Circle;
  * FXML Controller class
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class MainController implements Initializable {
 
@@ -71,17 +72,19 @@ public class MainController implements Initializable {
 
     private UserService userService = new UserService();
     private UserDto userLoggued;
+    private Data data = Data.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            Data.setData("mainController", this);
+            data.setData("mainController", this);
             intializeSliderMenu();
-            userLoggued = (UserDto) Data.getData("userLoggued");
+            userLoggued = (UserDto) data.getData("userLoggued");
             if (userLoggued != null) {
                 lblUserLoggued.setText(userLoggued.getName());
 
-                imgProfilePhoto.setClip(new Circle(imgProfilePhoto.getFitWidth() / 2, imgProfilePhoto.getFitHeight() / 2, 30));
+                imgProfilePhoto
+                        .setClip(new Circle(imgProfilePhoto.getFitWidth() / 2, imgProfilePhoto.getFitHeight() / 2, 30));
                 if (userLoggued.getProfilePhoto() != null) {
                     imgProfilePhoto.setImage(ImageLoader.setImage(userLoggued.getProfilePhoto()));
                 }
@@ -112,6 +115,9 @@ public class MainController implements Initializable {
         container.getChildren().add(loader.load());
     }
 
+    /**
+     * FIXME: Add catch block
+     */
     @FXML
     private void btnLogOutAction(ActionEvent event) {
         try {
@@ -130,7 +136,7 @@ public class MainController implements Initializable {
     @FXML
     private void editUserLogguedAction(MouseEvent event) throws IOException {
         userLoggued = (UserDto) userService.findUserById(userLoggued.getId()).getData();
-        Data.setData("userBuffer", userLoggued);
+        data.setData("userBuffer", userLoggued);
         Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("UserRegister").load());
     }
 
@@ -191,7 +197,7 @@ public class MainController implements Initializable {
         sliderMenu.setSidePane(menuLateral);
         sliderMenu.open();
         transition.setRate(1);
-        //transition.play();
+        // transition.play();
         hamburguerMenu.setOnMouseClicked(t -> {
             transition.setRate(transition.getRate() * -1);
             transition.play();
@@ -203,6 +209,9 @@ public class MainController implements Initializable {
         });
     }
 
+    /**
+     * FIXME: Add catch block
+     */
     public void loadView(String option) {
         try {
             if (option.toLowerCase().equals("usermodule")) {

@@ -31,7 +31,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
-import javafx.geometry.Side;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -43,6 +42,7 @@ import javafx.scene.layout.StackPane;
  * FXML Controller class
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class PatientHistoryController implements Initializable {
 
@@ -95,6 +95,7 @@ public class PatientHistoryController implements Initializable {
     private PatientService patientService = new PatientService();
     private PatientPersonalHistoryService patientPersonalHistoryService = new PatientPersonalHistoryService();
     private List<PatientCareDto> patientCareDtos = new ArrayList<>();
+    private Data data = Data.getInstance();
 
     /**
      * Initializes the controller class.
@@ -102,13 +103,14 @@ public class PatientHistoryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            patientBuffer = (PatientDto) Data.getData("patientBuffer");
+            patientBuffer = (PatientDto) data.getData("patientBuffer");
             patientBuffer = (PatientDto) patientService.getPatientById(patientBuffer.getId()).getData();
             patientPersonalHistoryBuffer = patientBuffer.getPatientPersonalHistory();
             if (patientPersonalHistoryBuffer != null) {
-                patientPersonalHistoryBuffer = (PatientPersonalHistoryDto) patientPersonalHistoryService.getPatientPersonalHistoryById(patientBuffer.getPatientPersonalHistory().getId()).getData();
+                patientPersonalHistoryBuffer = (PatientPersonalHistoryDto) patientPersonalHistoryService
+                        .getPatientPersonalHistoryById(patientBuffer.getPatientPersonalHistory().getId()).getData();
             }
-            Data.setData("patientBuffer", patientBuffer);
+            data.setData("patientBuffer", patientBuffer);
             initializeList();
             initializeAccordion();
             loadChart();
@@ -124,7 +126,7 @@ public class PatientHistoryController implements Initializable {
     @FXML
     private void backAction(MouseEvent event) {
         try {
-            Data.removeData("patientBuffer");
+            data.removeData("patientBuffer");
             FXMLLoader loader = App.getFXMLLoader("Main");
             Animation.MakeDefaultFadeTransition(mainStack, loader.load());
             MainController controller = loader.getController();
@@ -137,7 +139,7 @@ public class PatientHistoryController implements Initializable {
 
     @FXML
     private void btnNewHistoryAction(ActionEvent event) throws IOException {
-        Data.setData("patientPersonalHistoryBuffer", patientBuffer.getPatientPersonalHistory());
+        data.setData("patientPersonalHistoryBuffer", patientBuffer.getPatientPersonalHistory());
         Animation.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("PatientCareRegister").load());
     }
 
@@ -187,7 +189,8 @@ public class PatientHistoryController implements Initializable {
                 loadAccordion(patientCareDtos);
                 return;
             }
-            loadAccordion(patientCareDtos.stream().filter(t -> t.getPatientCareDate().contains(key)).collect(Collectors.toList()));
+            loadAccordion(patientCareDtos.stream().filter(t -> t.getPatientCareDate().contains(key))
+                    .collect(Collectors.toList()));
         }
     }
 
@@ -205,7 +208,8 @@ public class PatientHistoryController implements Initializable {
     private void loadAccordion(List<PatientCareDto> patientCareDtos) {
         try {
             acPatientCares.getPanes().clear();
-            Collections.sort(patientCareDtos, (PatientCareDto o1, PatientCareDto o2) -> o1.getPatientCareDate().compareTo(o2.getPatientCareDate()));
+            Collections.sort(patientCareDtos, (PatientCareDto o1, PatientCareDto o2) -> o1.getPatientCareDate()
+                    .compareTo(o2.getPatientCareDate()));
             for (PatientCareDto patientCareDto : patientCareDtos) {
                 FXMLLoader loader = App.getFXMLLoader("PatientCareTitledPane");
                 acPatientCares.getPanes().add(new TitledPane(patientCareDto.getPatientCareDate(), loader.load()));
@@ -232,7 +236,8 @@ public class PatientHistoryController implements Initializable {
                 Double height = Double.valueOf(patientCareDto.getHeight());
                 Double idealWeight = heightInCM - 100 - ((heightInCM - 150) / 4);
                 Double idealIMC = idealWeight / (height * height);
-                imc.getData().add(new XYChart.Data<>(patientCareDto.getPatientCareDate(), Double.valueOf(patientCareDto.getBodyMassIndex())));
+                imc.getData().add(new XYChart.Data<>(patientCareDto.getPatientCareDate(),
+                        Double.valueOf(patientCareDto.getBodyMassIndex())));
                 imcIdeal.getData().add(new XYChart.Data<>(patientCareDto.getPatientCareDate(), idealIMC));
             }
 
@@ -248,7 +253,8 @@ public class PatientHistoryController implements Initializable {
     }
 
     private void bindPatient() {
-        lblFullName.setText(patientBuffer.getName() + " " + patientBuffer.getFirstLastname() + " " + patientBuffer.getSecondLastname());
+        lblFullName.setText(patientBuffer.getName() + " " + patientBuffer.getFirstLastname() + " "
+                + patientBuffer.getSecondLastname());
         lblGender.textProperty().bindBidirectional(patientBuffer.gender);
         lblIdentification.textProperty().bindBidirectional(patientBuffer.identification);
         lblPhoneNumber.textProperty().bindBidirectional(patientBuffer.phoneNumber);

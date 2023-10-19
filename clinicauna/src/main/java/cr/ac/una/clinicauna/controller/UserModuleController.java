@@ -33,6 +33,7 @@ import javafx.scene.layout.VBox;
  * FXML Controller class
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class UserModuleController implements Initializable {
 
@@ -61,13 +62,14 @@ public class UserModuleController implements Initializable {
     private UserDto userBuffer;
     private UserService userService = new UserService();
     private List<UserDto> userDtos = new ArrayList<>();
+    private Data data = Data.getInstance();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if (Data.getLanguageOption().equals("en")) {
+        if (data.getLanguageOption().equals("en")) {
             cbSearchParameter.getItems().addAll("Name", "Last Name", "Second Last Name", "Identification", "Role");
         } else {
             cbSearchParameter.getItems().addAll("Nombre", "Apellido", "Segundo Apellido", "Cédula", "Rol");
@@ -81,13 +83,12 @@ public class UserModuleController implements Initializable {
 
     @FXML
     private void btnNewUserAction(ActionEvent event) throws IOException {
-        
         Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("UserRegister").load());
     }
 
     @FXML
     private void btnEditUserAction(ActionEvent event) throws IOException {
-        Data.setData("userBuffer", userBuffer);
+        data.setData("userBuffer", userBuffer);
         Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("UserRegister").load());
     }
 

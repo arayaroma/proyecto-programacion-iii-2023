@@ -29,6 +29,7 @@ import javafx.scene.layout.VBox;
  * FXML Controller class
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class PatientRegisterController implements Initializable {
 
@@ -57,13 +58,15 @@ public class PatientRegisterController implements Initializable {
 
     boolean isEditing = false;
 
+    private Data data = Data.getInstance();
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cbGender.getItems().addAll("MALE", "FEMALE");
-        PatientDto patientDto = (PatientDto) Data.getData("patientBuffer");
+        PatientDto patientDto = (PatientDto) data.getData("patientBuffer");
         if (patientDto != null) {
             patientBuffer = patientDto;
             isEditing = true;
@@ -74,12 +77,12 @@ public class PatientRegisterController implements Initializable {
     @FXML
     private void backFromRegister(MouseEvent event) {
         try {
-            Data.removeData("patientBuffer");
+            data.removeData("patientBuffer");
             if (!isEditing) {
                 Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("Main").load());
                 return;
             }
-            Data.setData("patientBuffer", patientBuffer);
+            data.setData("patientBuffer", patientBuffer);
             Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("PatientHistory").load());
         } catch (IOException e) {
         }
@@ -91,7 +94,8 @@ public class PatientRegisterController implements Initializable {
             Message.showNotification("Ups", MessageType.INFO, "All the fields are required");
             return;
         }
-        ResponseWrapper response = !isEditing ? patientService.createPatient(patientBuffer) : patientService.updatePatient(patientBuffer);
+        ResponseWrapper response = !isEditing ? patientService.createPatient(patientBuffer)
+                : patientService.updatePatient(patientBuffer);
         Message.showNotification(response.getCode().name(), MessageType.INFO, response.getMessage());
         if (response.getCode() == ResponseCode.OK) {
             patientBuffer = (PatientDto) response.getData();
@@ -123,7 +127,8 @@ public class PatientRegisterController implements Initializable {
     }
 
     private boolean verifyFields() {
-        List<Node> fields = Arrays.asList(txfEmail, txfIdentification, txfLastName, txfName, txfSecondLastName, txfPhoneNumber);
+        List<Node> fields = Arrays.asList(txfEmail, txfIdentification, txfLastName, txfName, txfSecondLastName,
+                txfPhoneNumber);
         for (Node i : fields) {
             if (i instanceof JFXTextField && ((JFXTextField) i).getText() != null
                     && ((JFXTextField) i).getText().isBlank()) {

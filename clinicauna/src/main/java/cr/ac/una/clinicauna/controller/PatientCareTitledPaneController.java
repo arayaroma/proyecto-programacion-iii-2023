@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
  * FXML Controller class
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class PatientCareTitledPaneController implements Initializable {
 
@@ -49,6 +50,7 @@ public class PatientCareTitledPaneController implements Initializable {
     private Button btnViewMedicalAppointment;
     private PatientCareDto patientCareBuffer;
     private PatientPersonalHistoryDto patientPersonalHistoryBuffer;
+    private Data data = Data.getInstance();
 
     /**
      * Initializes the controller class.
@@ -59,8 +61,8 @@ public class PatientCareTitledPaneController implements Initializable {
 
     @FXML
     private void btnEditPatientCareAction(ActionEvent event) throws IOException {
-        Data.setData("patientPersonalHistoryBuffer", patientPersonalHistoryBuffer);
-        Data.setData("patientCareBuffer", patientCareBuffer);
+        data.setData("patientPersonalHistoryBuffer", patientPersonalHistoryBuffer);
+        data.setData("patientCareBuffer", patientCareBuffer);
         App.setRoot("PatientCareRegister");
     }
 

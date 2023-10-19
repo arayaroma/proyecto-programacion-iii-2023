@@ -3,7 +3,6 @@ package cr.ac.una.clinicauna.controller;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
-
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.PatientCareDto;
 import cr.ac.una.clinicauna.model.PatientPersonalHistoryDto;
@@ -40,6 +39,7 @@ import javafx.util.StringConverter;
  * FXML Controller class
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class PatientCareRegisterController implements Initializable {
 
@@ -75,6 +75,7 @@ public class PatientCareRegisterController implements Initializable {
     private PatientCareService patientCareService = new PatientCareService();
     private PatientPersonalHistoryService personalHistoryService = new PatientPersonalHistoryService();
     private boolean isEditing;
+    private Data data = Data.getInstance();
 
     /**
      * Initializes the controller class.
@@ -82,10 +83,11 @@ public class PatientCareRegisterController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            patientCareBuffer = (PatientCareDto) Data.getData("patientCareBuffer");
-            patientPersonalHistoryDto = (PatientPersonalHistoryDto) Data.getData("patientPersonalHistoryBuffer");
+            patientCareBuffer = (PatientCareDto) data.getData("patientCareBuffer");
+            patientPersonalHistoryDto = (PatientPersonalHistoryDto) data.getData("patientPersonalHistoryBuffer");
             if (patientPersonalHistoryDto != null) {
-                patientPersonalHistoryDto = (PatientPersonalHistoryDto) personalHistoryService.getPatientPersonalHistoryById(patientPersonalHistoryDto.getId()).getData();
+                patientPersonalHistoryDto = (PatientPersonalHistoryDto) personalHistoryService
+                        .getPatientPersonalHistoryById(patientPersonalHistoryDto.getId()).getData();
             }
             isEditing = patientCareBuffer != null;
             if (patientCareBuffer == null) {
@@ -102,8 +104,8 @@ public class PatientCareRegisterController implements Initializable {
     @FXML
     private void backFromRegister(MouseEvent event) {
         try {
-            Data.removeData("patientCareBuffer");
-            Data.removeData("patientPersonalHistoryBuffer");
+            data.removeData("patientCareBuffer");
+            data.removeData("patientPersonalHistoryBuffer");
             FXMLLoader loader = App.getFXMLLoader("PatientHistory");
             Animation.MakeDefaultFadeTransition(mainView, loader.load());
             PatientHistoryController controller = loader.getController();
@@ -121,7 +123,8 @@ public class PatientCareRegisterController implements Initializable {
             return;
         }
         setParameters(patientCareBuffer);
-        patientCareBuffer.setPatientHistory(patientPersonalHistoryDto.convertFromDTOToGenerated(patientPersonalHistoryDto, patientPersonalHistoryDto));
+        patientCareBuffer.setPatientHistory(patientPersonalHistoryDto
+                .convertFromDTOToGenerated(patientPersonalHistoryDto, patientPersonalHistoryDto));
         if (patientCareBuffer.getPatientCareDate() == null) {
             patientCareBuffer.setPatientCareDate(LocalDate.now().toString());
         }
