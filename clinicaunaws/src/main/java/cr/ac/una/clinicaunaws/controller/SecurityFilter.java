@@ -1,13 +1,15 @@
-package cr.ac.una.clinicaunaws.security;
+package cr.ac.una.clinicaunaws.controller;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.security.Principal;
+
+import cr.ac.una.clinicaunaws.security.JwtManager;
+import cr.ac.una.clinicaunaws.security.Secure;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.annotation.Priority;
-import jakarta.ws.rs.ext.Provider;
 import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
@@ -16,6 +18,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.ext.Provider;
 
 /**
  * 
@@ -28,10 +31,9 @@ public class SecurityFilter implements ContainerRequestFilter {
     private static final String AUTHENTICATION_SCHEME = "Bearer";
 
     /**
-     * Services methods names that are filtered by this class
+     * Services methods names that are not filtered
      */
-    private static final String AUTHORIZATION_SERVICE_PATH = "getUserById";
-    private static final String RENEWAL_SERVICE_PATH = "renewToken";
+    private static final String AUTHORIZATION_SERVICE_PATH = "getUserByUsernameAndPassword";
 
     @Context
     private ResourceInfo resourceInfo;
@@ -57,7 +59,7 @@ public class SecurityFilter implements ContainerRequestFilter {
         try {
             try {
                 Claims claims = JwtManager.getInstance().claimKey(token);
-                if (method.getName().equals(RENEWAL_SERVICE_PATH)) {
+                if (method.getName().equals(AUTHORIZATION_SERVICE_PATH)) {
                     if (!(boolean) claims.getOrDefault("rnw", false)) {
                         abortWithUnauthorized(request, "Invalid authorization");
                     }
