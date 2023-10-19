@@ -51,7 +51,6 @@ public class UserService {
                         ResponseCode.OK,
                         "User created successfully, but email could not be sent: " + ex.getMessage(),
                         userDto);
-
             }
             em.persist(user);
             em.flush();
