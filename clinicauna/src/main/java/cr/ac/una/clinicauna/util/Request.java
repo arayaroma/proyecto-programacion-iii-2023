@@ -88,14 +88,14 @@ public class Request {
     }
 
     public void get() {
-        if (isTokenExpired()) {
+//        if (isTokenExpired()) {
             response = builder.get();
-        }
+        //}
     }
 
-    public void getToken() {
-        response = builder.get();
-    }
+//    public void getToken() {
+//        response = builder.get();
+//    }
 
     public void post(Object clazz) {
         if (isTokenExpired()) {
@@ -127,11 +127,11 @@ public class Request {
                 @Override
                 public void run() {
                     try {
-                        Thread.sleep(4000);
+                        Thread.sleep(2000);
                         Platform.runLater(new Runnable() {
                             public void run() {
                                 try {
-                                    App.getFXMLLoader("Login").load();
+                                    App.setRoot("Login");
                                 } catch (IOException e) {
                                     Logger.getLogger(Request.class.getName()).log(Level.SEVERE, null, e);
                                 }

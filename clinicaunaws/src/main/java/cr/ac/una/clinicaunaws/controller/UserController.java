@@ -135,7 +135,7 @@ public class UserController {
 
             UserDto user = (UserDto) response.getData();
             user.setToken(JwtManager.getInstance().generatePrivateKey(user.getPassword()));
-
+            System.out.println(user);
             return Response.ok(user).build();
         } catch (Exception e) {
             logger.severe(e.getMessage());
