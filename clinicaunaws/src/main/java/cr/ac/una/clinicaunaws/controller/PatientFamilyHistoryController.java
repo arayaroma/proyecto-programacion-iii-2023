@@ -3,9 +3,14 @@ package cr.ac.una.clinicaunaws.controller;
 import java.util.List;
 import java.util.logging.Logger;
 import cr.ac.una.clinicaunaws.dto.PatientFamilyHistoryDto;
+import cr.ac.una.clinicaunaws.security.Secure;
 import cr.ac.una.clinicaunaws.services.PatientFamilyHistoryService;
 import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.Consumes;
@@ -16,21 +21,27 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.GenericEntity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 
 /**
  * 
  * @author arayaroma
  */
+@Secure
 @Path("/PatientFamilyHistoryController")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@SecurityRequirement(name = "jwt-auth")
 @Tag(name = "PatientFamilyHistoryController", description = "Manage endpoints related to the PatientFamilyHistory.")
 public class PatientFamilyHistoryController {
-
     private static final Logger logger = Logger.getLogger(PatientFamilyHistoryController.class.getName());
+
+    @Context
+    SecurityContext securityContext;
 
     @EJB
     PatientFamilyHistoryService patientFamilyHistoryService;
@@ -43,6 +54,14 @@ public class PatientFamilyHistoryController {
      */
     @POST
     @Path("/create")
+    @Operation(summary = "Create a new PatientFamilyHistory", description = "Create a new PatientFamilyHistory", tags = {
+            "PatientFamilyHistoryController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "PatientFamilyHistory created"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     public Response createPatientFamilyHistory(PatientFamilyHistoryDto patientFamilyHistoryDto) {
         try {
             ResponseWrapper response = patientFamilyHistoryService
@@ -65,6 +84,14 @@ public class PatientFamilyHistoryController {
      */
     @GET
     @Path("/patientFamilyHistory/{id}")
+    @Operation(summary = "Get a PatientFamilyHistory by id", description = "Get a PatientFamilyHistory by id", tags = {
+            "PatientFamilyHistoryController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "PatientFamilyHistory found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     public Response getPatientFamilyHistoryById(@PathParam("id") Long id) {
         try {
             ResponseWrapper response = patientFamilyHistoryService.getPatientFamilyHistoryById(id);
@@ -86,6 +113,14 @@ public class PatientFamilyHistoryController {
     @GET
     @Path("/patientFamilyHistory")
     @SuppressWarnings("unchecked")
+    @Operation(summary = "Get all PatientFamilyHistory", description = "Get all PatientFamilyHistory", tags = {
+            "PatientFamilyHistoryController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "PatientFamilyHistory found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     public Response getAllPatientFamilyHistory() {
         try {
             ResponseWrapper response = patientFamilyHistoryService.getAllPatientFamilyHistory();
@@ -110,6 +145,14 @@ public class PatientFamilyHistoryController {
      */
     @PUT
     @Path("/update")
+    @Operation(summary = "Update a PatientFamilyHistory", description = "Update a PatientFamilyHistory", tags = {
+            "PatientFamilyHistoryController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "PatientFamilyHistory updated"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     public Response updatePatientFamilyHistory(PatientFamilyHistoryDto patientFamilyHistoryDto) {
         try {
             ResponseWrapper response = patientFamilyHistoryService
@@ -133,6 +176,14 @@ public class PatientFamilyHistoryController {
      */
     @DELETE
     @Path("/delete/{id}")
+    @Operation(summary = "Delete a PatientFamilyHistory by id", description = "Delete a PatientFamilyHistory by id", tags = {
+            "PatientFamilyHistoryController" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "PatientFamilyHistory deleted"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     public Response deletePatientFamilyHistory(@PathParam("id") Long id) {
         try {
             ResponseWrapper response = patientFamilyHistoryService.deletePatientFamilyHistory(id);
