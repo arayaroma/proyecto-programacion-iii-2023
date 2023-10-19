@@ -30,6 +30,7 @@ import javafx.scene.layout.VBox;
  * FXML Controller class
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class MedicalAppointmentModuleController implements Initializable {
 
@@ -56,20 +57,22 @@ public class MedicalAppointmentModuleController implements Initializable {
     private List<MedicalAppointmentDto> medicalAppointmentDtos = new ArrayList<>();
     private MedicalAppointmentService medicalAppointmentService = new MedicalAppointmentService();
     private MedicalAppointmentDto medicalAppointmentBuffer;
+    private Data data = Data.getInstance();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if (Data.getLanguageOption().equals("en")) {
+        if (data.getLanguageOption().equals("en")) {
             cbSearchParameter.getItems().addAll("Date", "Hour", "Doctor", "Patient", "State");
         } else {
             cbSearchParameter.getItems().addAll("Fecha", "Hora", "Doctor", "Paciente", "Estado");
         }
         btnEdit.setDisable(true);
         initializeList();
-        medicalAppointmentDtos = (List<MedicalAppointmentDto>) medicalAppointmentService.getMedicalAppointments().getData();
+        medicalAppointmentDtos = (List<MedicalAppointmentDto>) medicalAppointmentService.getMedicalAppointments()
+                .getData();
         loadMedicalAppointments(medicalAppointmentDtos);
     }
 
@@ -85,7 +88,7 @@ public class MedicalAppointmentModuleController implements Initializable {
     @FXML
     private void btnDeleteMedicalAppointmentAction(ActionEvent event) {
         if (medicalAppointmentBuffer != null) {
-            //delete
+            // delete
         }
     }
 
@@ -101,7 +104,8 @@ public class MedicalAppointmentModuleController implements Initializable {
         }
     }
 
-    private List<MedicalAppointmentDto> filterMedicalAppointments(List<MedicalAppointmentDto> medicalAppointments, String parameter, String key) {
+    private List<MedicalAppointmentDto> filterMedicalAppointments(List<MedicalAppointmentDto> medicalAppointments,
+            String parameter, String key) {
         List<MedicalAppointmentDto> medicalAppointmentDtosFiltered = new ArrayList<>();
         if (medicalAppointments != null) {
             parameter = parameter.toLowerCase();
@@ -116,15 +120,17 @@ public class MedicalAppointmentModuleController implements Initializable {
                         .filter(medicalAppointment -> medicalAppointment.getScheduledTime().toLowerCase().contains(key))
                         .collect(Collectors.toList());
             } else if (parameter.equals("doctor")) {
-//                medicalAppointmentDtosFiltered = medicalAppointments
-//                        .stream()
-//                        .filter(medicalAppointment -> medicalAppointment.getAgenda()..toLowerCase().contains(key))
-//                        .collect(Collectors.toList());
+                // medicalAppointmentDtosFiltered = medicalAppointments
+                // .stream()
+                // .filter(medicalAppointment ->
+                // medicalAppointment.getAgenda()..toLowerCase().contains(key))
+                // .collect(Collectors.toList());
             } else if (parameter.equals("patient") || parameter.equals("paciente")) {
-//                medicalAppointmentDtosFiltered = medicalAppointments
-//                        .stream()
-//                        .filter(medicalAppointment -> medicalAppointment.getp.toLowerCase().contains(key))
-//                        .collect(Collectors.toList());
+                // medicalAppointmentDtosFiltered = medicalAppointments
+                // .stream()
+                // .filter(medicalAppointment ->
+                // medicalAppointment.getp.toLowerCase().contains(key))
+                // .collect(Collectors.toList());
             } else if (parameter.equals("state") || parameter.equals("estado")) {
                 medicalAppointmentDtosFiltered = medicalAppointments
                         .stream()
@@ -145,11 +151,12 @@ public class MedicalAppointmentModuleController implements Initializable {
         tcDate.setCellValueFactory(new PropertyValueFactory<>("scheduledDate"));
         tcDoctor.setCellValueFactory(cellData -> {
             MedicalAppointmentDto medicalAppointmentDto = cellData.getValue();
-//            DoctorDto doctor = medicalAppointmentDto.getAgenda().getDoctor();
-//            if (patient != null) {
-//                String name = patient.getName() + " " + patient.getFirstLastname() + " " + patient.getSecondLastname();
-//                return new SimpleStringProperty(name);
-//            }
+            // DoctorDto doctor = medicalAppointmentDto.getAgenda().getDoctor();
+            // if (patient != null) {
+            // String name = patient.getName() + " " + patient.getFirstLastname() + " " +
+            // patient.getSecondLastname();
+            // return new SimpleStringProperty(name);
+            // }
             return new SimpleStringProperty("-");
         });
         tcHour.setCellValueFactory(new PropertyValueFactory<>("scheduledTime"));
@@ -165,11 +172,11 @@ public class MedicalAppointmentModuleController implements Initializable {
         tblMedicalAppointmentsView.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
                     medicalAppointmentBuffer = newValue;
-//                    if (doctorBuffer != null) {
-//                        btnEdit.setDisable(false);
-//                        return;
-//                    }
-//                    btnEdit.setDisable(true);
+                    // if (doctorBuffer != null) {
+                    // btnEdit.setDisable(false);
+                    // return;
+                    // }
+                    // btnEdit.setDisable(true);
 
                 });
     }

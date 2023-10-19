@@ -15,7 +15,6 @@ import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
 import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -24,7 +23,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -36,6 +34,7 @@ import javafx.scene.layout.VBox;
  * FXML Controller class
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class LoginController implements Initializable {
 
@@ -65,6 +64,7 @@ public class LoginController implements Initializable {
     private Label lblEmail;
 
     private GeneralInformationService generalInformationService = new GeneralInformationService();
+    private Data data = Data.getInstance();
 
     /**
      * Initializes the controller class.
@@ -72,7 +72,7 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            if (Data.getLanguageOption().equals("en")) {
+            if (data.getLanguageOption().equals("en")) {
                 lblLanguage.setText("EN/ES");
             } else {
                 lblLanguage.setText("ES/EN");
@@ -92,18 +92,22 @@ public class LoginController implements Initializable {
             Message.showNotification("Ups", MessageType.ERROR, "All the fields are required");
             return;
         }
+
         if (user.equals("admin") && password.equals("admin")) {
             Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Main").load());
-            return;
         }
+
         ResponseWrapper response = userService.verifyUser(user, password);
         if (response.getCode() == ResponseCode.OK) {
             UserDto userDto = (UserDto) response.getData();
+
             if (userDto.getIsActive().equals("N")) {
                 Message.showNotification("Ups", MessageType.INFO, "The user is not active");
                 return;
             }
-            Data.setData("userLoggued", userDto);
+
+            data.setData("Token", userDto.getToken());
+            data.setData("userLoggued", userDto);
             loadLanguage(userDto);
             Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Main").load());
             return;
@@ -119,14 +123,13 @@ public class LoginController implements Initializable {
 
     @FXML
     private void changeLanguajeAction(MouseEvent event) throws IOException {
-        String option = Data.getLanguageOption();
+        String option = data.getLanguageOption();
         switch (option) {
             case "en":
-                Data.setLanguageOption("es");
+                data.setLanguageOption("es");
                 break;
             case "es":
-                Data.setLanguageOption("en");
-
+                data.setLanguageOption("en");
                 break;
         }
         Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Login").load());
@@ -172,10 +175,10 @@ public class LoginController implements Initializable {
 
     private void loadLanguage(UserDto userDto) {
         if (userDto.getLanguage().toLowerCase().equals("english")) {
-            Data.setLanguageOption("en");
+            data.setLanguageOption("en");
             return;
         }
-        Data.setLanguageOption("es");
+        data.setLanguageOption("es");
     }
 
     private void loadGeneralInformation() {

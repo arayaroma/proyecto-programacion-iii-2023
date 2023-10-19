@@ -33,6 +33,7 @@ import javafx.scene.layout.HBox;
  * FXML Controller class
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class PatientFamilyHistoryRegisterController implements Initializable {
 
@@ -58,6 +59,7 @@ public class PatientFamilyHistoryRegisterController implements Initializable {
     private List<PatientFamilyHistoryDto> patientFamilyHistoryDtos = new ArrayList<>();
     private PatientFamilyHistoryDto patientFamilyHistoryBuffer;
     private PatientFamilyHistoryService patientFamilyHistoryService = new PatientFamilyHistoryService();
+    private Data data = Data.getInstance();
 
     /**
      * Initializes the controller class.
@@ -65,7 +67,7 @@ public class PatientFamilyHistoryRegisterController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        patientBuffer = (PatientDto) Data.getData("patientBuffer");
+        patientBuffer = (PatientDto) data.getData("patientBuffer");
         if (patientBuffer == null) {
             patientBuffer = new PatientDto();
         }
@@ -86,7 +88,8 @@ public class PatientFamilyHistoryRegisterController implements Initializable {
     @FXML
     private void btnDeleteHistory(ActionEvent event) {
         if (patientFamilyHistoryBuffer != null) {
-            ResponseWrapper response = patientFamilyHistoryService.deletePatientFamilyHistory(patientFamilyHistoryBuffer);
+            ResponseWrapper response = patientFamilyHistoryService
+                    .deletePatientFamilyHistory(patientFamilyHistoryBuffer);
             if (response.getCode() != ResponseCode.OK) {
                 Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
                 return;
@@ -100,7 +103,9 @@ public class PatientFamilyHistoryRegisterController implements Initializable {
     private void btnSaveHistories(ActionEvent event) {
         for (PatientFamilyHistoryDto patientFamilyHistoryDto : patientFamilyHistoryDtos) {
             patientFamilyHistoryDto.setPatient(new PatientDto(patientBuffer));
-            ResponseWrapper response = patientFamilyHistoryDto.getId() == null ? patientFamilyHistoryService.createPatientFamilyHistory(patientFamilyHistoryDto) : patientFamilyHistoryService.updatePatientFamilyHistory(patientFamilyHistoryDto);
+            ResponseWrapper response = patientFamilyHistoryDto.getId() == null
+                    ? patientFamilyHistoryService.createPatientFamilyHistory(patientFamilyHistoryDto)
+                    : patientFamilyHistoryService.updatePatientFamilyHistory(patientFamilyHistoryDto);
             if (response.getCode() != ResponseCode.OK) {
                 Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
                 return;

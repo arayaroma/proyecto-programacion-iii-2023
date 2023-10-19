@@ -13,7 +13,6 @@ import cr.ac.una.clinicauna.util.MessageType;
 import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.IOException;
-
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +39,7 @@ import javafx.util.converter.IntegerStringConverter;
  * FXML Controller class
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class DoctorRegisterController implements Initializable {
 
@@ -73,13 +73,15 @@ public class DoctorRegisterController implements Initializable {
     private DoctorService doctorService = new DoctorService();
     private UserService userService = new UserService();
 
+    private Data data = Data.getInstance();
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            userBuffer = (UserDto) Data.getData("userBuffer");
+            userBuffer = (UserDto) data.getData("userBuffer");
             if (userBuffer != null) {
                 DoctorDto doctorEncountered = (DoctorDto) doctorService.getDoctorById(userBuffer.getId()).getData();
                 if (doctorEncountered == null) {
@@ -131,16 +133,16 @@ public class DoctorRegisterController implements Initializable {
             Message.showNotification("Success", MessageType.INFO, "Doctor registered successfully");
             updateUserLoggued();
             Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("Main").load());
-            Data.removeData("userBuffer");
+            data.removeData("userBuffer");
         }
 
     }
 
     private void updateUserLoggued() {
-        if (Objects.equals(userBuffer.getId(), ((UserDto) Data.getData("userLoggued")).getId())) {
-            Data.removeData("userLoggued");
+        if (Objects.equals(userBuffer.getId(), ((UserDto) data.getData("userLoggued")).getId())) {
+            data.removeData("userLoggued");
             userBuffer = (UserDto) userService.findUserById(userBuffer.getId()).getData();
-            Data.setData("userLoggued", userBuffer);
+            data.setData("userLoggued", userBuffer);
         }
     }
 
@@ -237,8 +239,7 @@ public class DoctorRegisterController implements Initializable {
         TextFormatter<Integer> textFormatter = new TextFormatter<>(
                 new IntegerStringConverter(),
                 null,
-                filter
-        );
+                filter);
         StringConverter<Integer> converter = new IntegerStringConverter() {
             @Override
             public String toString(Integer value) {

@@ -13,7 +13,6 @@ import cr.ac.una.clinicauna.util.ImageLoader;
 import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
 import cr.ac.una.clinicauna.util.ResponseCode;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -41,6 +40,7 @@ import javafx.scene.layout.HBox;
  * FXML Controller class
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class UserRegisterController implements Initializable {
 
@@ -74,13 +74,14 @@ public class UserRegisterController implements Initializable {
     private UserDto userModified = new UserDto();
     private DoctorService doctorService = new DoctorService();
     private boolean isFromDoctorModule = false;
+    private Data data = Data.getInstance();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        UserDto userDto = (UserDto) Data.getData("userBuffer");
+        UserDto userDto = (UserDto) data.getData("userBuffer");
         if (userDto != null) {
             userModified = userDto;
         } else {
@@ -97,7 +98,7 @@ public class UserRegisterController implements Initializable {
     @FXML
     private void backFromRegister(MouseEvent event) throws IOException {
         try {
-            Data.removeData("userBuffer");
+            data.removeData("userBuffer");
             updateUserLoggued();
             FXMLLoader loader = App.getFXMLLoader("Main");
             Animation.MakeDefaultFadeTransition(mainView, loader.load());
@@ -120,8 +121,8 @@ public class UserRegisterController implements Initializable {
         if (verifyFields()) {
             setPrivilegesUser(userModified);
 
-            if (userModified.getRole().toLowerCase().equals("doctor")) {//Verifiy if is a Doctor
-                Data.setData("userBuffer", userModified);
+            if (userModified.getRole().toLowerCase().equals("doctor")) {// Verifiy if is a Doctor
+                data.setData("userBuffer", userModified);
                 Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("DoctorRegister").load());
                 return;
             } else {
@@ -145,12 +146,12 @@ public class UserRegisterController implements Initializable {
     }
 
     private void updateUserLoggued() {
-        UserDto userLoggued = (UserDto) Data.getData("userLoggued");
+        UserDto userLoggued = (UserDto) data.getData("userLoggued");
         if (userLoggued != null) {
             if (Objects.equals(userModified.getId(), userLoggued.getId())) {
-                Data.removeData("userLoggued");
+                data.removeData("userLoggued");
                 userModified = (UserDto) userService.findUserById(userModified.getId()).getData();
-                Data.setData("userLoggued", userModified);
+                data.setData("userLoggued", userModified);
             }
         }
     }

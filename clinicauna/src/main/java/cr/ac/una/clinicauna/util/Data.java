@@ -7,40 +7,51 @@ import java.util.ResourceBundle;
 /**
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class Data {
 
+    private static Data instance = null;
     public static final ResourceBundle spanishBundle = ResourceBundle.getBundle(App.DOMAIN_PATH + "language/lang_es");
     public static final ResourceBundle englishBundle = ResourceBundle.getBundle(App.DOMAIN_PATH + "language/lang_en");
     public static String languageOption = "es";
     private static HashMap<String, Object> data = new HashMap<>();
 
-    public static Object getData(String key) {
+    private Data() {
+    }
+
+    public static Data getInstance() {
+        if (instance == null) {
+            instance = new Data();
+        }
+        return instance;
+    }
+
+    public Object getData(String key) {
         return data.get(key);
     }
 
-    public static void setData(String key, Object object) {
+    public void setData(String key, Object object) {
         data.put(key, object);
     }
 
-    public static void removeData(String key) {
+    public void removeData(String key) {
         data.remove(key);
     }
 
-    public static ResourceBundle getEnglishBundle() {
+    public ResourceBundle getEnglishBundle() {
         return englishBundle;
     }
 
-    public static ResourceBundle getSpanishBundle() {
+    public ResourceBundle getSpanishBundle() {
         return spanishBundle;
     }
 
-    public static String getLanguageOption() {
+    public String getLanguageOption() {
         return languageOption;
     }
 
-    public static void setLanguageOption(String languageOption) {
+    public void setLanguageOption(String languageOption) {
         Data.languageOption = languageOption;
     }
-
 }

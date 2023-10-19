@@ -30,6 +30,7 @@ import javafx.scene.layout.VBox;
  * FXML Controller class
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class PatientPersonalHistoryRegisterController implements Initializable {
 
@@ -53,15 +54,17 @@ public class PatientPersonalHistoryRegisterController implements Initializable {
     private PatientPersonalHistoryService PatientPersonalHistoryService = new PatientPersonalHistoryService();
     private PatientDto patientBuffer;
     private boolean isEditing = true;
+    private Data data = Data.getInstance();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        patientBuffer = (PatientDto) Data.getData("patientBuffer");
+        patientBuffer = (PatientDto) data.getData("patientBuffer");
         if (patientBuffer != null) {
-            patientPersonalHistoryDto = (PatientPersonalHistoryDto) PatientPersonalHistoryService.getPatientPersonalHistoryById(patientBuffer.getId()).getData();
+            patientPersonalHistoryDto = (PatientPersonalHistoryDto) PatientPersonalHistoryService
+                    .getPatientPersonalHistoryById(patientBuffer.getId()).getData();
         }
         if (patientPersonalHistoryDto == null) {
             patientPersonalHistoryDto = new PatientPersonalHistoryDto();
@@ -86,7 +89,9 @@ public class PatientPersonalHistoryRegisterController implements Initializable {
             return;
         }
         patientPersonalHistoryDto.setPatient(new PatientDto(patientBuffer));
-        ResponseWrapper response = isEditing ? PatientPersonalHistoryService.updatePatientPersonalHistory(patientPersonalHistoryDto) : PatientPersonalHistoryService.createPatientPersonalHistory(patientPersonalHistoryDto);
+        ResponseWrapper response = isEditing
+                ? PatientPersonalHistoryService.updatePatientPersonalHistory(patientPersonalHistoryDto)
+                : PatientPersonalHistoryService.createPatientPersonalHistory(patientPersonalHistoryDto);
         if (response.getCode() == ResponseCode.OK) {
             Message.showNotification(response.getCode().name(), MessageType.INFO, response.getMessage());
             backAction(null);
@@ -106,7 +111,8 @@ public class PatientPersonalHistoryRegisterController implements Initializable {
     }
 
     private boolean verifyFields() {
-        List<Node> fields = Arrays.asList(txfAlergies, txfHospitalizations, txfPathological, txfSurgical, txfTreatments);
+        List<Node> fields = Arrays.asList(txfAlergies, txfHospitalizations, txfPathological, txfSurgical,
+                txfTreatments);
         for (Node i : fields) {
             if (i instanceof JFXTextField && ((JFXTextField) i).getText() != null
                     && ((JFXTextField) i).getText().isBlank()) {

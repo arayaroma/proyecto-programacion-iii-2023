@@ -35,6 +35,7 @@ import javafx.scene.layout.VBox;
  * FXML Controller class
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class PatientCareReportController implements Initializable {
 
@@ -70,6 +71,7 @@ public class PatientCareReportController implements Initializable {
     private ReportService reportService = new ReportService();
     private PatientDto patientBuffer;
     private List<PatientDto> patientDtos = new ArrayList<>();
+    private Data data = Data.getInstance();
 
     /**
      * Initializes the controller class.
@@ -77,7 +79,7 @@ public class PatientCareReportController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            if (Data.getLanguageOption().equals("en")) {
+            if (data.getLanguageOption().equals("en")) {
                 cbSearchParameter.getItems().addAll("Name", "Last Name", "Phone", "Identification", "Birth Date");
             } else {
                 cbSearchParameter.getItems().addAll("Nombre", "Apellido", "Telefono", "Cédula", "Fecha de Nacimiento");
@@ -105,7 +107,7 @@ public class PatientCareReportController implements Initializable {
     @FXML
     private void btnViewPatientCare(ActionEvent event) throws IOException {
         if (patientBuffer != null) {
-            Data.setData("patientBuffer", patientBuffer);
+            data.setData("patientBuffer", patientBuffer);
             FXMLLoader loader = App.getFXMLLoader("PatientHistory");
             Animation.MakeDefaultFadeTransition(parent, loader.load());
             PatientHistoryController controller = loader.getController();
@@ -122,7 +124,7 @@ public class PatientCareReportController implements Initializable {
             if (response.getCode() != ResponseCode.OK) {
                 Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
             }
-            
+
         }
     }
 
@@ -180,7 +182,8 @@ public class PatientCareReportController implements Initializable {
 
     private void bindPatient() {
         if (patientBuffer != null) {
-            lblFullName.setText(patientBuffer.getName() + " " + patientBuffer.getFirstLastname() + " " + patientBuffer.getSecondLastname());
+            lblFullName.setText(patientBuffer.getName() + " " + patientBuffer.getFirstLastname() + " "
+                    + patientBuffer.getSecondLastname());
             lblIdentification.setText(patientBuffer.getIdentification());
             lblBirthDate.setText(patientBuffer.getBirthDate());
             lblPhoneNumber.setText(patientBuffer.getPhoneNumber());
