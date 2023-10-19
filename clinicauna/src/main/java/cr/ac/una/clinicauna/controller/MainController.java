@@ -179,8 +179,10 @@ public class MainController implements Initializable {
         container.getChildren().add(loader.load());
     }
     @FXML
-    private void btnAgendaModuleAction(ActionEvent event) {
-
+    private void btnAgendaModuleAction(ActionEvent event) throws IOException {
+        FXMLLoader loader = App.getFXMLLoader("AgendaModule");
+        container.getChildren().clear();
+        container.getChildren().add(loader.load());
     }
 
     @FXML

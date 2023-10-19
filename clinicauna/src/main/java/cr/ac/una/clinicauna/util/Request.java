@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import cr.ac.una.clinicauna.App;
+import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.services.UserService;
 
 /**
@@ -88,14 +89,14 @@ public class Request {
     }
 
     public void get() {
-//        if (isTokenExpired()) {
-            response = builder.get();
-        //}
+        // if (isTokenExpired()) {
+        response = builder.get();
+        // }
     }
 
-//    public void getToken() {
-//        response = builder.get();
-//    }
+    // public void getToken() {
+    // response = builder.get();
+    // }
 
     public void post(Object clazz) {
         if (isTokenExpired()) {
@@ -121,27 +122,11 @@ public class Request {
         return response.getStatus();
     }
 
-    public Boolean isError() {
+    public Boolean isError() throws IOException {
         if (getStatus() == Response.Status.UNAUTHORIZED.getStatusCode()) {
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(2000);
-                        Platform.runLater(new Runnable() {
-                            public void run() {
-                                try {
-                                    App.setRoot("Login");
-                                } catch (IOException e) {
-                                    Logger.getLogger(Request.class.getName()).log(Level.SEVERE, null, e);
-                                }
-                            }
-                        });
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(Request.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }.start();
+            Message.showNotification("Session expired", MessageType.INFO,
+                    "Your session has expired, please login again");
+            App.setRoot("Login");
         }
         return getStatus() != Response.Status.OK.getStatusCode();
     }

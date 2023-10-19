@@ -1,0 +1,38 @@
+/* 
+    author: arayaroma
+*/
+* {
+  -fx-font-family: "Nadeem";
+  font-family: "Nadeem";
+  -fx-text-fill: #c1c2c2;
+  -fx-orange: #ce7711;
+  -fx-white-orange: #e6b95a;
+  -fx-white-gray: #838586;
+  -fx-gray: #303435;
+  -fx-white-white-gray: #c1c2c2;
+  -fx-black: #000;
+  -fx-white-black: #1a1a1a;
+  -fx-green: #5bd25b;
+  -fx-white-green: #8ce08c;
+  -fx-red: #aa2323;
+  -fx-white-red: #bb4f4f;
+}
+
+/*
+  -fx-effect: dropshadow(gaussian, -fx-orange, 10, 0, 0, 0);
+*/
+
+.container {
+  -fx-background-color: -fx-gray;
+  background-color: -fx-gray;
+}
+
+.doctor-box {
+  -fx-background-color: -fx-white-orange;
+  background-color: -fx-white-orange;
+}
+
+.agenda {
+  -fx-background-color: -fx-black;
+  background-color: -fx-black;
+}
