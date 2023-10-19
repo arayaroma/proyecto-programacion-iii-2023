@@ -45,6 +45,7 @@ public class GeneralInformationController {
     @Path("/create")
     public Response createGeneralInformation(GeneralInformationDto generalInformationDto) {
         try {
+            System.out.println(generalInformationDto);
             ResponseWrapper response = generalInformationService.createGeneralInformation(generalInformationDto);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();
