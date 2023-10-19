@@ -91,7 +91,7 @@ public class PatientRegisterController implements Initializable {
     @FXML
     private void btnRegisterAction(ActionEvent event) {
         if (!verifyFields()) {
-            Message.showNotification("Ups", MessageType.INFO, "All the fields are required");
+            Message.showNotification("Ups", MessageType.INFO, "fieldsEmpty");
             return;
         }
         ResponseWrapper response = !isEditing ? patientService.createPatient(patientBuffer)

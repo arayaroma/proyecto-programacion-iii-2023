@@ -89,7 +89,7 @@ public class LoginController implements Initializable {
     private void btnLogInAction(ActionEvent event) throws IOException {
         String user = txfUsername.getText(), password = txfPassword.getText();
         if (user.isBlank() || password.isBlank()) {
-            Message.showNotification("Ups", MessageType.ERROR, "All the fields are required");
+            Message.showNotification("Ups", MessageType.ERROR, "fieldsEmpty");
             return;
         }
 
@@ -102,7 +102,7 @@ public class LoginController implements Initializable {
             UserDto userDto = (UserDto) response.getData();
 
             if (userDto.getIsActive().equals("N")) {
-                Message.showNotification("Ups", MessageType.INFO, "The user is not active");
+                Message.showNotification("Ups", MessageType.INFO, "theUserIsNotActive");
                 return;
             }
 
@@ -145,12 +145,12 @@ public class LoginController implements Initializable {
     private void btnSendRecoveryEmailAction(ActionEvent event) {
         String email = txfRecoveryEmail.getText();
         if (email.isBlank()) {
-            Message.showNotification("Ups", MessageType.WARNING, "All the fields are required");
+            Message.showNotification("Ups", MessageType.ERROR, "fieldsEmpty");
             return;
         }
         ResponseWrapper response = userService.recoverPassword(email);
         if (response.getCode() == ResponseCode.OK) {
-            Message.showNotification("Sending", MessageType.INFO, "Sending Email");
+            Message.showNotification("Sending", MessageType.INFO, "sendingEmail");
         } else {
             Message.showNotification("Error", MessageType.ERROR, response.getMessage());
         }

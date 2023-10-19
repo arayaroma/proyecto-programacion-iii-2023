@@ -1,5 +1,6 @@
 package cr.ac.una.clinicauna.util;
 
+import java.util.MissingResourceException;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -14,8 +15,13 @@ import org.controlsfx.control.Notifications;
  */
 public class Message {
 
-    public static void showNotification(String header, MessageType type, String content) {
-
+    public static void showNotification(String header, MessageType type, String property) {
+        String content = "";
+        try {
+            content = Data.languageOption.equals("en") ? Data.englishBundle.getString(property) : Data.spanishBundle.getString(property);
+        } catch (MissingResourceException e) {
+            content = property;
+        }
         Notifications notification = Notifications.create()
                 .title(header)
                 .text(content)
