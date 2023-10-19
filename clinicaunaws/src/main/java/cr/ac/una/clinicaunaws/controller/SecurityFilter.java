@@ -45,7 +45,6 @@ public class SecurityFilter implements ContainerRequestFilter {
         if (method.getName().equals(AUTHORIZATION_SERVICE_PATH)) {
             return;
         }
-
         String authorizationHeader = request.getHeaderString(HttpHeaders.AUTHORIZATION);
         if (authorizationHeader == null || authorizationHeader.isEmpty()) {
             abortWithUnauthorized(request, "Authorization header must be provided");
@@ -54,7 +53,6 @@ public class SecurityFilter implements ContainerRequestFilter {
             abortWithUnauthorized(request, "Invalid authorization header format");
             return;
         }
-
         String token = authorizationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
         try {
             try {
@@ -123,6 +121,7 @@ public class SecurityFilter implements ContainerRequestFilter {
      *                       with the response
      */
     private void abortWithUnauthorized(ContainerRequestContext requestContext, String message) {
+        System.out.println("zabort");
         requestContext.abortWith(
                 Response.status(Response.Status.UNAUTHORIZED.getStatusCode(), message)
                         .header(HttpHeaders.WWW_AUTHENTICATE,
