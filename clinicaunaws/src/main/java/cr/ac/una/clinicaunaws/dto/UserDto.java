@@ -36,6 +36,7 @@ public class UserDto implements DtoMapper<User, UserDto> {
     private String language;
     private byte[] profilePhoto;
     private List<MedicalAppointmentDto> medicalAppointments;
+    private String token;
     private Long version;
 
     /**
