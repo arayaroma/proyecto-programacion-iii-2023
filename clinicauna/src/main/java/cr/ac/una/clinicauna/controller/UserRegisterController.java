@@ -132,7 +132,7 @@ public class UserRegisterController implements Initializable {
             backFromRegister(null);
 
         } else {
-            Message.showNotification("Ups", MessageType.ERROR, "All fields are required");
+            Message.showNotification("Ups", MessageType.ERROR, "fieldsEmpty");
         }
     }
 

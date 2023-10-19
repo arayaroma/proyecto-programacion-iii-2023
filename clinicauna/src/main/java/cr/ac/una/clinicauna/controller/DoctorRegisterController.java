@@ -117,7 +117,7 @@ public class DoctorRegisterController implements Initializable {
         String startingTime = parseTimeToString(spStartingHours, spStartingMinutes);
         String endingTime = parseTimeToString(spEndingHours, spEndingMinutes);
         if (startingTime.isBlank() || endingTime.isBlank() || !verifyFields()) {
-            Message.showNotification("Ups", MessageType.WARNING, "All fields are required");
+            Message.showNotification("Ups", MessageType.ERROR, "fieldsEmpty");
             return;
         }
         doctorBuffer.setShiftStartTime(startingTime);
@@ -130,7 +130,7 @@ public class DoctorRegisterController implements Initializable {
                 Message.showNotification("Error", MessageType.ERROR, response.getMessage());
                 return;
             }
-            Message.showNotification("Success", MessageType.INFO, "Doctor registered successfully");
+            Message.showNotification("Success", MessageType.INFO, "doctorRegisteredSuccess");
             updateUserLoggued();
             Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("Main").load());
             data.removeData("userBuffer");
@@ -151,7 +151,7 @@ public class DoctorRegisterController implements Initializable {
         if (verifyTime(time)) {
             return time;
         }
-        Message.showNotification("Invalid format", MessageType.WARNING, "The time is invalid");
+        Message.showNotification("Invalid format", MessageType.ERROR, "timeInvalid");
         return "";
     }
 

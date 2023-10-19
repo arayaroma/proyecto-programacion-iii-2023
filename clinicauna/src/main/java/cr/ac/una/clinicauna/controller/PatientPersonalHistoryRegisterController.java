@@ -85,7 +85,7 @@ public class PatientPersonalHistoryRegisterController implements Initializable {
     @FXML
     private void btnRegisterPatientPersonalHistoryAction(ActionEvent event) {
         if (!verifyFields()) {
-            Message.showNotification("Ups", MessageType.INFO, "All the fields are required");
+            Message.showNotification("Ups", MessageType.INFO, "fieldsEmpty");
             return;
         }
         patientPersonalHistoryDto.setPatient(new PatientDto(patientBuffer));

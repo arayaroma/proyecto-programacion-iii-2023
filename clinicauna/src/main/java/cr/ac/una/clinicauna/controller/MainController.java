@@ -149,12 +149,12 @@ public class MainController implements Initializable {
     private void submitChangesAction(ActionEvent event) {
         String password = txfNewPassword.getText(), confirmPassword = txfConfirmPassword.getText();
         if (password.isBlank() || !password.equals(confirmPassword)) {
-            Message.showNotification("Warning", MessageType.WARNING, "You must to write a same password");
+            Message.showNotification("Warning", MessageType.ERROR, "youMustToWriteASamePassword");
             return;
         }
         ResponseWrapper response = userService.changePassword(userLoggued.getId(), userLoggued.getPassword(), password);
         if (response.getCode() == ResponseCode.OK) {
-            Message.showNotification("Succeed", MessageType.INFO, "Your password have been changed succesfully");
+            Message.showNotification("Succeed", MessageType.INFO, "passwordChangedSuccess");
             changePasswordView.setVisible(false);
             menuLateral.setDisable(false);
             return;
@@ -210,8 +210,10 @@ public class MainController implements Initializable {
             transition.setRate(transition.getRate() * -1);
             transition.play();
             if (sliderMenu.isOpened()) {
+                parent.getChildren().remove(sliderMenu);
                 sliderMenu.close();
             } else {
+                parent.setLeft(sliderMenu);
                 sliderMenu.open();
             }
         });

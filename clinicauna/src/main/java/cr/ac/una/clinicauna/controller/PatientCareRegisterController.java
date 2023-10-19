@@ -119,7 +119,7 @@ public class PatientCareRegisterController implements Initializable {
     @FXML
     private void btnRegisterPatientCareAction(ActionEvent event) {
         if (!verifyFields()) {
-            Message.showNotification("Ups", MessageType.INFO, "All the fields are required");
+            Message.showNotification("Ups", MessageType.INFO, "fieldsEmpty");
             return;
         }
         setParameters(patientCareBuffer);
