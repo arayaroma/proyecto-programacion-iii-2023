@@ -34,6 +34,7 @@ public class SecurityFilter implements ContainerRequestFilter {
      * Services methods names that are not filtered
      */
     private static final String AUTHORIZATION_SERVICE_PATH = "getUserByUsernameAndPassword";
+    private static final String GENERAL_INFORMATION_PATH = "getAllGeneralInformation";
 
     @Context
     private ResourceInfo resourceInfo;
@@ -41,8 +42,9 @@ public class SecurityFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext request) throws IOException {
         Method method = resourceInfo.getResourceMethod();
-        
-        if (method.getName().equals(AUTHORIZATION_SERVICE_PATH)) {
+
+        if (method.getName().equals(AUTHORIZATION_SERVICE_PATH) ||
+                method.getName().equals(GENERAL_INFORMATION_PATH)) {
             return;
         }
         String authorizationHeader = request.getHeaderString(HttpHeaders.AUTHORIZATION);
@@ -57,7 +59,8 @@ public class SecurityFilter implements ContainerRequestFilter {
         try {
             try {
                 Claims claims = JwtManager.getInstance().claimKey(token);
-                if (method.getName().equals(AUTHORIZATION_SERVICE_PATH)) {
+                if (method.getName().equals(AUTHORIZATION_SERVICE_PATH)
+                        || method.getName().equals(GENERAL_INFORMATION_PATH)) {
                     if (!(boolean) claims.getOrDefault("rnw", false)) {
                         abortWithUnauthorized(request, "Invalid authorization");
                     }
