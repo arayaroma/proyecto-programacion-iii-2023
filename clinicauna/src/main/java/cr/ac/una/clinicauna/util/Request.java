@@ -1,6 +1,9 @@
 package cr.ac.una.clinicauna.util;
 
 import static cr.ac.una.clinicauna.util.Constants.SERVER_PATH;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -11,19 +14,28 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
+import javafx.application.Platform;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.Base64;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import cr.ac.una.clinicauna.App;
+import cr.ac.una.clinicauna.services.UserService;
 
 /**
  *
  * @author estebannajera
+ * @author arayaroma
  */
 public class Request {
 
+    private static final String AUTHENTICATION_SCHEME = "Bearer ";
     private Client client;
     private Invocation.Builder builder;
     private WebTarget webTarget;
     private Response response;
-    private static final String AUTHENTICATION_SCHEME = "Bearer ";
 
     public Request() {
         this.client = ClientBuilder.newClient();
@@ -40,14 +52,11 @@ public class Request {
         this.builder = webTarget.request(MediaType.APPLICATION_JSON);
         MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();
         headers.add("Content-Type", "application/json; charset=UTF-8");
-        // TODO
-        // if (AppContext.getInstance().get("Token") != null) {//Security not
-        // implemented yet
-        // headers.add("Autorization",
-        // AppContext.getInstance().get("Token").toString());
-        //
-        // }
-        //builder.headers(headers);
+        if (Data.getInstance().getData("Token") != null) {
+            headers.add("Authorization",
+                    Data.getInstance().getData("Token").toString());
+        }
+        builder.headers(headers);
     }
 
     /**
@@ -60,44 +69,52 @@ public class Request {
         this.builder = webTarget.request(MediaType.APPLICATION_JSON);
         MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();
         headers.add("Content-Type", "application/json; charset=UTF-8");
-        // TODO
+
+        if (Data.getInstance().getData("Token") != null) {
+            headers.add("Authorization",
+                    Data.getInstance().getData("Token").toString());
+        }
+
         builder.headers(headers);
     }
 
-    public void setHeader(String nombre, Object valor) {
-        builder.header(nombre, valor);
+    public void setHeader(String key, Object value) {
+        builder.header(key, value);
     }
 
-    public void setHeader(MultivaluedMap<String, Object> valores) {
-        valores.add("Content-Type", "application/json; charset=UTF-8");
-        builder.headers(valores);
+    public void setHeader(MultivaluedMap<String, Object> values) {
+        values.add("Content-Type", "application/json; charset=UTF-8");
+        builder.headers(values);
     }
 
     public void get() {
-        // TODO
-        response = builder.get();
+        if (isTokenExpired()) {
+            response = builder.get();
+        }
     }
 
     public void getToken() {
         response = builder.get();
     }
 
-    // TODO
     public void post(Object clazz) {
-        // TODO
-        Entity<?> entity = Entity.entity(clazz, "application/json; charset=UTF-8");
-        response = builder.post(entity);
+        if (isTokenExpired()) {
+            Entity<?> entity = Entity.entity(clazz, "application/json; charset=UTF-8");
+            response = builder.post(entity);
+        }
     }
 
     public void put(Object clazz) {
-        // TODO
-        Entity<?> entity = Entity.entity(clazz, "application/json; charset=UTF-8");
-        response = builder.put(entity);
+        if (isTokenExpired()) {
+            Entity<?> entity = Entity.entity(clazz, "application/json; charset=UTF-8");
+            response = builder.put(entity);
+        }
     }
 
     public void delete() {
-        // TODO
-        response = builder.delete();
+        if (isTokenExpired()) {
+            response = builder.delete();
+        }
     }
 
     public int getStatus() {
@@ -105,24 +122,27 @@ public class Request {
     }
 
     public Boolean isError() {
-        // TODO
-        // if (getStatus() == Response.Status.UNAUTHORIZED.getStatusCode()) {
-        // new Thread() {
-        // @Override
-        // public void run() {
-        // try {
-        // Thread.sleep(4000);
-        // Platform.runLater(new Runnable() {
-        // public void run() {
-        // FlowController.getInstance().goLogInWindowModal(true);
-        // }
-        // });
-        // } catch (InterruptedException ex) {
-        // Logger.getLogger(Request.class.getName()).log(Level.SEVERE, null, ex);
-        // }
-        // }
-        // }.start();
-        // }//Security not implemented yet
+        if (getStatus() == Response.Status.UNAUTHORIZED.getStatusCode()) {
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(4000);
+                        Platform.runLater(new Runnable() {
+                            public void run() {
+                                try {
+                                    App.getFXMLLoader("Login").load();
+                                } catch (IOException e) {
+                                    Logger.getLogger(Request.class.getName()).log(Level.SEVERE, null, e);
+                                }
+                            }
+                        });
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Request.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }.start();
+        }
         return getStatus() != Response.Status.OK.getStatusCode();
     }
 
@@ -158,4 +178,58 @@ public class Request {
     public Object readEntity(GenericType<?> genericType) {
         return response.readEntity(genericType);
     }
+
+    public void getRenewal() {
+        JsonObject payload = getPayloadToken(Data.getInstance().getData("Token").toString());
+        MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();
+        headers.add("Authorization", payload.getString("rnt"));
+        setHeader(headers);
+        response = builder.get();
+    }
+
+    public JsonObject getPayloadToken(String token) {
+        if (token != null && !token.isEmpty()) {
+            token = token.substring(AUTHENTICATION_SCHEME.length()).trim();
+            String[] parts = token.split("\\.");
+            String decodedToken = new String(Base64.getUrlDecoder().decode(parts[1]));
+            JsonObject object;
+            try (JsonReader jsonReader = Json.createReader(new StringReader(decodedToken))) {
+                object = jsonReader.readObject();
+            }
+            return object;
+        } else {
+            return null;
+        }
+    }
+
+    public boolean isTokenExpired() {
+        if (Data.getInstance().getData("Token") == null) {
+            return true;
+        }
+
+        JsonObject payload = getPayloadToken(Data.getInstance().getData("Token").toString());
+        if (payload.getJsonNumber("exp").longValue() > System.currentTimeMillis() /
+                1000) {
+            return true;
+        } else {
+            payload = getPayloadToken(payload.getString("rnt"));
+            if (payload != null && payload.getJsonNumber("exp").longValue() > System.currentTimeMillis() / 1000) {
+                UserService userService = new UserService();
+                ResponseWrapper response = userService.renewToken();
+
+                if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+                    String newToken = response.getData().toString();
+                    Data.getInstance().setData("Token", newToken);
+
+                    MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();
+                    headers.add("Authorization", newToken);
+
+                    setHeader(headers);
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
 }
