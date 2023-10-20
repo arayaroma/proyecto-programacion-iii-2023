@@ -1,22 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox fx:id="vbAgenda" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" styleClass="container" stylesheets="@../style/agendamodule.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.clinicauna.controller.AgendaModuleController">
+<VBox fx:id="vbAgenda" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1300.0" styleClass="container" stylesheets="@../style/agendamodule.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.clinicauna.controller.AgendaModuleController">
    <children>
-      <HBox fx:id="hbDoctor" prefHeight="100.0" prefWidth="200.0" styleClass="doctor-box" />
-      <GridPane fx:id="gpAgenda" alignment="CENTER" gridLinesVisible="true" styleClass="agenda">
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-      </GridPane>
+      <HBox prefHeight="80.0" styleClass="agenda-doctor-header">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <JFXComboBox focusColor="#ce7711" prefHeight="26.0" prefWidth="201.0" promptText="doctor" styleClass="agenda-doctor-header-combobox" unFocusColor="WHITE" />
+               </children>
+            </HBox>
+            <HBox prefHeight="80.0" styleClass="agenda-doctor-header-label-container">
+               <children>
+                  <Label fx:id="lbDoctorName" styleClass="agenda-doctor-header-label" text="name" />
+                  <Label fx:id="lbDoctorCode" styleClass="agenda-doctor-header-label" text="code" />
+                  <Label fx:id="lbDoctorIdCard" styleClass="agenda-doctor-header-label" text="idcard" />
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+      <HBox fx:id="hbAgendaHeader" styleClass="agenda-header">
+         <children>
+            <JFXButton fx:id="btnAgendaLeft" onAction="#onActionLeftButton" prefHeight="41.0" prefWidth="40.0" styleClass="agenda-left-right-buttons" text="&lt;" />
+            <JFXButton fx:id="btnAgendaRight" layoutX="1200.0" onAction="#onActionRightButton" prefHeight="40.0" prefWidth="41.0" styleClass="agenda-left-right-buttons" text="&gt;">
+               <HBox.margin>
+                  <Insets left="1213.0" />
+               </HBox.margin>
+            </JFXButton>
+         </children>
+      </HBox>
+      <VBox>
+         <children>
+            <GridPane fx:id="gpAgenda" alignment="CENTER" gridLinesVisible="true" prefHeight="30.0" styleClass="agenda">
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+         </children>
+      </VBox>
    </children>
 </VBox>
