@@ -74,6 +74,7 @@ public class UserRegisterController implements Initializable {
     private UserDto userModified = new UserDto();
     private DoctorService doctorService = new DoctorService();
     private boolean isFromDoctorModule = false;
+    private boolean isEditing = false;
     private Data data = Data.getInstance();
 
     /**
@@ -87,6 +88,7 @@ public class UserRegisterController implements Initializable {
         } else {
             userModified = new UserDto();
         }
+        isEditing = userModified.getId() != null;
         if (Data.languageOption.equals("en")) {
             cbLanguage.getItems().addAll("English", "Spanish");
         } else {
@@ -203,26 +205,30 @@ public class UserRegisterController implements Initializable {
                         }
                     });
 
-            roleGroup.getToggles().forEach(t -> {
-                if (t instanceof RadioButton) {
-                    if (userModified.getRole().toLowerCase().equals("administrator")) {
-                        if (((RadioButton) t).getText().toLowerCase().equals("admin")
-                                || ((RadioButton) t).getText().toLowerCase().equals("administrador")) {
-                            t.setSelected(true);
-                        }
-                    } else if (userModified.getRole().toLowerCase().equals("recepcionist")) {
-                        if (((RadioButton) t).getText().toLowerCase().equals("recepcionist")
-                                || ((RadioButton) t).getText().toLowerCase().equals("recepcionista")) {
-                            t.setSelected(true);
-                        }
-                    } else if (userModified.getRole().toLowerCase().equals("doctor")) {
-                        if (((RadioButton) t).getText().toLowerCase().equals("doctor")) {
-                            t.setSelected(true);
+            if (isEditing) {
+                roleGroup.getToggles().forEach(t -> {
+                    if (t instanceof RadioButton) {
+                        if (userModified.getRole().toLowerCase().equals("administrator")) {
+                            if (((RadioButton) t).getText().toLowerCase().equals("admin")
+                                    || ((RadioButton) t).getText().toLowerCase().equals("administrador")) {
+                                t.setSelected(true);
+                            }
+                        } else if (userModified.getRole().toLowerCase().equals("recepcionist")) {
+                            if (((RadioButton) t).getText().toLowerCase().equals("recepcionist")
+                                    || ((RadioButton) t).getText().toLowerCase().equals("recepcionista")) {
+                                t.setSelected(true);
+                            }
+                        } else if (userModified.getRole().toLowerCase().equals("doctor")) {
+                            if (((RadioButton) t).getText().toLowerCase().equals("doctor")) {
+                                t.setSelected(true);
+                            }
                         }
                     }
+                });
+                if (userModified.getProfilePhoto() != null) {
+                    imgPhotoProfile.setImage(ImageLoader.setImage(userModified.getProfilePhoto()));
                 }
-            });
-            imgPhotoProfile.setImage(ImageLoader.setImage(userModified.getProfilePhoto()));
+            }
         } catch (Exception e) {
             System.out.println(e.toString());
         }

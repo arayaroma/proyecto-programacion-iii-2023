@@ -1,84 +1,20 @@
-/* 
-    author: arayaroma
-*/
-* {
-  -fx-font-family: "Nadeem";
-  font-family: "Nadeem";
-  -fx-text-fill: #c1c2c2;
-  -fx-orange: #ce7711;
-  -fx-white-orange: #e6b95a;
-  -fx-white-gray: #838586;
-  -fx-gray: #303435;
-  -fx-white-white-gray: #c1c2c2;
-  -fx-black: #000;
-  -fx-white-black: #1a1a1a;
-  -fx-green: #5bd25b;
-  -fx-white-green: #8ce08c;
-  -fx-red: #aa2323;
-  -fx-white-red: #bb4f4f;
+.headerAgenda{
+    -fx-background-color:-fx-orange;
 }
-
-/*
--fx-effect: dropshadow(gaussian, -fx-orange, 10, 0, 0, 0);
-*/
-
-.container {
-  -fx-background-color: -fx-gray;
-  background-color: -fx-gray;
+.arrows-label{
+    -fx-text-fill:-fx-orange;
+    -fx-effect: dropshadow(gaussian, -fx-orange, 10, 0, 0, 0);
 }
-
-.agenda-doctor-header {
-  -fx-background-color: -fx-white-black;
-  background-color: -fx-white-black;
-
-  -fx-spacing: 20px;
+.arrows-label:hover{
+    -fx-text-fill:-fx-white-orange;
+    -fx-cursor: hand;
+    -fx-effect:  dropshadow(gaussian, transparent, 0, 0, 0, 0);
 }
-
-.agenda-doctor-header-combobox {
-  -fx-padding: 0.6em 0em 0em 1em;
-  padding: 0.6em 0em 0em 1em;
-
-  -fx-font-size: 20px;
-  font-size: 20px;
+.separator .line {
+    -fx-background-color: -fx-orange;
+    -fx-border-color: transparent ;
 }
-
-.agenda-doctor-header-label-container {
-  -fx-background-color: -fx-white-black;
-  background-color: -fx-white-black;
-
-  -fx-padding: 1.6em 0em 0em 10em;
-  padding: 1.6em 0em 0em 10em;
-  margin-left: 50px;
-
-  -fx-spacing: 20em;
-}
-
-.agenda-doctor-header-label {
-  -fx-font-size: 22px;
-  font-size: 22px;
-
-  -fx-text-fill: -fx-white-white-gray;
-
-  -fx-font-weight: bold;
-  font-weight: bold;
-}
-
-.agenda-header {
-  -fx-background-color: -fx-orange;
-  background-color: -fx-orange;
-}
-
-.agenda {
-  -fx-background-color: -fx-black;
-  background-color: -fx-black;
-}
-
-.agenda-left-right-buttons {
-  -fx-font-size: 22px;
-  font-size: 22px;
-
-  -fx-text-fill: -fx-black;
-
-  -fx-font-weight: bold;
-  font-weight: bold;
+.paneContainer:hover{
+    -fx-background-color: -fx-white-black;
+    -fx-cursor: hand;
 }

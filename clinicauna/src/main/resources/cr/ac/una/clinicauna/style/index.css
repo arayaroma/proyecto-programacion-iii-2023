@@ -101,21 +101,18 @@ Label, RadioButton, ComboBox{
 .combo-box-base .arrow-button .arrow {
     -fx-background-color: -fx-orange;
 }
+
 .combo-box .combo-box-popup .list-view .list-cell {
     -fx-background-color: -fx-white-black;
     -fx-text-fill:white;
 }
+
 .combo-box .combo-box-popup .list-view .list-cell:hover,
 .combo-box .combo-box-popup .list-view .list-cell:selected {
     -fx-background-color: -fx-gray;
     -fx-cursor: hand;
 }
 /*TABLEVIEW DESIGN*/
-/*.table-button {
-    -fx-background-color: red;
-    -fx-cursor: hand;
-}*/
-
 .table-view {
     -fx-border-color: -fx-orange;
     -fx-effect: dropshadow(gaussian, -fx-orange, 10, 0, 0, 0);
@@ -199,4 +196,23 @@ Label, RadioButton, ComboBox{
 .spinner .decrement-arrow {
     -fx-background-color: -fx-orange;
 
+}
+/*SCROLL PANE*/
+.scroll-pane{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-cursor:hand;
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: -fx-orange;
+    -fx-background-radius: 20px;
 }
