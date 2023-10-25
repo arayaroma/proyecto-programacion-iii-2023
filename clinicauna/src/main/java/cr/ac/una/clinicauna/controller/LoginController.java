@@ -109,7 +109,7 @@ public class LoginController implements Initializable {
             data.setData("Token", userDto.getToken());
             data.setData("userLoggued", userDto);
             loadLanguage(userDto);
-            Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Main").load());
+            Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("MedicalAppointmentRegister").load());
             return;
         }
         Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());

@@ -35,8 +35,6 @@ import javafx.scene.layout.VBox;
 public class PatientPersonalHistoryRegisterController implements Initializable {
 
     @FXML
-    private HBox parent;
-    @FXML
     private VBox mainView;
     @FXML
     private ImageView imgPhotoProfile;
@@ -55,6 +53,8 @@ public class PatientPersonalHistoryRegisterController implements Initializable {
     private PatientDto patientBuffer;
     private boolean isEditing = true;
     private Data data = Data.getInstance();
+    @FXML
+    private HBox parent;
 
     /**
      * Initializes the controller class.
