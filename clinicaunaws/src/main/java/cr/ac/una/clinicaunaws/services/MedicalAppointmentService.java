@@ -61,7 +61,7 @@ public class MedicalAppointmentService {
         try {
             MedicalAppointment medicalAppointment = em.find(MedicalAppointment.class, id);
             if (medicalAppointment != null) {
-                MedicalAppointmentDto medicalAppointmentDto = new MedicalAppointmentDto();
+                MedicalAppointmentDto medicalAppointmentDto = new MedicalAppointmentDto(medicalAppointment);
                 return new ResponseWrapper(
                         ResponseCode.OK.getCode(),
                         ResponseCode.OK,
@@ -97,7 +97,7 @@ public class MedicalAppointmentService {
             List<MedicalAppointmentDto> medicalAppointmentDtos = new ArrayList<>();
 
             for (MedicalAppointment medicalAppointment : medicalAppointments) {
-                MedicalAppointmentDto medicalAppointmentDto = new MedicalAppointmentDto();
+                MedicalAppointmentDto medicalAppointmentDto = new MedicalAppointmentDto(medicalAppointment);
                 medicalAppointmentDtos.add(medicalAppointmentDto.convertFromEntityToDTO(medicalAppointment,
                         medicalAppointmentDto));
             }

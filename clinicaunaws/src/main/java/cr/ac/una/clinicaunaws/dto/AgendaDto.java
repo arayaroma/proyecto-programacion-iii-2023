@@ -4,6 +4,7 @@ import java.util.List;
 
 import cr.ac.una.clinicaunaws.entities.Agenda;
 import cr.ac.una.clinicaunaws.entities.Doctor;
+import cr.ac.una.clinicaunaws.entities.MedicalAppointment;
 import cr.ac.una.clinicaunaws.entities.User;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
 import java.util.ArrayList;
@@ -34,6 +35,15 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
     public AgendaDto convertFromEntityToDTO(Agenda entity, AgendaDto dto) {
         dto.setDoctor(new DoctorDto(entity.getDoctor()));
         dto.getDoctor().setUser(new UserDto(entity.getDoctor().getUser()));
+        List<MedicalAppointment> medicalAppointments = entity.getMedicalAppointments();
+        dto.setMedicalAppointments(DtoMapper.fromEntityList(medicalAppointments, MedicalAppointmentDto.class));
+        if (dto.getMedicalAppointments() != null) {
+            for (int i = 0; i < medicalAppointments.size(); i++) {
+                dto.getMedicalAppointments().get(i).setPatient(new PatientDto(medicalAppointments.get(i).getPatient()));
+            }
+        }
+
+        dto.setSlots(DtoMapper.fromEntityList(entity.getSlots(), SlotsDto.class));
         return dto;
     }
 

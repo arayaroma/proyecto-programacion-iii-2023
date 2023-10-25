@@ -45,6 +45,7 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
         if (entity.getPatientCare() != null) {
             dto.setPatientCare(new PatientCareDto(entity.getPatientCare()));
         }
+        
         return dto;
     }
 
@@ -67,6 +68,7 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
         this.scheduledDate = entity.getScheduledDate().toString();
         this.scheduledTime = entity.getScheduledTime();
         this.state = entity.getState();
+        System.out.println(state);
         this.reason = entity.getReason();
         this.patientPhoneNumber = entity.getPatientPhoneNumber();
         this.patientEmail = entity.getPatientEmail();

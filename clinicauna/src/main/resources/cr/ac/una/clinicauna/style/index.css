@@ -16,8 +16,6 @@
     -fx-white-green:#8ce08c;
     -fx-red:#AA2323;
     -fx-white-red:#bb4f4f;
-
-
 }
 .icon-back{
     -fx-effect: dropshadow(gaussian, -fx-white-orange,5 , 0, 0, 0);
@@ -179,17 +177,17 @@ Label, RadioButton, ComboBox{
 .spinner .increment-arrow-button,
 .spinner .decrement-arrow-button {
     -fx-background-color: -fx-gray;
-/*    -fx-border-color:-fx-orange;*/
--fx-effect: dropshadow(gaussian, -fx-orange,5 , 0, 0, 0);
--fx-background-radius: 0;
+    /*    -fx-border-color:-fx-orange;*/
+    -fx-effect: dropshadow(gaussian, -fx-orange,5 , 0, 0, 0);
+    -fx-background-radius: 0;
 }
 .spinner{
     -fx-font-size:15px;
 }
 .spinner .increment-arrow-button:hover,
 .spinner .decrement-arrow-button:hover {
--fx-effect: dropshadow(gaussian, -fx-white-orange,5 , 0, 0, 0);
--fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, -fx-white-orange,5 , 0, 0, 0);
+    -fx-cursor: hand;
 }
 
 .spinner .increment-arrow,

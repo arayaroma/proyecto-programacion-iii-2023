@@ -1,7 +1,6 @@
 package cr.ac.una.clinicauna.model;
 
 import java.util.List;
-
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -9,17 +8,18 @@ import javafx.beans.property.SimpleStringProperty;
  * @author estebannajera
  */
 public class MedicalAppointmentDto {
+
     private Long id;
     private AgendaDto agenda;
     private PatientDto patient;
     private PatientCareDto patientCare;
     private UserDto scheduledBy;
-    private SimpleStringProperty scheduledDate;
-    private SimpleStringProperty scheduledTime;
-    private SimpleStringProperty state;
-    private SimpleStringProperty reason;
-    private SimpleStringProperty patientPhoneNumber;
-    private SimpleStringProperty patientEmail;
+    public SimpleStringProperty scheduledDate;
+    public SimpleStringProperty scheduledTime;
+    public SimpleStringProperty state;
+    public SimpleStringProperty reason;
+    public SimpleStringProperty patientPhoneNumber;
+    public SimpleStringProperty patientEmail;
     private List<SlotsDto> slots;
     private Long version;
 
@@ -33,6 +33,7 @@ public class MedicalAppointmentDto {
     }
 
     public MedicalAppointmentDto(MedicalAppointmentDto medicalAppointmentDto) {
+        this();
         setId(medicalAppointmentDto.getId());
         setScheduledDate(medicalAppointmentDto.getScheduledDate());
         setScheduledTime(medicalAppointmentDto.getScheduledTime());
@@ -44,51 +45,51 @@ public class MedicalAppointmentDto {
     }
 
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public PatientDto getPatient() {
-        return patient;
+        return this.patient;
     }
 
     public String getScheduledDate() {
-        return scheduledDate.get();
+        return this.scheduledDate.getValue();
     }
 
     public String getScheduledTime() {
-        return scheduledTime.get();
+        return this.scheduledTime.get();
     }
 
     public String getState() {
-        return state.get();
+        return this.state.get();
     }
 
     public String getReason() {
-        return reason.get();
+        return this.reason.get();
     }
 
     public String getPatientPhoneNumber() {
-        return patientPhoneNumber.get();
+        return this.patientPhoneNumber.get();
     }
 
     public String getPatientEmail() {
-        return patientEmail.get();
+        return this.patientEmail.get();
     }
 
     public Long getVersion() {
-        return version;
+        return this.version;
     }
 
     public List<SlotsDto> getSlots() {
-        return slots;
+        return this.slots;
     }
 
     public AgendaDto getAgenda() {
-        return agenda;
+        return this.agenda;
     }
 
     public PatientCareDto getPatientCare() {
-        return patientCare;
+        return this.patientCare;
     }
 
     public void setPatientCare(PatientCareDto patientCare) {
@@ -124,7 +125,7 @@ public class MedicalAppointmentDto {
     }
 
     public void setPatientEmail(String patientEmail) {
-        this.patientEmail.set(patientEmail);
+        this.patientEmail.setValue(patientEmail);
     }
 
     public void setId(Long id) {
