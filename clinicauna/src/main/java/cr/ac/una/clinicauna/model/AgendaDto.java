@@ -1,10 +1,12 @@
 package cr.ac.una.clinicauna.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.beans.property.SimpleStringProperty;
 
 public class AgendaDto {
+
     private Long id;
     private DoctorDto doctor;
     private SimpleStringProperty agendaDate;
@@ -19,6 +21,8 @@ public class AgendaDto {
         agendaDate = new SimpleStringProperty();
         shiftStartTime = new SimpleStringProperty();
         shiftEndTime = new SimpleStringProperty();
+        slots = new ArrayList<>();
+        medicalAppointments = new ArrayList<>();
     }
 
     public AgendaDto(AgendaDto agendaDto) {

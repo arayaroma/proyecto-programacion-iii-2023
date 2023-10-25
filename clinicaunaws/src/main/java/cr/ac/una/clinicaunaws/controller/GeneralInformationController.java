@@ -31,11 +31,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
  * 
  * @author arayaroma
  */
-@Secure
+//@Secure
 @Path("/GeneralInformationController")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@SecurityRequirement(name = "jwt-auth")
+//@SecurityRequirement(name = "jwt-auth")
 @Tag(name = "GeneralInformationController", description = "Manage endpoints related to the General Information.")
 public class GeneralInformationController {
     private static final Logger logger = Logger.getLogger(GeneralInformationController.class.getName());

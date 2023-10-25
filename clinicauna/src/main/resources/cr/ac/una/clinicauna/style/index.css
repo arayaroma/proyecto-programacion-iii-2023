@@ -16,8 +16,6 @@
     -fx-white-green:#8ce08c;
     -fx-red:#AA2323;
     -fx-white-red:#bb4f4f;
-
-
 }
 .icon-back{
     -fx-effect: dropshadow(gaussian, -fx-white-orange,5 , 0, 0, 0);
@@ -101,21 +99,18 @@ Label, RadioButton, ComboBox{
 .combo-box-base .arrow-button .arrow {
     -fx-background-color: -fx-orange;
 }
+
 .combo-box .combo-box-popup .list-view .list-cell {
     -fx-background-color: -fx-white-black;
     -fx-text-fill:white;
 }
+
 .combo-box .combo-box-popup .list-view .list-cell:hover,
 .combo-box .combo-box-popup .list-view .list-cell:selected {
     -fx-background-color: -fx-gray;
     -fx-cursor: hand;
 }
 /*TABLEVIEW DESIGN*/
-/*.table-button {
-    -fx-background-color: red;
-    -fx-cursor: hand;
-}*/
-
 .table-view {
     -fx-border-color: -fx-orange;
     -fx-effect: dropshadow(gaussian, -fx-orange, 10, 0, 0, 0);
@@ -182,21 +177,40 @@ Label, RadioButton, ComboBox{
 .spinner .increment-arrow-button,
 .spinner .decrement-arrow-button {
     -fx-background-color: -fx-gray;
-/*    -fx-border-color:-fx-orange;*/
--fx-effect: dropshadow(gaussian, -fx-orange,5 , 0, 0, 0);
--fx-background-radius: 0;
+    /*    -fx-border-color:-fx-orange;*/
+    -fx-effect: dropshadow(gaussian, -fx-orange,5 , 0, 0, 0);
+    -fx-background-radius: 0;
 }
 .spinner{
     -fx-font-size:15px;
 }
 .spinner .increment-arrow-button:hover,
 .spinner .decrement-arrow-button:hover {
--fx-effect: dropshadow(gaussian, -fx-white-orange,5 , 0, 0, 0);
--fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, -fx-white-orange,5 , 0, 0, 0);
+    -fx-cursor: hand;
 }
 
 .spinner .increment-arrow,
 .spinner .decrement-arrow {
     -fx-background-color: -fx-orange;
 
+}
+/*SCROLL PANE*/
+.scroll-pane{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-cursor:hand;
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: -fx-orange;
+    -fx-background-radius: 20px;
 }

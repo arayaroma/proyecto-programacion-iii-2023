@@ -56,7 +56,6 @@
          <columns>
             <TableColumn fx:id="tcDate" maxWidth="1.7976931348623157E308" prefWidth="-1.0" text="%date" />
             <TableColumn fx:id="tcHour" maxWidth="1.7976931348623157E308" prefWidth="-1.0" text="%hour" />
-            <TableColumn fx:id="tcDoctor" maxWidth="1.7976931348623157E308" prefWidth="-1.0" text="%doctor" />
             <TableColumn fx:id="tcPatient" maxWidth="1.7976931348623157E308" prefWidth="-1.0" text="%patient" />
             <TableColumn fx:id="tcState" maxWidth="1.7976931348623157E308" prefWidth="-1.0" text="%state" />
          </columns>

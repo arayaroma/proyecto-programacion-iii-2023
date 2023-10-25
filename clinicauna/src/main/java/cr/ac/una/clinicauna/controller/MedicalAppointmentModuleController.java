@@ -47,8 +47,6 @@ public class MedicalAppointmentModuleController implements Initializable {
     @FXML
     private TableColumn<MedicalAppointmentDto, String> tcHour;
     @FXML
-    private TableColumn<MedicalAppointmentDto, String> tcDoctor;
-    @FXML
     private TableColumn<MedicalAppointmentDto, String> tcPatient;
     @FXML
     private TableColumn<MedicalAppointmentDto, String> tcState;
@@ -149,16 +147,8 @@ public class MedicalAppointmentModuleController implements Initializable {
 
     private void initializeList() {
         tcDate.setCellValueFactory(new PropertyValueFactory<>("scheduledDate"));
-        tcDoctor.setCellValueFactory(cellData -> {
-            MedicalAppointmentDto medicalAppointmentDto = cellData.getValue();
-            // DoctorDto doctor = medicalAppointmentDto.getAgenda().getDoctor();
-            // if (patient != null) {
-            // String name = patient.getName() + " " + patient.getFirstLastname() + " " +
-            // patient.getSecondLastname();
-            // return new SimpleStringProperty(name);
-            // }
-            return new SimpleStringProperty("-");
-        });
+
+        tcState.setCellValueFactory(new PropertyValueFactory<>("state"));
         tcHour.setCellValueFactory(new PropertyValueFactory<>("scheduledTime"));
         tcPatient.setCellValueFactory(cellData -> {
             MedicalAppointmentDto medicalAppointmentDto = cellData.getValue();

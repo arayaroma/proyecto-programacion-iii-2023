@@ -1,38 +1,63 @@
-/* 
-    author: arayaroma
-*/
-* {
-  -fx-font-family: "Nadeem";
-  font-family: "Nadeem";
-  -fx-text-fill: #c1c2c2;
-  -fx-orange: #ce7711;
-  -fx-white-orange: #e6b95a;
-  -fx-white-gray: #838586;
-  -fx-gray: #303435;
-  -fx-white-white-gray: #c1c2c2;
-  -fx-black: #000;
-  -fx-white-black: #1a1a1a;
-  -fx-green: #5bd25b;
-  -fx-white-green: #8ce08c;
-  -fx-red: #aa2323;
-  -fx-white-red: #bb4f4f;
+.headerAgenda{
+    -fx-background-color:-fx-orange;
 }
-
-/*
-  -fx-effect: dropshadow(gaussian, -fx-orange, 10, 0, 0, 0);
-*/
-
-.container {
-  -fx-background-color: -fx-gray;
-  background-color: -fx-gray;
+.arrows-label{
+    -fx-text-fill:-fx-orange;
+    -fx-effect: dropshadow(gaussian, -fx-orange, 10, 0, 0, 0);
 }
-
-.doctor-box {
-  -fx-background-color: -fx-white-orange;
-  background-color: -fx-white-orange;
+.arrows-label:hover{
+    -fx-text-fill:-fx-white-orange;
+    -fx-cursor: hand;
+    -fx-effect:  dropshadow(gaussian, transparent, 0, 0, 0, 0);
 }
-
-.agenda {
-  -fx-background-color: -fx-black;
-  background-color: -fx-black;
+.separator .line {
+    -fx-background-color: -fx-orange;
+    -fx-border-color: transparent ;
+}
+.paneContainer:hover{
+    -fx-background-color: -fx-white-black;
+    -fx-cursor: hand;
+}
+.agenda-container{
+    -fx-border-color: -fx-black ;
+}
+.actual-day Label{
+    -fx-text-fill:-fx-orange;
+}
+.cardMedicalAppointment{
+    -fx-border-color: -fx-gray;
+    -fx-cursor: open-hand;
+}
+.cardMedicalAppointment:pressed{
+    -fx-cursor: closed-hand;
+}
+.scheduled{
+    -fx-background-color: -fx-orange;
+}
+.scheduled:hover{
+    -fx-background-color: -fx-white-orange;
+}
+.scheduled Label{
+    -fx-text-fill: -fx-black;
+}
+.attended{
+    -fx-background-color: -fx-green;
+}
+.attended:hover{
+    -fx-background-color: -fx-white-green;
+}
+.attended Label{
+    -fx-text-fill: -fx-black;
+}
+.cancelled{
+    -fx-background-color: -fx-red;
+}
+.cancelled:hover{
+    -fx-background-color: -fx-white-red;
+}
+.absent{
+    -fx-background-color: -fx-black;
+}
+.absent:hover{
+    -fx-background-color: -fx-white-black;
 }

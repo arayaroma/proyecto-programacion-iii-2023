@@ -1,6 +1,8 @@
 package cr.ac.una.clinicauna.model;
 
 import cr.ac.una.clinicauna.util.DtoMapper;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -16,9 +18,11 @@ public class DoctorDto implements DtoMapper<DoctorDto, DoctorDto> {
     public SimpleStringProperty shiftStartTime;
     public SimpleStringProperty shiftEndTime;
     public SimpleStringProperty hourlySlots;
+    private List<AgendaDto> agendas;
     public Long version;
 
     public DoctorDto() {
+        agendas = new ArrayList<>();
         code = new SimpleStringProperty();
         idCard = new SimpleStringProperty();
         shiftStartTime = new SimpleStringProperty();
@@ -31,11 +35,17 @@ public class DoctorDto implements DtoMapper<DoctorDto, DoctorDto> {
         return user;
     }
 
+    public void setAgendas(List<AgendaDto> agendas) {
+        this.agendas = agendas;
+    }
+
+    public List<AgendaDto> getAgendas() {
+        return agendas;
+    }
+
     public void setUser(UserDto user) {
         this.user = user;
     }
-
-  
 
     public Long getId() {
         return id;
@@ -103,13 +113,13 @@ public class DoctorDto implements DtoMapper<DoctorDto, DoctorDto> {
 
     @Override
     public DoctorDto convertFromGeneratedToDTO(DoctorDto generated, DoctorDto dto) {
-     
+
         return dto;
     }
 
     @Override
     public DoctorDto convertFromDTOToGenerated(DoctorDto dto, DoctorDto generated) {
-      
+
         return generated;
     }
 
