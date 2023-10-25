@@ -23,6 +23,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -73,6 +74,7 @@ public class MainController implements Initializable {
     private UserService userService = new UserService();
     private UserDto userLoggued;
     private Data data = Data.getInstance();
+    private Node buttonSelected;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -103,6 +105,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnUserModuleAction(ActionEvent event) throws IOException {
+        focusButton((Node) event.getSource());
         FXMLLoader loader = App.getFXMLLoader("UserModule");
         container.getChildren().clear();
         container.getChildren().add(loader.load());
@@ -110,6 +113,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnPatientModuleAction(ActionEvent event) throws IOException {
+        focusButton((Node) event.getSource());
         FXMLLoader loader = App.getFXMLLoader("PatientModule");
         container.getChildren().clear();
         container.getChildren().add(loader.load());
@@ -128,6 +132,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnDoctorModuleAction(ActionEvent event) throws IOException {
+        focusButton((Node) event.getSource());
         FXMLLoader loader = App.getFXMLLoader("DoctorModule");
         container.getChildren().clear();
         container.getChildren().add(loader.load());
@@ -135,6 +140,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void editUserLogguedAction(MouseEvent event) throws IOException {
+
         userLoggued = (UserDto) userService.findUserById(userLoggued.getId()).getData();
         data.setData("userBuffer", userLoggued);
         Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("UserRegister").load());
@@ -174,12 +180,15 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnGeneralInformationModuleAction(ActionEvent event) throws IOException {
+        focusButton((Node) event.getSource());
         FXMLLoader loader = App.getFXMLLoader("GeneralInformationModule");
         container.getChildren().clear();
         container.getChildren().add(loader.load());
     }
+
     @FXML
     private void btnAgendaModuleAction(ActionEvent event) throws IOException {
+        focusButton((Node) event.getSource());
         FXMLLoader loader = App.getFXMLLoader("AgendaModule");
         container.getChildren().clear();
         container.getChildren().add(loader.load());
@@ -187,6 +196,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnMedicalAppointmentModuleAction(ActionEvent event) throws IOException {
+        focusButton((Node) event.getSource());
         FXMLLoader loader = App.getFXMLLoader("MedicalAppointmentModule");
         container.getChildren().clear();
         container.getChildren().add(loader.load());
@@ -194,6 +204,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnReportModuleAction(ActionEvent event) throws IOException {
+        focusButton((Node) event.getSource());
         FXMLLoader loader = App.getFXMLLoader("ReportModule");
         container.getChildren().clear();
         container.getChildren().add(loader.load());
@@ -217,6 +228,15 @@ public class MainController implements Initializable {
                 sliderMenu.open();
             }
         });
+    }
+
+    private void focusButton(Node node) {
+
+        if (buttonSelected != null) {
+            buttonSelected.getStyleClass().remove("bg-gray");
+        }
+        buttonSelected = node;
+        buttonSelected.getStyleClass().add("bg-gray");
     }
 
     /**
@@ -249,7 +269,5 @@ public class MainController implements Initializable {
             hamburguerMenu.setDisable(false);
         }
     }
-
-    
 
 }

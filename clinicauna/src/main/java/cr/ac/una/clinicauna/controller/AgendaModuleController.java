@@ -11,7 +11,6 @@ import cr.ac.una.clinicauna.services.UserService;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-
 import cr.ac.una.clinicauna.util.AgendaBuilder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -67,6 +66,7 @@ public class AgendaModuleController implements Initializable {
     @FXML
     private Label lblYear;
     private int countWeeks = 0;
+    
     private DoctorService doctorService = new DoctorService();
     private UserService userService = new UserService();
     private DoctorDto doctorBuffer;
@@ -114,7 +114,6 @@ public class AgendaModuleController implements Initializable {
                 hoursCalculated = calculateHours(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots());
                 loadHours(hoursCalculated);
                 loadGrid();
-
             }
             lbDoctorName.setText(user.getName());
         }
@@ -181,7 +180,6 @@ public class AgendaModuleController implements Initializable {
             @Override
             protected void updateItem(UserDto item, boolean empty) {
                 super.updateItem(item, empty);
-
                 if (empty || item == null) {
                     setText(null);
                 } else {
@@ -195,7 +193,6 @@ public class AgendaModuleController implements Initializable {
             public String toString(UserDto user) {
                 return user == null ? null : user.getName();
             }
-
             @Override
             public UserDto fromString(String string) {
                 return null;

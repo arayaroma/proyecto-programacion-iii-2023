@@ -14,15 +14,11 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
-import javafx.application.Platform;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Base64;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import cr.ac.una.clinicauna.App;
-import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.services.UserService;
 
 /**
@@ -89,14 +85,14 @@ public class Request {
     }
 
     public void get() {
-        // if (isTokenExpired()) {
+         if (isTokenExpired()) {
         response = builder.get();
-        // }
+         }
     }
 
-    // public void getToken() {
-    // response = builder.get();
-    // }
+     public void getToken() {
+     response = builder.get();
+     }
 
     public void post(Object clazz) {
         if (isTokenExpired()) {
