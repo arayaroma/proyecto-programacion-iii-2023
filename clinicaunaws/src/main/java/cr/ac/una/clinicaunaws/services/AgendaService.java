@@ -35,6 +35,7 @@ public class AgendaService {
             Agenda agenda = agendaDto.convertFromDTOToEntity(agendaDto, new Agenda(agendaDto));
             em.persist(agenda);
             em.flush();
+            agendaDto = new AgendaDto(agenda);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
@@ -128,11 +129,12 @@ public class AgendaService {
                 agenda.updateAgenda(agendaDto);
                 em.merge(agenda);
                 em.flush();
+                agendaDto = new AgendaDto(agenda);
                 return new ResponseWrapper(
                         ResponseCode.OK.getCode(),
                         ResponseCode.OK,
                         "Agenda updated.",
-                        agendaDto);
+                        agendaDto.convertFromEntityToDTO(agenda, agendaDto));
             } else {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
@@ -154,7 +156,7 @@ public class AgendaService {
      *
      * @param id of the Agenda to be deleted
      * @return ResponseWrapper informing if the Agenda was deleted successfully
-     *         or not
+     * or not
      */
     public ResponseWrapper deleteAgenda(Long id) {
         try {
