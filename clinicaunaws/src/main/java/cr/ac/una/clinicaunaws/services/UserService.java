@@ -60,7 +60,6 @@ public class UserService {
                     "User created successfully.",
                     new UserDto(user));
         } catch (Exception ex) {
-            System.out.println(ex.toString());
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
@@ -299,7 +298,7 @@ public class UserService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "User not found, id: " + id.toString() + ")",
+                        "User not found, id: " + id + ")",
                         null);
             }
             UserDto userDto = new UserDto(user);

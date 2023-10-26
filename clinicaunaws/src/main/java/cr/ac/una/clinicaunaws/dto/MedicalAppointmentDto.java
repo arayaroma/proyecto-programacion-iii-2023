@@ -39,13 +39,23 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
     @Override
     public MedicalAppointmentDto convertFromEntityToDTO(MedicalAppointment entity, MedicalAppointmentDto dto) {
 
-        dto.setAgenda(new AgendaDto(entity.getAgenda()));
-        dto.setPatient(new PatientDto(entity.getPatient()));
-        dto.setScheduledBy(new UserDto(entity.getScheduledBy()));
-        if (entity.getPatientCare() != null) {
-            dto.setPatientCare(new PatientCareDto(entity.getPatientCare()));
+        PatientCare patientCareEntity = entity.getPatientCare();
+        User scheduledByEntity = entity.getScheduledBy();
+        Patient patientEntity = entity.getPatient();
+        Agenda agendaEntity = entity.getAgenda();
+        if (agendaEntity != null) {
+            dto.setAgenda(new AgendaDto(agendaEntity));
         }
-        
+        if (patientEntity != null) {
+            dto.setPatient(new PatientDto(patientEntity));
+        }
+        if (scheduledByEntity != null) {
+            dto.setScheduledBy(new UserDto(scheduledByEntity));
+        }
+        if (patientCareEntity != null) {
+            dto.setPatientCare(new PatientCareDto(patientCareEntity));
+        }
+
         return dto;
     }
 
@@ -68,7 +78,6 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
         this.scheduledDate = entity.getScheduledDate().toString();
         this.scheduledTime = entity.getScheduledTime();
         this.state = entity.getState();
-        System.out.println(state);
         this.reason = entity.getReason();
         this.patientPhoneNumber = entity.getPatientPhoneNumber();
         this.patientEmail = entity.getPatientEmail();

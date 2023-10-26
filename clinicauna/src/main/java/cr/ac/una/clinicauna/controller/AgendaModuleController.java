@@ -2,6 +2,8 @@ package cr.ac.una.clinicauna.controller;
 
 import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.components.AppointmentNode;
+import cr.ac.una.clinicauna.components.Header;
 import cr.ac.una.clinicauna.model.AgendaDto;
 import cr.ac.una.clinicauna.model.DoctorDto;
 import cr.ac.una.clinicauna.model.MedicalAppointmentDto;
@@ -9,13 +11,20 @@ import cr.ac.una.clinicauna.model.PatientDto;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.AgendaService;
 import cr.ac.una.clinicauna.services.DoctorService;
+import cr.ac.una.clinicauna.services.MedicalAppointmentService;
 import cr.ac.una.clinicauna.services.UserService;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import cr.ac.una.clinicauna.util.AgendaBuilder;
 import cr.ac.una.clinicauna.util.Data;
+
+import cr.ac.una.clinicauna.util.Message;
+import cr.ac.una.clinicauna.util.MessageType;
+import cr.ac.una.clinicauna.util.ResponseCode;
+import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.IOException;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,7 +81,7 @@ public class AgendaModuleController implements Initializable {
     @FXML
     private Label lblYear;
     private int countWeeks = 0;
-    
+
     private DoctorService doctorService = new DoctorService();
     private UserService userService = new UserService();
     private DoctorDto doctorBuffer;
@@ -83,6 +92,10 @@ public class AgendaModuleController implements Initializable {
     private Map<String, Integer> medicalAppointmentsHours = new HashMap();
     private List<String> hoursCalculated = new ArrayList<>();
     private Data data = Data.getInstance();
+
+    private List<Header> headers = new ArrayList<>();
+    private MedicalAppointmentDto medicalAppointentBuffer;
+    private MedicalAppointmentService medicalAppointmentService = new MedicalAppointmentService();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -121,7 +134,7 @@ public class AgendaModuleController implements Initializable {
                 hoursCalculated = calculateHours(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots());
                 loadHours(hoursCalculated);
                 loadGrid();
-                
+
             }
             lbDoctorName.setText(user.getName());
         }
@@ -142,6 +155,25 @@ public class AgendaModuleController implements Initializable {
         loadAgendas(doctorBuffer);
     }
 
+    private void updateMedicalAppointment(MedicalAppointmentDto medicalAppointmentDto, String newTime, LocalDate newDate) {
+        try {
+            if (medicalAppointmentDto != null) {
+                medicalAppointmentDto.setScheduledDate(newDate.toString());
+                medicalAppointmentDto.setScheduledTime(newTime);
+                medicalAppointmentDto.setSlots(null);
+                ResponseWrapper response = medicalAppointmentService.updateMedicalAppointments(medicalAppointmentDto);
+                if (response.getCode() != ResponseCode.OK) {
+                    Message.showNotification("Error", MessageType.ERROR, response.getMessage());
+                    return;
+                }
+                medicalAppointentBuffer = (MedicalAppointmentDto) response.getData();
+
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
     private void loadAgendas(DoctorDto doctorDto) {
         for (AgendaDto i : doctorDto.getAgendas()) {
             AgendaDto agenda = (AgendaDto) agendaService.getAgendaById(i.getId()).getData();
@@ -155,13 +187,15 @@ public class AgendaModuleController implements Initializable {
     private void loadMedicalAppointments(List<MedicalAppointmentDto> medicalAppointments) {
         for (int i = 0; i < medicalAppointments.size(); i++) {
             MedicalAppointmentDto medicalAppointmentDto = medicalAppointments.get(i);
+            int slots = !medicalAppointmentDto.getSlots().isEmpty() ? medicalAppointmentDto.getSlots().size() : 1;
             String date = medicalAppointmentDto.getScheduledDate();
             String time = medicalAppointmentDto.getScheduledTime();
             Integer column = days.get(date);
             Integer row = medicalAppointmentsHours.get(time);
             if (column != null && row != null) {
-
-                gpAgenda.add(createMedicalAppointmentCard(medicalAppointmentDto), column, row);
+                AppointmentNode node = createMedicalAppointmentCard(medicalAppointmentDto);
+                gpAgenda.add(node, column, row);
+                GridPane.setRowSpan(node, slots);
             }
         }
     }
@@ -201,6 +235,7 @@ public class AgendaModuleController implements Initializable {
             public String toString(UserDto user) {
                 return user == null ? null : user.getName();
             }
+
             @Override
             public UserDto fromString(String string) {
                 return null;
@@ -230,7 +265,7 @@ public class AgendaModuleController implements Initializable {
             LocalDate actualDay = localDays.get(i);
             String day = actualDay.getDayOfWeek().name().substring(0, 3);
             Integer number = localDays.get(i).getDayOfMonth();
-            Node nodeDay = createAgendaHeader(day + " " + number);
+            Header nodeDay = createAgendaHeader(day + " " + number, actualDay);
             if (LocalDate.now().equals(actualDay)) {
                 nodeDay.getStyleClass().add("actual-day");
             }
@@ -256,12 +291,12 @@ public class AgendaModuleController implements Initializable {
         gpAgenda.getChildren().removeAll(nodeToRemove);
     }
 
-    private Node createAgendaHeader(String info) {
-        HBox hBox = new HBox();
-        hBox.getStyleClass().add("bg-black");
-        hBox.getChildren().add(new Label(info));
-        hBox.setAlignment(Pos.CENTER);
-        return hBox;
+    private Header createAgendaHeader(String info, LocalDate date) {
+        Header header = new Header(info, date);
+        header.getStyleClass().add("bg-black");
+        header.getChildren().add(new Label(info));
+        header.setAlignment(Pos.CENTER);
+        return header;
     }
 
     private List<String> calculateHours(String startTime, String endTime, Long fieldsPerHour) {
@@ -285,38 +320,38 @@ public class AgendaModuleController implements Initializable {
         for (int i = 0; i < hours.size(); i++) {
             medicalAppointmentsHours.put(hours.get(i), i + 1);
             removeNodeInGrid(i + 1, 0);
-            gpAgenda.add(createAgendaHeader(hours.get(i)), 0, i + 1);
+            gpAgenda.add(createAgendaHeader(hours.get(i), null), 0, i + 1);
             RowConstraints row = new RowConstraints(USE_COMPUTED_SIZE);
             gpAgenda.getRowConstraints().add(row);
         }
     }
 
-    private VBox createMedicalAppointmentCard(MedicalAppointmentDto medicalAppointmentDto) {
-        VBox vBox = new VBox();
-        vBox.setAlignment(Pos.CENTER);
+    private AppointmentNode createMedicalAppointmentCard(MedicalAppointmentDto medicalAppointmentDto) {
+        AppointmentNode appointmentNode = new AppointmentNode(medicalAppointmentDto);
+        appointmentNode.setAlignment(Pos.CENTER);
         PatientDto patientDto = medicalAppointmentDto.getPatient();
         if (patientDto != null) {
             Label name = new Label(patientDto.getName());
             Label numberPhone = new Label("Tel: " + patientDto.getPhoneNumber());
-            vBox.getChildren().addAll(name, numberPhone);
-            vBox.getStyleClass().add("cardMedicalAppointment");
+            appointmentNode.getChildren().addAll(name, numberPhone);
+            appointmentNode.getStyleClass().add("cardMedicalAppointment");
         }
         switch (medicalAppointmentDto.getState().toLowerCase()) {
             case "attended":
-                vBox.getStyleClass().add("attended");
+                appointmentNode.getStyleClass().add("attended");
                 break;
             case "scheduled":
-                vBox.getStyleClass().add("scheduled");
+                appointmentNode.getStyleClass().add("scheduled");
                 break;
             case "absent":
-                vBox.getStyleClass().add("absent");
+                appointmentNode.getStyleClass().add("absent");
                 break;
             case "cancelled":
-                vBox.getStyleClass().add("cancelled");
+                appointmentNode.getStyleClass().add("cancelled");
                 break;
         }
-        intializeDragAndDrop(vBox);
-        return vBox;
+        intializeDragAndDrop(appointmentNode);
+        return appointmentNode;
 
     }
     Node nodeBuffer;
@@ -345,6 +380,15 @@ public class AgendaModuleController implements Initializable {
                 if (row != null && col != null && row > 0 && col > 0) {
                     gpAgenda.getChildren().remove(nodeBuffer);
                     gpAgenda.add(nodeBuffer, col, row);
+
+                    if (nodeBuffer instanceof AppointmentNode) {
+                        medicalAppointentBuffer = ((AppointmentNode) nodeBuffer).getMedicalAppointmentDto();
+                        System.out.println(medicalAppointentBuffer.getVersion());
+                        updateMedicalAppointment(medicalAppointentBuffer, getHourInGrid(row), LocalDate.parse(getDayInGrid(col)));
+                        ((AppointmentNode) nodeBuffer).setMedicalAppointmentDto(medicalAppointentBuffer);
+                        System.out.println(medicalAppointentBuffer.getVersion());
+                    }
+
                 }
             }
             event.setDropCompleted(success);
@@ -353,28 +397,56 @@ public class AgendaModuleController implements Initializable {
 
     }
 
+    private String getHourInGrid(int pos) {
+        Integer row, column;
+        for (Node i : gpAgenda.getChildren()) {
+            row = GridPane.getRowIndex(i);
+            column = GridPane.getColumnIndex(i);
+            if (row != null && row == pos && column != null && column == 0 && i instanceof Header) {
+                return ((Header) i).getMessage();
+            }
+        }
+        return "";
+    }
+
+    private String getDayInGrid(int pos) {
+        Integer row, column;
+        for (Node i : gpAgenda.getChildren()) {
+            row = GridPane.getRowIndex(i);
+            column = GridPane.getColumnIndex(i);
+            if (row != null && row == 0 && column != null && column == pos && i instanceof Header) {
+                LocalDate date = ((Header) i).getDay();
+                if (date != null) {
+                    return date.toString();
+                }
+                return "";
+            }
+        }
+        return "";
+    }
+
     private void loadPanes() {
         for (int i = 1; i < gpAgenda.getRowCount(); i++) {
             for (int j = 1; j < gpAgenda.getColumnCount(); j++) {
                 HBox hBox = new HBox();
                 hBox.getStyleClass().add("paneContainer");
                 hBox.setOnMouseClicked(event -> {
-                    try {
-                        createMedicalAppointment(event);
-                    } catch (IOException ex) {
-                        Logger.getLogger(AgendaModuleController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    createMedicalAppointment(event);
                 });
                 gpAgenda.add(hBox, j, i);
             }
         }
     }
 
-    private void createMedicalAppointment(MouseEvent event) throws IOException {
-        //Open medicalAppointmentRegister View (SEBAS)
-        data.setData("doctor", doctorBuffer);
-        System.out.println("Create");
-        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("MedicalAppointmentRegister").load());
+    private void createMedicalAppointment(MouseEvent event) {
+        try {
+            //Open medicalAppointmentRegister View (SEBAS)
+            data.setData("doctor", doctorBuffer);
+            System.out.println("Create");
+            Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("MedicalAppointmentRegister").load());
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
     }
 
 };

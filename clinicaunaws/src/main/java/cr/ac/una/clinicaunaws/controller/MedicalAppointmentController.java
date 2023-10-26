@@ -154,6 +154,7 @@ public class MedicalAppointmentController {
     })
     public Response updateMedicalAppointment(MedicalAppointmentDto medicalAppointmentDto) {
         try {
+            System.out.println(medicalAppointmentDto.toString());
             ResponseWrapper response = medicalAppointmentService.updateMedicalAppointment(medicalAppointmentDto);
             if (response.getCode() != ResponseCode.OK) {
                 return Response.status(response.getStatus()).entity(response.getMessage()).build();

@@ -72,7 +72,7 @@ public class MedicalExamService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "MedicalExam with id: " + id.toString() + " not found.",
+                        "MedicalExam with id: " + id + " not found.",
                         null);
             }
         } catch (Exception e) {

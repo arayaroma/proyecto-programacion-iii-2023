@@ -27,11 +27,13 @@ public class SlotsDto implements DtoMapper<Slots, SlotsDto> {
 
     @Override
     public SlotsDto convertFromEntityToDTO(Slots entity, SlotsDto dto) {
-        if (entity.getAgenda() != null) {
-            dto.setAgenda(new AgendaDto(entity.getAgenda()));
+        Agenda agendaEntity = entity.getAgenda();
+        if (agendaEntity != null) {
+            dto.setAgenda(new AgendaDto(agendaEntity));
         }
-        if (entity.getMedicalAppointment() != null) {
-            dto.setMedicalAppointment(new MedicalAppointmentDto(entity.getMedicalAppointment()));
+        MedicalAppointment medicalAppointmentEntity = entity.getMedicalAppointment();
+        if (medicalAppointmentEntity != null) {
+            dto.setMedicalAppointment(new MedicalAppointmentDto(medicalAppointmentEntity));
         }
         return dto;
     }

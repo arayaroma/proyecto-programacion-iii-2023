@@ -33,14 +33,22 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
 
     @Override
     public AgendaDto convertFromEntityToDTO(Agenda entity, AgendaDto dto) {
-        dto.setDoctor(new DoctorDto(entity.getDoctor()));
-        dto.getDoctor().setUser(new UserDto(entity.getDoctor().getUser()));
-        List<MedicalAppointment> medicalAppointments = entity.getMedicalAppointments();
-        dto.setMedicalAppointments(DtoMapper.fromEntityList(medicalAppointments, MedicalAppointmentDto.class));
+        Doctor doctorEntity = entity.getDoctor();
+        if (doctorEntity != null) {
+            dto.setDoctor(new DoctorDto(doctorEntity));
+            User user = doctorEntity.getUser();
+            dto.getDoctor().setUser(new UserDto(user));
+        }
+        List<MedicalAppointment> appointments = entity.getMedicalAppointments();
+        dto.setMedicalAppointments(DtoMapper.fromEntityList(appointments, MedicalAppointmentDto.class));
         if (dto.getMedicalAppointments() != null) {
-            for (int i = 0; i < medicalAppointments.size(); i++) {
-                dto.getMedicalAppointments().get(i).setPatient(new PatientDto(medicalAppointments.get(i).getPatient()));
+            for (int i = 0; i < appointments.size(); i++) {
+                dto.getMedicalAppointments().get(i).setScheduledBy(new UserDto(appointments.get(i).getScheduledBy()));
+                dto.getMedicalAppointments().get(i).setAgenda(new AgendaDto(appointments.get(i).getAgenda()));
+                dto.getMedicalAppointments().get(i).setPatient(new PatientDto(appointments.get(i).getPatient()));
+                dto.getMedicalAppointments().get(i).setSlots(DtoMapper.fromEntityList(appointments.get(i).getSlots(), SlotsDto.class));
             }
+
         }
 
         dto.setSlots(DtoMapper.fromEntityList(entity.getSlots(), SlotsDto.class));

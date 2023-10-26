@@ -1,5 +1,6 @@
 package cr.ac.una.clinicaunaws.dto;
 
+import cr.ac.una.clinicaunaws.entities.Doctor;
 import java.util.List;
 
 import cr.ac.una.clinicaunaws.entities.User;
@@ -46,8 +47,9 @@ public class UserDto implements DtoMapper<User, UserDto> {
      */
     @Override
     public UserDto convertFromEntityToDTO(User entity, UserDto dto) {
-        if (entity.getDoctor() != null) {
-            dto.setDoctor(new DoctorDto(entity.getDoctor()));
+        Doctor doctorEntity = entity.getDoctor();
+        if (doctorEntity != null) {
+            dto.setDoctor(new DoctorDto(doctorEntity));
         }
 
         return dto;
