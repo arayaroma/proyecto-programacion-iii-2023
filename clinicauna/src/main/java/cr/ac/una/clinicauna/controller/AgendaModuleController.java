@@ -1,5 +1,7 @@
 package cr.ac.una.clinicauna.controller;
 
+import cr.ac.una.clinicauna.App;
+import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.AgendaDto;
 import cr.ac.una.clinicauna.model.DoctorDto;
 import cr.ac.una.clinicauna.model.MedicalAppointmentDto;
@@ -13,6 +15,8 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import cr.ac.una.clinicauna.util.AgendaBuilder;
+import cr.ac.una.clinicauna.util.Data;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -76,6 +82,7 @@ public class AgendaModuleController implements Initializable {
     private Map<String, Integer> days = new HashMap();
     private Map<String, Integer> medicalAppointmentsHours = new HashMap();
     private List<String> hoursCalculated = new ArrayList<>();
+    private Data data = Data.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -114,7 +121,7 @@ public class AgendaModuleController implements Initializable {
                 hoursCalculated = calculateHours(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots());
                 loadHours(hoursCalculated);
                 loadGrid();
-
+                
             }
             lbDoctorName.setText(user.getName());
         }
@@ -353,15 +360,23 @@ public class AgendaModuleController implements Initializable {
             for (int j = 1; j < gpAgenda.getColumnCount(); j++) {
                 HBox hBox = new HBox();
                 hBox.getStyleClass().add("paneContainer");
-                hBox.setOnMouseClicked(event -> createMedicalAppointment(event));
+                hBox.setOnMouseClicked(event -> {
+                    try {
+                        createMedicalAppointment(event);
+                    } catch (IOException ex) {
+                        Logger.getLogger(AgendaModuleController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
                 gpAgenda.add(hBox, j, i);
             }
         }
     }
 
-    private void createMedicalAppointment(MouseEvent event) {
+    private void createMedicalAppointment(MouseEvent event) throws IOException {
         //Open medicalAppointmentRegister View (SEBAS)
+        data.setData("doctor", doctorBuffer);
         System.out.println("Create");
+        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("MedicalAppointmentRegister").load());
     }
 
 };
