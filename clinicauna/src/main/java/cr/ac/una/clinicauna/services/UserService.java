@@ -211,7 +211,7 @@ public class UserService {
             params.put("username", user);
             params.put("password", password);
             Request request = new Request("UserController/user", "/{username}/{password}", params);
-            request.get();
+            request.getToken();
             if (request.isError()) {
                 return new ResponseWrapper(
                         ResponseCode.INTERNAL_SERVER_ERROR.getCode(),

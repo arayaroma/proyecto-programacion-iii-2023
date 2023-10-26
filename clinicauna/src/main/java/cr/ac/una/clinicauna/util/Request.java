@@ -14,15 +14,11 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
-import javafx.application.Platform;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Base64;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import cr.ac.una.clinicauna.App;
-import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.services.UserService;
 
 /**
@@ -89,14 +85,14 @@ public class Request {
     }
 
     public void get() {
-        // if (isTokenExpired()) {
-        response = builder.get();
-        // }
+        if (isTokenExpired()) {
+            response = builder.get();
+        }
     }
 
-    // public void getToken() {
-    // response = builder.get();
-    // }
+    public void getToken() {
+        response = builder.get();
+    }
 
     public void post(Object clazz) {
         if (isTokenExpired()) {
@@ -123,10 +119,21 @@ public class Request {
     }
 
     public Boolean isError() throws IOException {
-        if (getStatus() == Response.Status.UNAUTHORIZED.getStatusCode()) {
+        if (getStatus() != Response.Status.OK.getStatusCode()) {
             Message.showNotification("Session expired", MessageType.INFO,
                     "Your session has expired, please login again");
-            App.setRoot("Login");
+
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(3000);
+                        App.setRoot("Login");
+                    } catch (InterruptedException | IOException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                }
+            }.start();
         }
         return getStatus() != Response.Status.OK.getStatusCode();
     }
@@ -213,6 +220,7 @@ public class Request {
                     return true;
                 }
             }
+            response = Response.status(401, "The token has expired").build();
             return false;
         }
     }

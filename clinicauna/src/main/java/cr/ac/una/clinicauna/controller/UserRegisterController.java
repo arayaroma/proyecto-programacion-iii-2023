@@ -83,11 +83,13 @@ public class UserRegisterController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         UserDto userDto = (UserDto) data.getData("userBuffer");
-        if (userDto != null) {
-            userModified = userDto;
-        } else {
-            userModified = new UserDto();
-        }
+        userModified = userDto != null ? userDto : new UserDto();
+        
+//        if (userDto != null) {
+//            userModified = userDto;
+//        } else {
+//            userModified = new UserDto();
+//        }
         isEditing = userModified.getId() != null;
         if (Data.languageOption.equals("en")) {
             cbLanguage.getItems().addAll("English", "Spanish");
@@ -188,7 +190,6 @@ public class UserRegisterController implements Initializable {
 
     private void bindUser() {
         try {
-
             txfName.textProperty().bindBidirectional(userModified.name);
             txfLastName.textProperty().bindBidirectional(userModified.firstLastname);
             txfSencondLastName.textProperty().bindBidirectional(userModified.secondLastname);
