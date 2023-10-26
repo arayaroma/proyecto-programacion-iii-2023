@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Data
@@ -27,15 +27,23 @@ public class SlotsDto implements DtoMapper<Slots, SlotsDto> {
 
     @Override
     public SlotsDto convertFromEntityToDTO(Slots entity, SlotsDto dto) {
-        dto.setAgenda(new AgendaDto(entity.getAgenda()));
-        dto.setMedicalAppointment(new MedicalAppointmentDto(entity.getMedicalAppointment()));
+        if (entity.getAgenda() != null) {
+            dto.setAgenda(new AgendaDto(entity.getAgenda()));
+        }
+        if (entity.getMedicalAppointment() != null) {
+            dto.setMedicalAppointment(new MedicalAppointmentDto(entity.getMedicalAppointment()));
+        }
         return dto;
     }
 
     @Override
     public Slots convertFromDTOToEntity(SlotsDto dto, Slots entity) {
-        entity.setAgenda(new Agenda(dto.getAgenda()));
-        entity.setMedicalAppointment(new MedicalAppointment(dto.getMedicalAppointment()));
+        if(dto.getAgenda() != null){
+            entity.setAgenda(new Agenda(dto.getAgenda()));
+        }
+        if (dto.getMedicalAppointment() != null) {
+            entity.setMedicalAppointment(new MedicalAppointment(dto.getMedicalAppointment()));
+        }
         return entity;
     }
 
