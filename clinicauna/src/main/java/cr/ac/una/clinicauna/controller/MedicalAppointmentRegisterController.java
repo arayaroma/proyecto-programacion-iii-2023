@@ -110,7 +110,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
             agendaBuffer.setShiftStartTime(doctorBuffer.getShiftStartTime());
             agendaBuffer.setShiftEndTime(doctorBuffer.getShiftEndTime());
 //            agendaBuffer.setSlots(createSlots(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots(), fechaAppointment));
-            createSlots(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots(), fechaAppointment);
+            List SlotsList = createSlots(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots(), fechaAppointment);
         }
 //        if (doctorBuffer.getId() == null) { //creo que se puede eliminar
             //No selecciona doctor
@@ -259,7 +259,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
                 slot.setAvailable("AVAILABLE");
                 slot.setTimeSlot(newTime.toString());
                 slot.setSlotDate(fechaAppointment);
-                System.out.println("pene: "+sService.createSlot(slot).getMessage());
+                System.out.println("Test: "+sService.createSlot(slot).getMessage());
                 result.add(slot);
             }
         } catch (ParseException e) {
