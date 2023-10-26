@@ -199,7 +199,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
     }
 
     private void setDataInAppointment(MedicalAppointmentDto medAppointment) {
-        medAppointment.setPatient(patientBuffer); 
+        medAppointment.setPatient(patientBuffer);
         medAppointment.setAgenda(agendaBuffer);
         medAppointment.setScheduledBy((UserDto) data.getData("userLoggued"));
 //        if () {
@@ -258,7 +258,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
                 result.add(slot);
 //                sService.createSlot(slot); ERROR
             }
-            System.out.println("Test: " + agendaBuffer.getId()+" "+agendaBuffer.getDoctor());
+            System.out.println("Test: " + agendaBuffer.getId() + " " + agendaBuffer.getDoctor());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -293,19 +293,19 @@ public class MedicalAppointmentRegisterController implements Initializable {
         a.setHourlySlots(doctorBuffer.getHourlySlots());
         a.setShiftStartTime(doctorBuffer.getShiftStartTime());
         a.setShiftEndTime(doctorBuffer.getShiftEndTime());
-        if(safeAgenda(a)){
+        if (safeAgenda(a)) {
             createSlots(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots(), fechaAppointment);
         }
     }
-    
-    public boolean safeAgenda(AgendaDto a){
+
+    public boolean safeAgenda(AgendaDto a) {
         ResponseWrapper response = a.getId() == null ? aService.createAgenda(a)
                 : aService.updateAgenda(a);
         if (response.getCode() == ResponseCode.OK) {
             Message.showNotification("Success", MessageType.CONFIRMATION, response.getMessage());
             a = (AgendaDto) response.getData();
             if (a != null) {
-                System.out.println("id de la recien creada a: "+a.getId());
+                System.out.println("id de la recien creada a: " + a.getId());
                 agendaBuffer = a;
             }
             return true;
