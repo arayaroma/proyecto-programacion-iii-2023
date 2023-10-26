@@ -18,6 +18,10 @@ import cr.ac.una.clinicauna.services.AgendaService;
 import cr.ac.una.clinicauna.services.PatientService;
 import cr.ac.una.clinicauna.services.SlotsService;
 import cr.ac.una.clinicauna.util.Data;
+import cr.ac.una.clinicauna.util.Message;
+import cr.ac.una.clinicauna.util.MessageType;
+import cr.ac.una.clinicauna.util.ResponseCode;
+import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
@@ -47,6 +51,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import java.text.SimpleDateFormat;
 
 /**
  * FXML Controller class
@@ -89,31 +94,24 @@ public class MedicalAppointmentRegisterController implements Initializable {
     private PatientDto patientBuffer;
     private AgendaDto agendaBuffer = new AgendaDto();
     private DoctorDto doctorBuffer;
-    
-    
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        AgendaDto a = new AgendaDto();
 //        agendaBuffer = (AgendaDto) data.getData("agenda");
         doctorBuffer = (DoctorDto) data.getData("doctor");
 //        patientBuffer = (PatientDto) data.getData("patient");
 //        mAppointmentBuffer = (MedicalAppointmentDto) data.getData("medicalAppointment");
-        String fechaAppointment = "2023-10-27"/*(String) data.getData("fechaAppointment")*/;
+        String fechaAppointment = "2023-10-29"/*(String) data.getData("fechaAppointment")*/;
         if (agendaBuffer.getId() == null) {
-            agendaBuffer = new AgendaDto();
-            agendaBuffer.setDoctor(doctorBuffer);
-            agendaBuffer.setAgendaDate(fechaAppointment);
-            agendaBuffer.setHourlySlots(doctorBuffer.getHourlySlots());
-            agendaBuffer.setShiftStartTime(doctorBuffer.getShiftStartTime());
-            agendaBuffer.setShiftEndTime(doctorBuffer.getShiftEndTime());
-//            agendaBuffer.setSlots(createSlots(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots(), fechaAppointment));
-            List SlotsList = createSlots(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots(), fechaAppointment);
+            createAgenda(fechaAppointment);
+
         }
 //        if (doctorBuffer.getId() == null) { //creo que se puede eliminar
-            //No selecciona doctor
+        //No selecciona doctor
 //        }
 //        if (mAppointmentBuffer.getId() == null && patientBuffer.getId() == null) {
 //            mAppointmentBuffer = new MedicalAppointmentDto();
@@ -205,7 +203,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
     }
 
     private void setDataInAppointment(MedicalAppointmentDto medAppointment) {
-        medAppointment.setPatient(patientBuffer);
+        medAppointment.setPatient(patientBuffer); 
         medAppointment.setAgenda(agendaBuffer);
         medAppointment.setScheduledBy((UserDto) data.getData("userLoggued"));
 //        if () {
@@ -248,6 +246,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
     private List<SlotsDto> createSlots(String startTime, String endTime, Long fieldsPerHour, String fechaAppointment) {
         List<SlotsDto> result = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm");
         try {
             Date start = sdf.parse(startTime);
             Date end = sdf.parse(endTime);
@@ -257,11 +256,13 @@ public class MedicalAppointmentRegisterController implements Initializable {
                 SlotsDto slot = new SlotsDto();
                 slot.setAgenda(agendaBuffer);
                 slot.setAvailable("AVAILABLE");
-                slot.setTimeSlot(newTime.toString());
+                String formattedTime = outputFormat.format(newTime);
+                slot.setTimeSlot(formattedTime);
                 slot.setSlotDate(fechaAppointment);
-                System.out.println("Test: "+sService.createSlot(slot).getMessage());
                 result.add(slot);
+//                sService.createSlot(slot); ERROR
             }
+            System.out.println("Test: " + agendaBuffer.getId()+" "+agendaBuffer.getDoctor());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -283,10 +284,39 @@ public class MedicalAppointmentRegisterController implements Initializable {
     }
 
     @FXML
-    private void setSlotsAvailable(ActionEvent event) {
+    private void setSlotsAvailable(ActionEvent event) { //falta
         List<SlotsDto> slotsAvailable = agendaBuffer.getSlots().stream()
                 .filter(s -> s.getAvailable().equals("AVAILABLE")).collect(Collectors.toList());
 //        int nSlots = spSlotsHours
+    }
+
+    public void createAgenda(String fechaAppointment) {
+        AgendaDto a = new AgendaDto();
+        a.setDoctor(doctorBuffer);
+        a.setAgendaDate(fechaAppointment);
+        a.setHourlySlots(doctorBuffer.getHourlySlots());
+        a.setShiftStartTime(doctorBuffer.getShiftStartTime());
+        a.setShiftEndTime(doctorBuffer.getShiftEndTime());
+        if(safeAgenda(a)){
+            createSlots(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots(), fechaAppointment);
+        }
+    }
+    
+    public boolean safeAgenda(AgendaDto a){
+        ResponseWrapper response = a.getId() == null ? aService.createAgenda(a)
+                : aService.updateAgenda(a);
+        if (response.getCode() == ResponseCode.OK) {
+            Message.showNotification("Success", MessageType.CONFIRMATION, response.getMessage());
+            a = (AgendaDto) response.getData();
+            if (a != null) {
+                System.out.println("id de la recien creada a: "+a.getId());
+                agendaBuffer = a;
+            }
+            return true;
+        }
+        Message.showNotification("Ups", MessageType.ERROR, response.getMessage());
+        System.out.println(response.getMessage());
+        return false;
     }
 
 }
