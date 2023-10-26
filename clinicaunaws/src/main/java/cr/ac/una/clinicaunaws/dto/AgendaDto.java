@@ -57,8 +57,13 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
 
     @Override
     public Agenda convertFromDTOToEntity(AgendaDto dto, Agenda entity) {
-        entity.setDoctor(new Doctor(dto.getDoctor()));
-        entity.getDoctor().setUser(new User(dto.getDoctor().getUser()));
+        if (dto.getDoctor() != null) {
+            entity.setDoctor(new Doctor(dto.getDoctor()));
+            if (dto.getDoctor().getUser() != null) {
+                entity.getDoctor().setUser(new User(dto.getDoctor().getUser()));
+            }
+        }
+
         return entity;
     }
 
