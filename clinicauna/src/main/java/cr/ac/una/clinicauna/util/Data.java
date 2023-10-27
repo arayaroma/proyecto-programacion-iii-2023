@@ -39,6 +39,10 @@ public class Data {
         data.remove(key);
     }
 
+    public void clearData() {
+        data.clear();
+    }
+
     public ResourceBundle getEnglishBundle() {
         return englishBundle;
     }

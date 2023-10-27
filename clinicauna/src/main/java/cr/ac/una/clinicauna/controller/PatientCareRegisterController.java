@@ -142,10 +142,17 @@ public class PatientCareRegisterController implements Initializable {
     private void setParameters(PatientCareDto patientCareDto) {
         patientCareDto.setBloodPressure(spBloodPresure.getEditor().getText());
         patientCareDto.setBodyMassIndex(lblBodyMassIndex.getText());
+
         patientCareDto.setHeartRate(spHeartRate.getEditor().getText());
         patientCareDto.setHeight(spHeight.getEditor().getText());
         patientCareDto.setWeight(spWeight.getEditor().getText());
         patientCareDto.setTemperature(spTemperature.getEditor().getText());
+        Double heightInCM = Double.parseDouble(patientCareDto.getHeight()) * 100;
+        Double height = Double.valueOf(patientCareDto.getHeight());
+        Double idealWeight = heightInCM - 100 - ((heightInCM - 150) / 4);
+        Double idealIMC = idealWeight / (height * height);
+        idealIMC = idealIMC < 0 ? 0 : idealIMC;
+        patientCareDto.setBodyMassIndexIdeal(String.valueOf(idealIMC));
     }
 
     private void initializeSpinners() {
@@ -237,7 +244,6 @@ public class PatientCareRegisterController implements Initializable {
     private void calculateIMC() {
         double weight = spWeight.getValue();
         double height = spHeight.getValue();
-
         double imc = weight / (height * height);
         if (height == 0) {
             imc = 0d;

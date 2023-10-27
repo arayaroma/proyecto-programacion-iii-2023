@@ -149,7 +149,7 @@ public class MedicalAppointmentModuleController implements Initializable {
         tcDate.setCellValueFactory(new PropertyValueFactory<>("scheduledDate"));
 
         tcState.setCellValueFactory(new PropertyValueFactory<>("state"));
-        tcHour.setCellValueFactory(new PropertyValueFactory<>("scheduledTime"));
+        tcHour.setCellValueFactory(new PropertyValueFactory<>("scheduledStartTime"));
         tcPatient.setCellValueFactory(cellData -> {
             MedicalAppointmentDto medicalAppointmentDto = cellData.getValue();
             PatientDto patient = medicalAppointmentDto.getPatient();

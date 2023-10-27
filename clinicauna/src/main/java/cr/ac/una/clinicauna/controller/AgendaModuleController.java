@@ -126,14 +126,7 @@ public class AgendaModuleController implements Initializable {
         UserDto user = cbDoctor.getValue();
         if (user != null) {
             doctorBuffer = (DoctorDto) DoctorService.getDoctorById(user.getId()).getData();
-            if (doctorBuffer != null) {
-                lbDoctorCode.setText(doctorBuffer.getCode());
-                lbDoctorIdCard.setText(String.valueOf(doctorBuffer.getIdCard()));
-                hoursCalculated = calculateHours(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots());
-                loadHours(hoursCalculated);
-                loadGrid();
-            }
-            lbDoctorName.setText(user.getName());
+            loadDoctor();
         }
     }
 
@@ -152,11 +145,25 @@ public class AgendaModuleController implements Initializable {
         loadAgendas(doctorBuffer);
     }
 
+    private void loadDoctor() {
+        if (doctorBuffer != null) {
+            lbDoctorCode.setText(doctorBuffer.getCode());
+            lbDoctorIdCard.setText(String.valueOf(doctorBuffer.getIdCard()));
+            hoursCalculated = calculateHours(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots());
+            loadHours(hoursCalculated);
+            loadGrid();
+            if (doctorBuffer.getUser() != null) {
+                lbDoctorName.setText(doctorBuffer.getUser().getName());
+            }
+        }
+
+    }
+
     private void updateMedicalAppointment(MedicalAppointmentDto medicalAppointmentDto, String newTime, LocalDate newDate) {
         try {
             if (medicalAppointmentDto != null) {
                 medicalAppointmentDto.setScheduledDate(newDate.toString());
-//                medicalAppointmentDto.setScheduledTime(newTime);
+                medicalAppointmentDto.setScheduledStartTime(newTime);
                 ResponseWrapper response = medicalAppointmentService.updateMedicalAppointments(medicalAppointmentDto);
                 if (response.getCode() != ResponseCode.OK) {
                     Message.showNotification("Error", MessageType.ERROR, response.getMessage());
@@ -202,6 +209,11 @@ public class AgendaModuleController implements Initializable {
                 removeNodeInGrid(i, j);
             }
         }
+    }
+
+    public void loadView(DoctorDto doctorDto) {
+        doctorBuffer = doctorDto;
+        loadDoctor();
     }
 
     private void loadDoctors() {
@@ -380,10 +392,8 @@ public class AgendaModuleController implements Initializable {
 
                     if (nodeBuffer instanceof AppointmentNode) {
                         medicalAppointentBuffer = ((AppointmentNode) nodeBuffer).getMedicalAppointmentDto();
-                        System.out.println(medicalAppointentBuffer.getVersion());
                         updateMedicalAppointment(medicalAppointentBuffer, getHourInGrid(row), LocalDate.parse(getDayInGrid(col)));
                         ((AppointmentNode) nodeBuffer).setMedicalAppointmentDto(medicalAppointentBuffer);
-                        System.out.println(medicalAppointentBuffer.getVersion());
                     }
 
                 }

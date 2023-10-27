@@ -99,6 +99,9 @@ Label, RadioButton, ComboBox{
 .combo-box-base .arrow-button .arrow {
     -fx-background-color: -fx-orange;
 }
+.combo-box-base .arrow-button {
+    -fx-background-color: -fx-black;
+}
 
 .combo-box .combo-box-popup .list-view .list-cell {
     -fx-background-color: -fx-white-black;
