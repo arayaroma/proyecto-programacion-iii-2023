@@ -31,7 +31,7 @@ public class DoctorDto implements DtoMapper<Doctor, DoctorDto> {
     @Override
     public DoctorDto convertFromEntityToDTO(Doctor entity, DoctorDto dto) {
         User userEntity = entity.getUser();
-        if (user!= null) {
+        if (userEntity!= null) {
             dto.setUser(new UserDto(userEntity));
         }
         dto.setAgendas(DtoMapper.fromEntityList(entity.getAgendas(), AgendaDto.class));

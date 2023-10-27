@@ -104,7 +104,6 @@ public class MedicalAppointmentRegisterController implements Initializable {
         String fechaAppointment = "2023-10-29"/*(String) data.getData("fechaAppointment")*/;
         if (agendaBuffer.getId() == null) {
             createAgenda(fechaAppointment);
-
         }
 //        if (doctorBuffer.getId() == null) { //creo que se puede eliminar
         //No selecciona doctor
@@ -256,7 +255,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
                 slot.setTimeSlot(formattedTime);
                 slot.setSlotDate(fechaAppointment);
                 result.add(slot);
-//                sService.createSlot(slot); ERROR
+                sService.createSlot(slot); //ERROR
             }
             System.out.println("Test: " + agendaBuffer.getId() + " " + agendaBuffer.getDoctor());
         } catch (ParseException e) {
