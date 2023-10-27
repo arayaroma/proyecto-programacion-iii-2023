@@ -24,13 +24,11 @@ public class ReportModuleController implements Initializable {
     private Tab tabDoctorReport;
     @FXML
     private Tab tabPatientReport;
+    @FXML
+    private Tab tabReportGenerator;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }
 
     @FXML
@@ -48,6 +46,16 @@ public class ReportModuleController implements Initializable {
         try {
             FXMLLoader loader = App.getFXMLLoader("PatientCareReport");
             tabPatientReport.setContent(loader.load());
+        } catch (IOException e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    @FXML
+    private void reportGeneratorAction(Event event) {
+        try {
+            FXMLLoader loader = App.getFXMLLoader("ReportGenerator");
+            tabReportGenerator.setContent(loader.load());
         } catch (IOException e) {
             System.out.println(e.toString());
         }

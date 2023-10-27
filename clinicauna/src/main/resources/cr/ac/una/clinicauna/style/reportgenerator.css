@@ -1,0 +1,67 @@
+* {
+  -fx-font-family: "Nadeem";
+  -fx-text-fill: #c1c2c2;
+  -fx-orange: #ce7711;
+  -fx-white-orange: #e6b95a;
+  -fx-white-gray: #838586;
+  -fx-gray: #303435;
+  -fx-white-white-gray: #c1c2c2;
+  -fx-black: #000;
+  -fx-white-black: #1a1a1a;
+  -fx-green: #5bd25b;
+  -fx-white-green: #8ce08c;
+  -fx-red: #aa2323;
+  -fx-white-red: #bb4f4f;
+}
+
+.background {
+  -fx-background-color: -fx-gray;
+  background-color: -fx-gray;
+}
+
+.title {
+  -fx-font-size: 40px;
+  font-size: 40px;
+  -fx-text-fill: -fx-white-orange;
+}
+
+.fields-container {
+  -fx-padding: 10px;
+  padding: 10px;
+
+  -fx-border-color: -fx-white-gray;
+  border-color: -fx-white-gray;
+
+  -fx-border-width: 3px;
+  border-width: 3px;
+
+  -fx-border-radius: 5px;
+  border-radius: 5px;
+
+  -fx-background-radius: 5px;
+
+  -fx-font-size: 20px;
+  font-size: 20px;
+}
+
+.selectors-container {
+  -fx-padding: 10px;
+  padding: 10px;
+
+  -fx-border-color: -fx-white-gray;
+  border-color: -fx-white-gray;
+
+  -fx-border-width: 3px;
+  border-width: 3px;
+
+  -fx-border-radius: 5px;
+  border-radius: 5px;
+
+  -fx-background-radius: 5px;
+
+  -fx-font-size: 16px;
+  font-size: 16px;
+}
+
+.generate-button {
+}
