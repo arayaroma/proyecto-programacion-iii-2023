@@ -92,7 +92,6 @@ public class AgendaModuleController implements Initializable {
     private Map<String, Integer> medicalAppointmentsHours = new HashMap();
     private List<String> hoursCalculated = new ArrayList<>();
     private Data data = Data.getInstance();
-
     private List<Header> headers = new ArrayList<>();
     private MedicalAppointmentDto medicalAppointentBuffer;
     private MedicalAppointmentService medicalAppointmentService = new MedicalAppointmentService();

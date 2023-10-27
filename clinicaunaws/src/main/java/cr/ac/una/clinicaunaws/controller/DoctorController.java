@@ -32,7 +32,7 @@ import java.util.logging.Logger;
  * @author arayaroma
  * @author vargas
  */
-@Secure
+//@Secure
 @Path("/DoctorController")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
