@@ -86,7 +86,7 @@ public class Doctor implements Serializable {
     @Column(name = "HOURLYSLOTS")
     private Long hourlySlots;
 
-    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
     private List<Agenda> agendas;
 
     @Version

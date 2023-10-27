@@ -93,9 +93,9 @@ public class LoginController implements Initializable {
             return;
         }
 
-        if (user.equals("admin") && password.equals("admin")) {
-            Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Main").load());
-        }
+//        if (user.equals("admin") && password.equals("admin")) {
+//            Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Main").load());
+//        }
 
         ResponseWrapper response = userService.verifyUser(user, password);
         if (response.getCode() == ResponseCode.OK) {

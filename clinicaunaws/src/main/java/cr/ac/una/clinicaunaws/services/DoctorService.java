@@ -29,7 +29,7 @@ public class DoctorService {
      *
      * @param doctorDto to be created
      * @return ResponseWrapper with the response from database, or null if an
-     *         exception occurred
+     * exception occurred
      */
     public ResponseWrapper createDoctor(DoctorDto doctorDto) {
         try {
@@ -54,12 +54,12 @@ public class DoctorService {
     /**
      * @param id user id to be retrieved
      * @return ResponseWrapper with the response from database, or null if an
-     *         exception occurred
+     * exception occurred
      */
     public ResponseWrapper getDoctorById(Long id) {
         try {
             Doctor doctor;
-            doctor = em.find(Doctor.class, id);
+            doctor = em.createNamedQuery("Doctor.findById", Doctor.class).setParameter("id", id).getSingleResult();
             if (doctor == null) {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
@@ -84,7 +84,7 @@ public class DoctorService {
 
     /**
      * @return ResponseWrapper with the response from database, or null if an
-     *         exception occurred
+     * exception occurred
      */
     @SuppressWarnings("unchecked")
     public ResponseWrapper getDoctors() {
@@ -115,7 +115,7 @@ public class DoctorService {
     /**
      * @param doctorDto User to be updated
      * @return ResponseWrapper with the response from database, or null if an
-     *         exception occurred
+     * exception occurred
      */
     public ResponseWrapper updateDoctor(DoctorDto doctorDto) {
         try {
@@ -148,7 +148,7 @@ public class DoctorService {
     /**
      * @param id id from user to be deleted
      * @return ResponseWrapper with the response from database, or null if an
-     *         exception occurred
+     * exception occurred
      */
     public ResponseWrapper deleteDoctorById(Long id) {
         try {

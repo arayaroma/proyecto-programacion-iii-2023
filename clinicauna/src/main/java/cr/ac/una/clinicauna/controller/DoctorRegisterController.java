@@ -95,6 +95,7 @@ public class DoctorRegisterController implements Initializable {
             initializeSpinners();
             validNumbersInTextField(txfHourlySlots);
             validNumbersInTextField(txfCarne);
+            validNumbersInTextField(txfCode);
             bindDoctor();
 
         } catch (Exception e) {
@@ -180,15 +181,15 @@ public class DoctorRegisterController implements Initializable {
         }
     }
 
-    private void unbindDoctor() {
-        txfCode.textProperty().unbindBidirectional(doctorBuffer.code);
-        txfCarne.textProperty().unbindBidirectional(doctorBuffer.idCard);
-        txfHourlySlots.textProperty().unbindBidirectional(doctorBuffer.hourlySlots);
-        spStartingHours.getEditor().setText("");
-        spStartingMinutes.getEditor().setText("");
-        spEndingMinutes.getEditor().setText("");
-        spEndingHours.getEditor().setText("");
-    }
+//    private void unbindDoctor() {
+//        txfCode.textProperty().unbindBidirectional(doctorBuffer.code);
+//        txfCarne.textProperty().unbindBidirectional(doctorBuffer.idCard);
+//        txfHourlySlots.textProperty().unbindBidirectional(doctorBuffer.hourlySlots);
+//        spStartingHours.getEditor().setText("");
+//        spStartingMinutes.getEditor().setText("");
+//        spEndingMinutes.getEditor().setText("");
+//        spEndingHours.getEditor().setText("");
+//    }
 
     private void initializeSpinners() {
         spStartingHours.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 00));

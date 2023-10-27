@@ -84,7 +84,7 @@ public class AgendaModuleController implements Initializable {
     private DoctorDto doctorBuffer;
     private DoctorService DoctorService = new DoctorService();
     private AgendaService agendaService = new AgendaService();
-    private List<AgendaDto> agendaDtos = new ArrayList<>();
+    private Map<String, AgendaDto> agendaDtos = new HashMap<>();
     private Map<String, Integer> days = new HashMap();
     private Map<String, Integer> medicalAppointmentsHours = new HashMap();
     private List<String> hoursCalculated = new ArrayList<>();
@@ -92,10 +92,12 @@ public class AgendaModuleController implements Initializable {
     private List<Header> headers = new ArrayList<>();
     private MedicalAppointmentDto medicalAppointentBuffer;
     private MedicalAppointmentService medicalAppointmentService = new MedicalAppointmentService();
+    private UserDto userLoggued;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        userLoggued = (UserDto) data.getData("userLoggued");
         setDays(countWeeks);
         initializeComboBox();
         loadDoctors();
@@ -172,7 +174,7 @@ public class AgendaModuleController implements Initializable {
         for (AgendaDto i : doctorDto.getAgendas()) {
             AgendaDto agenda = (AgendaDto) agendaService.getAgendaById(i.getId()).getData();
             if (agenda != null) {
-                agendaDtos.add(agenda);
+                agendaDtos.put(agenda.getAgendaDate(), agenda);
                 loadMedicalAppointments(agenda.getMedicalAppointments());
             }
         }
@@ -344,6 +346,7 @@ public class AgendaModuleController implements Initializable {
                 appointmentNode.getStyleClass().add("cancelled");
                 break;
         }
+        appointmentNode.setOnMouseClicked(e -> createMedicalAppointment(e, appointmentNode.getMedicalAppointmentDto()));
         intializeDragAndDrop(appointmentNode);
         return appointmentNode;
 
@@ -425,18 +428,24 @@ public class AgendaModuleController implements Initializable {
                 HBox hBox = new HBox();
                 hBox.getStyleClass().add("paneContainer");
                 hBox.setOnMouseClicked(event -> {
-                    createMedicalAppointment(event);
+                    createMedicalAppointment(event, null);
                 });
                 gpAgenda.add(hBox, j, i);
             }
         }
     }
 
-    private void createMedicalAppointment(MouseEvent event) {
+    private void createMedicalAppointment(MouseEvent event, MedicalAppointmentDto medicalAppointmentDto) {
         try {
-            //Open medicalAppointmentRegister View (SEBAS)
-            data.setData("doctor", doctorBuffer);
-            System.out.println("Create");
+            Integer column = GridPane.getColumnIndex((Node) event.getSource());
+            if (column != null) {
+                String day = getDayInGrid(column);
+                data.setData("agendaBuffer", agendaDtos.get(day));
+                data.setData("fechaAppointment", day);
+            }
+            data.setData("doctorBuffer", doctorBuffer);
+            data.setData("scheduledBy", userLoggued);
+            data.setData("medicalAppointmentBuffer", medicalAppointmentDto);
             Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("MedicalAppointmentRegister").load());
         } catch (Exception e) {
             System.out.println(e.toString());

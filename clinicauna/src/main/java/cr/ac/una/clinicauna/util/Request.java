@@ -119,7 +119,7 @@ public class Request {
     }
 
     public Boolean isError() throws IOException {
-        if (getStatus() != Response.Status.OK.getStatusCode()) {
+        if (getStatus() == Response.Status.UNAUTHORIZED.getStatusCode()) {
             Message.showNotification("Session expired", MessageType.INFO,
                     "Your session has expired, please login again");
 
@@ -200,12 +200,12 @@ public class Request {
         }
 
         JsonObject payload = getPayloadToken(Data.getInstance().getData("Token").toString());
-        if (payload.getJsonNumber("exp").longValue() > System.currentTimeMillis() /
-                1000) {
+        if (payload.getJsonNumber("exp").longValue() > System.currentTimeMillis()
+                / 5000) {
             return true;
         } else {
             payload = getPayloadToken(payload.getString("rnt"));
-            if (payload != null && payload.getJsonNumber("exp").longValue() > System.currentTimeMillis() / 1000) {
+            if (payload != null && payload.getJsonNumber("exp").longValue() > System.currentTimeMillis() / 5000) {
                 UserService userService = new UserService();
                 ResponseWrapper response = userService.renewToken();
 

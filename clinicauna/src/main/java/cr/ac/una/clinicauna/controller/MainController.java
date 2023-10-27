@@ -132,7 +132,9 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnDoctorModuleAction(ActionEvent event) throws IOException {
-        focusButton((Node) event.getSource());
+        if (event != null) {
+            focusButton((Node) event.getSource());
+        }
         FXMLLoader loader = App.getFXMLLoader("DoctorModule");
         container.getChildren().clear();
         container.getChildren().add(loader.load());
@@ -180,7 +182,9 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnGeneralInformationModuleAction(ActionEvent event) throws IOException {
-        focusButton((Node) event.getSource());
+        if (event != null) {
+            focusButton((Node) event.getSource());
+        }
         FXMLLoader loader = App.getFXMLLoader("GeneralInformationModule");
         container.getChildren().clear();
         container.getChildren().add(loader.load());
@@ -188,7 +192,9 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnAgendaModuleAction(ActionEvent event) throws IOException {
-        focusButton((Node) event.getSource());
+        if (event != null) {
+            focusButton((Node) event.getSource());
+        }
         FXMLLoader loader = App.getFXMLLoader("AgendaModule");
         container.getChildren().clear();
         container.getChildren().add(loader.load());
@@ -196,7 +202,9 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnMedicalAppointmentModuleAction(ActionEvent event) throws IOException {
-        focusButton((Node) event.getSource());
+        if (event != null) {
+            focusButton((Node) event.getSource());
+        }
         FXMLLoader loader = App.getFXMLLoader("MedicalAppointmentModule");
         container.getChildren().clear();
         container.getChildren().add(loader.load());
@@ -204,7 +212,9 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnReportModuleAction(ActionEvent event) throws IOException {
-        focusButton((Node) event.getSource());
+        if (event != null) {
+            focusButton((Node) event.getSource());
+        }
         FXMLLoader loader = App.getFXMLLoader("ReportModule");
         container.getChildren().clear();
         container.getChildren().add(loader.load());
@@ -231,12 +241,13 @@ public class MainController implements Initializable {
     }
 
     private void focusButton(Node node) {
-
-        if (buttonSelected != null) {
-            buttonSelected.getStyleClass().remove("bg-gray");
+        if (node != null) {
+            if (buttonSelected != null) {
+                buttonSelected.getStyleClass().remove("bg-gray");
+            }
+            buttonSelected = node;
+            buttonSelected.getStyleClass().add("bg-gray");
         }
-        buttonSelected = node;
-        buttonSelected.getStyleClass().add("bg-gray");
     }
 
     /**
@@ -244,14 +255,18 @@ public class MainController implements Initializable {
      */
     public void loadView(String option) {
         try {
-            if (option.toLowerCase().equals("usermodule")) {
+            option = option.toLowerCase();
+            if (option.equals("usermodule")) {
                 btnUserModuleAction(null);
             }
-            if (option.toLowerCase().equals("doctormodule")) {
+            if (option.equals("doctormodule")) {
                 btnDoctorModuleAction(null);
             }
-            if (option.toLowerCase().equals("patientmodule")) {
+            if (option.equals("patientmodule")) {
                 btnPatientModuleAction(null);
+            }
+            if (option.equals("agendamodule")) {
+                btnAgendaModuleAction(null);
             }
         } catch (IOException e) {
         }

@@ -22,6 +22,9 @@ public class Message {
         } catch (MissingResourceException e) {
             content = property;
         }
+//        if (content.length() > 400) {//Verify the message length
+//            content = content.substring(0, 400);
+//        }
         Notifications notification = Notifications.create()
                 .title(header)
                 .text(content)

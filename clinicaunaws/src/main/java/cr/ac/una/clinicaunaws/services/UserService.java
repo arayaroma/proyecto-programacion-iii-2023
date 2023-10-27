@@ -44,7 +44,7 @@ public class UserService {
             try {
                 user.setActivationCode(generateHash(userDto));
                 userDto.setActivationCode(user.getActivationCode());
-                // sendActivationEmail(userDto);
+                 sendActivationEmail(userDto);
             } catch (Exception ex) {
                 return new ResponseWrapper(
                         ResponseCode.OK.getCode(),

@@ -17,8 +17,8 @@ import java.util.concurrent.TimeUnit;
 public class JwtManager {
 
     private static JwtManager jwtManager = null;
-    private static final long EXPIRATION_LIMIT = 1;
-    private static final long EXPIRATION_RENEWAL_LIMIT = 2;
+    private static final long EXPIRATION_LIMIT = 5;
+    private static final long EXPIRATION_RENEWAL_LIMIT = 10;
     private static final String AUTHENTICATION_SCHEME = "Bearer ";
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
