@@ -134,7 +134,6 @@ public class AgendaModuleController implements Initializable {
                 hoursCalculated = calculateHours(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots());
                 loadHours(hoursCalculated);
                 loadGrid();
-
             }
             lbDoctorName.setText(user.getName());
         }

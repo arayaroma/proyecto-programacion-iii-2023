@@ -31,7 +31,7 @@ import jakarta.ws.rs.core.SecurityContext;
  * 
  * @author arayaroma
  */
-//@Secure
+@Secure
 @Path("/MedicalAppointmentController")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)

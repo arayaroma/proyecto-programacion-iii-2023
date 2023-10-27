@@ -28,6 +28,7 @@ public class PatientCareDto implements DtoMapper<PatientCare, PatientCareDto> {
     private String height;
     private String temperature;
     private String bodyMassIndex;
+    private String bodyMassIndexIdeal;
     private String nursingNotes;
     private String reason;
     private String carePlan;
@@ -70,6 +71,7 @@ public class PatientCareDto implements DtoMapper<PatientCare, PatientCareDto> {
         this.height = entity.getHeight();
         this.temperature = entity.getTemperature();
         this.bodyMassIndex = entity.getBodyMassIndex();
+        this.bodyMassIndexIdeal = entity.getBodyMassIndexIdeal();
         this.nursingNotes = entity.getNursingNotes();
         this.reason = entity.getReason();
         this.carePlan = entity.getCarePlan();

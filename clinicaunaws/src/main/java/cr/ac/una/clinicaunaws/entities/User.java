@@ -26,7 +26,6 @@ import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
 import java.util.List;
 import cr.ac.una.clinicaunaws.dto.UserDto;
-import lombok.ToString;
 
 /**
  *
@@ -34,7 +33,7 @@ import lombok.ToString;
  */
 @Entity
 @Table(name = "TBL_USER", schema = SCHEMA)
-
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
@@ -183,161 +182,5 @@ public class User implements Serializable {
         this.version = dto.getVersion();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getFirstLastname() {
-        return firstLastname;
-    }
-
-    public void setFirstLastname(String firstLastname) {
-        this.firstLastname = firstLastname;
-    }
-
-    public String getSecondLastname() {
-        return secondLastname;
-    }
-
-    public void setSecondLastname(String secondLastname) {
-        this.secondLastname = secondLastname;
-    }
-
-    public String getIdentification() {
-        return identification;
-    }
-
-    public void setIdentification(String identification) {
-        this.identification = identification;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(String isActive) {
-        this.isActive = isActive;
-    }
-
-    public String getIsAdmin() {
-        return isAdmin;
-    }
-
-    public void setIsAdmin(String isAdmin) {
-        this.isAdmin = isAdmin;
-    }
-
-    public String getPasswordChanged() {
-        return passwordChanged;
-    }
-
-    public void setPasswordChanged(String passwordChanged) {
-        this.passwordChanged = passwordChanged;
-    }
-
-    public String getActivationCode() {
-        return activationCode;
-    }
-
-    public void setActivationCode(String activationCode) {
-        this.activationCode = activationCode;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public byte[] getProfilePhoto() {
-        return profilePhoto;
-    }
-
-    public void setProfilePhoto(byte[] profilePhoto) {
-        this.profilePhoto = profilePhoto;
-    }
-
-    public List<MedicalAppointment> getMedicalAppointments() {
-        return medicalAppointments;
-    }
-
-    public void setMedicalAppointments(List<MedicalAppointment> medicalAppointments) {
-        this.medicalAppointments = medicalAppointments;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
-
-    @Override
-    public String toString() {
-        return "";
-    }
-
+  
 }

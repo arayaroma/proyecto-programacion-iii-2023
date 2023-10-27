@@ -75,9 +75,6 @@ public class Agenda implements Serializable {
     private Long hourlySlots;
 
     @OneToMany(mappedBy = "agenda")
-    private List<Slots> slots;
-
-    @OneToMany(mappedBy = "agenda")
     private List<MedicalAppointment> medicalAppointments;
 
     @Version

@@ -1,14 +1,11 @@
 package cr.ac.una.clinicaunaws.dto;
 
-import java.util.List;
-
 import cr.ac.una.clinicaunaws.entities.Agenda;
 import cr.ac.una.clinicaunaws.entities.MedicalAppointment;
 import cr.ac.una.clinicaunaws.entities.Patient;
 import cr.ac.una.clinicaunaws.entities.PatientCare;
 import cr.ac.una.clinicaunaws.entities.User;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
-import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,13 +24,14 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
     private PatientDto patient;
     private PatientCareDto patientCare;
     private UserDto scheduledBy;
+    private Long slotsNumber;
     private String scheduledDate;
-    private String scheduledTime;
+    private String scheduledStartTime;
+    private String scheduledEndTime;
     private String state;
     private String reason;
     private String patientPhoneNumber;
     private String patientEmail;
-    private List<SlotsDto> slots;
     private Long version;
 
     @Override
@@ -75,14 +73,15 @@ public class MedicalAppointmentDto implements DtoMapper<MedicalAppointment, Medi
      */
     public MedicalAppointmentDto(MedicalAppointment entity) {
         this.id = entity.getId();
+        this.slotsNumber = entity.getSlotsNumber();
         this.scheduledDate = entity.getScheduledDate().toString();
-        this.scheduledTime = entity.getScheduledTime();
+        this.scheduledStartTime = entity.getScheduledStartTime();
+        this.scheduledEndTime = entity.getScheduledEndTime();
         this.state = entity.getState();
         this.reason = entity.getReason();
         this.patientPhoneNumber = entity.getPatientPhoneNumber();
         this.patientEmail = entity.getPatientEmail();
         this.version = entity.getVersion();
-        this.slots = new ArrayList<>();
     }
 
 }

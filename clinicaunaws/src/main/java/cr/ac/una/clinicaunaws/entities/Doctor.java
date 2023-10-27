@@ -21,7 +21,6 @@ import lombok.NoArgsConstructor;
 import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
 import java.util.List;
-
 import cr.ac.una.clinicaunaws.dto.DoctorDto;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
@@ -36,8 +35,7 @@ import jakarta.persistence.QueryHint;
  */
 @Entity
 @Table(name = "TBL_DOCTOR", schema = SCHEMA)
-
-
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
@@ -114,83 +112,5 @@ public class Doctor implements Serializable {
         this.hourlySlots = dto.getHourlySlots();
         this.version = dto.getVersion();
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public Long getIdCard() {
-        return idCard;
-    }
-
-    public void setIdCard(Long idCard) {
-        this.idCard = idCard;
-    }
-
-    public String getShiftStartTime() {
-        return shiftStartTime;
-    }
-
-    public void setShiftStartTime(String shiftStartTime) {
-        this.shiftStartTime = shiftStartTime;
-    }
-
-    public String getShiftEndTime() {
-        return shiftEndTime;
-    }
-
-    public void setShiftEndTime(String shiftEndTime) {
-        this.shiftEndTime = shiftEndTime;
-    }
-
-    public Long getHourlySlots() {
-        return hourlySlots;
-    }
-
-    public void setHourlySlots(Long hourlySlots) {
-        this.hourlySlots = hourlySlots;
-    }
-
-    public List<Agenda> getAgendas() {
-        return agendas;
-    }
-
-    public void setAgendas(List<Agenda> agendas) {
-        this.agendas = agendas;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
-
-    @Override
-    public String toString() {
-        return "";
-    }
-    
 
 }
