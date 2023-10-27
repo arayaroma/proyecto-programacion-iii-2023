@@ -238,31 +238,31 @@ public class MedicalAppointmentRegisterController implements Initializable {
 //        }
     }
 
-    private List<SlotsDto> createSlots(String startTime, String endTime, Long fieldsPerHour, String fechaAppointment) {
-        List<SlotsDto> result = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
-        SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm");
-        try {
-            Date start = sdf.parse(startTime);
-            Date end = sdf.parse(endTime);
-            long intervalMillis = TimeUnit.HOURS.toMillis(1) / fieldsPerHour;
-            for (long time = start.getTime(); time < end.getTime(); time += intervalMillis) {
-                Date newTime = new Date(time);
-                SlotsDto slot = new SlotsDto();
-                slot.setAgenda(agendaBuffer);
-                slot.setAvailable("AVAILABLE");
-                String formattedTime = outputFormat.format(newTime);
-                slot.setTimeSlot(formattedTime);
-                slot.setSlotDate(fechaAppointment);
-                result.add(slot);
-                sService.createSlot(slot); //ERROR
-            }
-            System.out.println("Test: " + agendaBuffer.getId() + " " + agendaBuffer.getDoctor());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
+//    private List<SlotsDto> createSlots(String startTime, String endTime, Long fieldsPerHour, String fechaAppointment) {
+//        List<SlotsDto> result = new ArrayList<>();
+//        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+//        SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm");
+//        try {
+//            Date start = sdf.parse(startTime);
+//            Date end = sdf.parse(endTime);
+//            long intervalMillis = TimeUnit.HOURS.toMillis(1) / fieldsPerHour;
+//            for (long time = start.getTime(); time < end.getTime(); time += intervalMillis) {
+//                Date newTime = new Date(time);
+//                SlotsDto slot = new SlotsDto();
+//                slot.setAgenda(agendaBuffer);
+//                slot.setAvailable("AVAILABLE");
+//                String formattedTime = outputFormat.format(newTime);
+//                slot.setTimeSlot(formattedTime);
+//                slot.setSlotDate(fechaAppointment);
+//                result.add(slot);
+//                sService.createSlot(slot); //ERROR
+//            }
+//            System.out.println("Test: " + agendaBuffer.getId() + " " + agendaBuffer.getDoctor());
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        return result;
+//    }
 
     private boolean verifyFields() {
         List<Node> fields = Arrays.asList(txfEmail, txfPhoneNumber, txfReason, cbIdentification, spSlotsHours);
