@@ -1,7 +1,6 @@
 package cr.ac.una.clinicaunaws.dto;
 
 import java.util.List;
-
 import cr.ac.una.clinicaunaws.entities.Agenda;
 import cr.ac.una.clinicaunaws.entities.Doctor;
 import cr.ac.una.clinicaunaws.entities.MedicalAppointment;
@@ -27,7 +26,6 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
     private String shiftStartTime;
     private String shiftEndTime;
     private Long hourlySlots;
-    private List<SlotsDto> slots;
     private List<MedicalAppointmentDto> medicalAppointments;
     private Long version;
 
@@ -46,12 +44,10 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
                 dto.getMedicalAppointments().get(i).setScheduledBy(new UserDto(appointments.get(i).getScheduledBy()));
                 dto.getMedicalAppointments().get(i).setAgenda(new AgendaDto(appointments.get(i).getAgenda()));
                 dto.getMedicalAppointments().get(i).setPatient(new PatientDto(appointments.get(i).getPatient()));
-                dto.getMedicalAppointments().get(i).setSlots(DtoMapper.fromEntityList(appointments.get(i).getSlots(), SlotsDto.class));
             }
 
         }
 
-        dto.setSlots(DtoMapper.fromEntityList(entity.getSlots(), SlotsDto.class));
         return dto;
     }
 
@@ -77,7 +73,6 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
         this.shiftEndTime = entity.getShiftEndTime();
         this.hourlySlots = entity.getHourlySlots();
         this.version = entity.getVersion();
-        this.slots = new ArrayList<>();
         this.medicalAppointments = new ArrayList<>();
     }
 

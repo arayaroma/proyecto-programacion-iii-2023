@@ -33,6 +33,7 @@ import jakarta.persistence.QueryHint;
  */
 @Entity
 @Table(name = "TBL_PATIENT", schema = SCHEMA)
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
@@ -132,115 +133,5 @@ public class Patient implements Serializable {
         this.birthDate = LocalDate.parse(dto.getBirthDate());
         this.version = dto.getVersion();
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getFirstLastname() {
-        return firstLastname;
-    }
-
-    public void setFirstLastname(String firstLastname) {
-        this.firstLastname = firstLastname;
-    }
-
-    public String getSecondLastname() {
-        return secondLastname;
-    }
-
-    public void setSecondLastname(String secondLastname) {
-        this.secondLastname = secondLastname;
-    }
-
-    public String getIdentification() {
-        return identification;
-    }
-
-    public void setIdentification(String identification) {
-        this.identification = identification;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public PatientPersonalHistory getPatientPersonalHistory() {
-        return patientPersonalHistory;
-    }
-
-    public void setPatientPersonalHistory(PatientPersonalHistory patientPersonalHistory) {
-        this.patientPersonalHistory = patientPersonalHistory;
-    }
-
-    public List<PatientFamilyHistory> getPatientFamilyHistories() {
-        return patientFamilyHistories;
-    }
-
-    public void setPatientFamilyHistories(List<PatientFamilyHistory> patientFamilyHistories) {
-        this.patientFamilyHistories = patientFamilyHistories;
-    }
-
-    public List<MedicalAppointment> getMedicalAppointments() {
-        return medicalAppointments;
-    }
-
-    public void setMedicalAppointments(List<MedicalAppointment> medicalAppointments) {
-        this.medicalAppointments = medicalAppointments;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
-
-    @Override
-    public String toString() {
-        return "";
-    }
-    
     
 }

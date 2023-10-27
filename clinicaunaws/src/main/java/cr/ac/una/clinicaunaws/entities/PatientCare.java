@@ -97,6 +97,12 @@ public class PatientCare implements Serializable {
     @Column(name = "BODYMASSINDEX")
     private String bodyMassIndex;
 
+    @NotNull
+    @Basic(optional = false)
+    @Size(min = 1, max = 8)
+    @Column(name = "BODYMASSINDEXIDEAL")
+    private String bodyMassIndexIdeal;
+
     @Basic(optional = false)
     @Size(min = 1, max = 256)
     @Column(name = "NURSINGNOTES")
@@ -155,6 +161,7 @@ public class PatientCare implements Serializable {
         this.height = dto.getHeight();
         this.temperature = dto.getTemperature();
         this.bodyMassIndex = dto.getBodyMassIndex();
+        this.bodyMassIndexIdeal = dto.getBodyMassIndexIdeal();
         this.nursingNotes = dto.getNursingNotes();
         this.reason = dto.getReason();
         this.carePlan = dto.getCarePlan();

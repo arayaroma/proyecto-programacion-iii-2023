@@ -2,7 +2,6 @@ package cr.ac.una.clinicaunaws.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 import cr.ac.una.clinicaunaws.dto.MedicalAppointmentDto;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -15,7 +14,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -68,14 +66,25 @@ public class MedicalAppointment implements Serializable {
 
     @NotNull
     @Basic(optional = false)
+    @Column(name = "SLOTSNUMBER")
+    private Long slotsNumber;
+
+    @NotNull
+    @Basic(optional = false)
     @Column(name = "SCHEDULEDDATE")
     private LocalDate scheduledDate;
 
     @NotNull
     @Basic(optional = false)
     @Size(min = 1, max = 5)
-    @Column(name = "SCHEDULEDTIME")
-    private String scheduledTime;
+    @Column(name = "SCHEDULEDSTARTTIME")
+    private String scheduledStartTime;
+
+    @NotNull
+    @Basic(optional = false)
+    @Size(min = 1, max = 5)
+    @Column(name = "SCHEDULEDENDTIME")
+    private String scheduledEndTime;
 
     @NotNull
     @Basic(optional = false)
@@ -101,9 +110,6 @@ public class MedicalAppointment implements Serializable {
     @Column(name = "PATIENTEMAIL")
     private String patientEmail;
 
-    @OneToMany(mappedBy = "medicalAppointment", fetch = FetchType.LAZY)
-    private List<Slots> slots;
-
     @Version
     @Column(name = "VERSION")
     private Long version;
@@ -120,8 +126,10 @@ public class MedicalAppointment implements Serializable {
      * @param dto constructor from dto to entity
      */
     public void updateMedicalAppointment(MedicalAppointmentDto dto) {
+        this.slotsNumber = dto.getSlotsNumber();
         this.scheduledDate = LocalDate.parse(dto.getScheduledDate());
-        this.scheduledTime = dto.getScheduledTime();
+        this.scheduledStartTime = dto.getScheduledStartTime();
+        this.scheduledEndTime = dto.getScheduledEndTime();
         this.state = dto.getState();
         this.reason = dto.getReason();
         this.patientPhoneNumber = dto.getPatientPhoneNumber();
