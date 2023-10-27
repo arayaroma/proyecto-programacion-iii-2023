@@ -69,7 +69,7 @@
                         </VBox>
                         <HBox>
                            <children>
-                              <VBox alignment="CENTER" prefHeight="482.0" prefWidth="435.0" spacing="10.0">
+                              <VBox alignment="CENTER" prefHeight="482.0" prefWidth="447.0" spacing="10.0">
                                  <children>
                                     <HBox>
                                        <children>
@@ -141,7 +141,7 @@
                                     <HBox />
                                  </children>
                               </VBox>
-                              <VBox prefHeight="482.0" prefWidth="214.0">
+                              <VBox prefHeight="411.0" prefWidth="231.0">
                                  <children>
                                     <Separator orientation="VERTICAL" prefHeight="320.0" prefWidth="0.0" visible="false" />
                                     <DatePicker fx:id="dpAppoinmentDate" editable="false" prefHeight="34.0" prefWidth="197.0" promptText="%date">
@@ -149,17 +149,23 @@
                                           <Insets />
                                        </VBox.margin>
                                     </DatePicker>
+                                    <HBox prefHeight="56.0" prefWidth="226.0">
+                                       <children>
+                                          <VBox prefHeight="56.0" prefWidth="120.0" />
+                                          <VBox prefHeight="56.0" prefWidth="96.0" />
+                                       </children>
+                                    </HBox>
                                     <Label text="%slots">
                                        <VBox.margin>
-                                          <Insets top="35.0" />
+                                          <Insets top="15.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Spinner fx:id="spSlotsHours" editable="true">
+                                    <Spinner fx:id="spNSlots">
                                        <VBox.margin>
                                           <Insets top="5.0" />
                                        </VBox.margin>
                                     </Spinner>
-                                    <ComboBox fx:id="cbHoursAvailable" promptText="%slotsAvailable">
+                                    <ComboBox fx:id="cbHoursAvailable" onAction="#setSlotsAvailable" promptText="%slotsAvailable">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>
