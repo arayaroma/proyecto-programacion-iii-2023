@@ -160,12 +160,12 @@
                                           <Insets top="15.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Spinner fx:id="spNSlots">
+                                    <Spinner fx:id="spNSlots" onMouseClicked="#setSlotsAvailable">
                                        <VBox.margin>
                                           <Insets top="5.0" />
                                        </VBox.margin>
                                     </Spinner>
-                                    <ComboBox fx:id="cbHoursAvailable" onAction="#setSlotsAvailable" promptText="%slotsAvailable">
+                                    <ComboBox fx:id="cbHoursAvailable" promptText="%slotsAvailable">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>

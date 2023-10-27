@@ -14,18 +14,20 @@ public class MedicalAppointmentDto {
     private PatientDto patient;
     private PatientCareDto patientCare;
     private UserDto scheduledBy;
+    private Long slotsNumber;
     public SimpleStringProperty scheduledDate;
-    public SimpleStringProperty scheduledTime;
+    public SimpleStringProperty scheduledStartTime;
+    public SimpleStringProperty scheduledEndTime;
     public SimpleStringProperty state;
     public SimpleStringProperty reason;
     public SimpleStringProperty patientPhoneNumber;
     public SimpleStringProperty patientEmail;
-    private List<SlotsDto> slots;
     private Long version;
 
     public MedicalAppointmentDto() {
         scheduledDate = new SimpleStringProperty();
-        scheduledTime = new SimpleStringProperty();
+        scheduledStartTime = new SimpleStringProperty();
+        scheduledEndTime = new SimpleStringProperty();
         state = new SimpleStringProperty();
         reason = new SimpleStringProperty();
         patientPhoneNumber = new SimpleStringProperty();
@@ -36,7 +38,9 @@ public class MedicalAppointmentDto {
         this();
         setId(medicalAppointmentDto.getId());
         setScheduledDate(medicalAppointmentDto.getScheduledDate());
-        setScheduledTime(medicalAppointmentDto.getScheduledTime());
+        setScheduledStartTime(medicalAppointmentDto.getScheduledStartTime());
+        setScheduledEndTime(medicalAppointmentDto.getScheduledEndTime());
+        setSlotsNumber(medicalAppointmentDto.getSlotsNumber());
         setState(medicalAppointmentDto.getState());
         setReason(medicalAppointmentDto.getReason());
         setPatientPhoneNumber(medicalAppointmentDto.getPatientPhoneNumber());
@@ -56,8 +60,12 @@ public class MedicalAppointmentDto {
         return this.scheduledDate.getValue();
     }
 
-    public String getScheduledTime() {
-        return this.scheduledTime.get();
+    public String getScheduledStartTime() {
+        return this.scheduledStartTime.get();
+    }
+
+    public String getScheduledEndTime() {
+        return this.scheduledEndTime.get();
     }
 
     public String getState() {
@@ -76,12 +84,12 @@ public class MedicalAppointmentDto {
         return this.patientEmail.get();
     }
 
-    public Long getVersion() {
-        return this.version;
+    public Long getSlotsNumber() {
+        return slotsNumber;
     }
 
-    public List<SlotsDto> getSlots() {
-        return this.slots;
+    public Long getVersion() {
+        return this.version;
     }
 
     public AgendaDto getAgenda() {
@@ -100,16 +108,16 @@ public class MedicalAppointmentDto {
         this.agenda = agenda;
     }
 
-    public void setSlots(List<SlotsDto> slots) {
-        this.slots = slots;
-    }
-
     public void setScheduledDate(String scheduledDate) {
         this.scheduledDate.set(scheduledDate);
     }
 
-    public void setScheduledTime(String scheduledTime) {
-        this.scheduledTime.set(scheduledTime);
+    public void setScheduledStartTime(String scheduledTime) {
+        this.scheduledStartTime.set(scheduledTime);
+    }
+    
+    public void setScheduledEndTime(String scheduledTime) {
+        this.scheduledEndTime.set(scheduledTime);
     }
 
     public void setState(String state) {
@@ -126,6 +134,10 @@ public class MedicalAppointmentDto {
 
     public void setPatientEmail(String patientEmail) {
         this.patientEmail.setValue(patientEmail);
+    }
+
+    public void setSlotsNumber(Long slotsNumber) {
+        this.slotsNumber = slotsNumber;
     }
 
     public void setId(Long id) {

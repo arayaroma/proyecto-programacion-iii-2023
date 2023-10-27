@@ -8,11 +8,9 @@ import cr.ac.una.clinicauna.model.AgendaDto;
 import cr.ac.una.clinicauna.model.DoctorDto;
 import cr.ac.una.clinicauna.model.MedicalAppointmentDto;
 import cr.ac.una.clinicauna.model.PatientDto;
-import cr.ac.una.clinicauna.model.SlotsDto;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.AgendaService;
 import cr.ac.una.clinicauna.services.PatientService;
-import cr.ac.una.clinicauna.services.SlotsService;
 import cr.ac.una.clinicauna.util.Data;
 import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
@@ -84,7 +82,6 @@ public class MedicalAppointmentRegisterController implements Initializable {
 
     private PatientService pService = new PatientService();
     private AgendaService aService = new AgendaService();
-    private SlotsService sService = new SlotsService();
     private List<PatientDto> patients = new ArrayList();
     private MedicalAppointmentDto mAppointmentBuffer;
     private PatientDto patientBuffer;
@@ -97,7 +94,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         AgendaDto a = new AgendaDto();
-//        agendaBuffer = (AgendaDto) data.getData("agenda");
+        agendaBuffer = (AgendaDto) data.getData("agenda");
         doctorBuffer = (DoctorDto) data.getData("doctor");
 //        patientBuffer = (PatientDto) data.getData("patient");
 //        mAppointmentBuffer = (MedicalAppointmentDto) data.getData("medicalAppointment");
@@ -139,7 +136,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
 
     private void addSlotsInCb(AgendaDto agenda) {
         ObservableList<String> slots = FXCollections.observableArrayList();
-        cbHoursAvailable.getItems().addAll(mapListToObsevableStringS(agendaBuffer.getSlots()));
+//        cbHoursAvailable.getItems().addAll(mapListToObsevableStringS(agendaBuffer.getSlots()));
     }
 
     @FXML
@@ -172,16 +169,6 @@ public class MedicalAppointmentRegisterController implements Initializable {
             patientsId.add(pp.getIdentification());
         }
         return patientsId;
-    }
-
-    private ObservableList<String> mapListToObsevableStringS(List<SlotsDto> s) {
-        ObservableList<String> slotsA = FXCollections.observableArrayList();
-        for (SlotsDto ss : s) {
-            if (ss.getAvailable().equals("AVAILABLE")) {
-                slotsA.add(ss.getTimeSlot());
-            }
-        }
-        return slotsA;
     }
 
     private PatientDto getPatientByIdentification(String id) {
@@ -278,13 +265,29 @@ public class MedicalAppointmentRegisterController implements Initializable {
         return true;
     }
 
-    @FXML
     private void setSlotsAvailable(ActionEvent event) { //falta
-        List<SlotsDto> slotsAvailable = agendaBuffer.getSlots().stream()
-                .filter(s -> s.getAvailable().equals("AVAILABLE")).collect(Collectors.toList());
-//        int nSlots = spSlotsHours
+        getAvailableSlots(spNSlots.getValue());
     }
-
+    
+    private List<String> getAvailableSlots(int nSlots){
+        List<String> Availables = new ArrayList();
+        List<MedicalAppointmentDto> Appointments = agendaBuffer.getMedicalAppointments();
+        /* for (long time = start.getTime(); time < end.getTime(); time += intervalMillis) {
+//                Date newTime = new Date(time);
+//                SlotsDto slot = new SlotsDto();
+//                slot.setAgenda(agendaBuffer);
+//                slot.setAvailable("AVAILABLE");
+//                String formattedTime = outputFormat.format(newTime);
+//                slot.setTimeSlot(formattedTime);
+//                slot.setSlotDate(fechaAppointment);
+//                result.add(slot);
+//                sService.createSlot(slot); //ERROR
+//            }*/
+        for()
+        
+        return Availables;
+    }
+    
     public void createAgenda(String fechaAppointment) {
         AgendaDto a = new AgendaDto();
         a.setDoctor(doctorBuffer);
@@ -293,7 +296,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
         a.setShiftStartTime(doctorBuffer.getShiftStartTime());
         a.setShiftEndTime(doctorBuffer.getShiftEndTime());
         if (safeAgenda(a)) {
-            createSlots(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots(), fechaAppointment);
+//            MostrarTodosLosCamposDisponibles
         }
     }
 
@@ -312,6 +315,10 @@ public class MedicalAppointmentRegisterController implements Initializable {
         Message.showNotification("Ups", MessageType.ERROR, response.getMessage());
         System.out.println(response.getMessage());
         return false;
+    }
+
+    @FXML
+    private void setSlotsAvailable(MouseEvent event) {
     }
 
 }
