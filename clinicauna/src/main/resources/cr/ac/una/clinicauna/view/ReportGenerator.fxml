@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="root" prefHeight="800.0" prefWidth="1200.0" styleClass="background" stylesheets="@../style/reportgenerator.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.clinicauna.controller.ReportGeneratorController">
+   <children>
+      <VBox fx:id="vbReportContainer" layoutX="140.0" layoutY="80.0" prefHeight="200.0" prefWidth="400.0" styleClass="fields-container">
+         <children>
+            <Label fx:id="lbReportName" text="reportName" />
+            <JFXTextField fx:id="tfReportName" focusColor="#ce7711" />
+            <Label fx:id="lbReportDescription" text="reportDescription" />
+            <JFXTextField fx:id="tfReportDescription" focusColor="#ce7711" />
+            <Label fx:id="lbReportQuery" text="reportQuery" />
+            <JFXTextField fx:id="tfReportQuery" focusColor="#ce7711" />
+         </children>
+      </VBox>
+      <Label layoutX="435.0" layoutY="6.0" styleClass="title" text="Report Generator" />
+      <GridPane fx:id="gpQueryResult" layoutX="40.0" layoutY="347.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+      <VBox layoutX="647.0" layoutY="80.0" prefHeight="242.0" prefWidth="400.0" styleClass="selectors-container">
+         <children>
+            <HBox prefHeight="60.0" prefWidth="400.0">
+               <children>
+                  <JFXDatePicker fx:id="dpReportDate" defaultColor="#e6b95a" promptText="Report Date" />
+                  <JFXComboBox fx:id="cbReportFrequency" focusColor="#e6b95a" prefHeight="26.0" prefWidth="140.0" promptText="Frequency" unFocusColor="#838586" />
+               </children>
+            </HBox>
+            <Label fx:id="lbRecipientName" text="recipientName" />
+            <JFXTextField fx:id="tfRecipientName" focusColor="#ce7711" />
+            <JFXButton fx:id="btGenerateReport" styleClass="generate-button" text="Generate">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </JFXButton>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
