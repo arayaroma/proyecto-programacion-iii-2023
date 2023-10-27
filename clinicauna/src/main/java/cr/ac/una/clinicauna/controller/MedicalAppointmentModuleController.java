@@ -115,7 +115,7 @@ public class MedicalAppointmentModuleController implements Initializable {
             } else if (parameter.equals("hora") || parameter.equals("hour")) {
                 medicalAppointmentDtosFiltered = medicalAppointments
                         .stream()
-                        .filter(medicalAppointment -> medicalAppointment.getScheduledTime().toLowerCase().contains(key))
+                        .filter(medicalAppointment -> medicalAppointment.getScheduledStartTime().toLowerCase().contains(key))
                         .collect(Collectors.toList());
             } else if (parameter.equals("doctor")) {
                 // medicalAppointmentDtosFiltered = medicalAppointments

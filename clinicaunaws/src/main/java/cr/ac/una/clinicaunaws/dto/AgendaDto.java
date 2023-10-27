@@ -34,9 +34,9 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
         Doctor doctorEntity = entity.getDoctor();
         if (doctorEntity != null) {
             dto.setDoctor(new DoctorDto(doctorEntity));
-            User user = doctorEntity.getUser();
-            if (user != null) {
-                dto.getDoctor().setUser(new UserDto(user));
+            User userEntity = doctorEntity.getUser();
+            if (userEntity != null) {
+                dto.getDoctor().setUser(new UserDto(userEntity));
             }
         }
         List<MedicalAppointment> appointments = entity.getMedicalAppointments();

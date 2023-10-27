@@ -23,7 +23,6 @@ import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
 import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
-import java.io.IOException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,8 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -157,8 +154,7 @@ public class AgendaModuleController implements Initializable {
         try {
             if (medicalAppointmentDto != null) {
                 medicalAppointmentDto.setScheduledDate(newDate.toString());
-                medicalAppointmentDto.setScheduledTime(newTime);
-                medicalAppointmentDto.setSlots(null);
+//                medicalAppointmentDto.setScheduledTime(newTime);
                 ResponseWrapper response = medicalAppointmentService.updateMedicalAppointments(medicalAppointmentDto);
                 if (response.getCode() != ResponseCode.OK) {
                     Message.showNotification("Error", MessageType.ERROR, response.getMessage());
@@ -185,15 +181,15 @@ public class AgendaModuleController implements Initializable {
     private void loadMedicalAppointments(List<MedicalAppointmentDto> medicalAppointments) {
         for (int i = 0; i < medicalAppointments.size(); i++) {
             MedicalAppointmentDto medicalAppointmentDto = medicalAppointments.get(i);
-            int slots = !medicalAppointmentDto.getSlots().isEmpty() ? medicalAppointmentDto.getSlots().size() : 1;
             String date = medicalAppointmentDto.getScheduledDate();
-            String time = medicalAppointmentDto.getScheduledTime();
+            String time = medicalAppointmentDto.getScheduledStartTime();
+            Integer slotsNumber = medicalAppointmentDto.getSlotsNumber().intValue();
             Integer column = days.get(date);
             Integer row = medicalAppointmentsHours.get(time);
             if (column != null && row != null) {
                 AppointmentNode node = createMedicalAppointmentCard(medicalAppointmentDto);
                 gpAgenda.add(node, column, row);
-                GridPane.setRowSpan(node, slots);
+                GridPane.setRowSpan(node, slotsNumber);
             }
         }
     }

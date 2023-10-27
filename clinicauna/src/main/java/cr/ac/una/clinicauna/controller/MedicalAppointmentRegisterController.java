@@ -19,12 +19,10 @@ import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -37,12 +35,10 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import java.text.SimpleDateFormat;
@@ -134,10 +130,10 @@ public class MedicalAppointmentRegisterController implements Initializable {
         cbIdentification.getItems().addAll(mapListToObsevableStringP(patients));
     }
 
-    private void addSlotsInCb(AgendaDto agenda) {
-        ObservableList<String> slots = FXCollections.observableArrayList();
+//    private void addSlotsInCb(AgendaDto agenda) {
+//        ObservableList<String> slots = FXCollections.observableArrayList();
 //        cbHoursAvailable.getItems().addAll(mapListToObsevableStringS(agendaBuffer.getSlots()));
-    }
+//    }
 
     @FXML
     private void createPatient(ActionEvent event) throws IOException {
@@ -242,7 +238,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
 //                slot.setTimeSlot(formattedTime);
 //                slot.setSlotDate(fechaAppointment);
 //                result.add(slot);
-//                sService.createSlot(slot); //ERROR
+////                sService.createSlot(slot); ERROR
 //            }
 //            System.out.println("Test: " + agendaBuffer.getId() + " " + agendaBuffer.getDoctor());
 //        } catch (ParseException e) {
@@ -283,7 +279,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
 //                result.add(slot);
 //                sService.createSlot(slot); //ERROR
 //            }*/
-        for()
+//        for()
         
         return Availables;
     }

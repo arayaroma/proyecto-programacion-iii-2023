@@ -13,7 +13,6 @@ public class AgendaDto {
     private SimpleStringProperty shiftStartTime;
     private SimpleStringProperty shiftEndTime;
     private Long hourlySlots;
-    private List<SlotsDto> slots;
     private List<MedicalAppointmentDto> medicalAppointments;
     private Long version;
 
@@ -21,7 +20,6 @@ public class AgendaDto {
         agendaDate = new SimpleStringProperty();
         shiftStartTime = new SimpleStringProperty();
         shiftEndTime = new SimpleStringProperty();
-        slots = new ArrayList<>();
         medicalAppointments = new ArrayList<>();
     }
 
@@ -62,10 +60,6 @@ public class AgendaDto {
         return version;
     }
 
-    public List<SlotsDto> getSlots() {
-        return slots;
-    }
-
     public List<MedicalAppointmentDto> getMedicalAppointments() {
         return medicalAppointments;
     }
@@ -96,10 +90,6 @@ public class AgendaDto {
 
     public void setVersion(Long version) {
         this.version = version;
-    }
-
-    public void setSlots(List<SlotsDto> slots) {
-        this.slots = slots;
     }
 
     public void setMedicalAppointments(List<MedicalAppointmentDto> medicalAppointments) {
