@@ -135,12 +135,12 @@ public class MedicalAppointmentService {
                         ResponseCode.OK,
                         "MedicalAppointment updated.",
                         medicalAppointmentDto.convertFromEntityToDTO(medicalAppointment,
-                                medicalAppointmentDto));
+                                new MedicalAppointmentDto(medicalAppointment)));
             } else {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "MedicalAppointment with id: " + medicalAppointmentDto.getId().toString() + " not found.",
+                        "MedicalAppointment with id: " + medicalAppointmentDto.getId() + " not found.",
                         null);
             }
         } catch (Exception e) {
@@ -173,7 +173,7 @@ public class MedicalAppointmentService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "MedicalAppointment with id: " + id.toString() + " not found.",
+                        "MedicalAppointment with id: " + id + " not found.",
                         null);
             }
         } catch (Exception e) {

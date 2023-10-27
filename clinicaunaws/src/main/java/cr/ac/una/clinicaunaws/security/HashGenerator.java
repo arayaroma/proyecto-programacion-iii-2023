@@ -48,9 +48,6 @@ public class HashGenerator {
                 }
                 hexText.append(hex);
             }
-
-            System.out.println("Text: " + text);
-            System.out.println("Hash (SHA-256): " + hexText.toString());
             return hexText.toString();
         } catch (NoSuchAlgorithmException e) {
             System.out.println("Error: " + e.getMessage());

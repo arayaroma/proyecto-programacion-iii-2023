@@ -63,7 +63,7 @@ public class PatientService {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
                         ResponseCode.NOT_FOUND,
-                        "Patient not found, id: " + id.toString(),
+                        "Patient not found, id: " + id,
                         null);
             }
             PatientDto patientDto = new PatientDto(patient);
