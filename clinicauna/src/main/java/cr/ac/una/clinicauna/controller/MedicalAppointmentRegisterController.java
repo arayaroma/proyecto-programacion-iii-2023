@@ -167,9 +167,6 @@ public class MedicalAppointmentRegisterController implements Initializable {
         if (pat != null) {
             mAp.setAgenda(agendaBuffer);
             mAp.setPatient(pat);
-            mAp.setPatientEmail(txfEmail.getText());
-            mAp.setPatientPhoneNumber(txfPhoneNumber.getText());
-            mAp.setReason(txfReason.getText());
             mAp.setScheduledBy(scheduledBy);
             mAp.setScheduledDate(agendaBuffer.getAgendaDate());
             if (cbHoursAvailable.getValue() != null) {
