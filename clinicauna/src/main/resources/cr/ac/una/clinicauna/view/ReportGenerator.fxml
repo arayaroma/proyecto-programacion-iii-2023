@@ -135,7 +135,6 @@
       </VBox>
    </children>
    <stylesheets>
-      <URL value="@../style/reportgenerator.css" />
       <URL value="@../style/index.css" />
       <URL value="@../style/patienthistory.css" />
       <URL value="@../style/userregister.css" />
