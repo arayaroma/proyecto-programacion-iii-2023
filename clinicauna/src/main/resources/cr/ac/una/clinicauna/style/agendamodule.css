@@ -10,10 +10,6 @@
     -fx-cursor: hand;
     -fx-effect:  dropshadow(gaussian, transparent, 0, 0, 0, 0);
 }
-.separator .line {
-    -fx-background-color: -fx-orange;
-    -fx-border-color: transparent ;
-}
 .paneContainer:hover{
     -fx-background-color: -fx-white-black;
     -fx-cursor: hand;
