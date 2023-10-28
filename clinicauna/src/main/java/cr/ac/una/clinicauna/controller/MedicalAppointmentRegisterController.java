@@ -102,6 +102,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
     private UserDto scheduledBy;
     private PatientDto pat;
     private Map<String, AgendaDto> agendaDtos = new HashMap<>();
+    private boolean isEditing;
 
     /**
      * Initializes the controller class.
