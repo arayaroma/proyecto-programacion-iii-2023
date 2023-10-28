@@ -1,61 +1,31 @@
-* {
-  -fx-font-family: "Nadeem";
-  font-family: "Nadeem";
-  -fx-text-fill: #c1c2c2;
-  -fx-orange: #ce7711;
-  -fx-white-orange: #e6b95a;
-  -fx-white-gray: #838586;
-  -fx-gray: #303435;
-  -fx-white-white-gray: #c1c2c2;
-  -fx-black: #000;
-  -fx-white-black: #1a1a1a;
-  -fx-green: #5bd25b;
-  -fx-white-green: #8ce08c;
-  -fx-red: #aa2323;
-  -fx-white-red: #bb4f4f;
-}
+/*
 
-.background {
-  -fx-background-color: -fx-gray;
-  background-color: -fx-gray;
-
-  -fx-padding: 2em;
-  padding: 2em;
-}
-
-.title {
-  -fx-font-size: 40px;
-  font-size: 40px;
-  -fx-text-fill: -fx-white-orange;
-  text-align: center;
-}
 
 .cards-container {
-  -fx-padding: 10px;
-  padding: 10px;
+    -fx-padding: 10px;
 
-  -fx-font-size: 20px;
-  font-size: 20px;
+
+    -fx-font-size: 20px;
+
 }
 
 .fields-container {
-  -fx-padding: 10px;
-  padding: 10px;
+    -fx-padding: 10px;
 
- 
-  -fx-font-size: 20px;
-  font-size: 20px;
+
+
+    -fx-font-size: 20px;
+
 }
 
 .selectors-container {
-  -fx-padding: 10px;
-  padding: 10px;
+    -fx-padding: 10px;
 
-  -fx-font-size: 20px;
-  font-size: 20px;
+
+    -fx-font-size: 20px;
+
 }
 
 .header-query {
-  -fx-background-color: -fx-orange;
-  background-color: -fx-orange;
-}
+    -fx-background-color: -fx-orange;
+}*/
