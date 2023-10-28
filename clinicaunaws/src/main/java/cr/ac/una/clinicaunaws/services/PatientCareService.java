@@ -32,6 +32,7 @@ public class PatientCareService {
      */
      public ResponseWrapper createPatientCare(PatientCareDto patientCareDto) {
         try {
+            System.out.println(patientCareDto.toString());
             PatientCare patientCare = patientCareDto.convertFromDTOToEntity(patientCareDto,
                     new PatientCare(patientCareDto));
             em.persist(patientCare);

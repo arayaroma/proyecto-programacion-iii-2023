@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.model.DoctorDto;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.UserService;
 import cr.ac.una.clinicauna.util.Data;
@@ -105,7 +106,9 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnUserModuleAction(ActionEvent event) throws IOException {
-        focusButton((Node) event.getSource());
+        if (event != null) {
+            focusButton((Node) event.getSource());
+        }
         FXMLLoader loader = App.getFXMLLoader("UserModule");
         container.getChildren().clear();
         container.getChildren().add(loader.load());
@@ -113,7 +116,9 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnPatientModuleAction(ActionEvent event) throws IOException {
-        focusButton((Node) event.getSource());
+        if (event != null) {
+            focusButton((Node) event.getSource());
+        }
         FXMLLoader loader = App.getFXMLLoader("PatientModule");
         container.getChildren().clear();
         container.getChildren().add(loader.load());
@@ -126,6 +131,7 @@ public class MainController implements Initializable {
     private void btnLogOutAction(ActionEvent event) {
         try {
             Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Login").load());
+            Data.getInstance().clearData();
         } catch (IOException e) {
         }
     }
@@ -196,8 +202,13 @@ public class MainController implements Initializable {
             focusButton((Node) event.getSource());
         }
         FXMLLoader loader = App.getFXMLLoader("AgendaModule");
+
         container.getChildren().clear();
         container.getChildren().add(loader.load());
+        AgendaModuleController controller = loader.getController();
+        if (controller != null) {
+            controller.loadView((DoctorDto) Data.getInstance().getData("doctorBuffer"));
+        }
     }
 
     @FXML

@@ -26,6 +26,7 @@ import cr.ac.una.clinicauna.util.ResponseWrapper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -126,14 +127,7 @@ public class AgendaModuleController implements Initializable {
         UserDto user = cbDoctor.getValue();
         if (user != null) {
             doctorBuffer = (DoctorDto) DoctorService.getDoctorById(user.getId()).getData();
-            if (doctorBuffer != null) {
-                lbDoctorCode.setText(doctorBuffer.getCode());
-                lbDoctorIdCard.setText(String.valueOf(doctorBuffer.getIdCard()));
-                hoursCalculated = calculateHours(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots());
-                loadHours(hoursCalculated);
-                loadGrid();
-            }
-            lbDoctorName.setText(user.getName());
+            loadDoctor();
         }
     }
 
@@ -152,22 +146,88 @@ public class AgendaModuleController implements Initializable {
         loadAgendas(doctorBuffer);
     }
 
-    private void updateMedicalAppointment(MedicalAppointmentDto medicalAppointmentDto, String newTime, LocalDate newDate) {
-        try {
-            if (medicalAppointmentDto != null) {
-                medicalAppointmentDto.setScheduledDate(newDate.toString());
-//                medicalAppointmentDto.setScheduledTime(newTime);
-                ResponseWrapper response = medicalAppointmentService.updateMedicalAppointments(medicalAppointmentDto);
-                if (response.getCode() != ResponseCode.OK) {
-                    Message.showNotification("Error", MessageType.ERROR, response.getMessage());
-                    return;
-                }
-                medicalAppointentBuffer = (MedicalAppointmentDto) response.getData();
-
+    private void loadDoctor() {
+        if (doctorBuffer != null) {
+            lbDoctorCode.setText(doctorBuffer.getCode());
+            lbDoctorIdCard.setText(String.valueOf(doctorBuffer.getIdCard()));
+            hoursCalculated = calculateHours(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots());
+            loadHours(hoursCalculated);
+            loadGrid();
+            if (doctorBuffer.getUser() != null) {
+                lbDoctorName.setText(doctorBuffer.getUser().getName());
             }
+        }
+
+    }
+
+    private boolean hasTimeConflict(String startTime, String endingTime, AgendaDto agendaDto) {
+        try {
+            if (agendaDto != null) {
+                LocalTime medicalStartTime, medicalEndingTime;
+                LocalTime newMedicalStartTime = LocalTime.parse(startTime), newMedicalEndingTime = LocalTime.parse(endingTime);
+                for (MedicalAppointmentDto medicalAppointmentDto : agendaDto.getMedicalAppointments()) {
+                    medicalStartTime = LocalTime.parse(medicalAppointmentDto.getScheduledStartTime());
+                    medicalEndingTime = LocalTime.parse(medicalAppointmentDto.getScheduledEndTime());
+                    if (newMedicalStartTime.isBefore(medicalEndingTime) && newMedicalEndingTime.isAfter(medicalStartTime) || newMedicalEndingTime.equals(medicalStartTime)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return false;
         } catch (Exception e) {
             System.out.println(e.toString());
+            return true;
         }
+    }
+
+    private boolean updateMedicalAppointment(MedicalAppointmentDto medicalAppointmentDto, String newTime, LocalDate newDate) {
+        try {
+            if (medicalAppointmentDto != null) {
+                AgendaDto agendaDto = agendaDtos.get(newDate.toString());
+                if (agendaDto == null) {
+                    agendaDto = new AgendaDto();
+                    agendaDto.setAgendaDate(newDate.toString());
+                    agendaDto = createAgenda(agendaDto);
+                }
+                if (agendaDto != null) {
+                    Integer shiftStartTimeIndex = medicalAppointmentsHours.get(newTime);
+                    shiftStartTimeIndex = shiftStartTimeIndex - 1;//Set the index into hours calculated
+                    if (shiftStartTimeIndex + medicalAppointmentDto.getSlotsNumber() - 1 > hoursCalculated.size() - 1) {//Lower bound < Last Hour
+                        return false;
+                    }
+                    //Set the Lower Bound
+                    String shiftEndingTimeIndex = hoursCalculated.get((shiftStartTimeIndex + medicalAppointmentDto.getSlotsNumber().intValue()) - 1);
+                    if (!hasTimeConflict(newTime, shiftEndingTimeIndex, agendaDto)) {
+                        medicalAppointmentDto.setAgenda(new AgendaDto(agendaDto));
+                        medicalAppointmentDto.setScheduledDate(newDate.toString());
+                        medicalAppointmentDto.setScheduledStartTime(newTime);
+                        medicalAppointmentDto.setScheduledEndTime(shiftEndingTimeIndex);
+                        ResponseWrapper response = medicalAppointmentService.updateMedicalAppointments(medicalAppointmentDto);
+                        if (response.getCode() != ResponseCode.OK) {
+                            Message.showNotification("Error", MessageType.ERROR, response.getMessage());
+                            return false;
+                        }
+                        medicalAppointentBuffer = (MedicalAppointmentDto) response.getData();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return false;
+        }
+    }
+
+    private AgendaDto createAgenda(AgendaDto agendaDto) {
+        agendaDto.setDoctor(doctorBuffer);
+        agendaDto.setHourlySlots(doctorBuffer.getHourlySlots());
+        agendaDto.setShiftStartTime(doctorBuffer.getShiftStartTime());
+        agendaDto.setShiftEndTime(doctorBuffer.getShiftEndTime());
+        ResponseWrapper response = agendaService.createAgenda(agendaDto);
+        agendaDto = (AgendaDto) response.getData();
+        return agendaDto;
     }
 
     private void loadAgendas(DoctorDto doctorDto) {
@@ -176,6 +236,15 @@ public class AgendaModuleController implements Initializable {
             if (agenda != null) {
                 agendaDtos.put(agenda.getAgendaDate(), agenda);
                 loadMedicalAppointments(agenda.getMedicalAppointments());
+            }
+        }
+    }
+
+    private void updateAgendas(DoctorDto doctorDto) {
+        for (AgendaDto i : doctorDto.getAgendas()) {
+            AgendaDto agenda = (AgendaDto) agendaService.getAgendaById(i.getId()).getData();
+            if (agenda != null) {
+                agendaDtos.put(agenda.getAgendaDate(), agenda);
             }
         }
     }
@@ -202,6 +271,11 @@ public class AgendaModuleController implements Initializable {
                 removeNodeInGrid(i, j);
             }
         }
+    }
+
+    public void loadView(DoctorDto doctorDto) {
+        doctorBuffer = doctorDto;
+        loadDoctor();
     }
 
     private void loadDoctors() {
@@ -375,15 +449,16 @@ public class AgendaModuleController implements Initializable {
                 Integer row = GridPane.getRowIndex((Node) event.getTarget());
                 Integer col = GridPane.getColumnIndex((Node) event.getTarget());
                 if (row != null && col != null && row > 0 && col > 0) {
-                    gpAgenda.getChildren().remove(nodeBuffer);
-                    gpAgenda.add(nodeBuffer, col, row);
-
                     if (nodeBuffer instanceof AppointmentNode) {
                         medicalAppointentBuffer = ((AppointmentNode) nodeBuffer).getMedicalAppointmentDto();
-                        System.out.println(medicalAppointentBuffer.getVersion());
-                        updateMedicalAppointment(medicalAppointentBuffer, getHourInGrid(row), LocalDate.parse(getDayInGrid(col)));
-                        ((AppointmentNode) nodeBuffer).setMedicalAppointmentDto(medicalAppointentBuffer);
-                        System.out.println(medicalAppointentBuffer.getVersion());
+                        if (updateMedicalAppointment(medicalAppointentBuffer, getHourInGrid(row), LocalDate.parse(getDayInGrid(col)))) {
+                            gpAgenda.getChildren().remove(nodeBuffer);
+                            gpAgenda.add(nodeBuffer, col, row);
+                            ((AppointmentNode) nodeBuffer).setMedicalAppointmentDto(medicalAppointentBuffer);
+                            new Thread(() -> {
+                                updateAgendas(doctorBuffer);
+                            }).start();
+                        }
                     }
 
                 }
@@ -391,7 +466,6 @@ public class AgendaModuleController implements Initializable {
             event.setDropCompleted(success);
             event.consume();
         });
-
     }
 
     private String getHourInGrid(int pos) {

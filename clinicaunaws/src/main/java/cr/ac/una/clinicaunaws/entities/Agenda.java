@@ -24,9 +24,10 @@ import java.time.LocalDate;
 import java.util.List;
 import cr.ac.una.clinicaunaws.dto.AgendaDto;
 import static cr.ac.una.clinicaunaws.util.Database.*;
+import jakarta.persistence.QueryHint;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Entity
@@ -35,10 +36,10 @@ import static cr.ac.una.clinicaunaws.util.Database.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
-        @NamedQuery(name = "Agenda.findAll", query = "SELECT a FROM Agenda a"),
-        @NamedQuery(name = "Agenda.findById", query = "SELECT a FROM Agenda a WHERE a.id = :id"),
-})
+    @NamedQuery(name = "Agenda.findAll", query = "SELECT a FROM Agenda a", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+    @NamedQuery(name = "Agenda.findById", query = "SELECT a FROM Agenda a WHERE a.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),})
 public class Agenda implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id

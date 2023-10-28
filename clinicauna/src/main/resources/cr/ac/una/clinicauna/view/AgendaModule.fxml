@@ -27,7 +27,7 @@
                <children>
                   <HBox alignment="CENTER_LEFT" spacing="50.0">
                      <children>
-                        <ComboBox fx:id="cbDoctor" onAction="#cbSelectDoctor" prefWidth="300.0" promptText="%doctor" />
+                        <ComboBox fx:id="cbDoctor" editable="true" onAction="#cbSelectDoctor" prefWidth="300.0" promptText="%doctor" />
                         <HBox spacing="50.0" styleClass="agenda-doctor-header-label-container">
                            <children>
                               <Label fx:id="lbDoctorName" styleClass="h2" />
@@ -171,5 +171,6 @@
    <stylesheets>
       <URL value="@../style/agendamodule.css" />
       <URL value="@../style/index.css" />
+      <URL value="@../style/userregister.css" />
    </stylesheets>
 </VBox>

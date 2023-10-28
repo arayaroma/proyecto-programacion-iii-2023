@@ -51,6 +51,24 @@ public class MedicalAppointmentDto {
         setVersion(medicalAppointmentDto.getVersion());
     }
 
+    public String parseState(String role) {
+        switch (role) {
+            case "scheduled":
+                return "SCHEDULED";
+            case "agendada":
+                return "SCHEDULED";
+            case "attended":
+                return "ATTENDED";
+            case "atendida":
+                return "ATTENDED";
+            case "cancelled":
+                return "CANCELLED";
+            case "cancelada":
+                return "CANCELLED";
+        }
+        return "";
+    }
+
     public Long getId() {
         return this.id;
     }

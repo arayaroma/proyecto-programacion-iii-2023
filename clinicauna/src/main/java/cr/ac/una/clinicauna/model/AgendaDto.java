@@ -24,6 +24,7 @@ public class AgendaDto {
     }
 
     public AgendaDto(AgendaDto agendaDto) {
+        this();
         setId(agendaDto.getId());
         setAgendaDate(agendaDto.getAgendaDate());
         setShiftStartTime(agendaDto.getShiftStartTime());

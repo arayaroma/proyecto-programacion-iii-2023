@@ -17,6 +17,10 @@
     -fx-red:#AA2323;
     -fx-white-red:#bb4f4f;
 }
+.separator .line {
+    -fx-background-color: -fx-orange;
+    -fx-border-color: transparent ;
+}
 .icon-back{
     -fx-effect: dropshadow(gaussian, -fx-white-orange,5 , 0, 0, 0);
 }
@@ -98,6 +102,9 @@ Label, RadioButton, ComboBox{
 }
 .combo-box-base .arrow-button .arrow {
     -fx-background-color: -fx-orange;
+}
+.combo-box-base .arrow-button {
+    -fx-background-color: -fx-black;
 }
 
 .combo-box .combo-box-popup .list-view .list-cell {

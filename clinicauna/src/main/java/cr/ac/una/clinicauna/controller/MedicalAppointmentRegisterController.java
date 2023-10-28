@@ -34,6 +34,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -50,7 +51,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 import javafx.util.StringConverter;
 
 /**
@@ -82,7 +86,8 @@ public class MedicalAppointmentRegisterController implements Initializable {
     private ComboBox<String> cbHoursAvailable;
     @FXML
     private StackPane parent;
-
+    @FXML
+    private ToggleGroup rbGroup;
     private Data data = Data.getInstance();
 
     private PatientService pService = new PatientService();
@@ -111,9 +116,11 @@ public class MedicalAppointmentRegisterController implements Initializable {
                 agendaBuffer = new AgendaDto();
             }
             medicalAppointmentBuffer = (MedicalAppointmentDto) data.getData("medicalAppointmentBuffer");
+
             if (medicalAppointmentBuffer == null) {
                 medicalAppointmentBuffer = new MedicalAppointmentDto();
             }
+            isEditing = medicalAppointmentBuffer.getId() != null;
             doctorBuffer = (DoctorDto) data.getData("doctorBuffer");
             loadAgendas(doctorBuffer);
 //        patientBuffer = (PatientDto) data.getData("patientBuffer");//Este buffer viene de la pantalla de registro de paciente en caso de no existir el paciente
@@ -133,7 +140,6 @@ public class MedicalAppointmentRegisterController implements Initializable {
     @FXML
     private void backAction(MouseEvent event) {
         try {
-            data.removeData("doctor");
             FXMLLoader loader = App.getFXMLLoader("Main");
             Animation.MakeDefaultFadeTransition(mainView, loader.load());
             MainController controller = loader.getController();
@@ -254,6 +260,37 @@ public class MedicalAppointmentRegisterController implements Initializable {
             Long slotsNumber = medicalAppointmentBuffer.getSlotsNumber();
             spNSlots.getEditor().setText(slotsNumber.toString());
         }
+        if (medicalAppointmentBuffer.getPatient() != null) {
+            cbIdentification.setValue(medicalAppointmentBuffer.getPatient());
+        }
+        rbGroup.selectedToggleProperty()
+                .addListener((ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) -> {
+                    if (newValue != null && medicalAppointmentBuffer != null) {
+                        medicalAppointmentBuffer.setState(medicalAppointmentBuffer.parseState(((RadioButton) newValue).getText()));
+                    }
+                });
+        if (isEditing) {
+            rbGroup.getToggles().forEach(t -> {
+                if (t instanceof RadioButton) {
+                    if (medicalAppointmentBuffer.getState().toLowerCase().equals("attended")) {
+                        if (((RadioButton) t).getText().toLowerCase().equals("attended")
+                                || ((RadioButton) t).getText().toLowerCase().equals("atendida")) {
+                            t.setSelected(true);
+                        }
+                    } else if (medicalAppointmentBuffer.getState().toLowerCase().equals("canceled")) {
+                        if (((RadioButton) t).getText().toLowerCase().equals("canceled")
+                                || ((RadioButton) t).getText().toLowerCase().equals("cancelada")) {
+                            t.setSelected(true);
+                        }
+                    } else if (medicalAppointmentBuffer.getState().toLowerCase().equals("scheduled")) {
+                        if (((RadioButton) t).getText().toLowerCase().equals("scheduled")
+                                || ((RadioButton) t).getText().toLowerCase().equals("agendada")) {
+                            t.setSelected(true);
+                        }
+                    }
+                }
+            });
+        }
     }
 
     public void initializeSpinners() {
@@ -261,7 +298,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
         StringConverter<Integer> formatter = new StringConverter<Integer>() {
             @Override
             public String toString(Integer value) {
-                return String.format("%02d", value);
+                return String.format("%1d", value);
             }
 
             @Override
