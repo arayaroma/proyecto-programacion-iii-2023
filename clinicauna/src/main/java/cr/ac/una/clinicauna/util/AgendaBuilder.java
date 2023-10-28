@@ -2,7 +2,6 @@ package cr.ac.una.clinicauna.util;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,18 +11,6 @@ import java.util.List;
  */
 public class AgendaBuilder {
 
-//    LocalDate[] weekDates = getActualWeekDates();
-//    public int getCurrentDayOfTheWeekIndex(LocalDate date) {
-//        return date.getDayOfWeek().getValue() % 7;
-//    }
-//
-//    public String[] getWeekDays() {
-//        return weekDays;
-//    }
-//
-//    public LocalDate getActualLocalDate() {
-//        return LocalDate.now();
-//    }
     public List<LocalDate> calculateWeekDays(LocalDate inputDayOfWeek) {
         List<LocalDate> result = new ArrayList<>();
         LocalDate firstDayOfWeek = inputDayOfWeek.withDayOfMonth(inputDayOfWeek.getDayOfMonth()).with(DayOfWeek.MONDAY);
@@ -34,20 +21,6 @@ public class AgendaBuilder {
         return result;
     }
 
-//    public LocalDate[] getActualWeekDates() {
-//        LocalDate[] weekDates = new LocalDate[7];
-//        LocalDate actualDate = getActualLocalDate();
-//
-//        for (int i = 0; i < 7; i++) {
-//            weekDates[i] = actualDate.plusDays(i);
-//        }
-//        return weekDates;
-//    }
-//
-//    public String trimLocalDate(LocalDate date) {
-//        String[] dateParts = date.toString().split("-");
-//        return dateParts[2];
-//    }
     private AgendaBuilder(LocalDate actualDate) {
     }
 
