@@ -109,7 +109,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
             agendaBuffer = (AgendaDto) data.getData("agendaBuffer");
             scheduledBy = (UserDto) data.getData("scheduledBy");
@@ -126,8 +126,8 @@ public class MedicalAppointmentRegisterController implements Initializable {
             loadAgendas(doctorBuffer);
 //        patientBuffer = (PatientDto) data.getData("patientBuffer");//Este buffer viene de la pantalla de registro de paciente en caso de no existir el paciente
             fechaAppointment = (String) data.getData("fechaAppointment");
-            LocalDate fecha = LocalDate.parse(fechaAppointment, formatter);
-            dpAppoinmentDate.setValue(fecha); //NO SIRVE
+//            LocalDate fecha = LocalDate.parse(fechaAppointment, formatter);
+//            dpAppoinmentDate.setValue(fecha); //NO SIRVE
             initializeSpinners();
             initializeComboBox();
             addPatientsInCb();
