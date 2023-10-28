@@ -73,7 +73,7 @@
                                  <children>
                                     <HBox>
                                        <children>
-                                          <ComboBox fx:id="cbIdentification" editable="true" onKeyReleased="#searchById" promptText="%identification" />
+                                          <ComboBox fx:id="cbIdentification" editable="true" onAction="#cbSelectPatient" onKeyReleased="#searchById" promptText="%identification" />
                                           <Button fx:id="createPatient" mnemonicParsing="false" onAction="#createPatient" text="Add">
                                              <HBox.margin>
                                                 <Insets left="20.0" right="150.0" top="5.0" />
@@ -144,7 +144,7 @@
                               <VBox prefHeight="411.0" prefWidth="231.0">
                                  <children>
                                     <Separator orientation="VERTICAL" prefHeight="320.0" prefWidth="0.0" visible="false" />
-                                    <DatePicker fx:id="dpAppoinmentDate" editable="false" prefHeight="34.0" prefWidth="197.0" promptText="%date">
+                                    <DatePicker fx:id="dpAppoinmentDate" editable="false" onAction="#dpChangeDate" prefHeight="34.0" prefWidth="197.0">
                                        <VBox.margin>
                                           <Insets />
                                        </VBox.margin>
