@@ -14,7 +14,7 @@ import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Stateless
@@ -26,7 +26,7 @@ public class MedicalAppointmentService {
 
     /**
      * Create a new MedicalAppointment
-     * 
+     *
      * @param medicalAppointmentDto to be created
      * @return ResponseWrapper with the created MedicalAppointment
      */
@@ -34,6 +34,7 @@ public class MedicalAppointmentService {
         try {
             MedicalAppointment medicalAppointment = medicalAppointmentDto.convertFromDTOToEntity(medicalAppointmentDto,
                     new MedicalAppointment(medicalAppointmentDto));
+            System.out.println(medicalAppointment.toString());
             em.persist(medicalAppointment);
             em.flush();
             return new ResponseWrapper(
@@ -53,7 +54,7 @@ public class MedicalAppointmentService {
 
     /**
      * get a MedicalAppointment by id
-     * 
+     *
      * @param id of the MedicalAppointment to be retrieved
      * @return ResponseWrapper with the retrieved MedicalAppointment
      */
@@ -86,7 +87,7 @@ public class MedicalAppointmentService {
 
     /**
      * get all MedicalAppointments
-     * 
+     *
      * @return ResponseWrapper with the retrieved MedicalAppointments
      */
     @SuppressWarnings("unchecked")
@@ -118,7 +119,7 @@ public class MedicalAppointmentService {
 
     /**
      * update a MedicalAppointment
-     * 
+     *
      * @param medicalAppointmentDto to be updated
      * @return ResponseWrapper with the updated MedicalAppointment
      */
@@ -128,6 +129,7 @@ public class MedicalAppointmentService {
                     medicalAppointmentDto.getId());
             if (medicalAppointment != null) {
                 medicalAppointment.updateMedicalAppointment(medicalAppointmentDto);
+                medicalAppointment = medicalAppointmentDto.convertFromDTOToEntity(medicalAppointmentDto, medicalAppointment);
                 em.merge(medicalAppointment);
                 em.flush();
                 return new ResponseWrapper(
@@ -154,7 +156,7 @@ public class MedicalAppointmentService {
 
     /**
      * delete a MedicalAppointment by id
-     * 
+     *
      * @param id to be deleted
      * @return ResponseWrapper with the deleted MedicalAppointment
      */

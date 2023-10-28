@@ -232,7 +232,6 @@ public class PatientHistoryController implements Initializable {
             imcIdeal.setName("IMC Ideal");
 
             for (PatientCareDto patientCareDto : patientPersonalHistoryBuffer.getPatientCares()) {
-
                 imc.getData().add(new XYChart.Data<>(patientCareDto.getPatientCareDate(),
                         Double.valueOf(patientCareDto.getBodyMassIndex())));
                 imcIdeal.getData().add(new XYChart.Data<>(patientCareDto.getPatientCareDate(), Double.valueOf(patientCareDto.getBodyMassIndexIdeal())));
