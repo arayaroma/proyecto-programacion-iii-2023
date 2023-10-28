@@ -19,18 +19,13 @@ import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.IOException;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -102,6 +97,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
     private UserDto scheduledBy;
     private PatientDto pat;
     private Map<String, AgendaDto> agendaDtos = new HashMap<>();
+    private List<String> allHours = new ArrayList<>();
     private boolean isEditing;
 
     /**
@@ -109,8 +105,9 @@ public class MedicalAppointmentRegisterController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
+            
             agendaBuffer = (AgendaDto) data.getData("agendaBuffer");
             scheduledBy = (UserDto) data.getData("scheduledBy");
             if (agendaBuffer == null) {
@@ -125,9 +122,13 @@ public class MedicalAppointmentRegisterController implements Initializable {
             doctorBuffer = (DoctorDto) data.getData("doctorBuffer");
             loadAgendas(doctorBuffer);
 //        patientBuffer = (PatientDto) data.getData("patientBuffer");//Este buffer viene de la pantalla de registro de paciente en caso de no existir el paciente
+//            if(patientBuffer!=null){
+//                medicalAppointmentBuffer.setPatientEmail(patientBuffer.getEmail());
+//                medicalAppointmentBuffer.setPatientPhoneNumber(patientBuffer.getPhoneNumber());
+//            }
             fechaAppointment = (String) data.getData("fechaAppointment");
-            LocalDate fecha = LocalDate.parse(fechaAppointment, formatter);
-            dpAppoinmentDate.setValue(fecha); //NO SIRVE
+//            LocalDate fecha = LocalDate.parse(fechaAppointment, formatter);
+//            dpAppoinmentDate.setValue(fecha); //NO SIRVE
             initializeSpinners();
             initializeComboBox();
             addPatientsInCb();
@@ -164,18 +165,21 @@ public class MedicalAppointmentRegisterController implements Initializable {
             //alerta
         }
 
-        if (pat != null) {
+        if (patientBuffer != null) {
             mAp.setAgenda(agendaBuffer);
             mAp.setPatient(pat);
             mAp.setScheduledBy(scheduledBy);
-            mAp.setScheduledDate(agendaBuffer.getAgendaDate());
+//            mAp.setScheduledDate(agendaBuffer.getAgendaDate());
             if (cbHoursAvailable.getValue() != null) {
                 mAp.setScheduledStartTime(cbHoursAvailable.getValue());
                 mAp.setScheduledEndTime(getEndTime(cbHoursAvailable.getValue(), agendaBuffer.getHourlySlots(), spNSlots.getValue()));
             } else {
                 //alerta
             }
-            mAp.setState("SCHEDULED");
+//            mAp.setState("SCHEDULED");
+            if (!mAp.getPatientEmail().equals(patientBuffer.getEmail()) || !mAp.getPatientPhoneNumber().equals(patientBuffer.getPhoneNumber())) {
+                //Manda a actualizar el paciente
+            }
             mService.createMedicalAppointments(mAp);
         } else {
             //alerta de crear paciente
@@ -196,8 +200,8 @@ public class MedicalAppointmentRegisterController implements Initializable {
     @FXML
     private void dpChangeDate(ActionEvent event) {
         if (agendaDtos.get(dpAppoinmentDate.getValue().toString()) == null) {
-            addAllHoursInCb(getHours(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots()));
-        }
+            addAllHoursInCb(allHours);
+        }//Else de cuando existe la agenda
     }
 
     @FXML
@@ -213,6 +217,25 @@ public class MedicalAppointmentRegisterController implements Initializable {
                 cbIdentification.getItems().addAll(patients);
                 cbIdentification.show();
             }
+        }
+    }
+
+    @FXML
+    private void cbSelectPatient(ActionEvent event) {
+        PatientDto patient = cbIdentification.getValue();
+        if (patient != null) {
+            patientBuffer = patient;
+            medicalAppointmentBuffer.setPatientEmail(patientBuffer.getEmail());
+            medicalAppointmentBuffer.setPatientPhoneNumber(patientBuffer.getPhoneNumber());
+        }
+    }
+
+    @FXML
+    private void setSlotsAvailable(MouseEvent event) {
+        AgendaDto ag = agendaDtos.get(dpAppoinmentDate.getValue().toString());
+        if (ag != null) {
+            addAllHoursInCb(getAvailableHoursForAppointment(allHours,
+                    ag.getHourlySlots(), spNSlots.getValue(), ag.getMedicalAppointments(), ag));
         }
     }
 
@@ -267,6 +290,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
                         medicalAppointmentBuffer.setState(medicalAppointmentBuffer.parseState(((RadioButton) newValue).getText()));
                     }
                 });
+        
         if (isEditing) {
             rbGroup.getToggles().forEach(t -> {
                 if (t instanceof RadioButton) {
@@ -275,8 +299,8 @@ public class MedicalAppointmentRegisterController implements Initializable {
                                 || ((RadioButton) t).getText().toLowerCase().equals("atendida")) {
                             t.setSelected(true);
                         }
-                    } else if (medicalAppointmentBuffer.getState().toLowerCase().equals("canceled")) {
-                        if (((RadioButton) t).getText().toLowerCase().equals("canceled")
+                    } else if (medicalAppointmentBuffer.getState().toLowerCase().equals("cancelled")) {
+                        if (((RadioButton) t).getText().toLowerCase().equals("cancelled")
                                 || ((RadioButton) t).getText().toLowerCase().equals("cancelada")) {
                             t.setSelected(true);
                         }
@@ -353,13 +377,6 @@ public class MedicalAppointmentRegisterController implements Initializable {
         return false;
     }
 
-    @FXML
-    private void setSlotsAvailable(MouseEvent event) {;
-        AgendaDto ag = agendaDtos.get(dpAppoinmentDate.getValue().toString());
-        addAllHoursInCb(getAvailableHoursForAppointment(getHours(ag.getShiftStartTime(), ag.getShiftEndTime(), ag.getHourlySlots()),
-                ag.getHourlySlots(), spNSlots.getValue(), ag.getMedicalAppointments(), ag));
-    }
-
     private AgendaDto getAgenda(String AppointmentDate) {
         List<AgendaDto> agendas = doctorBuffer.getAgendas();
         AgendaDto agenda = new AgendaDto();
@@ -417,7 +434,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
         if (newEndTimeAppointment.isAfter(LocalTime.parse(end))) {
             return true;
         }
-        return false; 
+        return false;
     }
 
     private String getEndTime(String startTime, Long nSlots, int nAppointMentSlots) {
@@ -448,23 +465,20 @@ public class MedicalAppointmentRegisterController implements Initializable {
     }
 
     private void loadAgendas(DoctorDto doctorDto) {
-        for (AgendaDto i : doctorDto.getAgendas()) {
-            AgendaDto agenda = (AgendaDto) aService.getAgendaById(i.getId()).getData();
-            if (agenda != null) {
-                agendaDtos.put(agenda.getAgendaDate(), agenda);
+        if (doctorDto != null) {
+            for (AgendaDto i : doctorDto.getAgendas()) {
+                AgendaDto agenda = (AgendaDto) aService.getAgendaById(i.getId()).getData();
+                if (agenda != null) {
+                    agendaDtos.put(agenda.getAgendaDate(), agenda);
+                }
             }
+            allHours = getHours(doctorDto.getShiftStartTime(), doctorDto.getShiftEndTime(), doctorDto.getHourlySlots());
         }
+
     }
 
     private void addAllHoursInCb(List<String> horasDisp) {//restringir hora fin
-        cbHoursAvailable.getItems().addAll(FXCollections.observableArrayList(horasDisp));
-    }
-
-    @FXML
-    private void cbSelectPatient(ActionEvent event) {
-        cbIdentification.setEditable(true);
-        pat = cbIdentification.getValue();
-        cbIdentification.setEditable(false);
+        cbHoursAvailable.setItems(FXCollections.observableArrayList(horasDisp));
     }
 
 }

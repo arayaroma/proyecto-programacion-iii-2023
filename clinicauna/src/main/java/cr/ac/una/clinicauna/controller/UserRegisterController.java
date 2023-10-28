@@ -85,11 +85,7 @@ public class UserRegisterController implements Initializable {
         UserDto userDto = (UserDto) data.getData("userBuffer");
         userModified = userDto != null ? userDto : new UserDto();
         
-//        if (userDto != null) {
-//            userModified = userDto;
-//        } else {
-//            userModified = new UserDto();
-//        }
+
         isEditing = userModified.getId() != null;
         if (Data.languageOption.equals("en")) {
             cbLanguage.getItems().addAll("English", "Spanish");

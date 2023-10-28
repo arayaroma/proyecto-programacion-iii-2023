@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -26,6 +27,8 @@ public class ReportModuleController implements Initializable {
     private Tab tabPatientReport;
     @FXML
     private Tab tabReportGenerator;
+    @FXML
+    private TabPane tabPane;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -36,6 +39,7 @@ public class ReportModuleController implements Initializable {
         try {
             FXMLLoader loader = App.getFXMLLoader("DoctorReport");
             tabDoctorReport.setContent(loader.load());
+            
         } catch (IOException e) {
             System.out.println(e.toString());
         }
@@ -56,8 +60,18 @@ public class ReportModuleController implements Initializable {
         try {
             FXMLLoader loader = App.getFXMLLoader("ReportGenerator");
             tabReportGenerator.setContent(loader.load());
+        
         } catch (IOException e) {
             System.out.println(e.toString());
+        }
+    }
+
+    public void loadView(String option) {
+        if (option != null) {
+            option = option.toLowerCase();
+            if (option.equals("patientreport")) {
+                patientReportAction(null);
+            }
         }
     }
 

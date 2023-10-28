@@ -110,7 +110,7 @@ public class PatientCareRegisterController implements Initializable {
             Animation.MakeDefaultFadeTransition(mainView, loader.load());
             PatientHistoryController controller = loader.getController();
             if (controller != null) {
-                controller.loadView("patientCareView");
+                controller.loadView("patientCareView", false);
             }
         } catch (IOException e) {
         }
