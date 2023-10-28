@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.PatientDto;
+import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.PatientService;
 import cr.ac.una.clinicauna.util.Data;
 import cr.ac.una.clinicauna.util.Message;
@@ -27,6 +28,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
@@ -62,6 +64,8 @@ public class PatientModuleController implements Initializable {
     private PatientDto patientBuffer;
     private List<PatientDto> patientDtos = new ArrayList<>();
     private Data data = Data.getInstance();
+    @FXML
+    private HBox containerButtons;
 
     /**
      * Initializes the controller class.
@@ -79,6 +83,7 @@ public class PatientModuleController implements Initializable {
             patientDtos = (List<PatientDto>) patientService.getPatients().getData();
             loadPatients(patientDtos);
             txfSearchPatient.setOnKeyPressed(e -> searchPatientAction(e));
+            loadPrivileges();
         } catch (Exception e) {
             System.out.println(e.toString());
         }
@@ -172,6 +177,15 @@ public class PatientModuleController implements Initializable {
 
     private void loadPatients(List<PatientDto> patients) {
         tblPatientsView.setItems(FXCollections.observableArrayList(patients));
+    }
+
+    private void loadPrivileges() {
+        UserDto userLogged = (UserDto) Data.getInstance().getData("userLoggued");
+        if (userLogged != null) {
+            if (userLogged.getRole().toLowerCase().equals("recepcionist")) {
+                containerButtons.getChildren().remove(btnEdit);
+            }
+        }
     }
 
 }

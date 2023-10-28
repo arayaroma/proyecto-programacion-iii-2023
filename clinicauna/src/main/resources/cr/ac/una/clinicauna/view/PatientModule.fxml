@@ -67,7 +67,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <HBox alignment="CENTER" spacing="250.0" VBox.vgrow="ALWAYS">
+      <HBox fx:id="containerButtons" alignment="CENTER" spacing="250.0" VBox.vgrow="ALWAYS">
          <children>
             <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#btnViewPatientAction" text="%viewMore">
                <padding>

@@ -278,8 +278,8 @@ public class MedicalAppointmentRegisterController implements Initializable {
                                 || ((RadioButton) t).getText().toLowerCase().equals("atendida")) {
                             t.setSelected(true);
                         }
-                    } else if (medicalAppointmentBuffer.getState().toLowerCase().equals("canceled")) {
-                        if (((RadioButton) t).getText().toLowerCase().equals("canceled")
+                    } else if (medicalAppointmentBuffer.getState().toLowerCase().equals("cancelled")) {
+                        if (((RadioButton) t).getText().toLowerCase().equals("cancelled")
                                 || ((RadioButton) t).getText().toLowerCase().equals("cancelada")) {
                             t.setSelected(true);
                         }

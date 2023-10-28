@@ -35,7 +35,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -46,6 +45,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
@@ -80,7 +80,6 @@ public class AgendaModuleController implements Initializable {
     @FXML
     private Label lblYear;
     private int countWeeks = 0;
-
     private DoctorService doctorService = new DoctorService();
     private UserService userService = new UserService();
     private DoctorDto doctorBuffer;
@@ -89,6 +88,7 @@ public class AgendaModuleController implements Initializable {
     private Map<String, AgendaDto> agendaDtos = new HashMap<>();
     private Map<String, Integer> days = new HashMap();
     private Map<String, Integer> medicalAppointmentsHours = new HashMap();
+    private List<UserDto> userDtos = new ArrayList<>();
     private List<String> hoursCalculated = new ArrayList<>();
     private Data data = Data.getInstance();
     private List<Header> headers = new ArrayList<>();
@@ -98,11 +98,11 @@ public class AgendaModuleController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         userLoggued = (UserDto) data.getData("userLoggued");
         setDays(countWeeks);
         initializeComboBox();
         loadDoctors();
+        cbDoctor.setOnKeyReleased(event -> searchDoctorEventKey(event));
 
     }
 
@@ -141,6 +141,19 @@ public class AgendaModuleController implements Initializable {
         }
     }
 
+    private void searchDoctorEventKey(KeyEvent event) {
+        String idToSearch = cbDoctor.getEditor().getText();
+        if (idToSearch != null) {
+            cbDoctor.getItems().clear();
+            cbDoctor.show();
+            if (!idToSearch.isEmpty()) {
+                cbDoctor.getItems().addAll(userDtos.stream().filter(t -> t.getIdentification().contains(idToSearch)).collect(Collectors.toList()));
+                return;
+            }
+            cbDoctor.getItems().addAll(userDtos);
+        }
+    }
+
     private void loadGrid() {
         cleanAgenda();
         loadPanes();
@@ -167,10 +180,12 @@ public class AgendaModuleController implements Initializable {
                 LocalTime medicalStartTime, medicalEndingTime;
                 LocalTime newMedicalStartTime = LocalTime.parse(startTime), newMedicalEndingTime = LocalTime.parse(endingTime);
                 for (MedicalAppointmentDto medicalAppointmentDto : agendaDto.getMedicalAppointments()) {
-                    medicalStartTime = LocalTime.parse(medicalAppointmentDto.getScheduledStartTime());
-                    medicalEndingTime = LocalTime.parse(medicalAppointmentDto.getScheduledEndTime());
-                    if (newMedicalStartTime.isBefore(medicalEndingTime) && newMedicalEndingTime.isAfter(medicalStartTime) || newMedicalEndingTime.equals(medicalStartTime)) {
-                        return true;
+                    if (medicalAppointentBuffer != null && !Objects.equals(medicalAppointentBuffer.getId(), medicalAppointmentDto.getId())) {
+                        medicalStartTime = LocalTime.parse(medicalAppointmentDto.getScheduledStartTime());
+                        medicalEndingTime = LocalTime.parse(medicalAppointmentDto.getScheduledEndTime());
+                        if (newMedicalStartTime.isBefore(medicalEndingTime) && newMedicalEndingTime.isAfter(medicalStartTime) || newMedicalEndingTime.equals(medicalStartTime)) {
+                            return true;
+                        }
                     }
                 }
                 return false;
@@ -280,7 +295,7 @@ public class AgendaModuleController implements Initializable {
     }
 
     private void loadDoctors() {
-        List<UserDto> userDtos = (List<UserDto>) userService.getUsers().getData();
+        userDtos = (List<UserDto>) userService.getUsers().getData();
         if (userDtos != null) {
             userDtos = userDtos.stream().filter(user -> user.getDoctor() != null).collect(Collectors.toList());
             userDtos.stream().forEach(user -> cbDoctor.getItems().add(user));
@@ -296,7 +311,7 @@ public class AgendaModuleController implements Initializable {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(item.getName() + " " + item.getFirstLastname());
+                    setText(item.getIdentification());
                 }
             }
         });
@@ -304,7 +319,7 @@ public class AgendaModuleController implements Initializable {
         cbDoctor.setConverter(new StringConverter<UserDto>() {
             @Override
             public String toString(UserDto user) {
-                return user == null ? null : user.getName();
+                return user == null ? null : user.getIdentification();
             }
 
             @Override
