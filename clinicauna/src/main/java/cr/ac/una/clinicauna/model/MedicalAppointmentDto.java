@@ -1,7 +1,6 @@
 package cr.ac.una.clinicauna.model;
 
 import java.time.LocalDate;
-import java.util.List;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
