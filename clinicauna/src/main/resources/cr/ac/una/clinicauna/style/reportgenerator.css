@@ -1,5 +1,6 @@
 * {
   -fx-font-family: "Nadeem";
+  font-family: "Nadeem";
   -fx-text-fill: #c1c2c2;
   -fx-orange: #ce7711;
   -fx-white-orange: #e6b95a;
@@ -17,29 +18,31 @@
 .background {
   -fx-background-color: -fx-gray;
   background-color: -fx-gray;
+
+  -fx-padding: 2em;
+  padding: 2em;
 }
 
 .title {
   -fx-font-size: 40px;
   font-size: 40px;
   -fx-text-fill: -fx-white-orange;
+  text-align: center;
+}
+
+.cards-container {
+  -fx-padding: 10px;
+  padding: 10px;
+
+  -fx-font-size: 20px;
+  font-size: 20px;
 }
 
 .fields-container {
   -fx-padding: 10px;
   padding: 10px;
 
-  -fx-border-color: -fx-white-gray;
-  border-color: -fx-white-gray;
-
-  -fx-border-width: 3px;
-  border-width: 3px;
-
-  -fx-border-radius: 5px;
-  border-radius: 5px;
-
-  -fx-background-radius: 5px;
-
+ 
   -fx-font-size: 20px;
   font-size: 20px;
 }
@@ -48,20 +51,11 @@
   -fx-padding: 10px;
   padding: 10px;
 
-  -fx-border-color: -fx-white-gray;
-  border-color: -fx-white-gray;
-
-  -fx-border-width: 3px;
-  border-width: 3px;
-
-  -fx-border-radius: 5px;
-  border-radius: 5px;
-
-  -fx-background-radius: 5px;
-
-  -fx-font-size: 16px;
-  font-size: 16px;
+  -fx-font-size: 20px;
+  font-size: 20px;
 }
 
-.generate-button {
+.header-query {
+  -fx-background-color: -fx-orange;
+  background-color: -fx-orange;
 }

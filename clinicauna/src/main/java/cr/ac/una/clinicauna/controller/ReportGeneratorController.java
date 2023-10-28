@@ -42,12 +42,19 @@ public class ReportGeneratorController implements Initializable {
     @FXML
     private Label lbRecipientName;
     @FXML
-    private JFXTextField tfRecipientName;
+    private JFXTextField tfRecipientEmail;
     @FXML
     private JFXButton btGenerateReport;
 
+    private final String[] frequencies = { "DAILY", "WEEKLY", "MONTHLY", "ANNUALLY" };
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        loadFrequencies();
+    }
+
+    private void loadFrequencies() {
+        cbReportFrequency.getItems().addAll(frequencies);
     }
 
 }
