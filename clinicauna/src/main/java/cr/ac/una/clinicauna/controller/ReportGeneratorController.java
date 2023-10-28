@@ -10,6 +10,8 @@ import com.jfoenix.controls.JFXTextField;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -36,9 +38,9 @@ public class ReportGeneratorController implements Initializable {
     @FXML
     private GridPane gpQueryResult;
     @FXML
-    private JFXDatePicker dpReportDate;
+    private DatePicker dpReportDate;
     @FXML
-    private JFXComboBox<String> cbReportFrequency;
+    private ComboBox<String> cbReportFrequency;
     @FXML
     private Label lbRecipientName;
     @FXML
@@ -55,6 +57,12 @@ public class ReportGeneratorController implements Initializable {
 
     private void loadFrequencies() {
         cbReportFrequency.getItems().addAll(frequencies);
+    }
+
+    private void makeQuery() {
+        String query = tfReportQuery.getText();
+
+
     }
 
 }
