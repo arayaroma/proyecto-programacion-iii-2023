@@ -107,6 +107,10 @@ public class PatientCareReportController implements Initializable {
     @FXML
     private void btnViewPatientCare(ActionEvent event) throws IOException {
         if (patientBuffer != null) {
+            if (patientBuffer.getPatientPersonalHistory() == null) {
+                Message.showNotification("Ups", MessageType.INFO, "patientHistoryEmpty");
+                return;
+            }
             data.setData("patientBuffer", patientBuffer);
             FXMLLoader loader = App.getFXMLLoader("PatientHistory");
             Animation.MakeDefaultFadeTransition(parent, loader.load());
@@ -115,11 +119,16 @@ public class PatientCareReportController implements Initializable {
                 controller.loadView("patientCareView", true);
             }
         }
+
     }
 
     @FXML
     private void btnGeneratePatientCareReport(ActionEvent event) {
         if (patientBuffer != null) {
+            if (patientBuffer.getPatientPersonalHistory() == null) {
+                Message.showNotification("Ups", MessageType.INFO, "patientHistoryEmpty");
+                return;
+            }
             ResponseWrapper response = reportService.createPatientReport(patientBuffer.getId());
             if (response.getCode() != ResponseCode.OK) {
                 Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());

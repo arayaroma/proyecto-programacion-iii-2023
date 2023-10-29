@@ -143,12 +143,12 @@ public class MedicalAppointmentRegisterController implements Initializable {
         try {
             option = option.toLowerCase();
 //            if (option.equals("agendamodule")) {
-                FXMLLoader loader = App.getFXMLLoader("Main");
-                Animation.MakeDefaultFadeTransition(mainView, loader.load());
-                MainController controller = loader.getController();
-                if (controller != null) {
-                    controller.loadView("agendaModule");
-                }
+            FXMLLoader loader = App.getFXMLLoader("Main");
+            Animation.MakeDefaultFadeTransition(mainView, loader.load());
+            MainController controller = loader.getController();
+            if (controller != null) {
+                controller.loadView("agendaModule");
+            }
 //            }
         } catch (IOException e) {
         }
@@ -302,7 +302,6 @@ public class MedicalAppointmentRegisterController implements Initializable {
         rbGroup.selectedToggleProperty()
                 .addListener((ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) -> {
                     if (newValue != null && medicalAppointmentBuffer != null) {
-                        String prueba = ((RadioButton) newValue).getText();
                         medicalAppointmentBuffer.setState(medicalAppointmentBuffer.parseState(((RadioButton) newValue).getText().toLowerCase()));//no sirve
                     }
                 });

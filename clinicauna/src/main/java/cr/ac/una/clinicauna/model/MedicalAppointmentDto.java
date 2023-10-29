@@ -57,6 +57,10 @@ public class MedicalAppointmentDto {
                 return "SCHEDULED";
             case "agendada":
                 return "SCHEDULED";
+            case "absent":
+                return "ABSENT";
+            case "ausente":
+                return "ABSENT";
             case "attended":
                 return "ATTENDED";
             case "atendida":
