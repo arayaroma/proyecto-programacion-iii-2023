@@ -98,6 +98,7 @@ public class MedicalAppointmentModuleController implements Initializable {
                 loadMedicalAppointments(medicalAppointmentDtos);
                 return;
             }
+            key = key.toLowerCase();
             loadMedicalAppointments(filterMedicalAppointments(medicalAppointmentDtos, parameterKey, key));
         }
     }
@@ -117,18 +118,14 @@ public class MedicalAppointmentModuleController implements Initializable {
                         .stream()
                         .filter(medicalAppointment -> medicalAppointment.getScheduledStartTime().toLowerCase().contains(key))
                         .collect(Collectors.toList());
-            } else if (parameter.equals("doctor")) {
-                // medicalAppointmentDtosFiltered = medicalAppointments
-                // .stream()
-                // .filter(medicalAppointment ->
-                // medicalAppointment.getAgenda()..toLowerCase().contains(key))
-                // .collect(Collectors.toList());
             } else if (parameter.equals("patient") || parameter.equals("paciente")) {
-                // medicalAppointmentDtosFiltered = medicalAppointments
-                // .stream()
-                // .filter(medicalAppointment ->
-                // medicalAppointment.getp.toLowerCase().contains(key))
-                // .collect(Collectors.toList());
+                medicalAppointmentDtosFiltered = medicalAppointments
+                        .stream()
+                        .filter(medicalAppointment
+                                -> (medicalAppointment.getPatient().getName()
+                                + medicalAppointment.getPatient().getFirstLastname()
+                                + medicalAppointment.getPatient().getSecondLastname()).toLowerCase().contains(key.replace(" ", "")))
+                        .collect(Collectors.toList());
             } else if (parameter.equals("state") || parameter.equals("estado")) {
                 medicalAppointmentDtosFiltered = medicalAppointments
                         .stream()
@@ -162,11 +159,11 @@ public class MedicalAppointmentModuleController implements Initializable {
         tblMedicalAppointmentsView.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
                     medicalAppointmentBuffer = newValue;
-                    // if (doctorBuffer != null) {
-                    // btnEdit.setDisable(false);
-                    // return;
-                    // }
-                    // btnEdit.setDisable(true);
+                    if (medicalAppointmentBuffer != null) {
+                        btnEdit.setDisable(false);
+                        return;
+                    }
+                    btnEdit.setDisable(true);
 
                 });
     }

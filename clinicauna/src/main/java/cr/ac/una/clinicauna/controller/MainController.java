@@ -17,6 +17,7 @@ import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +26,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -71,7 +73,20 @@ public class MainController implements Initializable {
     private JFXPasswordField txfNewPassword;
     @FXML
     private JFXPasswordField txfConfirmPassword;
-
+    @FXML
+    private Button btnAgendaModule;
+    @FXML
+    private Button btnUserModule;
+    @FXML
+    private Button btnDoctorModule;
+    @FXML
+    private Button btnPatientModule;
+    @FXML
+    private Button btnReportModule;
+    @FXML
+    private Button btnGeneralInformationModule;
+    @FXML
+    private Button btnMedicalAppointmentModule;
     private UserService userService = new UserService();
     private UserDto userLoggued;
     private Data data = Data.getInstance();
@@ -227,8 +242,15 @@ public class MainController implements Initializable {
             focusButton((Node) event.getSource());
         }
         FXMLLoader loader = App.getFXMLLoader("ReportModule");
+
         container.getChildren().clear();
         container.getChildren().add(loader.load());
+        ReportModuleController controller = loader.getController();
+        if (controller != null) {
+            String option = (String) Data.getInstance().getData("option");
+            controller.loadView(option);
+
+        }
 
     }
 
@@ -251,6 +273,13 @@ public class MainController implements Initializable {
         });
     }
 
+//    private void loadPrivileges(){
+//        if(userLoggued!=null){
+//            if(userLoggued.getRole().toLowerCase().equals("recepcionist")){
+//                
+//            }
+//        }
+//    }
     private void focusButton(Node node) {
         if (node != null) {
             if (buttonSelected != null) {
@@ -263,6 +292,9 @@ public class MainController implements Initializable {
 
     /**
      * FIXME: Add catch block
+     *
+     * @param option
+     * @param values
      */
     public void loadView(String option) {
         try {
@@ -279,11 +311,34 @@ public class MainController implements Initializable {
             if (option.equals("agendamodule")) {
                 btnAgendaModuleAction(null);
             }
+            if (option.equals("reportmodule")) {
+                btnReportModuleAction(null);
+            }
         } catch (IOException e) {
         }
     }
 
     private void loadPrivileges() {
+        verifyPasswordChanged();
+        if (userLoggued != null) {
+            if (userLoggued.getRole().toLowerCase().equals("recepcionist")) {
+                menuView.getChildren().removeAll(btnDoctorModule,
+                        btnGeneralInformationModule,
+                        btnMedicalAppointmentModule,
+                        btnUserModule,
+                        btnReportModule);
+            } else if (userLoggued.getRole().toLowerCase().equals("doctor")) {
+                menuView.getChildren().removeAll(btnDoctorModule,
+                        btnGeneralInformationModule,
+                        btnMedicalAppointmentModule,
+                        btnUserModule);
+            }
+
+        }
+
+    }
+
+    private void verifyPasswordChanged() {
         if (userLoggued != null && userLoggued.getPasswordChanged().equals("Y")) {
             changePasswordView.setVisible(true);
             menuLateral.setDisable(true);
@@ -295,5 +350,4 @@ public class MainController implements Initializable {
             hamburguerMenu.setDisable(false);
         }
     }
-
 }

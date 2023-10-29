@@ -84,12 +84,7 @@ public class UserRegisterController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         UserDto userDto = (UserDto) data.getData("userBuffer");
         userModified = userDto != null ? userDto : new UserDto();
-        
-//        if (userDto != null) {
-//            userModified = userDto;
-//        } else {
-//            userModified = new UserDto();
-//        }
+
         isEditing = userModified.getId() != null;
         if (Data.languageOption.equals("en")) {
             cbLanguage.getItems().addAll("English", "Spanish");
@@ -122,22 +117,20 @@ public class UserRegisterController implements Initializable {
 
     @FXML
     private void btnRegisterUserAction(ActionEvent event) throws IOException {
-        if (verifyFields()) {
-            setPrivilegesUser(userModified);
-
-            if (userModified.getRole().toLowerCase().equals("doctor")) {// Verifiy if is a Doctor
-                data.setData("userBuffer", userModified);
-                Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("DoctorRegister").load());
-                return;
-            } else {
-                saveUser(userModified);
-                doctorService.deleteDoctor(userModified.getId());
-            }
-            backFromRegister(null);
-
-        } else {
+        if (!verifyFields()) {
             Message.showNotification("Ups", MessageType.ERROR, "fieldsEmpty");
         }
+        setPrivilegesUser(userModified);
+        if (userModified.getRole().toLowerCase().equals("doctor")) {// Verifiy if is a Doctor
+            data.setData("userBuffer", userModified);
+            Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("DoctorRegister").load());
+            return;
+        } else {
+            saveUser(userModified);
+            doctorService.deleteDoctor(userModified.getId());
+        }
+        backFromRegister(null);
+
     }
 
     @FXML

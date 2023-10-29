@@ -96,7 +96,6 @@ public class LoginController implements Initializable {
 //        if (user.equals("admin") && password.equals("admin")) {
 //            Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Main").load());
 //        }
-
         ResponseWrapper response = userService.verifyUser(user, password);
         if (response.getCode() == ResponseCode.OK) {
             UserDto userDto = (UserDto) response.getData();
@@ -188,7 +187,9 @@ public class LoginController implements Initializable {
             if (generalInformationDto != null) {
                 lblEmail.setText(generalInformationDto.getEmail());
                 lblName.setText(generalInformationDto.getName());
-                imgPhoto.setImage(ImageLoader.setImage(generalInformationDto.getPhoto()));
+                if (generalInformationDto.getPhoto() != null) {
+                    imgPhoto.setImage(ImageLoader.setImage(generalInformationDto.getPhoto()));
+                }
             }
 
         }

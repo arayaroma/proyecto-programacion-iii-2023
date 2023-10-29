@@ -45,6 +45,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
@@ -79,7 +80,6 @@ public class AgendaModuleController implements Initializable {
     @FXML
     private Label lblYear;
     private int countWeeks = 0;
-
     private DoctorService doctorService = new DoctorService();
     private UserService userService = new UserService();
     private DoctorDto doctorBuffer;
@@ -88,6 +88,7 @@ public class AgendaModuleController implements Initializable {
     private Map<String, AgendaDto> agendaDtos = new HashMap<>();
     private Map<String, Integer> days = new HashMap();
     private Map<String, Integer> medicalAppointmentsHours = new HashMap();
+    private List<UserDto> userDtos = new ArrayList<>();
     private List<String> hoursCalculated = new ArrayList<>();
     private Data data = Data.getInstance();
     private List<Header> headers = new ArrayList<>();
@@ -97,11 +98,11 @@ public class AgendaModuleController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         userLoggued = (UserDto) data.getData("userLoggued");
         setDays(countWeeks);
         initializeComboBox();
         loadDoctors();
+        cbDoctor.setOnKeyReleased(event -> searchDoctorEventKey(event));
 
     }
 
@@ -140,6 +141,19 @@ public class AgendaModuleController implements Initializable {
         }
     }
 
+    private void searchDoctorEventKey(KeyEvent event) {
+        String idToSearch = cbDoctor.getEditor().getText();
+        if (idToSearch != null) {
+            cbDoctor.getItems().clear();
+            cbDoctor.show();
+            if (!idToSearch.isEmpty()) {
+                cbDoctor.getItems().addAll(userDtos.stream().filter(t -> t.getIdentification().contains(idToSearch)).collect(Collectors.toList()));
+                return;
+            }
+            cbDoctor.getItems().addAll(userDtos);
+        }
+    }
+
     private void loadGrid() {
         cleanAgenda();
         loadPanes();
@@ -165,14 +179,18 @@ public class AgendaModuleController implements Initializable {
             if (agendaDto != null) {
                 LocalTime medicalStartTime, medicalEndingTime;
                 LocalTime newMedicalStartTime = LocalTime.parse(startTime), newMedicalEndingTime = LocalTime.parse(endingTime);
+                LocalTime finalHourDoctor = LocalTime.parse(doctorBuffer.getShiftEndTime());
                 for (MedicalAppointmentDto medicalAppointmentDto : agendaDto.getMedicalAppointments()) {
-                    medicalStartTime = LocalTime.parse(medicalAppointmentDto.getScheduledStartTime());
-                    medicalEndingTime = LocalTime.parse(medicalAppointmentDto.getScheduledEndTime());
-                    if (newMedicalStartTime.isBefore(medicalEndingTime) && newMedicalEndingTime.isAfter(medicalStartTime) || newMedicalEndingTime.equals(medicalStartTime)) {
-                        return true;
+                    if (medicalAppointentBuffer != null && !Objects.equals(medicalAppointentBuffer.getId(), medicalAppointmentDto.getId())) {
+                        medicalStartTime = LocalTime.parse(medicalAppointmentDto.getScheduledStartTime());
+                        medicalEndingTime = LocalTime.parse(medicalAppointmentDto.getScheduledEndTime());
+
+                        if (newMedicalStartTime.isBefore(medicalEndingTime) && (newMedicalEndingTime.isAfter(medicalStartTime) || newMedicalEndingTime.equals(medicalStartTime))) {
+                            return true;
+                        }
                     }
                 }
-                return false;
+                return newMedicalEndingTime.isAfter(finalHourDoctor);
             }
             return false;
         } catch (Exception e) {
@@ -191,13 +209,8 @@ public class AgendaModuleController implements Initializable {
                     agendaDto = createAgenda(agendaDto);
                 }
                 if (agendaDto != null) {
-                    Integer shiftStartTimeIndex = medicalAppointmentsHours.get(newTime);
-                    shiftStartTimeIndex = shiftStartTimeIndex - 1;//Set the index into hours calculated
-                    if (shiftStartTimeIndex + medicalAppointmentDto.getSlotsNumber() - 1 > hoursCalculated.size() - 1) {//Lower bound < Last Hour
-                        return false;
-                    }
-                    //Set the Lower Bound
-                    String shiftEndingTimeIndex = hoursCalculated.get((shiftStartTimeIndex + medicalAppointmentDto.getSlotsNumber().intValue()) - 1);
+
+                    String shiftEndingTimeIndex = getEndTime(newTime, doctorBuffer.getHourlySlots(), medicalAppointmentDto.getSlotsNumber().intValue());
                     if (!hasTimeConflict(newTime, shiftEndingTimeIndex, agendaDto)) {
                         medicalAppointmentDto.setAgenda(new AgendaDto(agendaDto));
                         medicalAppointmentDto.setScheduledDate(newDate.toString());
@@ -218,6 +231,14 @@ public class AgendaModuleController implements Initializable {
             System.out.println(e.toString());
             return false;
         }
+    }
+
+    private String getEndTime(String startTime, Long slots, int medicalAppointmentSlots) {
+        long intervalMillis = TimeUnit.HOURS.toMillis(1) / slots;
+        long intervalMinutes = TimeUnit.MILLISECONDS.toMinutes(intervalMillis);
+        LocalTime horaInicioLocal = LocalTime.parse(startTime);
+        LocalTime horaFin = horaInicioLocal.plusMinutes(intervalMinutes * (medicalAppointmentSlots - 1));//Quitar el 1
+        return horaFin.toString();
     }
 
     private AgendaDto createAgenda(AgendaDto agendaDto) {
@@ -279,7 +300,7 @@ public class AgendaModuleController implements Initializable {
     }
 
     private void loadDoctors() {
-        List<UserDto> userDtos = (List<UserDto>) userService.getUsers().getData();
+        userDtos = (List<UserDto>) userService.getUsers().getData();
         if (userDtos != null) {
             userDtos = userDtos.stream().filter(user -> user.getDoctor() != null).collect(Collectors.toList());
             userDtos.stream().forEach(user -> cbDoctor.getItems().add(user));
@@ -295,7 +316,7 @@ public class AgendaModuleController implements Initializable {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(item.getName() + " " + item.getFirstLastname());
+                    setText(item.getIdentification());
                 }
             }
         });
@@ -303,7 +324,7 @@ public class AgendaModuleController implements Initializable {
         cbDoctor.setConverter(new StringConverter<UserDto>() {
             @Override
             public String toString(UserDto user) {
-                return user == null ? null : user.getName();
+                return user == null ? null : user.getIdentification();
             }
 
             @Override
@@ -371,7 +392,7 @@ public class AgendaModuleController implements Initializable {
 
     private List<String> calculateHours(String startTime, String endTime, Long fieldsPerHour) {
         List<String> result = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         try {
             Date start = sdf.parse(startTime);
             Date end = sdf.parse(endTime);
@@ -512,11 +533,16 @@ public class AgendaModuleController implements Initializable {
     private void createMedicalAppointment(MouseEvent event, MedicalAppointmentDto medicalAppointmentDto) {
         try {
             Integer column = GridPane.getColumnIndex((Node) event.getSource());
-            if (column != null) {
-                String day = getDayInGrid(column);
+            Integer row = GridPane.getRowIndex((Node) event.getSource());
+            String day = column != null ? getDayInGrid(column) : null;
+            String hour = row != null ? getHourInGrid(row) : null;
+
+            if (day != null) {
                 data.setData("agendaBuffer", agendaDtos.get(day));
-                data.setData("fechaAppointment", day);
             }
+            data.setData("fechaAppointment", day);
+            data.setData("hourAppointment", hour);
+
             data.setData("doctorBuffer", doctorBuffer);
             data.setData("scheduledBy", userLoggued);
             data.setData("medicalAppointmentBuffer", medicalAppointmentDto);

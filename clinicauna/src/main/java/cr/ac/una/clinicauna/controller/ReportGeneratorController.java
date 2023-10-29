@@ -9,16 +9,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 
+/**
+ * 
+ * @author arayaroma
+ */
 public class ReportGeneratorController implements Initializable {
 
-    @FXML
-    private AnchorPane root;
-    @FXML
-    private VBox vbReportContainer;
     @FXML
     private Label lbReportName;
     @FXML
@@ -32,8 +29,6 @@ public class ReportGeneratorController implements Initializable {
     @FXML
     private JFXTextField tfReportQuery;
     @FXML
-    private GridPane gpQueryResult;
-    @FXML
     private DatePicker dpReportDate;
     @FXML
     private ComboBox<String> cbReportFrequency;
@@ -44,7 +39,11 @@ public class ReportGeneratorController implements Initializable {
     @FXML
     private JFXButton btGenerateReport;
 
-    private final String[] frequencies = { "DAILY", "WEEKLY", "MONTHLY", "ANNUALLY" };
+    private final String[] frequencies = {"DAILY", "WEEKLY", "MONTHLY", "ANNUALLY"};
+    @FXML
+    private Label lbRecipientEmail;
+    @FXML
+    private JFXTextField tfRecipientName;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

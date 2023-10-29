@@ -28,7 +28,9 @@ import cr.ac.una.clinicauna.services.PatientService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.scene.chart.XYChart;
@@ -96,6 +98,7 @@ public class PatientHistoryController implements Initializable {
     private PatientPersonalHistoryService patientPersonalHistoryService = new PatientPersonalHistoryService();
     private List<PatientCareDto> patientCareDtos = new ArrayList<>();
     private Data data = Data.getInstance();
+    private boolean isFromReportView = false;
 
     /**
      * Initializes the controller class.
@@ -131,7 +134,13 @@ public class PatientHistoryController implements Initializable {
             Animation.MakeDefaultFadeTransition(mainStack, loader.load());
             MainController controller = loader.getController();
             if (controller != null) {
+                if (isFromReportView) {
+                    Data.getInstance().setData("option", "patientReport");
+                    controller.loadView("reportModule");
+                    return;
+                }
                 controller.loadView("patientModule");
+
             }
         } catch (IOException e) {
         }
@@ -273,12 +282,13 @@ public class PatientHistoryController implements Initializable {
      *
      * @param option MainView, PatientCareView
      */
-    public void loadView(String option) {
+    public void loadView(String option, boolean isFromReportView) {
         if (option.toLowerCase().equals("mainview")) {
             mainView.toFront();
         }
         if (option.toLowerCase().equals("patientcareview")) {
             patientCareView.toFront();
         }
+        this.isFromReportView = isFromReportView;
     }
 }

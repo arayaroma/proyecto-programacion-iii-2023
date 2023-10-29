@@ -110,7 +110,7 @@
                                                       <VBox>
                                                          <children>
                                                             <Label styleClass="h3" text="%identification" />
-                                                            <ComboBox fx:id="cbIdentification" editable="true" onKeyReleased="#searchById" />
+                                                            <ComboBox fx:id="cbIdentification" editable="true" onAction="#cbSelectPatient" onKeyReleased="#searchById" />
                                                          </children>
                                                       </VBox>
                                                       <Button fx:id="createPatient" mnemonicParsing="false" onAction="#createPatient" text="%createPatient">
@@ -186,13 +186,13 @@
                                           <VBox alignment="CENTER_LEFT">
                                              <children>
                                                 <Label styleClass="h3" text="%date" />
-                                                <DatePicker fx:id="dpAppoinmentDate" editable="false" styleClass="h3" />
+                                                <DatePicker fx:id="dpAppoinmentDate" editable="false" onAction="#dpAppoinmentChange" styleClass="h3" />
                                              </children>
                                           </VBox>
                                           <VBox alignment="CENTER_LEFT">
                                              <children>
                                                 <Label styleClass="h3" text="%slots" />
-                                                <Spinner fx:id="spNSlots" onMouseClicked="#setSlotsAvailable" styleClass="h3" />
+                                                <Spinner fx:id="spSlots" onInputMethodTextChanged="#setSlotsAvailable" styleClass="h3" />
                                              </children>
                                           </VBox>
                                           <VBox alignment="CENTER_LEFT">
