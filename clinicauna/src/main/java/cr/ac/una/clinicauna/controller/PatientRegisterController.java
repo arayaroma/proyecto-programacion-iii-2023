@@ -55,7 +55,7 @@ public class PatientRegisterController implements Initializable {
     private JFXTextField txfPhoneNumber;
     private PatientDto patientBuffer = new PatientDto();
     private PatientService patientService = new PatientService();
-
+    boolean isFromAppointmentRegister = false;
     boolean isEditing = false;
 
     private Data data = Data.getInstance();
@@ -67,6 +67,7 @@ public class PatientRegisterController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         cbGender.getItems().addAll("MALE", "FEMALE");
         PatientDto patientDto = (PatientDto) data.getData("patientBuffer");
+        isFromAppointmentRegister = (boolean) data.getData("isFromAppointmentRegister");
         if (patientDto != null) {
             patientBuffer = patientDto;
             isEditing = true;
@@ -79,6 +80,11 @@ public class PatientRegisterController implements Initializable {
         try {
             data.removeData("patientBuffer");
             if (!isEditing) {
+                if (isFromAppointmentRegister) {
+                    data.setData("patientBuffer", patientBuffer);
+                    Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("MedicalAppointmentRegister").load());
+                    return;
+                }
                 Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("Main").load());
                 return;
             }
@@ -89,7 +95,7 @@ public class PatientRegisterController implements Initializable {
     }
 
     @FXML
-    private void btnRegisterAction(ActionEvent event) {
+    private void btnRegisterAction(ActionEvent event) throws IOException {
         if (!verifyFields()) {
             Message.showNotification("Ups", MessageType.INFO, "fieldsEmpty");
             return;
