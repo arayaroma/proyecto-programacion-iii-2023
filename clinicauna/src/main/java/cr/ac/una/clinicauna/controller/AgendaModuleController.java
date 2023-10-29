@@ -387,7 +387,7 @@ public class AgendaModuleController implements Initializable {
 
     private List<String> calculateHours(String startTime, String endTime, Long fieldsPerHour) {
         List<String> result = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         try {
             Date start = sdf.parse(startTime);
             Date end = sdf.parse(endTime);
@@ -528,11 +528,16 @@ public class AgendaModuleController implements Initializable {
     private void createMedicalAppointment(MouseEvent event, MedicalAppointmentDto medicalAppointmentDto) {
         try {
             Integer column = GridPane.getColumnIndex((Node) event.getSource());
-            if (column != null) {
-                String day = getDayInGrid(column);
+            Integer row = GridPane.getRowIndex((Node) event.getSource());
+            String day = column != null ? getDayInGrid(column) : null;
+            String hour = row != null ? getHourInGrid(row) : null;
+
+            if (day != null) {
                 data.setData("agendaBuffer", agendaDtos.get(day));
-                data.setData("fechaAppointment", day);
             }
+            data.setData("fechaAppointment", day);
+            data.setData("hourAppointment", hour);
+
             data.setData("doctorBuffer", doctorBuffer);
             data.setData("scheduledBy", userLoggued);
             data.setData("medicalAppointmentBuffer", medicalAppointmentDto);

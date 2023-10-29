@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 
-<HBox alignment="CENTER" styleClass="bg-black" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.clinicauna.controller.MedicalAppointmentRegisterController">
+<HBox alignment="CENTER" styleClass="bg-black" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.clinicauna.controller.MedicalAppointmentRegisterController">
    <children>
       <StackPane fx:id="parent" HBox.hgrow="ALWAYS">
          <HBox.margin>
@@ -192,7 +192,7 @@
                                           <VBox alignment="CENTER_LEFT">
                                              <children>
                                                 <Label styleClass="h3" text="%slots" />
-                                                <Spinner fx:id="spNSlots" onMouseClicked="#setSlotsAvailable" styleClass="h3" />
+                                                <Spinner fx:id="spSlots" onMouseClicked="#setSlotsAvailable" styleClass="h3" />
                                              </children>
                                           </VBox>
                                           <VBox alignment="CENTER_LEFT">
