@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -91,7 +92,12 @@ public class PatientModuleController implements Initializable {
 
     @FXML
     private void btnNewPatientAction(ActionEvent event) throws IOException {
-        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("PatientRegister").load());
+        FXMLLoader loader = App.getFXMLLoader("PatientRegister");
+        Animation.MakeDefaultFadeTransition(parent, loader.load());
+        PatientRegisterController controller = loader.getController();
+        if (controller != null) {
+            controller.loadView("patientModule");
+        }
     }
 
     @FXML

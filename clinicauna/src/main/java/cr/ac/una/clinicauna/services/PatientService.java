@@ -19,7 +19,7 @@ public class PatientService {
             if (request.isError()) {
                 return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                         ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: "
-                                + request.getError(),
+                        + request.getError(),
                         null);
             }
             PatientDto patient = (PatientDto) request.readEntity(PatientDto.class);
@@ -38,9 +38,10 @@ public class PatientService {
             Request request = new Request("PatientController/update");
             request.put(patientDto);
             if (request.isError()) {
+                System.out.println(request.getError());
                 return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                         ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: "
-                                + request.getError(),
+                        + request.getError(),
                         null);
             }
             PatientDto patient = (PatientDto) request.readEntity(PatientDto.class);
@@ -61,10 +62,11 @@ public class PatientService {
             if (request.isError()) {
                 return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                         ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: "
-                                + request.getError(),
+                        + request.getError(),
                         null);
             }
-            List<PatientDto> patients = (List<PatientDto>) request.readEntity(new GenericType<List<PatientDto>>(){});
+            List<PatientDto> patients = (List<PatientDto>) request.readEntity(new GenericType<List<PatientDto>>() {
+            });
             return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK, "Patient retrieved successfully: ",
                     patients);
 
@@ -84,7 +86,7 @@ public class PatientService {
             if (request.isError()) {
                 return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                         ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: "
-                                + request.getError(),
+                        + request.getError(),
                         null);
             }
             PatientDto patient = (PatientDto) request.readEntity(PatientDto.class);
@@ -107,7 +109,7 @@ public class PatientService {
             if (request.isError()) {
                 return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                         ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: "
-                                + request.getError(),
+                        + request.getError(),
                         null);
             }
             PatientDto patient = (PatientDto) request.readEntity(PatientDto.class);

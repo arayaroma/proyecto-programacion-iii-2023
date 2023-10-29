@@ -154,7 +154,12 @@ public class PatientHistoryController implements Initializable {
 
     @FXML
     private void editPatientAction(MouseEvent event) throws IOException {
-        Animation.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("PatientRegister").load());
+        FXMLLoader loader = App.getFXMLLoader("PatientRegister");
+        Animation.MakeDefaultFadeTransition(mainStack, loader.load());
+        PatientRegisterController controller = loader.getController();
+        if (controller != null) {
+            controller.loadView("patientHistory");
+        }
     }
 
     @FXML

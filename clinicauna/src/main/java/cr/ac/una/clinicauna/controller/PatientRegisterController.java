@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
@@ -55,7 +56,7 @@ public class PatientRegisterController implements Initializable {
     private JFXTextField txfPhoneNumber;
     private PatientDto patientBuffer = new PatientDto();
     private PatientService patientService = new PatientService();
-    boolean isFromAppointmentRegister = false;
+    private String option = "";
     boolean isEditing = false;
 
     private Data data = Data.getInstance();
@@ -67,7 +68,6 @@ public class PatientRegisterController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         cbGender.getItems().addAll("MALE", "FEMALE");
         PatientDto patientDto = (PatientDto) data.getData("patientBuffer");
-        isFromAppointmentRegister = (boolean) data.getData("isFromAppointmentRegister");
         if (patientDto != null) {
             patientBuffer = patientDto;
             isEditing = true;
@@ -78,18 +78,36 @@ public class PatientRegisterController implements Initializable {
     @FXML
     private void backFromRegister(MouseEvent event) {
         try {
-            data.removeData("patientBuffer");
-            if (!isEditing) {
-                if (isFromAppointmentRegister) {
-                    data.setData("patientBuffer", patientBuffer);
-                    Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("MedicalAppointmentRegister").load());
-                    return;
-                }
-                Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("Main").load());
-                return;
+            option = option.toLowerCase();
+
+            FXMLLoader loader;
+            switch (option) {
+                case "medicalappointmentregister":
+                    loader = App.getFXMLLoader("MedicalAppointmentRegister");
+                    Animation.MakeDefaultFadeTransition(mainView, loader.load());
+                    MedicalAppointmentRegisterController medicalAppointmentRegisterController = loader.getController();
+                    if (medicalAppointmentRegisterController != null) {
+                        medicalAppointmentRegisterController.loadView(patientBuffer);
+                    }
+                    data.removeData("patientBuffer");
+                    break;
+                case "patienthistory":
+                    Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("PatientHistory").load());
+                    break;
+                case "patientmodule":
+                    loader = App.getFXMLLoader("Main");
+                    Animation.MakeDefaultFadeTransition(mainView, loader.load());
+                    MainController mainController = loader.getController();
+                    if (mainController != null) {
+                        mainController.loadView("PatientModule");
+                    }
+                    data.removeData("patientBuffer");
+                    break;
+                default:
+                    Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("Main").load());
+                    data.removeData("patientBuffer");
+                    break;
             }
-            data.setData("patientBuffer", patientBuffer);
-            Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("PatientHistory").load());
         } catch (IOException e) {
         }
     }
@@ -120,16 +138,8 @@ public class PatientRegisterController implements Initializable {
         cbGender.valueProperty().bindBidirectional(patientBuffer.gender);
     }
 
-    private void unbindPatient() {
-        txfEmail.textProperty().unbindBidirectional(patientBuffer.email);
-        txfName.textProperty().unbindBidirectional(patientBuffer.name);
-        txfLastName.textProperty().unbindBidirectional(patientBuffer.firstLastname);
-        txfIdentification.textProperty().unbindBidirectional(patientBuffer.identification);
-        txfPhoneNumber.textProperty().unbindBidirectional(patientBuffer.phoneNumber);
-        txfSecondLastName.textProperty().unbindBidirectional(patientBuffer.secondLastname);
-        dpBirthDate.valueProperty().unbindBidirectional(patientBuffer.birthDate);
-        cbGender.valueProperty().unbindBidirectional(patientBuffer.gender);
-
+    public void loadView(String option) {
+        this.option = option;
     }
 
     private boolean verifyFields() {

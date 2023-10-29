@@ -79,7 +79,7 @@ public class AgendaModuleController implements Initializable {
     private Label lblMonth;
     @FXML
     private Label lblYear;
-    private int countWeeks = 0;
+    private Integer countWeeks = 0;
     private DoctorService doctorService = new DoctorService();
     private UserService userService = new UserService();
     private DoctorDto doctorBuffer;
@@ -99,6 +99,8 @@ public class AgendaModuleController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         userLoggued = (UserDto) data.getData("userLoggued");
+        countWeeks = (Integer) data.getData("countWeeks");
+        countWeeks = countWeeks == null ? 0 : countWeeks;
         setDays(countWeeks);
         initializeComboBox();
         loadDoctors();
@@ -181,7 +183,7 @@ public class AgendaModuleController implements Initializable {
                 LocalTime newMedicalStartTime = LocalTime.parse(startTime), newMedicalEndingTime = LocalTime.parse(endingTime);
                 LocalTime finalHourDoctor = LocalTime.parse(doctorBuffer.getShiftEndTime());
                 for (MedicalAppointmentDto medicalAppointmentDto : agendaDto.getMedicalAppointments()) {
-                    if (medicalAppointentBuffer != null && !Objects.equals(medicalAppointentBuffer.getId(), medicalAppointmentDto.getId())) {
+                    if (medicalAppointentBuffer != null && !Objects.equals(medicalAppointentBuffer.getId(), medicalAppointmentDto.getId()) && !medicalAppointmentDto.getState().equals("CANCELLED")) {
                         medicalStartTime = LocalTime.parse(medicalAppointmentDto.getScheduledStartTime());
                         medicalEndingTime = LocalTime.parse(medicalAppointmentDto.getScheduledEndTime());
 
@@ -295,8 +297,10 @@ public class AgendaModuleController implements Initializable {
     }
 
     public void loadView(DoctorDto doctorDto) {
-        doctorBuffer = doctorDto;
-        loadDoctor();
+        if (doctorDto != null) {
+            doctorBuffer = (DoctorDto) doctorService.getDoctorById(doctorDto.getId()).getData();
+            loadDoctor();
+        }
     }
 
     private void loadDoctors() {
@@ -536,7 +540,6 @@ public class AgendaModuleController implements Initializable {
             Integer row = GridPane.getRowIndex((Node) event.getSource());
             String day = column != null ? getDayInGrid(column) : null;
             String hour = row != null ? getHourInGrid(row) : null;
-
             if (day != null) {
                 data.setData("agendaBuffer", agendaDtos.get(day));
             }
@@ -545,7 +548,12 @@ public class AgendaModuleController implements Initializable {
 
             data.setData("doctorBuffer", doctorBuffer);
             data.setData("scheduledBy", userLoggued);
-            data.setData("medicalAppointmentBuffer", medicalAppointmentDto);
+            if (medicalAppointmentDto != null && medicalAppointmentDto.getState().equals("CANCELLED")) {
+                data.setData("medicalAppointmentBuffer", null);
+            } else {
+                data.setData("medicalAppointmentBuffer", medicalAppointmentDto);
+            }
+            data.setData("countWeeks", countWeeks);
             Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("MedicalAppointmentRegister").load());
         } catch (Exception e) {
             System.out.println(e.toString());

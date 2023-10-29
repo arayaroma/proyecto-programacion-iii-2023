@@ -116,7 +116,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
             fechaAppointment = (String) data.getData("fechaAppointment");
             doctorBuffer = (DoctorDto) data.getData("doctorBuffer");
             String hourAppointment = (String) data.getData("hourAppointment");
-            patientBuffer = (PatientDto) data.getData("patientBuffer");//Este buffer viene de la pantalla de registro de paciente en caso de no existir el paciente
+            patientBuffer = (PatientDto) data.getData("patientBuffer");
             medicalAppointmentBuffer = (MedicalAppointmentDto) data.getData("medicalAppointmentBuffer");
             agendaBuffer = agendaBuffer == null ? new AgendaDto() : agendaBuffer;
             medicalAppointmentBuffer = medicalAppointmentBuffer == null ? new MedicalAppointmentDto() : medicalAppointmentBuffer;
@@ -168,6 +168,8 @@ public class MedicalAppointmentRegisterController implements Initializable {
             medicalAppointmentBuffer.setScheduledStartTime(hour);
             medicalAppointmentBuffer.setScheduledEndTime(getEndTime(hour, agendaBuffer.getHourlySlots(), spSlots.getValue()));
             if (!medicalAppointmentBuffer.getPatientEmail().equals(patientBuffer.getEmail()) || !medicalAppointmentBuffer.getPatientPhoneNumber().equals(patientBuffer.getPhoneNumber())) {
+                patientBuffer.setEmail(medicalAppointmentBuffer.getPatientEmail());
+                patientBuffer.setPhoneNumber(medicalAppointmentBuffer.getPatientPhoneNumber());
                 patientService.updatePatient(patientBuffer);
             }
             saveMedicalAppointment(medicalAppointmentBuffer);
@@ -176,13 +178,20 @@ public class MedicalAppointmentRegisterController implements Initializable {
 
     private void addPatientsInCb() {
         patients = (List<PatientDto>) patientService.getPatients().getData();
-        cbIdentification.getItems().addAll(patients);
+        if (patients != null) {
+            cbIdentification.getItems().addAll(patients);
+        }
     }
 
     @FXML
     private void createPatient(ActionEvent event) throws IOException {
-        data.setData("isFromAppointmentRegister", true);
-        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("PatientRegister").load());
+        FXMLLoader loader = App.getFXMLLoader("PatientRegister");
+        Animation.MakeDefaultFadeTransition(parent, loader.load());
+        PatientRegisterController controller = loader.getController();
+        if (controller != null) {
+            controller.loadView("medicalAppointmentRegister");
+        }
+
     }
 
     @FXML
@@ -269,15 +278,16 @@ public class MedicalAppointmentRegisterController implements Initializable {
     }
 
     public void bindMedicalAppointment() {
-        if (patientBuffer != null) {
-            txfEmail.textProperty().bindBidirectional(patientBuffer.email);
-            txfPhoneNumber.textProperty().bindBidirectional(patientBuffer.phoneNumber);
-        }
+
         txfReason.textProperty().bindBidirectional(medicalAppointmentBuffer.reason);
         txfEmail.textProperty().bindBidirectional(medicalAppointmentBuffer.patientEmail);
         txfPhoneNumber.textProperty().bindBidirectional(medicalAppointmentBuffer.patientPhoneNumber);
         dpAppoinmentDate.valueProperty().bindBidirectional(medicalAppointmentBuffer.scheduledDate);
         cbHoursAvailable.valueProperty().bindBidirectional(medicalAppointmentBuffer.scheduledStartTime);
+        if (patientBuffer != null) {
+            txfEmail.textProperty().set(patientBuffer.getEmail());
+            txfPhoneNumber.textProperty().set(patientBuffer.getPhoneNumber());
+        }
         if (medicalAppointmentBuffer.getSlotsNumber() != null) {
             Long slotsNumber = medicalAppointmentBuffer.getSlotsNumber();
             spSlots.getEditor().setText(slotsNumber.toString());
@@ -413,21 +423,24 @@ public class MedicalAppointmentRegisterController implements Initializable {
         return result;
     }
 
+    public void loadView(PatientDto patientDto) {
+        if (patientDto != null && patientDto.getId() != null) {
+            patientBuffer = patientDto;
+        }
+    }
+
     private boolean checkOverlap(String startTime, String endTime, MedicalAppointmentDto mA) {
+
         LocalTime newStartTimeAppointment = LocalTime.parse(startTime);
         LocalTime newEndTimeAppointment = LocalTime.parse(endTime);
         String end = doctorBuffer.getShiftEndTime();
-        end = (end.charAt(1) == ':') ? "0" + end : end;
         if (mA != null) {
-            String s = mA.getScheduledStartTime();
-            String e = mA.getScheduledEndTime();
-            s = (s.charAt(1) == ':') ? "0" + s : s;
-            e = (e.charAt(1) == ':') ? "0" + e : e;
-            LocalTime startExist = LocalTime.parse(s);
-            LocalTime endExist = LocalTime.parse(e);
-            if ((newStartTimeAppointment.isBefore(endExist) && newEndTimeAppointment.isAfter(startExist))
-                    || (newEndTimeAppointment.equals(startExist))
-                    || (newStartTimeAppointment.isBefore(startExist) && newEndTimeAppointment.isAfter(LocalTime.parse(end)))) {
+            if (Objects.equals(mA.getId(), medicalAppointmentBuffer.getId()) || mA.getState().equals("CANCELLED")) {
+                return false;
+            }
+            LocalTime medicalAppointmentstartExist = LocalTime.parse(mA.getScheduledStartTime());
+            LocalTime medicalAppointmentendExist = LocalTime.parse(mA.getScheduledEndTime());
+            if ((newStartTimeAppointment.isBefore(medicalAppointmentendExist) || newStartTimeAppointment.equals(medicalAppointmentendExist)) && (newEndTimeAppointment.isAfter(medicalAppointmentstartExist) || newEndTimeAppointment.equals(medicalAppointmentstartExist))) {
                 return true;
             }
         }
@@ -438,7 +451,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
         long intervalMillis = TimeUnit.HOURS.toMillis(1) / slots;
         long intervalMinutes = TimeUnit.MILLISECONDS.toMinutes(intervalMillis);
         LocalTime horaInicioLocal = LocalTime.parse(startTime);
-        LocalTime horaFin = horaInicioLocal.plusMinutes(intervalMinutes * medicalAppointmentSlots);
+        LocalTime horaFin = horaInicioLocal.plusMinutes(intervalMinutes * (medicalAppointmentSlots - 1));
         return horaFin.toString();
     }
 
