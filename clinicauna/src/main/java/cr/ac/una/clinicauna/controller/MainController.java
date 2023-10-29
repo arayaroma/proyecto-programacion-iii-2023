@@ -85,8 +85,7 @@ public class MainController implements Initializable {
     private Button btnReportModule;
     @FXML
     private Button btnGeneralInformationModule;
-    @FXML
-    private Button btnMedicalAppointmentModule;
+
     private UserService userService = new UserService();
     private UserDto userLoggued;
     private Data data = Data.getInstance();
@@ -227,16 +226,6 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void btnMedicalAppointmentModuleAction(ActionEvent event) throws IOException {
-        if (event != null) {
-            focusButton((Node) event.getSource());
-        }
-        FXMLLoader loader = App.getFXMLLoader("MedicalAppointmentModule");
-        container.getChildren().clear();
-        container.getChildren().add(loader.load());
-    }
-
-    @FXML
     private void btnReportModuleAction(ActionEvent event) throws IOException {
         if (event != null) {
             focusButton((Node) event.getSource());
@@ -314,6 +303,7 @@ public class MainController implements Initializable {
             if (option.equals("reportmodule")) {
                 btnReportModuleAction(null);
             }
+
         } catch (IOException e) {
         }
     }
@@ -324,13 +314,11 @@ public class MainController implements Initializable {
             if (userLoggued.getRole().toLowerCase().equals("recepcionist")) {
                 menuView.getChildren().removeAll(btnDoctorModule,
                         btnGeneralInformationModule,
-                        btnMedicalAppointmentModule,
                         btnUserModule,
                         btnReportModule);
             } else if (userLoggued.getRole().toLowerCase().equals("doctor")) {
                 menuView.getChildren().removeAll(btnDoctorModule,
                         btnGeneralInformationModule,
-                        btnMedicalAppointmentModule,
                         btnUserModule);
             }
 

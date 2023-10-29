@@ -87,7 +87,7 @@ public class PatientRegisterController implements Initializable {
                     Animation.MakeDefaultFadeTransition(mainView, loader.load());
                     MedicalAppointmentRegisterController medicalAppointmentRegisterController = loader.getController();
                     if (medicalAppointmentRegisterController != null) {
-                        medicalAppointmentRegisterController.loadView(patientBuffer);
+                        medicalAppointmentRegisterController.loadView(patientBuffer, "patientRegister");
                     }
                     data.removeData("patientBuffer");
                     break;

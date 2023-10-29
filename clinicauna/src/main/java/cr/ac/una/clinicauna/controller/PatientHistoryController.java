@@ -25,6 +25,8 @@ import cr.ac.una.clinicauna.model.PatientFamilyHistoryDto;
 import cr.ac.una.clinicauna.model.PatientPersonalHistoryDto;
 import cr.ac.una.clinicauna.services.PatientPersonalHistoryService;
 import cr.ac.una.clinicauna.services.PatientService;
+import cr.ac.una.clinicauna.util.Message;
+import cr.ac.una.clinicauna.util.MessageType;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -192,6 +194,10 @@ public class PatientHistoryController implements Initializable {
 
     @FXML
     private void showPatientCareView(MouseEvent event) {
+        if(patientPersonalHistoryBuffer==null){
+            Message.showNotification("Ups", MessageType.INFO, "patientHistoryEmpty");
+            return;
+        }
         new FlipInY(patientCareView).play();
         patientCareView.toFront();
     }

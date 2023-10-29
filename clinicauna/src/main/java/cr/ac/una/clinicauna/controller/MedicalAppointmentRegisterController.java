@@ -102,6 +102,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
     private UserDto scheduledBy;
 
     private boolean isEditing;
+    private String option = "";
 
     /**
      * Initializes the controller class.
@@ -140,12 +141,15 @@ public class MedicalAppointmentRegisterController implements Initializable {
     @FXML
     private void backAction(MouseEvent event) {
         try {
-            FXMLLoader loader = App.getFXMLLoader("Main");
-            Animation.MakeDefaultFadeTransition(mainView, loader.load());
-            MainController controller = loader.getController();
-            if (controller != null) {
-                controller.loadView("agendaModule");
-            }
+            option = option.toLowerCase();
+//            if (option.equals("agendamodule")) {
+                FXMLLoader loader = App.getFXMLLoader("Main");
+                Animation.MakeDefaultFadeTransition(mainView, loader.load());
+                MainController controller = loader.getController();
+                if (controller != null) {
+                    controller.loadView("agendaModule");
+                }
+//            }
         } catch (IOException e) {
         }
 
@@ -220,9 +224,6 @@ public class MedicalAppointmentRegisterController implements Initializable {
         }
     }
 
-//    private void setSlotsAvailable(MouseEvent event) {
-//        loadHoursInComboBox();
-//    }
     @FXML
     private void setSlotsAvailable(InputMethodEvent event) {
         loadHoursInComboBox();
@@ -423,10 +424,11 @@ public class MedicalAppointmentRegisterController implements Initializable {
         return result;
     }
 
-    public void loadView(PatientDto patientDto) {
+    public void loadView(PatientDto patientDto, String option) {
         if (patientDto != null && patientDto.getId() != null) {
             patientBuffer = patientDto;
         }
+        this.option = option;
     }
 
     private boolean checkOverlap(String startTime, String endTime, MedicalAppointmentDto mA) {

@@ -23,6 +23,7 @@ import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
 import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
+import java.io.IOException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -533,7 +535,14 @@ public class AgendaModuleController implements Initializable {
             }
         }
     }
-
+    private void openMedicalAppointmentRegisterView() throws IOException{
+        FXMLLoader loader = App.getFXMLLoader("MedicalAppointmentRegister");
+        Animation.MakeDefaultFadeTransition(parent, loader.load());
+        MedicalAppointmentRegisterController controller = loader.getController();
+        if(controller!=null){
+            controller.loadView(null, "AgendaModule");
+        }
+    }
     private void createMedicalAppointment(MouseEvent event, MedicalAppointmentDto medicalAppointmentDto) {
         try {
             Integer column = GridPane.getColumnIndex((Node) event.getSource());
@@ -554,7 +563,7 @@ public class AgendaModuleController implements Initializable {
                 data.setData("medicalAppointmentBuffer", medicalAppointmentDto);
             }
             data.setData("countWeeks", countWeeks);
-            Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("MedicalAppointmentRegister").load());
+            openMedicalAppointmentRegisterView();
         } catch (Exception e) {
             System.out.println(e.toString());
         }

@@ -15,6 +15,7 @@ import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -142,7 +143,6 @@ public class PatientCareRegisterController implements Initializable {
     private void setParameters(PatientCareDto patientCareDto) {
         patientCareDto.setBloodPressure(spBloodPresure.getEditor().getText());
         patientCareDto.setBodyMassIndex(lblBodyMassIndex.getText());
-
         patientCareDto.setHeartRate(spHeartRate.getEditor().getText());
         patientCareDto.setHeight(spHeight.getEditor().getText());
         patientCareDto.setWeight(spWeight.getEditor().getText());
@@ -152,7 +152,8 @@ public class PatientCareRegisterController implements Initializable {
         Double idealWeight = heightInCM - 100 - ((heightInCM - 150) / 4);
         Double idealIMC = idealWeight / (height * height);
         idealIMC = idealIMC < 0 ? 0 : idealIMC;
-        patientCareDto.setBodyMassIndexIdeal(String.valueOf(idealIMC));
+        DecimalFormat format = new DecimalFormat("#.##");
+        patientCareDto.setBodyMassIndexIdeal(format.format(idealIMC));
     }
 
     private void initializeSpinners() {
