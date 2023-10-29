@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -50,6 +51,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.InputMethodEvent;
 import javafx.util.StringConverter;
 
 /**
@@ -209,8 +211,11 @@ public class MedicalAppointmentRegisterController implements Initializable {
         }
     }
 
+//    private void setSlotsAvailable(MouseEvent event) {
+//        loadHoursInComboBox();
+//    }
     @FXML
-    private void setSlotsAvailable(MouseEvent event) {
+    private void setSlotsAvailable(InputMethodEvent event) {
         loadHoursInComboBox();
     }
 
@@ -341,11 +346,13 @@ public class MedicalAppointmentRegisterController implements Initializable {
     private boolean verifyFields() {
         List<Node> fields = Arrays.asList(txfEmail, txfPhoneNumber, txfReason, spSlots, cbHoursAvailable);
         for (Node i : fields) {
-            if (i instanceof JFXTextField && ((JFXTextField) i).getText() != null
-                    && ((JFXTextField) i).getText().isBlank() && i instanceof JFXTextArea && ((JFXTextArea) i).getText() != null
-                    && ((JFXTextArea) i).getText().isBlank()
-                    && i instanceof Spinner && ((Spinner) i).getValue() != null
-                    && i instanceof ComboBox && ((ComboBox) i).getValue() != null) {
+            if (i instanceof JFXTextField && ((JFXTextField) i).getText() != null && ((JFXTextField) i).getText().isBlank()) {
+                return false;
+            } else if (i instanceof JFXTextArea && ((JFXTextArea) i).getText() != null && ((JFXTextArea) i).getText().isBlank()) {
+                return false;
+            } else if (i instanceof Spinner && ((Spinner) i).getValue() == null) {
+                return false;
+            } else if (i instanceof ComboBox && ((ComboBox) i).getValue() == null) {
                 return false;
             }
         }
@@ -391,9 +398,6 @@ public class MedicalAppointmentRegisterController implements Initializable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
         try {
-            startTime = (startTime.charAt(1) == ':') ? "0" + startTime : startTime;
-            endTime = (endTime.charAt(1) == ':') ? "0" + endTime : endTime;
-
             LocalTime start = LocalTime.parse(startTime, formatter);
             LocalTime end = LocalTime.parse(endTime, formatter);
             long intervalMinutes = TimeUnit.HOURS.toMinutes(1) / fieldsPerHour;

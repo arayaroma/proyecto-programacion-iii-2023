@@ -179,16 +179,18 @@ public class AgendaModuleController implements Initializable {
             if (agendaDto != null) {
                 LocalTime medicalStartTime, medicalEndingTime;
                 LocalTime newMedicalStartTime = LocalTime.parse(startTime), newMedicalEndingTime = LocalTime.parse(endingTime);
+                LocalTime finalHourDoctor = LocalTime.parse(doctorBuffer.getShiftEndTime());
                 for (MedicalAppointmentDto medicalAppointmentDto : agendaDto.getMedicalAppointments()) {
                     if (medicalAppointentBuffer != null && !Objects.equals(medicalAppointentBuffer.getId(), medicalAppointmentDto.getId())) {
                         medicalStartTime = LocalTime.parse(medicalAppointmentDto.getScheduledStartTime());
                         medicalEndingTime = LocalTime.parse(medicalAppointmentDto.getScheduledEndTime());
-                        if (newMedicalStartTime.isBefore(medicalEndingTime) && newMedicalEndingTime.isAfter(medicalStartTime) || newMedicalEndingTime.equals(medicalStartTime)) {
+
+                        if (newMedicalStartTime.isBefore(medicalEndingTime) && (newMedicalEndingTime.isAfter(medicalStartTime) || newMedicalEndingTime.equals(medicalStartTime))) {
                             return true;
                         }
                     }
                 }
-                return false;
+                return newMedicalEndingTime.isAfter(finalHourDoctor);
             }
             return false;
         } catch (Exception e) {
@@ -207,13 +209,8 @@ public class AgendaModuleController implements Initializable {
                     agendaDto = createAgenda(agendaDto);
                 }
                 if (agendaDto != null) {
-                    Integer shiftStartTimeIndex = medicalAppointmentsHours.get(newTime);
-                    shiftStartTimeIndex = shiftStartTimeIndex - 1;//Set the index into hours calculated
-                    if (shiftStartTimeIndex + medicalAppointmentDto.getSlotsNumber() - 1 > hoursCalculated.size() - 1) {//Lower bound < Last Hour
-                        return false;
-                    }
-                    //Set the Lower Bound
-                    String shiftEndingTimeIndex = hoursCalculated.get((shiftStartTimeIndex + medicalAppointmentDto.getSlotsNumber().intValue()) - 1);
+
+                    String shiftEndingTimeIndex = getEndTime(newTime, doctorBuffer.getHourlySlots(), medicalAppointmentDto.getSlotsNumber().intValue());
                     if (!hasTimeConflict(newTime, shiftEndingTimeIndex, agendaDto)) {
                         medicalAppointmentDto.setAgenda(new AgendaDto(agendaDto));
                         medicalAppointmentDto.setScheduledDate(newDate.toString());
@@ -234,6 +231,14 @@ public class AgendaModuleController implements Initializable {
             System.out.println(e.toString());
             return false;
         }
+    }
+
+    private String getEndTime(String startTime, Long slots, int medicalAppointmentSlots) {
+        long intervalMillis = TimeUnit.HOURS.toMillis(1) / slots;
+        long intervalMinutes = TimeUnit.MILLISECONDS.toMinutes(intervalMillis);
+        LocalTime horaInicioLocal = LocalTime.parse(startTime);
+        LocalTime horaFin = horaInicioLocal.plusMinutes(intervalMinutes * (medicalAppointmentSlots - 1));//Quitar el 1
+        return horaFin.toString();
     }
 
     private AgendaDto createAgenda(AgendaDto agendaDto) {
