@@ -1,17 +1,18 @@
 package cr.ac.una.clinicauna.util;
 
+import java.util.HashMap;
 import java.util.List;
-import cr.ac.una.clinicauna.model.UserDto;
 
 /**
  * 
  * @author arayaroma
  */
-public class QueryManager {
+public class QueryManager<D> {
 
     private String query;
+    private HashMap<String, String> parameters = new HashMap<>();
     private String status;
-    private List<UserDto> result;
+    private List<D> result;
 
     public QueryManager() {
     }
@@ -24,6 +25,14 @@ public class QueryManager {
         this.query = query;
     }
 
+    public HashMap<String, String> getParameters() {
+        return this.parameters;
+    }
+
+    public void setParameters(HashMap<String, String> parameters) {
+        this.parameters = parameters;
+    }
+
     public String getStatus() {
         return this.status;
     }
@@ -32,18 +41,20 @@ public class QueryManager {
         this.status = status;
     }
 
-    public List<UserDto> getResult() {
+    public List<D> getResult() {
         return this.result;
     }
 
-    public void setResult(List<UserDto> result) {
-        this.result = result;
+    @SuppressWarnings("unchecked")
+    public void setResult(List<?> result) {
+        this.result = (List<D>) result;
     }
 
     @Override
     public String toString() {
         return "{" +
                 " query='" + getQuery() + "'" +
+                ", parameters='" + getParameters() + "'" +
                 ", status='" + getStatus() + "'" +
                 ", result='" + getResult() + "'" +
                 "}";
