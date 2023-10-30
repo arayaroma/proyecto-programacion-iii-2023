@@ -207,6 +207,8 @@ public class ReportController {
             @PathParam("endDate") String eDate) {
         try {
             MediaType contentType;
+            System.out.println(sDate);
+            System.out.println(eDate);
             ResponseWrapper response = reportService.createAgendaReport(dId, sDate, eDate);
             if (response.getData() instanceof byte[]) {
                 contentType = MediaType.APPLICATION_OCTET_STREAM_TYPE;

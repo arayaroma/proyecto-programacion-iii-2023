@@ -36,7 +36,7 @@ FROM "TBL_DOCTOR" D
 	JOIN "TBL_PATIENT" PA ON 
 	 MA."PATIENT" = PA."ID" 
 WHERE 
-	MA."SCHEDULEDDATE" = TO_DATE(SUBSTR($P{maDate}, 1, 10), 'YYYY-MM-DD')]]>
+	MA."SCHEDULEDDATE" = TO_DATE(SUBSTR($P{maDate}, 1, 10), 'yyyy-MM-dd')]]>
 		</queryString>
 		<field name="APPOINTMENT_DATE" class="java.sql.Timestamp">
 			<property name="com.jaspersoft.studio.field.name" value="APPOINTMENT_DATE"/>
@@ -102,8 +102,8 @@ FROM "TBL_DOCTOR" D
 	 MA."PATIENT" = PA."ID"*/
 WHERE 
 	 D."ID" = $P{doctorId}
-	 AND A."AGENDADATE" >= TO_DATE($P{startDate}, 'DD-MM-YYYY')
-	  AND A."AGENDADATE" <= TO_DATE($P{endDate}, 'DD-MM-YYYY')]]>
+	 AND A."AGENDADATE" >= TO_DATE($P{startDate}, 'yyyy-MM-dd')
+	  AND A."AGENDADATE" <= TO_DATE($P{endDate}, 'yyyy-MM-dd')]]>
 	</queryString>
 	<field name="DOCTOR_NAME" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="DOCTOR_NAME"/>
@@ -140,7 +140,7 @@ WHERE
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="13"/>
 					</textElement>
-					<text><![CDATA[Fecha de las atenciones:]]></text>
+					<text><![CDATA[Fecha de las atenciones]]></text>
 				</staticText>
 				<textField>
 					<reportElement x="205" y="0" width="144" height="26" forecolor="#FFFFFF" uuid="856a2442-711b-43ae-8957-e9cd308e96c6"/>
