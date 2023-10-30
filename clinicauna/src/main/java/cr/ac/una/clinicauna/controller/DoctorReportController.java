@@ -88,6 +88,10 @@ public class DoctorReportController implements Initializable {
         LocalDate startingDate = dpStartingDate.getValue();
         LocalDate endingDate = dpEndingDate.getValue();
         if (startingDate != null && endingDate != null && doctorBuffer != null) {
+            if (tblMedicalAppointmentsView.getItems().isEmpty()) {
+                Message.showNotification("Ups", MessageType.INFO, "emptyList");
+                return;
+            }
             ResponseWrapper response = reportService.createAgendaReport(doctorBuffer.getId(), startingDate.toString(), endingDate.toString());
             if (response.getCode() != ResponseCode.OK) {
                 Message.showNotification("ERROR", MessageType.ERROR, response.getMessage());
