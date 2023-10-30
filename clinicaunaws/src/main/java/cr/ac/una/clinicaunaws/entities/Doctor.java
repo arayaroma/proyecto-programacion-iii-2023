@@ -1,7 +1,6 @@
 package cr.ac.una.clinicaunaws.entities;
 
 import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,7 +27,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.QueryHint;
 
-
 /**
  *
  * @author arayaroma
@@ -39,8 +37,8 @@ import jakarta.persistence.QueryHint;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
-    @NamedQuery(name = "Doctor.findAll", query = "SELECT d FROM Doctor d", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
-    @NamedQuery(name = "Doctor.findById", query = "SELECT d FROM Doctor d WHERE d.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true"))
+        @NamedQuery(name = "Doctor.findAll", query = "SELECT d FROM Doctor d", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+        @NamedQuery(name = "Doctor.findById", query = "SELECT d FROM Doctor d WHERE d.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true"))
 })
 public class Doctor implements Serializable {
 

@@ -34,8 +34,8 @@ import cr.ac.una.clinicaunaws.dto.ReportDto;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
-    @NamedQuery(name = "Report.findAll", query = "SELECT r FROM Report r"),
-    @NamedQuery(name = "Report.findById", query = "SELECT r FROM Report r WHERE r.id = :id"),})
+        @NamedQuery(name = "Report.findAll", query = "SELECT r FROM Report r"),
+        @NamedQuery(name = "Report.findById", query = "SELECT r FROM Report r WHERE r.id = :id"), })
 public class Report implements Serializable {
 
     private static final long serialVersionUID = 1L;

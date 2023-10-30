@@ -36,8 +36,8 @@ import jakarta.persistence.QueryHint;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
-    @NamedQuery(name = "Agenda.findAll", query = "SELECT a FROM Agenda a", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
-    @NamedQuery(name = "Agenda.findById", query = "SELECT a FROM Agenda a WHERE a.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),})
+        @NamedQuery(name = "Agenda.findAll", query = "SELECT a FROM Agenda a", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+        @NamedQuery(name = "Agenda.findById", query = "SELECT a FROM Agenda a WHERE a.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true")), })
 public class Agenda implements Serializable {
 
     private static final long serialVersionUID = 1L;
