@@ -34,6 +34,20 @@ public class UserService {
     EmailService emailService;
 
     /**
+     * TODO: Test this method
+     * 
+     * @param userDto to be created
+     * @return ResponseWrapper with the response from database, or null if an
+     *         exception occurred
+     */
+    private void EncryptPassword(UserDto userDto) {
+        userDto.setPassword(HashGenerator.generateHash(userDto.getPassword(),
+                HashGenerator.HashAlgorithm.SHA256.getAlgorithm()));
+    }
+
+    /**
+     * FIXME: Encrypt password with SHA256 to save it in database
+     * 
      * @param userDto to be created
      * @return ResponseWrapper with the response from database, or null if an
      *         exception occurred
@@ -44,7 +58,7 @@ public class UserService {
             try {
                 user.setActivationCode(generateHash(userDto));
                 userDto.setActivationCode(user.getActivationCode());
-                 sendActivationEmail(userDto);
+                sendActivationEmail(userDto);
             } catch (Exception ex) {
                 return new ResponseWrapper(
                         ResponseCode.OK.getCode(),
