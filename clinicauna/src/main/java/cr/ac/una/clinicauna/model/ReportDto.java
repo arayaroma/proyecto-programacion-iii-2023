@@ -20,7 +20,7 @@ public class ReportDto {
     private SimpleStringProperty frequency;
     private List<ReportParametersDto> reportParameters;
     private List<ReportRecipientsDto> reportRecipients;
-    private QueryManager queryManager = new QueryManager();
+    private QueryManager<?> queryManager = new QueryManager<>();
     private Long version;
 
     public ReportDto() {
@@ -116,11 +116,11 @@ public class ReportDto {
         this.version = version;
     }
 
-    public QueryManager getQueryManager() {
+    public QueryManager<?> getQueryManager() {
         return this.queryManager;
     }
 
-    public void setQueryManager(QueryManager queryManager) {
+    public void setQueryManager(QueryManager<?> queryManager) {
         this.queryManager = queryManager;
     }
 
