@@ -23,4 +23,5 @@ module Clinicauna {
     opens cr.ac.una.clinicauna.components to javafx.fxml, javafx.controls, com.jfoenix;
 
     exports cr.ac.una.clinicauna.model;
+    exports cr.ac.una.clinicauna.util;
 }
