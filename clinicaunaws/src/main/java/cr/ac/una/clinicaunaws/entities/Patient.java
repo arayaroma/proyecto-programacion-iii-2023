@@ -133,5 +133,5 @@ public class Patient implements Serializable {
         this.birthDate = LocalDate.parse(dto.getBirthDate());
         this.version = dto.getVersion();
     }
-    
+
 }

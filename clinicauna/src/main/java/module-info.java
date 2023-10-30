@@ -10,7 +10,7 @@ module Clinicauna {
     // JAKARTA
     requires jakarta.xml.bind;
     requires jakarta.ws.rs;
-    requires jakarta.json;
+    requires transitive jakarta.json;
     // IMAGE AND FILES SERIALIZATION
     requires org.apache.commons.compress;
     requires org.apache.commons.io;
@@ -23,4 +23,5 @@ module Clinicauna {
     opens cr.ac.una.clinicauna.components to javafx.fxml, javafx.controls, com.jfoenix;
 
     exports cr.ac.una.clinicauna.model;
+    exports cr.ac.una.clinicauna.util;
 }

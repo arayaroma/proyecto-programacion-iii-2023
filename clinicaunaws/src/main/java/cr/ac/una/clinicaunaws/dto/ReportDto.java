@@ -1,9 +1,9 @@
 package cr.ac.una.clinicaunaws.dto;
 
 import java.util.List;
-
 import cr.ac.una.clinicaunaws.entities.Report;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
+import cr.ac.una.clinicaunaws.util.QueryManager;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportDto implements DtoMapper<Report, ReportDto> {
-
     private Long id;
     private String name;
     private String description;
@@ -27,6 +26,7 @@ public class ReportDto implements DtoMapper<Report, ReportDto> {
     private String frequency;
     private List<ReportParametersDto> reportParameters;
     private List<ReportRecipientsDto> reportRecipients;
+    private QueryManager<?> queryManager = new QueryManager<>();
     private Long version;
 
     @Override

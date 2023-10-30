@@ -2,9 +2,9 @@ package cr.ac.una.clinicaunaws.dto;
 
 import cr.ac.una.clinicaunaws.entities.Doctor;
 import java.util.List;
-
 import cr.ac.una.clinicaunaws.entities.User;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
+import cr.ac.una.clinicaunaws.util.QueryManager;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto implements DtoMapper<User, UserDto> {
-
     private Long id;
     private DoctorDto doctor;
     private String username;
@@ -38,11 +37,12 @@ public class UserDto implements DtoMapper<User, UserDto> {
     private byte[] profilePhoto;
     private List<MedicalAppointmentDto> medicalAppointments;
     private String token;
+    private QueryManager<?> queryManager = new QueryManager<>();
     private Long version;
 
     /**
      * @param entity Entity to be converted
-     * @param dto DTO to be updated
+     * @param dto    DTO to be updated
      * @return DTO with the updated information
      */
     @Override
@@ -56,7 +56,7 @@ public class UserDto implements DtoMapper<User, UserDto> {
     }
 
     /**
-     * @param dto DTO to be converted
+     * @param dto    DTO to be converted
      * @param entity Entity to be updated
      * @return Entity with the updated information
      */

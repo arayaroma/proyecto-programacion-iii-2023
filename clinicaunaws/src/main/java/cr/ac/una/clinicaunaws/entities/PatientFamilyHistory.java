@@ -32,8 +32,8 @@ import jakarta.persistence.QueryHint;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
-    @NamedQuery(name = "PatientFamilyHistory.findAll", query = "SELECT p FROM PatientFamilyHistory p", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
-    @NamedQuery(name = "PatientFamilyHistory.findById", query = "SELECT p FROM PatientFamilyHistory p WHERE p.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),})
+        @NamedQuery(name = "PatientFamilyHistory.findAll", query = "SELECT p FROM PatientFamilyHistory p", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+        @NamedQuery(name = "PatientFamilyHistory.findById", query = "SELECT p FROM PatientFamilyHistory p WHERE p.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true")), })
 public class PatientFamilyHistory implements Serializable {
 
     private static final long serialVersionUID = 1L;

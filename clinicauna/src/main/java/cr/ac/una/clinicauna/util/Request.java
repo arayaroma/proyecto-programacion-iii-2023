@@ -119,6 +119,14 @@ public class Request {
     }
 
     public Boolean isError() throws IOException {
+        boolean validResponse = getStatus() == Response.Status.OK.getStatusCode()
+                || getStatus() == Response.Status.CREATED.getStatusCode()
+                || getStatus() == Response.Status.NO_CONTENT.getStatusCode();
+
+        if (validResponse) {
+            return false;
+        }
+
         if (getStatus() == Response.Status.UNAUTHORIZED.getStatusCode()) {
             Message.showNotification("Session expired", MessageType.INFO,
                     "Your session has expired, please login again");
@@ -135,6 +143,8 @@ public class Request {
                 }
             }.start();
         }
+
+
         return getStatus() != Response.Status.OK.getStatusCode();
     }
 

@@ -4,7 +4,6 @@ import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
-
 import cr.ac.una.clinicaunaws.dto.PatientCareDto;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -38,8 +37,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
-    @NamedQuery(name = "PatientCare.findAll", query = "SELECT p FROM PatientCare p", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
-    @NamedQuery(name = "PatientCare.findById", query = "SELECT p FROM PatientCare p WHERE p.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),})
+        @NamedQuery(name = "PatientCare.findAll", query = "SELECT p FROM PatientCare p", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+        @NamedQuery(name = "PatientCare.findById", query = "SELECT p FROM PatientCare p WHERE p.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true")), })
 public class PatientCare implements Serializable {
 
     private static final long serialVersionUID = 1L;
