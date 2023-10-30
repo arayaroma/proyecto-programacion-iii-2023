@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportDto implements DtoMapper<Report, ReportDto> {
-
     private Long id;
     private String name;
     private String description;
@@ -27,8 +26,7 @@ public class ReportDto implements DtoMapper<Report, ReportDto> {
     private String frequency;
     private List<ReportParametersDto> reportParameters;
     private List<ReportRecipientsDto> reportRecipients;
-    @SuppressWarnings("rawtypes")
-    private QueryManager queryManager = QueryManager.getInstance();
+    private QueryManager<?> queryManager = new QueryManager<>();
     private Long version;
 
     @Override
