@@ -3,6 +3,7 @@ package cr.ac.una.clinicauna.model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import cr.ac.una.clinicauna.util.QueryManager;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -19,6 +20,7 @@ public class ReportDto {
     private SimpleStringProperty frequency;
     private List<ReportParametersDto> reportParameters;
     private List<ReportRecipientsDto> reportRecipients;
+    private QueryManager queryManager = new QueryManager();
     private Long version;
 
     public ReportDto() {
@@ -64,7 +66,6 @@ public class ReportDto {
 
     public void setDescription(String description) {
         this.description.set(description);
-        ;
     }
 
     public String getQuery() {
@@ -115,6 +116,14 @@ public class ReportDto {
         this.version = version;
     }
 
+    public QueryManager getQueryManager() {
+        return this.queryManager;
+    }
+
+    public void setQueryManager(QueryManager queryManager) {
+        this.queryManager = queryManager;
+    }
+
     @Override
     public String toString() {
         return "{" +
@@ -126,6 +135,7 @@ public class ReportDto {
                 ", frequency='" + getFrequency() + "'" +
                 ", reportParameters='" + getReportParameters() + "'" +
                 ", reportRecipients='" + getReportRecipients() + "'" +
+                ", queryManager='" + getQueryManager() + "'" +
                 ", version='" + getVersion() + "'" +
                 "}";
     }
