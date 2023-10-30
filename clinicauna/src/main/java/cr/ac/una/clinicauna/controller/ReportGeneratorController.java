@@ -3,6 +3,7 @@ package cr.ac.una.clinicauna.controller;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -66,20 +67,18 @@ public class ReportGeneratorController implements Initializable {
         sendReport(report);
     }
 
+    @SuppressWarnings("unchecked")
     private void sendReport(ReportDto report) {
         ResponseWrapper response = reportService.createReport(report);
         if (response.getCode() == ResponseCode.CREATED) {
-            ReportDto reportDto = (ReportDto) response.getData();
+            report = (ReportDto) response.getData();
+            List<UserDto> users = (List<UserDto>) report.getQueryManager().getResult();
 
-            List<UserDto> users = new ArrayList<>();
-            for (UserDto u : reportDto.getQueryManager().getResult()) {
-                users.add(u);
-            }
-            reportDto.getQueryManager().setResult(users);
-            reportDto.getQueryManager().setStatus(response.getMessage());
-            System.out.println(reportDto.toString());
+            report.setQueryManager(new QueryManager<UserDto>());
+            report.getQueryManager().setResult(users);
+            report.getQueryManager().setStatus(response.getMessage());
+            System.out.println(report.toString());
         }
-
     }
 
     private ReportDto loadReport() {
