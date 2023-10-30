@@ -1,6 +1,7 @@
 package cr.ac.una.clinicauna.model;
 
 import cr.ac.una.clinicauna.util.DtoMapper;
+import cr.ac.una.clinicauna.util.QueryManager;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -30,6 +31,7 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
     public SimpleStringProperty language;
     private byte[] profilePhoto;
     private String token;
+    private QueryManager<?> queryManager = new QueryManager<>();
     private Long version;
 
     @Override
@@ -233,6 +235,15 @@ public class UserDto implements DtoMapper<UserDto, UserDto> {
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+
+    public QueryManager<?> getQueryManager() {
+        return this.queryManager;
+    }
+
+    public void setQueryManager(QueryManager<?> queryManager) {
+        this.queryManager = queryManager;
     }
 
     public String parseLanguage(String language) {
