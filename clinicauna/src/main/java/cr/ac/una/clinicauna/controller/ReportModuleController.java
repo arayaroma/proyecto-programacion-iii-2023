@@ -1,6 +1,8 @@
 package cr.ac.una.clinicauna.controller;
 
 import cr.ac.una.clinicauna.App;
+import cr.ac.una.clinicauna.model.AgendaDto;
+import cr.ac.una.clinicauna.model.DoctorDto;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -39,7 +41,7 @@ public class ReportModuleController implements Initializable {
         try {
             FXMLLoader loader = App.getFXMLLoader("DoctorReport");
             tabDoctorReport.setContent(loader.load());
-            
+
         } catch (IOException e) {
             System.out.println(e.toString());
         }
@@ -60,12 +62,12 @@ public class ReportModuleController implements Initializable {
         try {
             FXMLLoader loader = App.getFXMLLoader("ReportGenerator");
             tabReportGenerator.setContent(loader.load());
-        
+
         } catch (IOException e) {
             System.out.println(e.toString());
         }
     }
-
+ 
     public void loadView(String option) {
         if (option != null) {
             option = option.toLowerCase();

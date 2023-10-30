@@ -85,7 +85,6 @@ public class AgendaModuleController implements Initializable {
     private DoctorService doctorService = new DoctorService();
     private UserService userService = new UserService();
     private DoctorDto doctorBuffer;
-    private DoctorService DoctorService = new DoctorService();
     private AgendaService agendaService = new AgendaService();
     private Map<String, AgendaDto> agendaDtos = new HashMap<>();
     private Map<String, Integer> days = new HashMap();
@@ -131,7 +130,7 @@ public class AgendaModuleController implements Initializable {
     private void cbSelectDoctor(ActionEvent event) {
         UserDto user = cbDoctor.getValue();
         if (user != null) {
-            doctorBuffer = (DoctorDto) DoctorService.getDoctorById(user.getId()).getData();
+            doctorBuffer = (DoctorDto) doctorService.getDoctorById(user.getId()).getData();
             loadDoctor();
         }
     }
@@ -535,14 +534,16 @@ public class AgendaModuleController implements Initializable {
             }
         }
     }
-    private void openMedicalAppointmentRegisterView() throws IOException{
+
+    private void openMedicalAppointmentRegisterView() throws IOException {
         FXMLLoader loader = App.getFXMLLoader("MedicalAppointmentRegister");
         Animation.MakeDefaultFadeTransition(parent, loader.load());
         MedicalAppointmentRegisterController controller = loader.getController();
-        if(controller!=null){
+        if (controller != null) {
             controller.loadView(null, "AgendaModule");
         }
     }
+
     private void createMedicalAppointment(MouseEvent event, MedicalAppointmentDto medicalAppointmentDto) {
         try {
             Integer column = GridPane.getColumnIndex((Node) event.getSource());

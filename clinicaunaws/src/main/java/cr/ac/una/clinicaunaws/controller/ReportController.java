@@ -36,6 +36,7 @@ import jakarta.ws.rs.core.SecurityContext;
 @SecurityRequirement(name = "jwt-auth")
 @Tag(name = "ReportController", description = "Manage endpoints related to the Report.")
 public class ReportController {
+
     private static final Logger logger = Logger.getLogger(ReportController.class.getName());
 
     @Context
@@ -46,12 +47,12 @@ public class ReportController {
 
     @POST
     @Path("/create")
-    @Operation(summary = "Create a new Report", description = "Create a new Report", tags = { "ReportController" })
+    @Operation(summary = "Create a new Report", description = "Create a new Report", tags = {"ReportController"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Report created"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+        @ApiResponse(responseCode = "201", description = "Report created"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized"),
+        @ApiResponse(responseCode = "403", description = "Forbidden"),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     public Response createReport(ReportDto reportDto) {
         try {
@@ -68,12 +69,12 @@ public class ReportController {
 
     @GET
     @Path("/report/{id}")
-    @Operation(summary = "Get a Report by id", description = "Get a Report by id", tags = { "ReportController" })
+    @Operation(summary = "Get a Report by id", description = "Get a Report by id", tags = {"ReportController"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Report found"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "404", description = "Report not found"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+        @ApiResponse(responseCode = "200", description = "Report found"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized"),
+        @ApiResponse(responseCode = "404", description = "Report not found"),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     public Response getReport(@PathParam("id") Long id) {
         try {
@@ -90,12 +91,12 @@ public class ReportController {
 
     @GET
     @Path("/report")
-    @Operation(summary = "Get all Reports", description = "Get all Reports", tags = { "ReportController" })
+    @Operation(summary = "Get all Reports", description = "Get all Reports", tags = {"ReportController"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Reports found"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "404", description = "Reports not found"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+        @ApiResponse(responseCode = "200", description = "Reports found"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized"),
+        @ApiResponse(responseCode = "404", description = "Reports not found"),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     public Response getAllReports() {
         try {
@@ -112,13 +113,13 @@ public class ReportController {
 
     @PUT
     @Path("/update")
-    @Operation(summary = "Update a Report", description = "Update a Report", tags = { "ReportController" })
+    @Operation(summary = "Update a Report", description = "Update a Report", tags = {"ReportController"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Report updated"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden"),
-            @ApiResponse(responseCode = "404", description = "Report not found"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+        @ApiResponse(responseCode = "200", description = "Report updated"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized"),
+        @ApiResponse(responseCode = "403", description = "Forbidden"),
+        @ApiResponse(responseCode = "404", description = "Report not found"),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     public Response updateReport(ReportDto reportDto) {
         try {
@@ -135,13 +136,13 @@ public class ReportController {
 
     @DELETE
     @Path("/delete/{id}")
-    @Operation(summary = "Delete a Report by id", description = "Delete a Report by id", tags = { "ReportController" })
+    @Operation(summary = "Delete a Report by id", description = "Delete a Report by id", tags = {"ReportController"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Report deleted"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden"),
-            @ApiResponse(responseCode = "404", description = "Report not found"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+        @ApiResponse(responseCode = "200", description = "Report deleted"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized"),
+        @ApiResponse(responseCode = "403", description = "Forbidden"),
+        @ApiResponse(responseCode = "404", description = "Report not found"),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     public Response deleteReport(@PathParam("id") Long id) {
         try {
@@ -165,12 +166,12 @@ public class ReportController {
     @GET
     @Path("/createPatientReport/{id}")
     @Operation(summary = "Create a Patient Report", description = "Create a Patient Report", tags = {
-            "ReportController" })
+        "ReportController"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Patient Report created"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "404", description = "Patient Report not found"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+        @ApiResponse(responseCode = "200", description = "Patient Report created"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized"),
+        @ApiResponse(responseCode = "404", description = "Patient Report not found"),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     public Response createPatientReport(@PathParam("id") Long id) {
         try {
@@ -195,12 +196,12 @@ public class ReportController {
     @GET
     @Path("/createAgendaReport/{doctorId}/{startDate}/{endDate}")
     @Operation(summary = "Create a Agenda Report", description = "Create a Agenda Report", tags = {
-            "ReportController" })
+        "ReportController"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Agenda Report created"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "404", description = "Agenda Report not found"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+        @ApiResponse(responseCode = "200", description = "Agenda Report created"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized"),
+        @ApiResponse(responseCode = "404", description = "Agenda Report not found"),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     public Response createAgendaReport(@PathParam("doctorId") Long dId, @PathParam("startDate") String sDate,
             @PathParam("endDate") String eDate) {
@@ -219,7 +220,7 @@ public class ReportController {
         } catch (Exception e) {
             logger.severe(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("Error al generar el informe").type(MediaType.TEXT_PLAIN).build();
+                    .entity("Error al generar el informe: " + e.toString()).type(MediaType.TEXT_PLAIN).build();
         }
     }
 

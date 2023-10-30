@@ -14,7 +14,7 @@
 	MA."SCHEDULEDDATE" AS APPOINTMENT_DATE,
 	MA."REASON" AS APPOINTMENT_REASON,
 	MA."STATE",
-	MA."SCHEDULEDTIME",
+	MA."SCHEDULEDSTARTTIME",
 	PA."NAME",
 	PA."FIRSTLASTNAME",
 	PA."SECONDLASTNAME",
@@ -30,8 +30,8 @@ FROM "TBL_DOCTOR" D
 	 MA."PATIENT" = PA."ID" 
 WHERE 
 	 D."ID" = $P{doctorId} 
-	 AND A."AGENDADATE" >=TO_DATE($P{startDate}, 'dd-MM-yyyy')
-	 AND A."AGENDADATE" <=TO_DATE($P{endDate}, 'dd-MM-yyyy')]]>
+	 AND A."AGENDADATE" >=TO_DATE($P{startDate}, 'yyyy-MM-dd')
+	 AND A."AGENDADATE" <=TO_DATE($P{endDate}, 'yyyy-MM-dd')]]>
 	</queryString>
 	<field name="DOCTOR_NAME" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="DOCTOR_NAME"/>
@@ -61,9 +61,9 @@ WHERE
 		<property name="com.jaspersoft.studio.field.name" value="STATE"/>
 		<property name="com.jaspersoft.studio.field.label" value="STATE"/>
 	</field>
-	<field name="SCHEDULEDTIME" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="SCHEDULEDTIME"/>
-		<property name="com.jaspersoft.studio.field.label" value="SCHEDULEDTIME"/>
+	<field name="SCHEDULEDSTARTTIME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="SCHEDULEDSTARTTIME"/>
+		<property name="com.jaspersoft.studio.field.label" value="SCHEDULEDSTARTTIME"/>
 	</field>
 	<field name="NAME" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="NAME"/>
@@ -162,7 +162,7 @@ WHERE
 				</staticText>
 				<textField>
 					<reportElement x="100" y="60" width="100" height="30" uuid="bd92fbc1-7747-481a-8b2f-a579d65c5133"/>
-					<textFieldExpression><![CDATA[$F{SCHEDULEDTIME}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{SCHEDULEDSTARTTIME}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="100" y="10" width="100" height="20" uuid="c68faf0e-5835-4c9b-9181-fc3b52018a91"/>
