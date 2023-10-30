@@ -23,6 +23,8 @@ import cr.ac.una.clinicaunaws.entities.Report;
 import cr.ac.una.clinicaunaws.entities.User;
 import cr.ac.una.clinicaunaws.util.Constants;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
+import cr.ac.una.clinicaunaws.util.QueryManager;
+
 import java.net.URL;
 
 /**
@@ -72,7 +74,6 @@ public class ReportService {
      * @param reportDto to be created
      * @return ResponseWrapper with the created Report
      */
-    @SuppressWarnings("unchecked")
     public ResponseWrapper createReport(ReportDto reportDto) {
         try {
             Report report = reportDto.convertFromDTOToEntity(reportDto, new Report(reportDto));
@@ -80,6 +81,7 @@ public class ReportService {
             em.flush();
 
             List<UserDto> result = getQueryResult(reportDto, User.class, UserDto.class);
+            reportDto.setQueryManager(new QueryManager<UserDto>());
             reportDto.getQueryManager().setResult(result);
 
             return new ResponseWrapper(
