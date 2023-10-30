@@ -1,9 +1,19 @@
 package cr.ac.una.clinicauna.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import cr.ac.una.clinicauna.model.ReportDto;
+import cr.ac.una.clinicauna.model.ReportRecipientsDto;
+import cr.ac.una.clinicauna.model.UserDto;
+import cr.ac.una.clinicauna.services.ReportService;
+import cr.ac.una.clinicauna.util.QueryManager;
+import cr.ac.una.clinicauna.util.ResponseCode;
+import cr.ac.una.clinicauna.util.ResponseWrapper;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -38,26 +48,93 @@ public class ReportGeneratorController implements Initializable {
     private JFXTextField tfRecipientEmail;
     @FXML
     private JFXButton btGenerateReport;
-
-    private final String[] frequencies = {"DAILY", "WEEKLY", "MONTHLY", "ANNUALLY"};
     @FXML
     private Label lbRecipientEmail;
-    @FXML
-    private JFXTextField tfRecipientName;
+
+    private final String[] frequencies = { "ONCE", "DAILY", "WEEKLY", "MONTHLY", "ANNUALLY" };
+    private ReportService reportService = new ReportService();
+    private ReportDto report = new ReportDto();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loadFrequencies();
     }
 
+    @FXML
+    private void generateReport(ActionEvent event) {
+        report = loadReport();
+        sendReport(report);
+    }
+
+    private void sendReport(ReportDto report) {
+        ResponseWrapper response = reportService.createReport(report);
+        if (response.getCode() == ResponseCode.CREATED) {
+            ReportDto reportDto = (ReportDto) response.getData();
+
+            List<UserDto> users = new ArrayList<>();
+            for (UserDto u : reportDto.getQueryManager().getResult()) {
+                users.add(u);
+            }
+            reportDto.getQueryManager().setResult(users);
+            reportDto.getQueryManager().setStatus(response.getMessage());
+            System.out.println(reportDto.toString());
+        }
+
+    }
+
+    private ReportDto loadReport() {
+        ReportRecipientsDto recipient = new ReportRecipientsDto();
+        // recipient.setReport(report);
+        recipient.setEmail(getRecipientEmail());
+
+        report.setName(getReportName());
+        report.setDescription(getReportDescription());
+        report.setQuery(getReportQuery());
+        report.getQueryManager().setQuery(getReportQuery());
+
+        report.setReportDate(getReportDate());
+        report.setFrequency(getReportFrequency());
+
+        report.getReportRecipients().add(recipient);
+        System.out.println(report.toString());
+        return report;
+    }
+
+    private void clearFields() {
+        tfReportName.clear();
+        tfReportDescription.clear();
+        tfReportQuery.clear();
+        tfRecipientEmail.clear();
+        cbReportFrequency.getSelectionModel().clearSelection();
+        dpReportDate.getEditor().clear();
+    }
+
     private void loadFrequencies() {
         cbReportFrequency.getItems().addAll(frequencies);
     }
 
-    private void makeQuery() {
-        String query = tfReportQuery.getText();
+    private String getReportName() {
+        return tfReportName.getText();
+    }
 
+    private String getReportDescription() {
+        return tfReportDescription.getText();
+    }
 
+    private String getReportDate() {
+        return dpReportDate.getValue().toString();
+    }
+
+    private String getReportFrequency() {
+        return cbReportFrequency.getValue();
+    }
+
+    private String getRecipientEmail() {
+        return tfRecipientEmail.getText();
+    }
+
+    private String getReportQuery() {
+        return tfReportQuery.getText();
     }
 
 }
