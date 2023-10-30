@@ -39,7 +39,7 @@
                                     <VBox>
                                        <children>
                                           <Label fx:id="lbRecipientEmail" styleClass="h3" text="recipientEmail" />
-                                          <JFXTextField fx:id="tfRecipientName" focusColor="#ce7711">
+                                          <JFXTextField fx:id="tfRecipientEmail" focusColor="#ce7711">
                                              <styleClass>
                                                 <String fx:value="bg-black" />
                                                 <String fx:value="h3" />
@@ -108,7 +108,7 @@
                               </VBox>
                            </children>
                         </VBox>
-                        <Button mnemonicParsing="false" text="Generate">
+                        <Button mnemonicParsing="false" onAction="#generateReport" text="Generate">
                            <styleClass>
                               <String fx:value="btn" />
                               <String fx:value="orange-color" />
