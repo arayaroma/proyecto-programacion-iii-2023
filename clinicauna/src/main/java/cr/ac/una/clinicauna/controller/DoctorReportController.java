@@ -16,6 +16,7 @@ import cr.ac.una.clinicauna.util.ResponseWrapper;
 import jakarta.ws.rs.core.Response;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -85,14 +86,15 @@ public class DoctorReportController implements Initializable {
 
     @FXML
     private void btnGenerateMedicalAppointmentReport(ActionEvent event) {
-        LocalDate startingDate = dpStartingDate.getValue();
-        LocalDate endingDate = dpEndingDate.getValue();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String startingDate = dpStartingDate.getValue().format(formatter);
+        String endingDate = dpEndingDate.getValue().format(formatter);
         if (startingDate != null && endingDate != null && doctorBuffer != null) {
             if (tblMedicalAppointmentsView.getItems().isEmpty()) {
                 Message.showNotification("Ups", MessageType.INFO, "emptyList");
                 return;
             }
-            ResponseWrapper response = reportService.createAgendaReport(doctorBuffer.getId(), startingDate.toString(), endingDate.toString());
+            ResponseWrapper response = reportService.createAgendaReport(doctorBuffer.getId(), startingDate/*.toString()*/, endingDate/*.toString()*/);
             if (response.getCode() != ResponseCode.OK) {
                 Message.showNotification("ERROR", MessageType.ERROR, response.getMessage());
             }
