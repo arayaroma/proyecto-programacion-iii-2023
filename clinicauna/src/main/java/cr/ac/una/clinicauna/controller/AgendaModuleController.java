@@ -96,6 +96,11 @@ public class AgendaModuleController implements Initializable {
     private MedicalAppointmentDto medicalAppointentBuffer;
     private MedicalAppointmentService medicalAppointmentService = new MedicalAppointmentService();
     private UserDto userLoggued;
+    private String startShiftTime = "";
+    private String endShiftTime = "";
+    private Long hourlySlots = 0L;
+    private List<LocalDate> localDays = new ArrayList<>();
+    private List<AgendaDto> weekendAgendas = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -113,6 +118,7 @@ public class AgendaModuleController implements Initializable {
     private void leftArrowAction(MouseEvent event) {
         setDays(countWeeks -= 1);
         if (doctorBuffer != null) {
+
             loadGrid();
         }
 
@@ -122,6 +128,7 @@ public class AgendaModuleController implements Initializable {
     private void rigthArrowAction(MouseEvent event) {
         setDays(countWeeks += 1);
         if (doctorBuffer != null) {
+
             loadGrid();
         }
     }
@@ -159,16 +166,42 @@ public class AgendaModuleController implements Initializable {
 
     private void loadGrid() {
         cleanAgenda();
+        loadActualWeek();
+        getStartEndTime();
+        hoursCalculated = calculateHours(startShiftTime, endShiftTime, hourlySlots);
+        loadHours(hoursCalculated);
         loadPanes();
         loadAgendas(doctorBuffer);
+    }
+
+    private void loadActualWeek() {
+        if (doctorBuffer != null) {
+            weekendAgendas.clear();
+            for (AgendaDto i : doctorBuffer.getAgendas()) {
+                if (localDays.contains(LocalDate.parse(i.getAgendaDate()))) {
+                    weekendAgendas.add(i);
+                }
+            }
+        }
+    }
+
+    private void getStartEndTime() {
+        if (doctorBuffer != null && weekendAgendas.isEmpty()) {
+            startShiftTime = doctorBuffer.getShiftStartTime();
+            endShiftTime = doctorBuffer.getShiftEndTime();
+            hourlySlots = doctorBuffer.getHourlySlots();
+        } else {
+            startShiftTime = weekendAgendas.get(0).getShiftStartTime();
+            endShiftTime = weekendAgendas.get(0).getShiftEndTime();
+            hourlySlots = weekendAgendas.get(0).getHourlySlots();
+        }
     }
 
     private void loadDoctor() {
         if (doctorBuffer != null) {
             lbDoctorCode.setText(doctorBuffer.getCode());
             lbDoctorIdCard.setText(String.valueOf(doctorBuffer.getIdCard()));
-            hoursCalculated = calculateHours(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots());
-            loadHours(hoursCalculated);
+//            hoursCalculated = calculateHours(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots());
             loadGrid();
             if (doctorBuffer.getUser() != null) {
                 lbDoctorName.setText(doctorBuffer.getUser().getName());
@@ -182,7 +215,7 @@ public class AgendaModuleController implements Initializable {
             if (agendaDto != null) {
                 LocalTime medicalStartTime, medicalEndingTime;
                 LocalTime newMedicalStartTime = LocalTime.parse(startTime), newMedicalEndingTime = LocalTime.parse(endingTime);
-                LocalTime finalHourDoctor = LocalTime.parse(doctorBuffer.getShiftEndTime());
+                LocalTime finalHourDoctor = LocalTime.parse(agendaDto.getShiftEndTime());
                 for (MedicalAppointmentDto medicalAppointmentDto : agendaDto.getMedicalAppointments()) {
                     if (medicalAppointentBuffer != null && !Objects.equals(medicalAppointentBuffer.getId(), medicalAppointmentDto.getId()) && !medicalAppointmentDto.getState().equals("CANCELLED")) {
                         medicalStartTime = LocalTime.parse(medicalAppointmentDto.getScheduledStartTime());
@@ -193,7 +226,7 @@ public class AgendaModuleController implements Initializable {
                         }
                     }
                 }
-                return newMedicalEndingTime.isAfter(finalHourDoctor);
+                return newMedicalEndingTime.isAfter(finalHourDoctor) || newMedicalEndingTime.equals(finalHourDoctor);
             }
             return false;
         } catch (Exception e) {
@@ -213,7 +246,7 @@ public class AgendaModuleController implements Initializable {
                 }
                 if (agendaDto != null) {
 
-                    String shiftEndingTimeIndex = getEndTime(newTime, doctorBuffer.getHourlySlots(), medicalAppointmentDto.getSlotsNumber().intValue());
+                    String shiftEndingTimeIndex = getEndTime(newTime, hourlySlots, medicalAppointmentDto.getSlotsNumber().intValue());
                     if (!hasTimeConflict(newTime, shiftEndingTimeIndex, agendaDto)) {
                         medicalAppointmentDto.setAgenda(new AgendaDto(agendaDto));
                         medicalAppointmentDto.setScheduledDate(newDate.toString());
@@ -246,9 +279,9 @@ public class AgendaModuleController implements Initializable {
 
     private AgendaDto createAgenda(AgendaDto agendaDto) {
         agendaDto.setDoctor(doctorBuffer);
-        agendaDto.setHourlySlots(doctorBuffer.getHourlySlots());
-        agendaDto.setShiftStartTime(doctorBuffer.getShiftStartTime());
-        agendaDto.setShiftEndTime(doctorBuffer.getShiftEndTime());
+        agendaDto.setHourlySlots(hourlySlots);
+        agendaDto.setShiftStartTime(startShiftTime);
+        agendaDto.setShiftEndTime(endShiftTime);
         ResponseWrapper response = agendaService.createAgenda(agendaDto);
         agendaDto = (AgendaDto) response.getData();
         return agendaDto;
@@ -291,7 +324,7 @@ public class AgendaModuleController implements Initializable {
 
     private void cleanAgenda() {
         for (int i = 1; i < gpAgenda.getRowCount(); i++) {
-            for (int j = 1; j < gpAgenda.getColumnCount(); j++) {
+            for (int j = 0; j < gpAgenda.getColumnCount(); j++) {
                 removeNodeInGrid(i, j);
             }
         }
@@ -353,8 +386,8 @@ public class AgendaModuleController implements Initializable {
                 .builder()
                 .withActualDate(date)
                 .build();
-
-        List<LocalDate> localDays = agenda.calculateWeekDays(date);
+        localDays.clear();
+        localDays = agenda.calculateWeekDays(date);
         days.clear();
         for (int i = 0; i < localDays.size(); i++) {
             removeNodeInGrid(0, i + 1);
