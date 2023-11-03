@@ -1,6 +1,5 @@
 package cr.ac.una.clinicauna.util;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -10,7 +9,6 @@ import java.util.List;
 public class QueryManager<D> {
 
     private String query;
-    private HashMap<String, String> parameters = new HashMap<>();
     private String status;
     private List<D> result;
 
@@ -23,14 +21,6 @@ public class QueryManager<D> {
 
     public void setQuery(String query) {
         this.query = query;
-    }
-
-    public HashMap<String, String> getParameters() {
-        return this.parameters;
-    }
-
-    public void setParameters(HashMap<String, String> parameters) {
-        this.parameters = parameters;
     }
 
     public String getStatus() {
@@ -54,7 +44,6 @@ public class QueryManager<D> {
     public String toString() {
         return "{" +
                 " query='" + getQuery() + "'" +
-                ", parameters='" + getParameters() + "'" +
                 ", status='" + getStatus() + "'" +
                 ", result='" + getResult() + "'" +
                 "}";

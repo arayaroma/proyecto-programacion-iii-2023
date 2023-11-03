@@ -1,9 +1,7 @@
 package cr.ac.una.clinicauna.controller;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -11,15 +9,21 @@ import cr.ac.una.clinicauna.model.ReportDto;
 import cr.ac.una.clinicauna.model.ReportRecipientsDto;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.ReportService;
-import cr.ac.una.clinicauna.util.QueryManager;
 import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.HBox;
 
 /**
  * 
@@ -51,6 +55,10 @@ public class ReportGeneratorController implements Initializable {
     private JFXButton btGenerateReport;
     @FXML
     private Label lbRecipientEmail;
+    @FXML
+    private TableView<ObservableList<Object>> tvQueryResult;
+    @FXML
+    private HBox hbQueryResult;
 
     private final String[] frequencies = { "ONCE", "DAILY", "WEEKLY", "MONTHLY", "ANNUALLY" };
     private ReportService reportService = new ReportService();
@@ -67,18 +75,50 @@ public class ReportGeneratorController implements Initializable {
         sendReport(report);
     }
 
-    @SuppressWarnings("unchecked")
+    // @SuppressWarnings("unchecked")
     private void sendReport(ReportDto report) {
         ResponseWrapper response = reportService.createReport(report);
         if (response.getCode() == ResponseCode.CREATED) {
             report = (ReportDto) response.getData();
-            List<UserDto> users = (List<UserDto>) report.getQueryManager().getResult();
+            List<?> users = report.getQueryManager().getResult();
 
-            report.setQueryManager(new QueryManager<UserDto>());
             report.getQueryManager().setResult(users);
             report.getQueryManager().setStatus(response.getMessage());
             System.out.println(report.toString());
+            addQueryResultToTableView(hbQueryResult, users);
         }
+    }
+
+    private void addQueryResultToTableView(HBox container, List<?> queryResult) {
+        ObservableList<ObservableList<Object>> data = FXCollections.observableArrayList();
+
+        for (Object innerList : queryResult) {
+            if (innerList instanceof List<?>) {
+                List<?> rowList = (List<?>) innerList;
+                ObservableList<Object> row = FXCollections.observableArrayList(rowList);
+                data.add(row);
+            }
+        }
+        tvQueryResult.getColumns().clear();
+
+        int numColumns = data.isEmpty() ? 0 : data.get(0).size();
+        for (int columnIndex = 0; columnIndex < numColumns; columnIndex++) {
+            TableColumn<ObservableList<Object>, Object> column = new TableColumn<>("Column " + (columnIndex + 1));
+            final int index = columnIndex;
+            column.setCellValueFactory(param -> {
+                ObservableList<Object> row = param.getValue();
+                return new SimpleObjectProperty<>(row.get(index));
+            });
+            tvQueryResult.getColumns().add(column);
+        }
+
+        ScrollPane scrollPane = new ScrollPane(tvQueryResult);
+        scrollPane.setPrefViewportHeight(600);
+        scrollPane.setPrefViewportWidth(400);
+        container.getChildren().add(scrollPane);
+
+        tvQueryResult.setItems(data);
+        System.out.println("Response\n" + queryResult.toString());
     }
 
     private ReportDto loadReport() {
