@@ -18,13 +18,8 @@ import java.util.List;
 import java.util.Map;
 import static cr.ac.una.clinicaunaws.util.PersistenceContext.PERSISTENCE_UNIT_NAME;
 import cr.ac.una.clinicaunaws.dto.ReportDto;
-import cr.ac.una.clinicaunaws.dto.UserDto;
 import cr.ac.una.clinicaunaws.entities.Report;
-import cr.ac.una.clinicaunaws.entities.User;
 import cr.ac.una.clinicaunaws.util.Constants;
-import cr.ac.una.clinicaunaws.util.DtoMapper;
-import cr.ac.una.clinicaunaws.util.QueryManager;
-
 import java.net.URL;
 
 /**
@@ -40,32 +35,23 @@ public class ReportService {
     private EntityManager em;
 
     /**
-     * FIXME: Make it generic for any entity & dto
      * Get the result of a query and set it to the report
      * 
-     * @param <T>         Entity class type
-     * @param <D>         Dto class type
-     * @param report      Report to be set
-     * @param entityClass Entity class
-     * @param dtoClass    Dto class
-     * @return List of Dto
+     * @param <D>    Generic class type
+     * @param report Report to be set
+     * @return List of query results
      */
     @SuppressWarnings("unchecked")
-    public <T, D> List<D> getQueryResult(ReportDto report, Class<T> entityClass, Class<D> dtoClass) {
+    public <D> List<D> getQueryResult(ReportDto report) {
         if (report == null) {
             return null;
         }
-        Query query = em.createNativeQuery(report.getQuery(), entityClass);
-        List<T> entityList = (List<T>) query.getResultList();
-        List<D> dtoList = new ArrayList<>();
+        Query query = em.createNativeQuery(report.getQuery());
+        List<D> queryResponse = (List<D>) query.getResultList();
 
-        for (T entity : entityList) {
-            D dto = DtoMapper.convertToDto(entity, dtoClass);
-            dtoList.add(dto);
-        }
-        report.getQueryManager().setResult(dtoList);
+        report.getQueryManager().setResult(queryResponse);
         report.getQueryManager().setStatus(ResponseCode.OK.getCode().toString());
-        return dtoList;
+        return queryResponse;
     }
 
     /**
@@ -80,8 +66,7 @@ public class ReportService {
             em.persist(report);
             em.flush();
 
-            List<UserDto> result = getQueryResult(reportDto, User.class, UserDto.class);
-            reportDto.setQueryManager(new QueryManager<UserDto>());
+            List<?> result = getQueryResult(reportDto);
             reportDto.getQueryManager().setResult(result);
 
             return new ResponseWrapper(
