@@ -9,7 +9,7 @@ import java.util.List;
 import cr.ac.una.clinicauna.model.ReportParametersDto;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 public class ReportParametersService {
@@ -108,12 +108,12 @@ public class ReportParametersService {
                         "Error in the request: " + request.getError(),
                         null);
             }
-            ReportParametersDto reportParameters = (ReportParametersDto) request.readEntity(ReportParametersDto.class);
+            reportParametersDto = (ReportParametersDto) request.readEntity(ReportParametersDto.class);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
                     "ReportParameters updated successfully: ",
-                    reportParameters);
+                    reportParametersDto);
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),

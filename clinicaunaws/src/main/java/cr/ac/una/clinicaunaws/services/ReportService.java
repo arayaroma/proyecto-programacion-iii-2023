@@ -36,8 +36,8 @@ public class ReportService {
 
     /**
      * Get the result of a query and set it to the report
-     * 
-     * @param <D>    Generic class type
+     *
+     * @param <D> Generic class type
      * @param report Report to be set
      * @return List of query results
      */
@@ -91,7 +91,8 @@ public class ReportService {
      */
     public ResponseWrapper getReportById(Long id) {
         try {
-            Report report = em.find(Report.class, id);
+            Report report = em.createNamedQuery("Report.findById", Report.class)
+                    .setParameter("id", id).getSingleResult();
             if (report == null) {
                 return new ResponseWrapper(
                         ResponseCode.NOT_FOUND.getCode(),
@@ -99,16 +100,18 @@ public class ReportService {
                         "Report not found.",
                         null);
             }
+            ReportDto reportDto = new  ReportDto(report);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
                     "Report retrieved.",
-                    new ReportDto(report));
+                    reportDto.convertFromEntityToDTO(report, reportDto));
         } catch (Exception e) {
+            System.out.println(e.toString());
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
-                    "Could not retrieve the Report: " + e.getMessage(),
+                    "Could not retrieve the Report: " + e.toString(),
                     null);
         }
     }
@@ -215,7 +218,7 @@ public class ReportService {
      *
      * @param id patient id to be retrieved
      * @return ResponseWrapper with the response and report from database, or
-     *         null if an exception occurred
+     * null if an exception occurred
      * @throws java.io.IOException
      * @throws net.sf.jasperreports.engine.JRException
      */

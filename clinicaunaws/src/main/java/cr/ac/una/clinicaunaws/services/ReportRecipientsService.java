@@ -14,19 +14,19 @@ import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Stateless
 @LocalBean
 public class ReportRecipientsService {
-
+    
     @PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
     private EntityManager em;
 
     /**
      * Create a new ReportRecipients
-     * 
+     *
      * @param reportRecipientsDto to be created
      * @return ResponseWrapper with the created ReportRecipients
      */
@@ -53,13 +53,14 @@ public class ReportRecipientsService {
 
     /**
      * get a ReportRecipients by id
-     * 
+     *
      * @param id of the ReportRecipients to be retrieved
      * @return ResponseWrapper with the retrieved ReportRecipients
      */
     public ResponseWrapper getReportRecipientsById(Long id) {
         try {
-            ReportRecipients reportRecipients = em.find(ReportRecipients.class, id);
+            ReportRecipients reportRecipients = em.createNamedQuery("ReportRecipients.findById", ReportRecipients.class)
+                    .setParameter("id", id).getSingleResult();
             if (reportRecipients != null) {
                 ReportRecipientsDto reportRecipientsDto = new ReportRecipientsDto(reportRecipients);
                 return new ResponseWrapper(
@@ -86,7 +87,7 @@ public class ReportRecipientsService {
 
     /**
      * get all ReportRecipients
-     * 
+     *
      * @return ResponseWrapper with all the ReportRecipients
      */
     @SuppressWarnings("unchecked")
@@ -95,7 +96,7 @@ public class ReportRecipientsService {
             Query query = em.createNamedQuery("ReportRecipients.findAll", ReportRecipients.class);
             List<ReportRecipients> reportRecipientsList = (List<ReportRecipients>) query.getResultList();
             List<ReportRecipientsDto> reportRecipientsDtoList = new ArrayList<>();
-
+            
             for (ReportRecipients reportRecipients : reportRecipientsList) {
                 ReportRecipientsDto reportRecipientsDto = new ReportRecipientsDto(reportRecipients);
                 reportRecipientsDtoList.add(reportRecipientsDto.convertFromEntityToDTO(reportRecipients,
@@ -117,7 +118,7 @@ public class ReportRecipientsService {
 
     /**
      * update a ReportRecipients
-     * 
+     *
      * @param reportRecipientsDto to be updated
      * @return ResponseWrapper with the updated ReportRecipients
      */
@@ -152,7 +153,7 @@ public class ReportRecipientsService {
 
     /**
      * delete a ReportRecipients by id
-     * 
+     *
      * @param id of the ReportRecipients to be deleted
      * @return ResponseWrapper informing if the ReportRecipients was deleted
      */
@@ -181,5 +182,5 @@ public class ReportRecipientsService {
                     null);
         }
     }
-
+    
 }
