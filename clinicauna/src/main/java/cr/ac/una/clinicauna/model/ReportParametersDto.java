@@ -1,5 +1,7 @@
 package cr.ac.una.clinicauna.model;
 
+import javafx.beans.property.SimpleStringProperty;
+
 /**
  * 
  * @author arayaroma
@@ -7,11 +9,13 @@ package cr.ac.una.clinicauna.model;
 public class ReportParametersDto {
     private Long id;
     private ReportDto report;
-    private String name;
-    private String value;
+    public SimpleStringProperty name;
+    public SimpleStringProperty value;
     private Long version;
 
     public ReportParametersDto() {
+        name = new SimpleStringProperty();
+        value = new SimpleStringProperty();
     }
 
     public ReportParametersDto(ReportParametersDto reportParametersDto) {
@@ -40,19 +44,19 @@ public class ReportParametersDto {
     }
 
     public String getName() {
-        return this.name;
+        return this.name.get();
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
 
     public String getValue() {
-        return this.value;
+        return this.value.get();
     }
 
     public void setValue(String value) {
-        this.value = value;
+        this.value.set(value);
     }
 
     public Long getVersion() {
