@@ -74,6 +74,7 @@ public class ReportGeneratorController implements Initializable {
     @FXML
     private void btnLoadParametersAction(ActionEvent event) {
         List<String> parameter = extractParameters(reportBuffer.getQuery());
+        List<String> alias = extractAlias(reportBuffer.getQuery());
         reportParametersDtos.clear();
         for (String i : parameter) {
             ReportParametersDto reportParametersDto = new ReportParametersDto();
@@ -113,15 +114,12 @@ public class ReportGeneratorController implements Initializable {
     private void btnAddValueParameterAction(ActionEvent event) {
         if (reportParameterBuffer != null) {
             reportParameterBuffer.setValue(txfParameterValue.getText());
-//            Integer index = reportParametersDtos.indexOf(reportParameterBuffer);
             reportParametersDtos.remove(reportParameterBuffer);
             reportParametersDtos.add(reportParameterBuffer);
             loadParameters();
         }
     }
-//    private void txfParameterValueEvent(KeyEvent event) {
 
-//    }
     private void loadParameters() {
         tbParameters.setItems(FXCollections.observableArrayList(reportParametersDtos));
     }
@@ -145,6 +143,25 @@ public class ReportGeneratorController implements Initializable {
         List<String> parameters = new ArrayList<>();
         while (matcher.find()) {
             parameters.add(matcher.group().substring(1));
+        }
+        return parameters;
+    }
+
+    public static List<String> extractAlias(String query) {
+        List<String> parameters = new ArrayList<>();
+        Pattern pattern = Pattern.compile("SELECT\\s+(.*?)\\s+FROM", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(query);
+        if (matcher.find()) {
+            String selectedValues = matcher.group(1);
+            String[] valueArray = selectedValues.split(",");
+            for (String value : valueArray) {
+               String[] parts = value.trim().split("(?i)\\s+(?i)as\\s+");
+                if (parts.length > 1) {
+                    parameters.add(parts[1]);
+                } else {
+                    parameters.add(parts[0]);
+                }
+            }
         }
         return parameters;
     }
