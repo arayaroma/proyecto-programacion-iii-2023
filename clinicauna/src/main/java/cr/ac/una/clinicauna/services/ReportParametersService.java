@@ -27,8 +27,8 @@ public class ReportParametersService {
             }
             ReportParametersDto reportParameters = (ReportParametersDto) request.readEntity(ReportParametersDto.class);
             return new ResponseWrapper(
-                    ResponseCode.CREATED.getCode(),
-                    ResponseCode.CREATED,
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
                     "ReportParameters created successfully: ",
                     reportParameters);
         } catch (Exception e) {
@@ -137,8 +137,8 @@ public class ReportParametersService {
                         null);
             }
             return new ResponseWrapper(
-                    ResponseCode.NO_CONTENT.getCode(),
-                    ResponseCode.NO_CONTENT,
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
                     "ReportParameters deleted successfully: ",
                     null);
         } catch (Exception e) {

@@ -140,8 +140,8 @@ public class ReportService {
                         null);
             }
             return new ResponseWrapper(
-                    ResponseCode.NO_CONTENT.getCode(),
-                    ResponseCode.NO_CONTENT,
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
                     "Report deleted successfully: ",
                     null);
         } catch (Exception ex) {

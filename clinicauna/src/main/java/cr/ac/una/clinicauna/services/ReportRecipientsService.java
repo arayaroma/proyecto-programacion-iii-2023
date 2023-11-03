@@ -27,8 +27,8 @@ public class ReportRecipientsService {
             }
             ReportRecipientsDto reportRecipients = (ReportRecipientsDto) request.readEntity(ReportRecipientsDto.class);
             return new ResponseWrapper(
-                    ResponseCode.CREATED.getCode(),
-                    ResponseCode.CREATED,
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
                     "ReportRecipients created successfully: ",
                     reportRecipients);
         } catch (Exception e) {
@@ -137,8 +137,8 @@ public class ReportRecipientsService {
                         null);
             }
             return new ResponseWrapper(
-                    ResponseCode.NO_CONTENT.getCode(),
-                    ResponseCode.NO_CONTENT,
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
                     "ReportRecipients deleted successfully: ",
                     null);
         } catch (Exception e) {

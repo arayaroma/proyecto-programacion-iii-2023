@@ -100,9 +100,16 @@ public class ReportGeneratorController implements Initializable {
             Message.showNotification("Error", MessageType.INFO, "fieldsEmpty");
             return;
         }
+        List<ReportRecipientsDto> recipientsDtos = reportBuffer.getReportRecipients();
         ResponseWrapper response = isEditing ? reportService.updateReport(reportBuffer) : reportService.createReport(reportBuffer);
         if (response.getCode() == ResponseCode.OK) {
             reportBuffer = (ReportDto) response.getData();
+            if (!saveReportRecipients(recipientsDtos)) {
+                Message.showNotification("ERROR", MessageType.ERROR, "errorSavingEmails");
+            }
+            if (!saveReportParameters(reportParametersDtos)) {
+                Message.showNotification("ERROR", MessageType.ERROR, "errorSavingParameters");
+            }
             Message.showNotification("Success", MessageType.INFO, response.getMessage());
             return;
         }
@@ -137,6 +144,7 @@ public class ReportGeneratorController implements Initializable {
                 if (response.getCode() == ResponseCode.OK) {
                     reportBuffer.getReportRecipients().remove(reportRecipientBuffer);
                     loadEmails();
+                    txfRecipientEmail.setText("");
                     return;
                 }
                 Message.showNotification("ERROR", MessageType.ERROR, response.getMessage());
@@ -156,6 +164,28 @@ public class ReportGeneratorController implements Initializable {
             reportParametersDtos.add(reportParameterBuffer);
             loadParameters();
         }
+    }
+
+    private boolean saveReportRecipients(List<ReportRecipientsDto> recipientsDtos) {
+        for (ReportRecipientsDto i : recipientsDtos) {
+            i.setReport(new ReportDto(reportBuffer));
+            ResponseWrapper response = i.getId() == null ? reportRecipientService.createReportRecipients(i) : reportRecipientService.updateReportRecipients(i);
+            if (response.getCode() != ResponseCode.OK) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean saveReportParameters(List<ReportParametersDto> parametersDtos) {
+        for (ReportParametersDto i : parametersDtos) {
+            i.setReport(new ReportDto(reportBuffer));
+            ResponseWrapper response = i.getId() == null ? reportParametersService.createReportParameters(i) : reportParametersService.updateReportParameters(i);
+            if (response.getCode() != ResponseCode.OK) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void loadParameters() {
@@ -221,6 +251,8 @@ public class ReportGeneratorController implements Initializable {
         txfReportQuery.textProperty().bindBidirectional(reportBuffer.query);
         dpReportDate.valueProperty().bindBidirectional(reportBuffer.reportDate);
         cbReportFrequency.valueProperty().bindBidirectional(reportBuffer.frequency);
+        tbEmails.setItems(FXCollections.observableArrayList(reportBuffer.getReportRecipients()));
+        tbParameters.setItems(FXCollections.observableArrayList(reportBuffer.getReportParameters()));
     }
 
     private boolean verifyFields() {
