@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto implements DtoMapper<User, UserDto> {
+
     private Long id;
     private DoctorDto doctor;
     private String username;
@@ -42,7 +43,7 @@ public class UserDto implements DtoMapper<User, UserDto> {
 
     /**
      * @param entity Entity to be converted
-     * @param dto    DTO to be updated
+     * @param dto DTO to be updated
      * @return DTO with the updated information
      */
     @Override
@@ -56,7 +57,7 @@ public class UserDto implements DtoMapper<User, UserDto> {
     }
 
     /**
-     * @param dto    DTO to be converted
+     * @param dto DTO to be converted
      * @param entity Entity to be updated
      * @return Entity with the updated information
      */

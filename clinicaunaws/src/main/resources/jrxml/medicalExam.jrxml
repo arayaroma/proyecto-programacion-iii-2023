@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="medicalExam" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c2cba467-bd0d-4d8e-84de-63c5529d7c4c">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="conectorOracleDb"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="idPatient" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT P."ID", P."NAME", P."FIRSTLASTNAME",
+			  P."SECONDLASTNAME", P."IDENTIFICATION",
+			  TME."NAME" AS "MEDICALNAME", TME."MEDICALEXAMDATE",
+			  TME."NOTES"
+FROM TBL_PATIENT P JOIN 
+			TBL_PATIENT_PERSONAL_HISTORY PPH ON
+			P."ID" = PPH."ID" JOIN
+			TBL_MEDICAL_EXAM TME ON
+			PPH."ID" = TME."PATIENTHISTORY"
+WHERE P."ID" = $P{idPatient}
+			]]>
+	</queryString>
+	<field name="ID" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="ID"/>
+		<property name="com.jaspersoft.studio.field.label" value="ID"/>
+	</field>
+	<field name="NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NAME"/>
+		<property name="com.jaspersoft.studio.field.label" value="NAME"/>
+	</field>
+	<field name="FIRSTLASTNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="FIRSTLASTNAME"/>
+		<property name="com.jaspersoft.studio.field.label" value="FIRSTLASTNAME"/>
+	</field>
+	<field name="SECONDLASTNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="SECONDLASTNAME"/>
+		<property name="com.jaspersoft.studio.field.label" value="SECONDLASTNAME"/>
+	</field>
+	<field name="IDENTIFICATION" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="IDENTIFICATION"/>
+		<property name="com.jaspersoft.studio.field.label" value="IDENTIFICATION"/>
+	</field>
+	<field name="MEDICALNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="MEDICALNAME"/>
+		<property name="com.jaspersoft.studio.field.label" value="MEDICALNAME"/>
+	</field>
+	<field name="MEDICALEXAMDATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="MEDICALEXAMDATE"/>
+		<property name="com.jaspersoft.studio.field.label" value="MEDICALEXAMDATE"/>
+	</field>
+	<field name="NOTES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NOTES"/>
+		<property name="com.jaspersoft.studio.field.label" value="NOTES"/>
+	</field>
+	<title>
+		<band height="130" splitType="Stretch">
+			<rectangle radius="0">
+				<reportElement x="-20" y="41" width="595" height="79" backcolor="#99DEA6" uuid="0ba5f937-cdf9-45b6-951b-ee02786233e1"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#C2C995"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="-20" y="0" width="595" height="37" forecolor="#000000" uuid="04abf98c-34cb-43b7-b2fc-b81a29b6aceb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte exámenes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="14" y="72" width="70" height="20" forecolor="#000000" uuid="60678660-0499-4bbb-8f93-6d45ac00edb8"/>
+				<textElement>
+					<font fontName="SansSerif" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement mode="Transparent" x="388" y="90" width="150" height="20" forecolor="#000000" uuid="5d83dcc4-3383-40de-a084-ebdad0e1b0f0"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="15" y="43" width="218" height="31" forecolor="#000000" uuid="a235fbfb-9f83-46e7-bd34-82683702ff53"/>
+				<textElement textAlignment="Left" markup="styled">
+					<font fontName="SansSerif" size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Información del paciente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="394" y="60" width="145" height="24" forecolor="#000000" uuid="206762f0-4b12-43e3-99dd-e644f03a1020"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha del reporte]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="14" y="99" width="95" height="20" forecolor="#000000" uuid="b5769b4c-26f3-4877-bbae-65073b5dd8b2"/>
+				<textElement>
+					<font fontName="SansSerif" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Identificación:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="115" y="100" width="100" height="20" uuid="c3196fe4-3620-4ecb-b676-3408cb6c377c"/>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IDENTIFICATION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="72" width="161" height="20" uuid="f5c97617-553b-4984-a2c3-dc046857c2bf"/>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NAME}+" "+$F{FIRSTLASTNAME}+" "+$F{SECONDLASTNAME}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="104" splitType="Stretch">
+			<rectangle radius="0">
+				<reportElement x="13" y="6" width="530" height="94" backcolor="#223342" uuid="af291b5d-5466-4f73-9b3d-003c962067f5"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#D4A979"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="31" y="8" width="120" height="24" forecolor="#FFFFFF" uuid="b8ad1b24-ada6-4eea-8759-e95834e51613"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Fecha del examen:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="179" y="10" width="80" height="24" forecolor="#FFFFFF" uuid="5dfa2999-995c-4507-877b-4e1396533bf9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEDICALEXAMDATE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="31" y="49" width="132" height="24" forecolor="#FFFFFF" uuid="caf4204d-2bc6-482b-8575-6fd57f2e7980"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Nombre del examen:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="179" y="50" width="100" height="24" forecolor="#FFFFFF" uuid="6c520838-edcb-4902-9003-11f41f09ad7f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEDICALNAME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="330" y="8" width="140" height="24" forecolor="#FFFFFF" uuid="41df613d-9658-4fa9-a0fa-23edf9ff0a1c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Resultado del examen:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="338" y="37" width="190" height="53" forecolor="#FFFFFF" uuid="0c6917e1-9c76-4e70-b3fa-d615ec2323d1"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOTES}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="21" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

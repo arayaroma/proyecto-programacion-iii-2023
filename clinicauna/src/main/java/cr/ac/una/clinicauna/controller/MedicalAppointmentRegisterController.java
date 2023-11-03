@@ -19,10 +19,13 @@ import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,6 +106,11 @@ public class MedicalAppointmentRegisterController implements Initializable {
 
     private boolean isEditing;
     private String option = "";
+    private String startShiftTime = "";
+    private String endShiftTime = "";
+    private Long hourlySlots = 0L;
+    private List<LocalDate> localDays = new ArrayList<>();
+    private List<AgendaDto> weekendAgendas = new ArrayList<>();
 
     /**
      * Initializes the controller class.
@@ -142,14 +150,14 @@ public class MedicalAppointmentRegisterController implements Initializable {
     private void backAction(MouseEvent event) {
         try {
             option = option.toLowerCase();
-//            if (option.equals("agendamodule")) {
+
             FXMLLoader loader = App.getFXMLLoader("Main");
             Animation.MakeDefaultFadeTransition(mainView, loader.load());
             MainController controller = loader.getController();
             if (controller != null) {
                 controller.loadView("agendaModule");
             }
-//            }
+
         } catch (IOException e) {
         }
 
@@ -237,6 +245,8 @@ public class MedicalAppointmentRegisterController implements Initializable {
     private void loadHoursInComboBox() {
         if (dpAppoinmentDate.getValue() != null) {
             agendaBuffer = agendaDtos.get(dpAppoinmentDate.getValue().toString());
+            getStartEndTime();
+            allHours = calculateHours(startShiftTime, endShiftTime, hourlySlots);
             if (agendaBuffer == null) {
                 addAllHoursInCb(getAvailableHoursForAppointment(allHours,
                         doctorBuffer.getHourlySlots(), spSlots.getValue(), new ArrayList()));
@@ -403,23 +413,20 @@ public class MedicalAppointmentRegisterController implements Initializable {
         return false;
     }
 
-    private List<String> getHours(String startTime, String endTime, Long fieldsPerHour) {
+    private List<String> calculateHours(String startTime, String endTime, Long fieldsPerHour) {
         List<String> result = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         try {
-            LocalTime start = LocalTime.parse(startTime, formatter);
-            LocalTime end = LocalTime.parse(endTime, formatter);
-            long intervalMinutes = TimeUnit.HOURS.toMinutes(1) / fieldsPerHour;
-
-            while (!start.isAfter(end)) {
-                result.add(start.format(formatter));
-                start = start.plusMinutes(intervalMinutes);
+            Date start = sdf.parse(startTime);
+            Date end = sdf.parse(endTime);
+            long intervalMillis = TimeUnit.HOURS.toMillis(1) / fieldsPerHour;
+            for (long time = start.getTime(); time < end.getTime(); time += intervalMillis) {
+                Date newTime = new Date(time);
+                result.add(sdf.format(newTime));
             }
-        } catch (Exception e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return result;
     }
 
@@ -434,7 +441,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
 
         LocalTime newStartTimeAppointment = LocalTime.parse(startTime);
         LocalTime newEndTimeAppointment = LocalTime.parse(endTime);
-        String end = doctorBuffer.getShiftEndTime();
+        String end = agendaBuffer == null ? doctorBuffer.getShiftEndTime() : agendaBuffer.getShiftEndTime();
         if (mA != null) {
             if (Objects.equals(mA.getId(), medicalAppointmentBuffer.getId()) || mA.getState().equals("CANCELLED")) {
                 return false;
@@ -445,7 +452,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
                 return true;
             }
         }
-        return newEndTimeAppointment.isAfter(LocalTime.parse(end));
+        return newEndTimeAppointment.isAfter(LocalTime.parse(end)) || newEndTimeAppointment.equals(LocalTime.parse(end));
     }
 
     private String getEndTime(String startTime, Long slots, int medicalAppointmentSlots) {
@@ -496,9 +503,22 @@ public class MedicalAppointmentRegisterController implements Initializable {
                     agendaDtos.put(agenda.getAgendaDate(), agenda);
                 }
             }
-            allHours = getHours(doctorDto.getShiftStartTime(), doctorDto.getShiftEndTime(), doctorDto.getHourlySlots());
+//            getStartEndTime();
+//            allHours = getHours(startShiftTime, endShiftTime, hourlySlots);
         }
 
+    }
+
+    private void getStartEndTime() {
+        if (agendaBuffer == null && doctorBuffer != null) {
+            startShiftTime = doctorBuffer.getShiftStartTime();
+            endShiftTime = doctorBuffer.getShiftEndTime();
+            hourlySlots = doctorBuffer.getHourlySlots();
+        } else {
+            startShiftTime = agendaBuffer.getShiftStartTime();
+            endShiftTime = agendaBuffer.getShiftEndTime();
+            hourlySlots = agendaBuffer.getHourlySlots();
+        }
     }
 
     private void addAllHoursInCb(List<String> horasDisp) {//restringir hora fin
