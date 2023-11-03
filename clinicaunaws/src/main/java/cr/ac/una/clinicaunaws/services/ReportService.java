@@ -70,8 +70,8 @@ public class ReportService {
             reportDto.getQueryManager().setResult(result);
 
             return new ResponseWrapper(
-                    ResponseCode.CREATED.getCode(),
-                    ResponseCode.CREATED,
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
                     "Report created.",
                     reportDto.convertFromEntityToDTO(report, reportDto));
         } catch (Exception e) {

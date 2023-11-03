@@ -8,9 +8,13 @@ import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.model.ReportDto;
 import cr.ac.una.clinicauna.model.ReportParametersDto;
 import cr.ac.una.clinicauna.model.ReportRecipientsDto;
+import cr.ac.una.clinicauna.services.ReportParametersService;
+import cr.ac.una.clinicauna.services.ReportRecipientsService;
 import cr.ac.una.clinicauna.services.ReportService;
 import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
+import cr.ac.una.clinicauna.util.ResponseCode;
+import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
@@ -59,28 +63,35 @@ public class ReportGeneratorController implements Initializable {
 
     private ReportService reportService = new ReportService();
     private List<ReportParametersDto> reportParametersDtos = new ArrayList<>();
+    private ReportRecipientsService reportRecipientService = new ReportRecipientsService();
+    private ReportParametersService reportParametersService = new ReportParametersService();
     private ReportDto reportBuffer;
     private ReportParametersDto reportParameterBuffer;
+    private ReportRecipientsDto reportRecipientBuffer;
+    private boolean isEditing;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         cbReportFrequency.getItems().addAll("ONCE", "DAILY", "WEEKLY", "MONTHLY", "ANNUALLY");
-        reportBuffer = new ReportDto();
+        List<ReportDto> reportDtos = (List<ReportDto>) reportService.getAllReports().getData();
+        reportBuffer = reportDtos != null && !reportDtos.isEmpty() ? reportDtos.get(0) : new ReportDto();
+        isEditing = reportBuffer.getId() != null;
         bindReport();
         initializeList();
     }
 
     @FXML
     private void btnLoadParametersAction(ActionEvent event) {
-        List<String> parameter = extractParameters(reportBuffer.getQuery());
-        List<String> alias = extractAlias(reportBuffer.getQuery());
-        reportParametersDtos.clear();
-        for (String i : parameter) {
-            ReportParametersDto reportParametersDto = new ReportParametersDto();
-            reportParametersDto.setName(i);
-            reportParametersDtos.add(reportParametersDto);
+        if (!reportBuffer.getQuery().isBlank()) {
+            List<String> parameter = extractParameters(reportBuffer.getQuery());
+            List<String> alias = extractAlias(reportBuffer.getQuery());
+            for (String i : parameter) {
+                ReportParametersDto reportParametersDto = new ReportParametersDto();
+                reportParametersDto.setName(i);
+                reportParametersDtos.add(reportParametersDto);
+            }
+            loadParameters();
         }
-        loadParameters();
     }
 
     @FXML
@@ -89,30 +100,58 @@ public class ReportGeneratorController implements Initializable {
             Message.showNotification("Error", MessageType.INFO, "fieldsEmpty");
             return;
         }
+        ResponseWrapper response = isEditing ? reportService.updateReport(reportBuffer) : reportService.createReport(reportBuffer);
+        if (response.getCode() == ResponseCode.OK) {
+            reportBuffer = (ReportDto) response.getData();
+            Message.showNotification("Success", MessageType.INFO, response.getMessage());
+            return;
+        }
+        Message.showNotification("ERROR", MessageType.ERROR, response.getMessage());
 
-//        ResponseWrapper response = reportService.createReport(report);
-//        if (response.getCode() == ResponseCode.CREATED) {
-//            report = (ReportDto) response.getData();
-//            List<?> users = report.getQueryManager().getResult();
-//
-//            report.getQueryManager().setResult(users);
-//            report.getQueryManager().setStatus(response.getMessage());
-//            System.out.println(report.toString());
-//        }
     }
 
     @FXML
     private void btnAddEmailAction(ActionEvent event) {
+        String email = txfRecipientEmail.getText();
+        if (!email.isBlank()) {
+            ReportRecipientsDto recipientsDto = new ReportRecipientsDto();
+            recipientsDto.setEmail(email);
+            if (reportRecipientBuffer == null) {
+                reportBuffer.getReportRecipients().add(recipientsDto);
+            } else {
+                reportRecipientBuffer.setEmail(email);
+                reportBuffer.getReportRecipients().remove(reportRecipientBuffer);
+                reportBuffer.getReportRecipients().add(reportRecipientBuffer);
+            }
+            loadEmails();
+            txfRecipientEmail.setText("");
+            reportRecipientBuffer = null;
+        }
     }
 
     @FXML
     private void btnDeleteEmailAction(ActionEvent event) {
+        if (reportRecipientBuffer != null) {
+            if (reportRecipientBuffer.getId() != null) {
+                ResponseWrapper response = reportRecipientService.deleteReportRecipients(reportRecipientBuffer.getId());
+                if (response.getCode() == ResponseCode.OK) {
+                    reportBuffer.getReportRecipients().remove(reportRecipientBuffer);
+                    loadEmails();
+                    return;
+                }
+                Message.showNotification("ERROR", MessageType.ERROR, response.getMessage());
+            } else {
+                reportBuffer.getReportRecipients().remove(reportRecipientBuffer);
+                loadEmails();
+            }
+        }
     }
 
     @FXML
     private void btnAddValueParameterAction(ActionEvent event) {
-        if (reportParameterBuffer != null) {
-            reportParameterBuffer.setValue(txfParameterValue.getText());
+        String value = txfParameterValue.getText();
+        if (reportParameterBuffer != null && !value.isBlank()) {
+            reportParameterBuffer.setValue(value);
             reportParametersDtos.remove(reportParameterBuffer);
             reportParametersDtos.add(reportParameterBuffer);
             loadParameters();
@@ -123,10 +162,21 @@ public class ReportGeneratorController implements Initializable {
         tbParameters.setItems(FXCollections.observableArrayList(reportParametersDtos));
     }
 
+    private void loadEmails() {
+        tbEmails.setItems(FXCollections.observableArrayList(reportBuffer.getReportRecipients()));
+    }
+
     private void initializeList() {
         tcParameter.setCellValueFactory(new PropertyValueFactory<>("name"));
         tcValue.setCellValueFactory(new PropertyValueFactory<>("value"));
-
+        tcEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        tbEmails.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    reportRecipientBuffer = newValue;
+                    if (reportRecipientBuffer != null) {
+                        txfRecipientEmail.setText(reportRecipientBuffer.getEmail());
+                    }
+                });
         tbParameters.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
                     reportParameterBuffer = newValue;
@@ -169,11 +219,12 @@ public class ReportGeneratorController implements Initializable {
         txfReportDescription.textProperty().bindBidirectional(reportBuffer.description);
         txfReportName.textProperty().bindBidirectional(reportBuffer.name);
         txfReportQuery.textProperty().bindBidirectional(reportBuffer.query);
+        dpReportDate.valueProperty().bindBidirectional(reportBuffer.reportDate);
         cbReportFrequency.valueProperty().bindBidirectional(reportBuffer.frequency);
     }
 
     private boolean verifyFields() {
-        List<Node> fields = Arrays.asList(txfRecipientEmail, txfReportDescription, txfReportName, txfReportQuery, cbReportFrequency, dpReportDate);
+        List<Node> fields = Arrays.asList(txfReportDescription, txfReportName, txfReportQuery, cbReportFrequency, dpReportDate);
         for (Node i : fields) {
             if (i instanceof JFXTextField && ((JFXTextField) i).getText() != null
                     && ((JFXTextField) i).getText().isBlank()) {
