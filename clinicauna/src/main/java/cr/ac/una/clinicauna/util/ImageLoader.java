@@ -3,10 +3,10 @@ package cr.ac.una.clinicauna.util;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import org.apache.commons.compress.utils.IOUtils;
-import org.apache.commons.io.FileUtils;
+//import org.apache.commons.compress.utils.IOUtils;
+//import org.apache.commons.io.FileUtils;
 import javafx.scene.image.Image;
+import org.apache.commons.io.IOUtils;
 
 /**
  * 
@@ -16,14 +16,14 @@ import javafx.scene.image.Image;
 public class ImageLoader {
 
 
-    public static String fileToString(File file) {
-        try {
-            return FileUtils.readFileToString(file, "UTF-8");
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            return null;
-        }
-    }
+//    public static String fileToString(File file) {
+//        try {
+//            return FileUtils.readFileToString(file, "UTF-8");
+//        } catch (IOException ex) {
+//            System.out.println(ex.getMessage());
+//            return null;
+//        }
+//    }
 
     public static byte[] imageToByteArray(File file) {
         try {
