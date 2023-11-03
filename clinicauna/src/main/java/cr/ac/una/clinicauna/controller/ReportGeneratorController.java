@@ -68,7 +68,6 @@ public class ReportGeneratorController implements Initializable {
         reportBuffer = new ReportDto();
         bindReport();
         initializeList();
-//        txfParameterValue.setOnKeyPressed(t -> txfParameterValueEvent(t));
     }
 
     @FXML
@@ -155,7 +154,7 @@ public class ReportGeneratorController implements Initializable {
             String selectedValues = matcher.group(1);
             String[] valueArray = selectedValues.split(",");
             for (String value : valueArray) {
-               String[] parts = value.trim().split("(?i)\\s+(?i)as\\s+");
+                String[] parts = value.trim().split("(?i)\\s+(?i)as\\s+");
                 if (parts.length > 1) {
                     parameters.add(parts[1]);
                 } else {
