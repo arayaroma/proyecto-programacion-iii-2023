@@ -69,13 +69,13 @@ public class ExcelGenerator {
         String outputPath = "reports/" + report.getName() + randomNumberString + "-" + currentDate + ".xlsx";
         String filePath = projectRoot + "/" + outputPath;
 
-        File file = new File(filePath);
-        file.getParentFile().mkdirs();
+        File excelFile = new File(filePath);
+        excelFile.getParentFile().mkdirs();
 
-        var outputStream = new FileOutputStream(file);
+        FileOutputStream outputStream = new FileOutputStream(excelFile);
         workbook.write(outputStream);
         outputStream.close();
-        return file;
+        return excelFile;
     }
 
 }

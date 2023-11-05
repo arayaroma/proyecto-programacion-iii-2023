@@ -62,7 +62,8 @@ public class EmailService {
         }
     }
 
-    private void sendPdf(String to, String subject, String body, byte[] pdfBytes) throws MessagingException {
+    private void sendFile(String to, String subject, String body, byte[] pdfBytes, String fileType)
+            throws MessagingException {
         try {
             Message message = new MimeMessage(mailSession);
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
@@ -80,7 +81,7 @@ public class EmailService {
             if (pdfBytes != null) {
                 BodyPart pdfBodyPart = new MimeBodyPart();
                 pdfBodyPart.setDataHandler(new DataHandler(new ByteArrayDataSource(pdfBytes, "application/pdf")));
-                pdfBodyPart.setFileName("document.pdf"); // Change the filename as needed
+                pdfBodyPart.setFileName("document." + fileType); // Change the filename as needed
                 multipart.addBodyPart(pdfBodyPart);
             }
 
@@ -104,7 +105,7 @@ public class EmailService {
     public void sendGeneratedReport(String email, File file) throws MessagingException, IOException {
         String subject = "Report generated successfully";
         byte[] fileBytes = Files.readAllBytes(file.toPath());
-        sendPdf(
+        sendFile(
                 email,
                 subject,
                 HtmlFileReader.readEmailTemplate(
@@ -113,7 +114,7 @@ public class EmailService {
                         "User",
                         "Here is your report!",
                         "Thank you for choosing us!"),
-                fileBytes);
+                fileBytes, "xlsx");
     }
 
     public void sendActivationHashLink(UserDto to) throws MessagingException {
@@ -241,7 +242,7 @@ public class EmailService {
         try {
             PatientDto pat = (PatientDto) pService.getPatientById(p.getPatientHistory().getId()).getData();
             String subject = "Appointment results";
-            sendPdf(
+            sendFile(
                     pat.getEmail(),
                     subject,
                     HtmlFileReader.readEmailTemplate(
@@ -256,7 +257,8 @@ public class EmailService {
                                     + "Body mass index: " + p.getBodyMassIndex() + "<br>"
                                     + "We attach your medical record to this email.",
                             "Thank you for choosing us!"),
-                    (byte[]) rService.createPatientReport(pat.getId()).getData());
+                    (byte[]) rService.createPatientReport(pat.getId()).getData(),
+                    "pdf");
 
         } catch (Exception e) {
             e.printStackTrace();
