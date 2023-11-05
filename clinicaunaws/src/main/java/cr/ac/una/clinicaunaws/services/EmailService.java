@@ -209,8 +209,9 @@ public class EmailService {
                             subject,
                             "We are glad that you have scheduled with us",
                             to.getPatient().getName(),
-                            "This is a reminder of your appointment with us tomorrow!"+
-                                    "Appointment date: " + "<h2>" + to.getScheduledDate() + "</h2> </br>" + "Appointment time: " + "<h2>" + to.getScheduledStartTime() + "</h2>",
+                            "This is a reminder of your appointment with us tomorrow!"+"</br>"+
+                                    "Appointment date: " + "<h2>" + to.getScheduledDate() + "</h2> </br>" + 
+                                    "Appointment time: " + "<h2>" + to.getScheduledStartTime() + "</h2>",
                             "Thank you for choosing us!"));
 
         } catch (Exception e) {

@@ -263,7 +263,6 @@ public class ReportService {
                         null);
             }
         } catch (JRException e) {
-            // Manejar la excepción (log, enviar alerta, etc.)
             e.printStackTrace();
             throw new RuntimeException("Error al generar el informe", e);
         }
@@ -273,7 +272,6 @@ public class ReportService {
             throws IOException, JRException {
         // FALTA HACER REFRACTOR A ESTE CODIGO
         try {
-
             String absolutePath = "";
             String jasperPath = "jrxml/agendaReport.jrxml";
             ClassLoader classLoader = getClass().getClassLoader();
@@ -314,10 +312,55 @@ public class ReportService {
                         null);
             }
         } catch (JRException e) {
-            // Manejar la excepción (log, enviar alerta, etc.)
             e.printStackTrace();
             throw new RuntimeException("Error al generar el informe", e);
         }
     }
 
+    public ResponseWrapper createMedicalExamReport(Long patientId)
+            throws IOException, JRException {
+        // FALTA HACER REFRACTOR A ESTE CODIGO
+        try {
+            String absolutePath = "";
+            String jasperPath = "jrxml/medicalExam.jrxml";
+            ClassLoader classLoader = getClass().getClassLoader();
+            URL resource = classLoader.getResource(jasperPath);
+
+            if (resource == null) {
+                System.out.println("No se pudo encontrar el archivo: " + jasperPath);
+            } else {
+                absolutePath = resource.getFile();
+                System.out.println("Ruta absoluta del archivo: " + absolutePath);
+            }
+            JasperReport jReport = JasperCompileManager.compileReport(absolutePath);
+
+            if (jReport == null) {
+                System.out.println("ERROR: NO EXISTE EL JASPER");
+            }
+
+            Map<String, Object> par = new HashMap<>();
+            par.put("idPatient", patientId);
+
+            try (Connection connection = DriverManager.getConnection(Constants.URL_DB, Constants.USER_DB,
+                    Constants.PASS_DB)) {
+                // Llenar el informe con datos y la conexión a la base de datos
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jReport, par, connection);
+                byte[] pdfbytes = JasperExportManager.exportReportToPdf(jasperPrint);
+                return new ResponseWrapper(
+                        ResponseCode.OK.getCode(),
+                        ResponseCode.OK,
+                        "Report created successfully.",
+                        pdfbytes);
+            } catch (SQLException e) {
+                return new ResponseWrapper(
+                        ResponseCode.CONFLICT.getCode(),
+                        ResponseCode.CONFLICT,
+                        "No connected: " + e.getMessage(),
+                        null);
+            }
+        } catch (JRException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al generar el informe", e);
+        }
+    }
 }
