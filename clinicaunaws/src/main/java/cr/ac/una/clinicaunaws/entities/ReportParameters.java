@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
 import cr.ac.una.clinicaunaws.dto.ReportParametersDto;
+import jakarta.persistence.QueryHint;
 
 /**
  * 
@@ -32,8 +33,8 @@ import cr.ac.una.clinicaunaws.dto.ReportParametersDto;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
-        @NamedQuery(name = "ReportParameters.findAll", query = "SELECT r FROM ReportParameters r"),
-        @NamedQuery(name = "ReportParameters.findById", query = "SELECT r FROM ReportParameters r WHERE r.id = :id"),
+        @NamedQuery(name = "ReportParameters.findAll", query = "SELECT r FROM ReportParameters r",hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+        @NamedQuery(name = "ReportParameters.findById", query = "SELECT r FROM ReportParameters r WHERE r.id = :id",hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
 })
 public class ReportParameters implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -13,11 +13,11 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class ReportDto {
     private Long id;
-    private SimpleStringProperty name;
-    private SimpleStringProperty description;
-    private SimpleStringProperty query;
-    private SimpleObjectProperty<LocalDate> reportDate;
-    private SimpleStringProperty frequency;
+    public SimpleStringProperty name;
+    public SimpleStringProperty description;
+    public SimpleStringProperty query;
+    public SimpleObjectProperty<LocalDate> reportDate;
+    public SimpleStringProperty frequency;
     private List<ReportParametersDto> reportParameters;
     private List<ReportRecipientsDto> reportRecipients;
     private QueryManager<?> queryManager = new QueryManager<>();

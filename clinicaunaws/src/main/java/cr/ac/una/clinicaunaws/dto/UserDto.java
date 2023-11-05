@@ -38,7 +38,6 @@ public class UserDto implements DtoMapper<User, UserDto> {
     private byte[] profilePhoto;
     private List<MedicalAppointmentDto> medicalAppointments;
     private String token;
-    private QueryManager<?> queryManager = new QueryManager<>();
     private Long version;
 
     /**

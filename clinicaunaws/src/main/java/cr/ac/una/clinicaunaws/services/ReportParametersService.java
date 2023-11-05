@@ -14,19 +14,20 @@ import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Stateless
 @LocalBean
 public class ReportParametersService {
-
+    
     @PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
     private EntityManager em;
 
     /**
      * Create a new ReportValues
-     * 
+     *
+     * @param reportParametersDto
      * @param reportValuesDto to be created
      * @return ResponseWrapper with the created ReportValues
      */
@@ -53,13 +54,14 @@ public class ReportParametersService {
 
     /**
      * get a ReportParameters by id
-     * 
+     *
      * @param id of the ReportParameters to be retrieved
      * @return ResponseWrapper with the retrieved ReportParameters
      */
     public ResponseWrapper getReportParametersById(Long id) {
         try {
-            ReportParameters reportParameters = em.find(ReportParameters.class, id);
+            ReportParameters reportParameters = em.createNamedQuery("ReportParameters.findById", ReportParameters.class)
+                    .setParameter("id", id).getSingleResult();
             if (reportParameters != null) {
                 ReportParametersDto reportParametersDto = new ReportParametersDto(reportParameters);
                 return new ResponseWrapper(
@@ -86,7 +88,7 @@ public class ReportParametersService {
 
     /**
      * get all ReportParameters
-     * 
+     *
      * @return ResponseWrapper with all the ReportParameters
      */
     @SuppressWarnings("unchecked")
@@ -95,7 +97,7 @@ public class ReportParametersService {
             Query query = em.createNamedQuery("ReportParameters.findAll", ReportParameters.class);
             List<ReportParameters> reportParametersList = (List<ReportParameters>) query.getResultList();
             List<ReportParametersDto> reportParametersDtoList = new ArrayList<>();
-
+            
             for (ReportParameters reportParameters : reportParametersList) {
                 ReportParametersDto reportParametersDto = new ReportParametersDto(reportParameters);
                 reportParametersDtoList.add(reportParametersDto.convertFromEntityToDTO(reportParameters,
@@ -117,7 +119,7 @@ public class ReportParametersService {
 
     /**
      * Update a ReportParameters
-     * 
+     *
      * @param reportParametersDto to be updated
      * @return ResponseWrapper with the updated ReportParameters
      */
@@ -152,7 +154,7 @@ public class ReportParametersService {
 
     /**
      * Delete a ReportParameters by id
-     * 
+     *
      * @param id of the ReportParameters to be deleted
      * @return ResponseWrapper informing if the ReportParameters was deleted
      */
@@ -181,5 +183,5 @@ public class ReportParametersService {
                     null);
         }
     }
-
+    
 }

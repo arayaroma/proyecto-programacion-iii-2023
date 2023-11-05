@@ -11,8 +11,8 @@ module Clinicauna {
     requires jakarta.xml.bind;
     requires jakarta.ws.rs;
     requires transitive jakarta.json;
-    // IMAGE AND FILES SERIALIZATION
-    requires org.apache.commons.compress;
+//    // IMAGE AND FILES SERIALIZATION
+//    requires org.apache.commons.compress;
     requires org.apache.commons.io;
     // MESSAGES
     requires org.controlsfx.controls;

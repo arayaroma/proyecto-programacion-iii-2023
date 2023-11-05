@@ -29,12 +29,12 @@ public class ReportService {
                         "Error in the request: " + request.getError(),
                         null);
             }
-            ReportDto report = (ReportDto) request.readEntity(ReportDto.class);
+            reportDto = (ReportDto) request.readEntity(ReportDto.class);
             return new ResponseWrapper(
                     ResponseCode.CREATED.getCode(),
                     ResponseCode.CREATED,
                     "Report created successfully: ",
-                    report);
+                    reportDto);
         } catch (Exception ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
@@ -111,12 +111,12 @@ public class ReportService {
                         "Error in the request: " + request.getError(),
                         null);
             }
-            ReportDto report = (ReportDto) request.readEntity(ReportDto.class);
+            reportDto = (ReportDto) request.readEntity(ReportDto.class);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
                     "Report updated successfully: ",
-                    report);
+                    reportDto);
         } catch (Exception ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
@@ -140,8 +140,8 @@ public class ReportService {
                         null);
             }
             return new ResponseWrapper(
-                    ResponseCode.NO_CONTENT.getCode(),
-                    ResponseCode.NO_CONTENT,
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
                     "Report deleted successfully: ",
                     null);
         } catch (Exception ex) {

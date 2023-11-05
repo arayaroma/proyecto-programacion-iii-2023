@@ -9,7 +9,7 @@ import cr.ac.una.clinicauna.util.ResponseWrapper;
 import jakarta.ws.rs.core.GenericType;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 public class ReportRecipientsService {
@@ -25,12 +25,12 @@ public class ReportRecipientsService {
                         "Error in the request: " + request.getError(),
                         null);
             }
-            ReportRecipientsDto reportRecipients = (ReportRecipientsDto) request.readEntity(ReportRecipientsDto.class);
+            reportRecipientsDto = (ReportRecipientsDto) request.readEntity(ReportRecipientsDto.class);
             return new ResponseWrapper(
-                    ResponseCode.CREATED.getCode(),
-                    ResponseCode.CREATED,
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
                     "ReportRecipients created successfully: ",
-                    reportRecipients);
+                    reportRecipientsDto);
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
@@ -108,12 +108,12 @@ public class ReportRecipientsService {
                         "Error in the request: " + request.getError(),
                         null);
             }
-            ReportRecipientsDto reportRecipients = (ReportRecipientsDto) request.readEntity(ReportRecipientsDto.class);
+            reportRecipientsDto = (ReportRecipientsDto) request.readEntity(ReportRecipientsDto.class);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
                     "ReportRecipients updated successfully: ",
-                    reportRecipients);
+                    reportRecipientsDto);
         } catch (Exception e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
@@ -137,8 +137,8 @@ public class ReportRecipientsService {
                         null);
             }
             return new ResponseWrapper(
-                    ResponseCode.NO_CONTENT.getCode(),
-                    ResponseCode.NO_CONTENT,
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
                     "ReportRecipients deleted successfully: ",
                     null);
         } catch (Exception e) {

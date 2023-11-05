@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import cr.ac.una.clinicaunaws.dto.ReportDto;
+import jakarta.persistence.QueryHint;
 
 /**
  *
@@ -34,8 +35,8 @@ import cr.ac.una.clinicaunaws.dto.ReportDto;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
-        @NamedQuery(name = "Report.findAll", query = "SELECT r FROM Report r"),
-        @NamedQuery(name = "Report.findById", query = "SELECT r FROM Report r WHERE r.id = :id"), })
+    @NamedQuery(name = "Report.findAll", query = "SELECT r FROM Report r", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
+    @NamedQuery(name = "Report.findById", query = "SELECT r FROM Report r WHERE r.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),})
 public class Report implements Serializable {
 
     private static final long serialVersionUID = 1L;
