@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
@@ -134,8 +135,30 @@ public class ReportGeneratorRegisterController implements Initializable {
 
     @FXML
     private void backAction(MouseEvent event) {
+//         try {
+//            data.removeData("patientBuffer");
+//            FXMLLoader loader = App.getFXMLLoader("Main");
+//            Animation.MakeDefaultFadeTransition(mainStack, loader.load());
+//            MainController controller = loader.getController();
+//            if (controller != null) {
+//                if (isFromReportView) {
+//                    Data.getInstance().setData("option", "patientReport");
+//                    controller.loadView("reportModule");
+//                    return;
+//                }
+//                controller.loadView("patientModule");
+//
+//            }
+//        } catch (IOException e) {
+//        }
         try {
-            Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Main").load());
+            FXMLLoader loader = App.getFXMLLoader("Main");
+            Animation.MakeDefaultFadeTransition(parent, loader.load());
+            MainController controller = loader.getController();
+            if (controller != null) {
+                Data.getInstance().setData("option", "reportgenerator");
+                controller.loadView("reportModule");
+            }
             data.removeData("reportBuffer");
         } catch (Exception e) {
             System.out.println(e.toString());
