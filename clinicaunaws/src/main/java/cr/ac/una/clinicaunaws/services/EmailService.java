@@ -1,5 +1,6 @@
 package cr.ac.una.clinicaunaws.services;
 
+import java.io.File;
 import java.io.IOException;
 import cr.ac.una.clinicaunaws.dto.UserDto;
 import cr.ac.una.clinicaunaws.util.Constants;
@@ -40,6 +41,19 @@ public class EmailService {
             e.printStackTrace();
             throw new MessagingException("Failed to send email: " + e.getMessage(), e);
         }
+    }
+
+    public void sendGeneratedReport(String email, File file) throws MessagingException, IOException {
+        String subject = "Report generated successfully";
+        send(
+                email,
+                subject,
+                HtmlFileReader.readEmailTemplate(
+                        subject,
+                        "We're glad to hear from you again, ",
+                        "User",
+                        "Here is your report!",
+                        "Thank you for choosing us!"));
     }
 
     public void sendActivationHashLink(UserDto to) throws MessagingException {
