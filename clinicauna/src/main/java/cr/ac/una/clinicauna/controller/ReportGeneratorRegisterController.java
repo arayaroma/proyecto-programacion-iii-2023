@@ -119,22 +119,27 @@ public class ReportGeneratorRegisterController implements Initializable {
             if (!saveReportRecipients(recipientsDtos, report)) {
                 Message.showNotification("ERROR", MessageType.ERROR, "errorSavingEmails");
             }
-            if (!saveReportParameters(reportBuffer.getReportParameters())) {
+            if (!saveReportParameters(reportBuffer.getReportParameters(), report)) {
                 Message.showNotification("ERROR", MessageType.ERROR, "errorSavingParameters");
             }
             Message.showNotification("Success", MessageType.INFO, response.getMessage());
-            reportBuffer = (ReportDto) reportService.getReport(reportBuffer.getId()).getData();
-            loadEmails();
-            loadParameters();
+            backAction(null);
+//            reportBuffer = (ReportDto) reportService.getReport(report.getId()).getData();
+//            loadEmails();
+//            loadParameters();
             return;
         }
         Message.showNotification("ERROR", MessageType.ERROR, response.getMessage());
     }
 
     @FXML
-    private void backAction(MouseEvent event) throws IOException {
-        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Main").load());
-        data.removeData("reportBuffer");
+    private void backAction(MouseEvent event) {
+        try {
+            Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Main").load());
+            data.removeData("reportBuffer");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
     }
 
     @FXML
@@ -201,7 +206,7 @@ public class ReportGeneratorRegisterController implements Initializable {
 
     private boolean saveReportRecipients(List<ReportRecipientsDto> recipientsDtos, ReportDto reportDto) {
         for (ReportRecipientsDto i : recipientsDtos) {
-            i.setReport(new ReportDto(reportBuffer));
+            i.setReport(new ReportDto(reportDto));
             ResponseWrapper response = i.getId() == null ? reportRecipientService.createReportRecipients(i)
                     : reportRecipientService.updateReportRecipients(i);
             if (response.getCode() != ResponseCode.OK) {
@@ -211,9 +216,9 @@ public class ReportGeneratorRegisterController implements Initializable {
         return true;
     }
 
-    private boolean saveReportParameters(List<ReportParametersDto> parametersDtos) {
+    private boolean saveReportParameters(List<ReportParametersDto> parametersDtos, ReportDto reportDto) {
         for (ReportParametersDto i : parametersDtos) {
-            i.setReport(new ReportDto(reportBuffer));
+            i.setReport(new ReportDto(reportDto));
             ResponseWrapper response = i.getId() == null ? reportParametersService.createReportParameters(i)
                     : reportParametersService.updateReportParameters(i);
             if (response.getCode() != ResponseCode.OK) {

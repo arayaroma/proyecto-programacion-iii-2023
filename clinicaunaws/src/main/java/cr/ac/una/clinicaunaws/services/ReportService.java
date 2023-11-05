@@ -20,9 +20,11 @@ import java.util.Map;
 
 import static cr.ac.una.clinicaunaws.util.PersistenceContext.PERSISTENCE_UNIT_NAME;
 import cr.ac.una.clinicaunaws.dto.ReportDto;
+import cr.ac.una.clinicaunaws.dto.ReportRecipientsDto;
 import cr.ac.una.clinicaunaws.entities.Report;
 import cr.ac.una.clinicaunaws.util.Constants;
 import cr.ac.una.clinicaunaws.util.ExcelGenerator;
+import java.io.File;
 
 import java.net.URL;
 
@@ -44,7 +46,7 @@ public class ReportService {
     /**
      * Get the result of a query and set it to the report
      *
-     * @param <D>    Generic class type
+     * @param <D> Generic class type
      * @param report Report to be set
      * @return List of query results
      */
@@ -77,12 +79,19 @@ public class ReportService {
             reportDto.getQueryManager().setResult(result);
             reportDto.getQueryManager().setQuery(report.getQuery());
 
-            for (int i = 0; i < reportDto.getReportRecipients().size(); i++) {
-                emailService.sendGeneratedReport(
-                        reportDto.getReportRecipients().get(i).getEmail(),
-                        ExcelGenerator.getInstance().generateExcelReport(reportDto));
+            File file = ExcelGenerator.getInstance().generateExcelReport(reportDto);
+            if (file != null) {
+                for (ReportRecipientsDto i : reportDto.getReportRecipients()) {
+                    emailService.sendGeneratedReport(i.getEmail(), file);
+                }
             }
+//            for (int i = 0; i < reportDto.getReportRecipients().size(); i++) {
+//                emailService.sendGeneratedReport(
+//                        reportDto.getReportRecipients().get(i).getEmail(),
+//                        ExcelGenerator.getInstance().generateExcelReport(reportDto));
+//            }
 
+            reportDto = new ReportDto(report);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
@@ -244,7 +253,7 @@ public class ReportService {
      *
      * @param id patient id to be retrieved
      * @return ResponseWrapper with the response and report from database, or
-     *         null if an exception occurred
+     * null if an exception occurred
      * @throws java.io.IOException
      * @throws net.sf.jasperreports.engine.JRException
      */
