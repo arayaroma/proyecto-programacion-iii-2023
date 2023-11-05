@@ -125,9 +125,6 @@ public class ReportGeneratorRegisterController implements Initializable {
             }
             Message.showNotification("Success", MessageType.INFO, response.getMessage());
             backAction(null);
-//            reportBuffer = (ReportDto) reportService.getReport(report.getId()).getData();
-//            loadEmails();
-//            loadParameters();
             return;
         }
         Message.showNotification("ERROR", MessageType.ERROR, response.getMessage());
@@ -135,22 +132,6 @@ public class ReportGeneratorRegisterController implements Initializable {
 
     @FXML
     private void backAction(MouseEvent event) {
-//         try {
-//            data.removeData("patientBuffer");
-//            FXMLLoader loader = App.getFXMLLoader("Main");
-//            Animation.MakeDefaultFadeTransition(mainStack, loader.load());
-//            MainController controller = loader.getController();
-//            if (controller != null) {
-//                if (isFromReportView) {
-//                    Data.getInstance().setData("option", "patientReport");
-//                    controller.loadView("reportModule");
-//                    return;
-//                }
-//                controller.loadView("patientModule");
-//
-//            }
-//        } catch (IOException e) {
-//        }
         try {
             FXMLLoader loader = App.getFXMLLoader("Main");
             Animation.MakeDefaultFadeTransition(parent, loader.load());

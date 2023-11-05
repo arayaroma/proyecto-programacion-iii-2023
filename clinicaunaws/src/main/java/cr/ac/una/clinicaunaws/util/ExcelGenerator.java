@@ -30,13 +30,12 @@ public class ExcelGenerator {
     private ExcelGenerator() {
     }
 
-    public CellStyle createStyleHeader(Workbook workbook, HorizontalAlignment horizontalAlignment,
-            IndexedColors colors) {
+    public CellStyle createStyleHeader(Workbook workbook, HorizontalAlignment horizontalAlignment, IndexedColors colors, short fontColor) {
         CellStyle cellStyle = workbook.createCellStyle();
         Font headerFont = workbook.createFont();
 
         headerFont.setFontHeightInPoints((short) 14);
-        headerFont.setColor(IndexedColors.WHITE.getIndex());
+        headerFont.setColor(fontColor);
 
         cellStyle.setFont(headerFont);
         cellStyle.setAlignment(horizontalAlignment);
@@ -51,16 +50,18 @@ public class ExcelGenerator {
 
             Workbook workbook = new HSSFWorkbook();
             Sheet sheet = workbook.createSheet("Report");
-            CellStyle style = createStyleHeader(workbook, HorizontalAlignment.CENTER, IndexedColors.BLUE);
+            CellStyle style = createStyleHeader(workbook, HorizontalAlignment.CENTER, IndexedColors.BLUE, IndexedColors.WHITE.getIndex());
 
             Row headerRow = sheet.createRow(0);
-            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, headerNames.size() - 1));
+            if (headerNames.size() > 1) {
+                sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, headerNames.size() - 1));
+            }
             Cell cell = headerRow.createCell(0);
             cell.setCellValue(report.getName());
             cell.setCellStyle(style);
 
             headerRow = sheet.createRow(1);
-            style = createStyleHeader(workbook, HorizontalAlignment.CENTER, IndexedColors.GREY_25_PERCENT);
+            style = createStyleHeader(workbook, HorizontalAlignment.CENTER, IndexedColors.BLUE_GREY, IndexedColors.WHITE.getIndex());
 
             for (int i = 0; i < headerNames.size(); i++) {
                 cell = headerRow.createCell(i);
@@ -68,8 +69,9 @@ public class ExcelGenerator {
                 cell.setCellStyle(style);
                 sheet.autoSizeColumn(i);
             }
-
+            style = createStyleHeader(workbook, HorizontalAlignment.CENTER, IndexedColors.WHITE, IndexedColors.BLACK.getIndex());
             int rowNum = 2;
+            System.out.println(report.getQueryManager().getResult());
             for (Object obj : report.getQueryManager().getResult()) {
                 Row row = sheet.createRow(rowNum++);
                 int colNum = 0;
@@ -80,17 +82,17 @@ public class ExcelGenerator {
                     sheet.autoSizeColumn(colNum);
                 }
             }
-
             int randomNumber = (int) (Math.random() * 1000);
             String randomNumberString = String.valueOf(randomNumber).substring(0, 3);
 
             String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-            String projectRoot = System.getProperty("user.dir");
-            String outputPath = "reports/" + report.getName() + randomNumberString + "-" + currentDate + ".xlsx";
-            String filePath = projectRoot + "/" + outputPath;
+//            String projectRoot = System.getProperty("user.dir");
+//            String outputPath = "reports/" + report.getName() + randomNumberString + "-" + currentDate + ".xlsx";
+//            String filePath = projectRoot + "/" + outputPath;
 
-            File excelFile = new File(filePath);
-            excelFile.getParentFile().mkdirs();
+            File excelFile = new File(report.getName() + randomNumberString + "-" + currentDate + ".xls");
+            System.out.println(excelFile);//Se crean dentro del domain1 de payara en la carpeta config
+//            excelFile.getParentFile().mkdirs();
 
             FileOutputStream outputStream = new FileOutputStream(excelFile);
             workbook.write(outputStream);
