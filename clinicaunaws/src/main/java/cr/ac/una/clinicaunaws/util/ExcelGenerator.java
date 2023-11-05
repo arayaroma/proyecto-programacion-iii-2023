@@ -54,11 +54,18 @@ public class ExcelGenerator {
         Row headerRow = sheet.createRow(0);
         sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, headerNames.size()));
         Cell cell = headerRow.createCell(0);
+        cell.setCellValue(report.getName());
+        cell.setCellStyle(style);
+
+        headerRow = sheet.createRow(1);
+        style = createStyleHeader(workbook, HorizontalAlignment.CENTER, IndexedColors.GREY_25_PERCENT);
+
 
         for (int i = 0; i < headerNames.size(); i++) {
             cell = headerRow.createCell(i);
             cell.setCellValue(headerNames.get(i));
             cell.setCellStyle(style);
+            sheet.autoSizeColumn(i);
         }
 
         int randomNumber = (int) (Math.random() * 1000);
