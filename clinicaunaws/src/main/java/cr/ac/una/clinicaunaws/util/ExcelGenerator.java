@@ -1,9 +1,7 @@
 package cr.ac.una.clinicaunaws.util;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -75,9 +73,16 @@ public class ExcelGenerator {
             for (Object obj : report.getQueryManager().getResult()) {
                 Row row = sheet.createRow(rowNum++);
                 int colNum = 0;
-                for (Object element : (Object[]) obj) {
+                try {
+                    for (Object element : (Object[]) obj) {
+                        cell = row.createCell(colNum++);
+                        cell.setCellValue(element != null ? element.toString() : "");
+                        cell.setCellStyle(style);
+                        sheet.autoSizeColumn(colNum);
+                    }
+                } catch (ClassCastException e) {
                     cell = row.createCell(colNum++);
-                    cell.setCellValue(element != null ? element.toString() : "");
+                    cell.setCellValue(obj != null ? obj.toString() : "");
                     cell.setCellStyle(style);
                     sheet.autoSizeColumn(colNum);
                 }

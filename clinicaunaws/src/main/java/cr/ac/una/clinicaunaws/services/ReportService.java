@@ -20,6 +20,7 @@ import java.util.Map;
 
 import static cr.ac.una.clinicaunaws.util.PersistenceContext.PERSISTENCE_UNIT_NAME;
 import cr.ac.una.clinicaunaws.dto.ReportDto;
+import cr.ac.una.clinicaunaws.dto.ReportParametersDto;
 import cr.ac.una.clinicaunaws.dto.ReportRecipientsDto;
 import cr.ac.una.clinicaunaws.entities.Report;
 import cr.ac.una.clinicaunaws.util.Constants;
@@ -55,11 +56,17 @@ public class ReportService {
         if (report == null) {
             return null;
         }
-        Query query = em.createNativeQuery(report.getQuery());
-        List<D> queryResponse = (List<D>) query.getResultList();
+        List<ReportParametersDto> params = report.getReportParameters();
+        String query = report.getQuery();
+        for (ReportParametersDto parameter : params) {
+            query = query.replace(":" + parameter.getName(), parameter.getValue());
+        }
+        System.out.println("Query: "+query);
+        List<D> queryResponse = (List<D>) em.createNativeQuery(query).getResultList();
 
         report.getQueryManager().setResult(queryResponse);
         report.getQueryManager().setStatus(ResponseCode.OK.getCode().toString());
+        System.out.println(queryResponse);
         return queryResponse;
     }
 
