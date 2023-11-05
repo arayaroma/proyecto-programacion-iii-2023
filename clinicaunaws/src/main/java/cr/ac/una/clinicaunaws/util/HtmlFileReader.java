@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 public class HtmlFileReader {
@@ -30,12 +30,7 @@ public class HtmlFileReader {
                 .readAllBytes());
     }
 
-    public static String readEmailTemplate(
-            String title,
-            String header,
-            String userName,
-            String body,
-            String footer) throws IOException {
+    public static String readEmailTemplate(String title, String header, String userName, String body, String footer) throws IOException {
         try (InputStream inputStream = HtmlFileReader.class.getResourceAsStream(TEMPLATE_DIR + "template.html")) {
             String template = new String(inputStream.readAllBytes());
             String emailContent = template

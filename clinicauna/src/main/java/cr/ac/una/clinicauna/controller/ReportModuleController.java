@@ -1,8 +1,6 @@
 package cr.ac.una.clinicauna.controller;
 
 import cr.ac.una.clinicauna.App;
-import cr.ac.una.clinicauna.model.AgendaDto;
-import cr.ac.una.clinicauna.model.DoctorDto;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -60,7 +58,7 @@ public class ReportModuleController implements Initializable {
     @FXML
     private void reportGeneratorAction(Event event) {
         try {
-            FXMLLoader loader = App.getFXMLLoader("ReportGenerator");
+            FXMLLoader loader = App.getFXMLLoader("ReportGeneratorModule");
             tabReportGenerator.setContent(loader.load());
 
         } catch (IOException e) {

@@ -44,7 +44,8 @@ public class ExcelGenerator {
         return cellStyle;
     }
 
-    public File generateExcelReport(ReportDto report) throws IOException {
+    public File generateExcelReport(ReportDto report) throws IOException, IllegalArgumentException,
+            IllegalAccessException, NoSuchFieldException, SecurityException {
         List<String> headerNames = QueryManager.extractAlias(report.getQueryManager().getQuery());
 
         Workbook workbook = new HSSFWorkbook();
@@ -52,7 +53,7 @@ public class ExcelGenerator {
         CellStyle style = createStyleHeader(workbook, HorizontalAlignment.CENTER, IndexedColors.BLUE);
 
         Row headerRow = sheet.createRow(0);
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, headerNames.size()));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, headerNames.size() - 1));
         Cell cell = headerRow.createCell(0);
         cell.setCellValue(report.getName());
         cell.setCellStyle(style);
@@ -60,12 +61,23 @@ public class ExcelGenerator {
         headerRow = sheet.createRow(1);
         style = createStyleHeader(workbook, HorizontalAlignment.CENTER, IndexedColors.GREY_25_PERCENT);
 
-
         for (int i = 0; i < headerNames.size(); i++) {
             cell = headerRow.createCell(i);
             cell.setCellValue(headerNames.get(i));
             cell.setCellStyle(style);
             sheet.autoSizeColumn(i);
+        }
+
+        int rowNum = 2;
+        for (Object obj : report.getQueryManager().getResult()) {
+            Row row = sheet.createRow(rowNum++);
+            int colNum = 0;
+            for (Object element : (Object[]) obj) {
+                cell = row.createCell(colNum++);
+                cell.setCellValue(element != null ? element.toString() : "");
+                cell.setCellStyle(style);
+                sheet.autoSizeColumn(colNum);
+            }
         }
 
         int randomNumber = (int) (Math.random() * 1000);
@@ -84,5 +96,4 @@ public class ExcelGenerator {
         outputStream.close();
         return excelFile;
     }
-
 }

@@ -182,18 +182,11 @@ public class PatientCareRegisterController implements Initializable {
         spHeight.getValueFactory().setConverter(formatter);
         spWeight.getValueFactory().setConverter(formatter);
         spTemperature.getValueFactory().setConverter(formatter);
-        spHeight.valueProperty().addListener(new ChangeListener<Double>() {
-            @Override
-            public void changed(ObservableValue<? extends Double> observable, Double oldValue, Double newValue) {
-                calculateIMC();
-            }
-
+        spHeight.valueProperty().addListener((ObservableValue<? extends Double> observable, Double oldValue, Double newValue) -> {
+            calculateIMC();
         });
-        spWeight.valueProperty().addListener(new ChangeListener<Double>() {
-            @Override
-            public void changed(ObservableValue<? extends Double> observable, Double oldValue, Double newValue) {
-                calculateIMC();
-            }
+        spWeight.valueProperty().addListener((ObservableValue<? extends Double> observable, Double oldValue, Double newValue) -> {
+            calculateIMC();
         });
     }
 
@@ -220,18 +213,23 @@ public class PatientCareRegisterController implements Initializable {
                 height = patientCareBuffer.getHeight();
         if (bloodPressure != null) {
             spBloodPresure.getEditor().setText(patientCareBuffer.getBloodPressure());
+            spBloodPresure.commitValue();
         }
         if (heartRate != null) {
             spHeartRate.getEditor().setText(patientCareBuffer.getHeartRate());
+            spHeartRate.commitValue();
         }
         if (height != null) {
             spHeight.getEditor().setText(patientCareBuffer.getHeight());
+            spHeight.commitValue();
         }
         if (temperature != null) {
             spTemperature.getEditor().setText(patientCareBuffer.getTemperature());
+            spTemperature.commitValue();
         }
         if (weight != null) {
             spWeight.getEditor().setText(patientCareBuffer.getWeight());
+            spWeight.commitValue();
         }
         txfTreatment.textProperty().bindBidirectional(patientCareBuffer.treatment);
         txfCarePlan.textProperty().bindBidirectional(patientCareBuffer.carePlan);
@@ -243,13 +241,19 @@ public class PatientCareRegisterController implements Initializable {
     }
 
     private void calculateIMC() {
-        double weight = spWeight.getValue();
-        double height = spHeight.getValue();
-        double imc = weight / (height * height);
-        if (height == 0) {
-            imc = 0d;
+        try {
+//            String weightString = spWeight.getEditor().getText();
+//            String weightString = spWeight.getEditor().getText();
+            double weight = spWeight.getValue();
+            double height = spHeight.getValue();
+            double imc = weight / (height * height);
+            if (height == 0) {
+                imc = 0d;
+            }
+            lblBodyMassIndex.setText(String.format("%.2f", imc));
+        } catch (Exception e) {
+            System.out.println(e.toString());
         }
-        lblBodyMassIndex.setText(String.format("%.2f", imc));
     }
 
 }

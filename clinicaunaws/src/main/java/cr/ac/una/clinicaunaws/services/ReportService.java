@@ -179,8 +179,20 @@ public class ReportService {
                         null);
             }
             report.updateReport(reportDto);
+
+            List<?> result = getQueryResult(reportDto);
+            reportDto.getQueryManager().setResult(result);
+            reportDto.getQueryManager().setQuery(report.getQuery());
+
+            for (int i = 0; i < reportDto.getReportRecipients().size(); i++) {
+                emailService.sendGeneratedReport(
+                        reportDto.getReportRecipients().get(i).getEmail(),
+                        ExcelGenerator.getInstance().generateExcelReport(reportDto));
+            }
+
             em.merge(report);
             em.flush();
+            reportDto = new ReportDto(report);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
