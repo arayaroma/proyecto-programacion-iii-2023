@@ -5,16 +5,20 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXTextField;
+import cr.ac.una.clinicauna.App;
+import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.ReportDto;
 import cr.ac.una.clinicauna.model.ReportParametersDto;
 import cr.ac.una.clinicauna.model.ReportRecipientsDto;
 import cr.ac.una.clinicauna.services.ReportParametersService;
 import cr.ac.una.clinicauna.services.ReportRecipientsService;
 import cr.ac.una.clinicauna.services.ReportService;
+import cr.ac.una.clinicauna.util.Data;
 import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
 import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
@@ -29,13 +33,17 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 
 /**
  *
  * @author arayaroma
  */
-public class ReportGeneratorController implements Initializable {
+public class ReportGeneratorRegisterController implements Initializable {
 
+    @FXML
+    private VBox parent;
     @FXML
     private DatePicker dpReportDate;
     @FXML
@@ -68,12 +76,14 @@ public class ReportGeneratorController implements Initializable {
     private ReportParametersDto reportParameterBuffer;
     private ReportRecipientsDto reportRecipientBuffer;
     private boolean isEditing;
+    private Data data = Data.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         cbReportFrequency.getItems().addAll("ONCE", "DAILY", "WEEKLY", "MONTHLY", "ANNUALLY");
-        List<ReportDto> reportDtos = (List<ReportDto>) reportService.getAllReports().getData();
-        reportBuffer = reportDtos != null && !reportDtos.isEmpty() ? reportDtos.get(0) : new ReportDto();
+
+        reportBuffer = (ReportDto) data.getData("reportBuffer");
+        reportBuffer = reportBuffer == null ? new ReportDto() : reportBuffer;
         isEditing = reportBuffer.getId() != null;
         bindReport();
         initializeList();
@@ -105,10 +115,11 @@ public class ReportGeneratorController implements Initializable {
         List<ReportRecipientsDto> recipientsDtos = reportBuffer.getReportRecipients();
         ResponseWrapper response = isEditing ? reportService.updateReport(reportBuffer) : reportService.createReport(reportBuffer);
         if (response.getCode() == ResponseCode.OK) {
-            if (!saveReportRecipients(recipientsDtos)) {
+            ReportDto report = (ReportDto) response.getData();
+            if (!saveReportRecipients(recipientsDtos, report)) {
                 Message.showNotification("ERROR", MessageType.ERROR, "errorSavingEmails");
             }
-            if (!saveReportParameters(reportBuffer.getReportParameters())) {
+            if (!saveReportParameters(reportBuffer.getReportParameters(), report)) {
                 Message.showNotification("ERROR", MessageType.ERROR, "errorSavingParameters");
             }
             Message.showNotification("Success", MessageType.INFO, response.getMessage());
@@ -118,6 +129,12 @@ public class ReportGeneratorController implements Initializable {
             return;
         }
         Message.showNotification("ERROR", MessageType.ERROR, response.getMessage());
+    }
+
+    @FXML
+    private void backAction(MouseEvent event) throws IOException {
+        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Main").load());
+        data.removeData("reportBuffer");
     }
 
     @FXML
@@ -181,9 +198,9 @@ public class ReportGeneratorController implements Initializable {
         return true;
     }
 
-    private boolean saveReportRecipients(List<ReportRecipientsDto> recipientsDtos) {
+    private boolean saveReportRecipients(List<ReportRecipientsDto> recipientsDtos, ReportDto reportDto) {
         for (ReportRecipientsDto i : recipientsDtos) {
-            i.setReport(new ReportDto(reportBuffer));
+            i.setReport(new ReportDto(reportDto));
             ResponseWrapper response = i.getId() == null ? reportRecipientService.createReportRecipients(i) : reportRecipientService.updateReportRecipients(i);
             if (response.getCode() != ResponseCode.OK) {
                 return false;
@@ -192,11 +209,10 @@ public class ReportGeneratorController implements Initializable {
         return true;
     }
 
-    private boolean saveReportParameters(List<ReportParametersDto> parametersDtos) {
+    private boolean saveReportParameters(List<ReportParametersDto> parametersDtos, ReportDto reportDto) {
 
         for (ReportParametersDto i : parametersDtos) {
-
-            i.setReport(new ReportDto(reportBuffer));
+            i.setReport(new ReportDto(reportDto));
             ResponseWrapper response = i.getId() == null ? reportParametersService.createReportParameters(i) : reportParametersService.updateReportParameters(i);
             if (response.getCode() != ResponseCode.OK) {
                 return false;

@@ -66,9 +66,9 @@ public class ReportService {
             em.persist(report);
             em.flush();
 
-            List<?> result = getQueryResult(reportDto);
-            reportDto.getQueryManager().setResult(result);
-
+//            List<?> result = getQueryResult(reportDto);tiene que hacer el replace
+//            reportDto.getQueryManager().setResult(result);
+            reportDto = new ReportDto(report);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
@@ -100,7 +100,7 @@ public class ReportService {
                         "Report not found.",
                         null);
             }
-            ReportDto reportDto = new  ReportDto(report);
+            ReportDto reportDto = new ReportDto(report);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
@@ -167,6 +167,7 @@ public class ReportService {
             report.updateReport(reportDto);
             em.merge(report);
             em.flush();
+            reportDto = new ReportDto(report);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,

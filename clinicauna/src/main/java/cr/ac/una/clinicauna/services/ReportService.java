@@ -31,8 +31,8 @@ public class ReportService {
             }
             reportDto = (ReportDto) request.readEntity(ReportDto.class);
             return new ResponseWrapper(
-                    ResponseCode.CREATED.getCode(),
-                    ResponseCode.CREATED,
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
                     "Report created successfully: ",
                     reportDto);
         } catch (Exception ex) {

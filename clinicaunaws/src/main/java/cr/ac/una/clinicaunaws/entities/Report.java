@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import cr.ac.una.clinicaunaws.dto.ReportDto;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.QueryHint;
 
 /**
