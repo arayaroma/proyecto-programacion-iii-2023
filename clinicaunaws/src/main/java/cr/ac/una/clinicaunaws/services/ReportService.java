@@ -3,6 +3,7 @@ package cr.ac.una.clinicaunaws.services;
 import cr.ac.una.clinicaunaws.util.ResponseCode;
 import net.sf.jasperreports.engine.*;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
+import jakarta.ejb.EJB;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -16,10 +17,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import static cr.ac.una.clinicaunaws.util.PersistenceContext.PERSISTENCE_UNIT_NAME;
 import cr.ac.una.clinicaunaws.dto.ReportDto;
 import cr.ac.una.clinicaunaws.entities.Report;
 import cr.ac.una.clinicaunaws.util.Constants;
+import cr.ac.una.clinicaunaws.util.ExcelGenerator;
+
 import java.net.URL;
 
 /**
@@ -34,10 +38,13 @@ public class ReportService {
     @PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
     private EntityManager em;
 
+    @EJB
+    EmailService emailService;
+
     /**
      * Get the result of a query and set it to the report
      *
-     * @param <D> Generic class type
+     * @param <D>    Generic class type
      * @param report Report to be set
      * @return List of query results
      */
@@ -68,6 +75,13 @@ public class ReportService {
 
             List<?> result = getQueryResult(reportDto);
             reportDto.getQueryManager().setResult(result);
+            reportDto.getQueryManager().setQuery(report.getQuery());
+
+            for (int i = 0; i < reportDto.getReportRecipients().size(); i++) {
+                emailService.sendGeneratedReport(
+                        reportDto.getReportRecipients().get(i).getEmail(),
+                        ExcelGenerator.getInstance().generateExcelReport(reportDto));
+            }
 
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
@@ -100,7 +114,7 @@ public class ReportService {
                         "Report not found.",
                         null);
             }
-            ReportDto reportDto = new  ReportDto(report);
+            ReportDto reportDto = new ReportDto(report);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
@@ -218,7 +232,7 @@ public class ReportService {
      *
      * @param id patient id to be retrieved
      * @return ResponseWrapper with the response and report from database, or
-     * null if an exception occurred
+     *         null if an exception occurred
      * @throws java.io.IOException
      * @throws net.sf.jasperreports.engine.JRException
      */
