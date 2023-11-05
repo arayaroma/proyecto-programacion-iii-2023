@@ -12,6 +12,7 @@ import cr.ac.una.clinicaunaws.dto.PatientCareDto;
 import cr.ac.una.clinicaunaws.entities.PatientCare;
 import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
+import jakarta.ejb.EJB;
 
 /**
  * 
@@ -23,6 +24,9 @@ public class PatientCareService {
 
     @PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
     private EntityManager em;
+    
+    @EJB
+    EmailService eService;
 
     /**
      * Create a new PatientCare
@@ -37,6 +41,15 @@ public class PatientCareService {
                     new PatientCare(patientCareDto));
             em.persist(patientCare);
             em.flush();
+            try{
+                eService.sendAppointmentResults(patientCareDto);
+            }catch(Exception e){
+                return new ResponseWrapper(
+                        ResponseCode.OK.getCode(),
+                        ResponseCode.OK,
+                        "PatientCare created, but email could not be sent: " + e.getMessage(),
+                        patientCareDto);
+            }
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,

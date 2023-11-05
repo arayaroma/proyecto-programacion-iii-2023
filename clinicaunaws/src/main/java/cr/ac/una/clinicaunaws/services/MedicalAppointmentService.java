@@ -12,6 +12,7 @@ import cr.ac.una.clinicaunaws.dto.MedicalAppointmentDto;
 import cr.ac.una.clinicaunaws.entities.MedicalAppointment;
 import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
+import jakarta.ejb.EJB;
 
 /**
  *
@@ -23,6 +24,9 @@ public class MedicalAppointmentService {
 
     @PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
     private EntityManager em;
+    
+    @EJB
+    EmailService emailService;
 
     /**
      * Create a new MedicalAppointment
@@ -37,6 +41,15 @@ public class MedicalAppointmentService {
             System.out.println(medicalAppointment.toString());
             em.persist(medicalAppointment);
             em.flush();
+            try {
+                sendScheduledEmail(medicalAppointmentDto);
+            }catch(Exception e){
+                return new ResponseWrapper(
+                        ResponseCode.OK.getCode(),
+                        ResponseCode.OK,
+                        "Appointment created, but email could not be sent: " + e.getMessage(),
+                        medicalAppointmentDto);
+            }
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
@@ -184,6 +197,23 @@ public class MedicalAppointmentService {
                     ResponseCode.INTERNAL_SERVER_ERROR,
                     "Could not delete the MedicalAppointment: " + e.getMessage(),
                     null);
+        }
+    }
+
+    private ResponseWrapper sendScheduledEmail(MedicalAppointmentDto meApp) {
+        try {
+            emailService.sendScheduledAppointment(meApp);
+            return new ResponseWrapper(
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
+                    "User created successfully.",
+                    meApp);
+        } catch (Exception ex) {
+            return new ResponseWrapper(
+                    ResponseCode.OK.getCode(),
+                    ResponseCode.OK,
+                    "User created successfully, but email could not be sent: " + ex.getMessage(),
+                    meApp);
         }
     }
 
