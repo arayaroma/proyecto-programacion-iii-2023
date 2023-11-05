@@ -225,5 +225,34 @@ public class ReportController {
                     .entity("Error al generar el informe: " + e.toString()).type(MediaType.TEXT_PLAIN).build();
         }
     }
-
+    
+    @GET
+    @Path("/createMedicalExamReport/{patientId}")
+    @Operation(summary = "Create a Medical Exam Report", description = "Create a Medical Exam Report", tags = {
+        "ReportController"})
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Medical Exam Report created"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized"),
+        @ApiResponse(responseCode = "404", description = "Medical Exam Report not found"),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    public Response createMedicalExamReport(@PathParam("patientId") Long patId) {
+        try {
+            MediaType contentType;
+            ResponseWrapper response = reportService.createMedicalExamReport(patId);
+            if (response.getData() instanceof byte[]) {
+                contentType = MediaType.APPLICATION_OCTET_STREAM_TYPE;
+            } else {
+                contentType = MediaType.APPLICATION_JSON_TYPE;
+            }
+            return Response.status(response.getStatus())
+                    .entity(response.getData()) // cambio
+                    .type(contentType) // cambio
+                    .build();
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error al generar el informe: " + e.toString()).type(MediaType.TEXT_PLAIN).build();
+        }
+    }
 }
