@@ -85,7 +85,6 @@ public class ReportGeneratorController implements Initializable {
             List<String> parameter = extractParameters(reportBuffer.getQuery());
             if (cleanParameters(reportBuffer.getReportParameters())) {
                 reportBuffer.getReportParameters().clear();
-//            List<String> alias = extractAlias(reportBuffer.getQuery());
                 for (String i : parameter) {
                     ReportParametersDto reportParametersDto = new ReportParametersDto();
                     reportParametersDto.setName(i);
@@ -103,7 +102,8 @@ public class ReportGeneratorController implements Initializable {
             return;
         }
         List<ReportRecipientsDto> recipientsDtos = reportBuffer.getReportRecipients();
-        ResponseWrapper response = isEditing ? reportService.updateReport(reportBuffer) : reportService.createReport(reportBuffer);
+        ResponseWrapper response = isEditing ? reportService.updateReport(reportBuffer)
+                : reportService.createReport(reportBuffer);
         if (response.getCode() == ResponseCode.OK) {
             if (!saveReportRecipients(recipientsDtos)) {
                 Message.showNotification("ERROR", MessageType.ERROR, "errorSavingEmails");
@@ -163,7 +163,8 @@ public class ReportGeneratorController implements Initializable {
         if (reportParameterBuffer != null) {
             reportParameterBuffer.setValue(txfParameterValue.getText());
             reportBuffer.getReportParameters().remove(reportParameterBuffer);
-//            reportBuffer.getReportParameters().removeIf(t -> t.getId() != null && t.getId().equals(reportParameterBuffer.getId()));
+            // reportBuffer.getReportParameters().removeIf(t -> t.getId() != null &&
+            // t.getId().equals(reportParameterBuffer.getId()));
             reportBuffer.getReportParameters().add(reportParameterBuffer);
             loadParameters();
         }
@@ -184,7 +185,8 @@ public class ReportGeneratorController implements Initializable {
     private boolean saveReportRecipients(List<ReportRecipientsDto> recipientsDtos) {
         for (ReportRecipientsDto i : recipientsDtos) {
             i.setReport(new ReportDto(reportBuffer));
-            ResponseWrapper response = i.getId() == null ? reportRecipientService.createReportRecipients(i) : reportRecipientService.updateReportRecipients(i);
+            ResponseWrapper response = i.getId() == null ? reportRecipientService.createReportRecipients(i)
+                    : reportRecipientService.updateReportRecipients(i);
             if (response.getCode() != ResponseCode.OK) {
                 return false;
             }
@@ -193,11 +195,10 @@ public class ReportGeneratorController implements Initializable {
     }
 
     private boolean saveReportParameters(List<ReportParametersDto> parametersDtos) {
-
         for (ReportParametersDto i : parametersDtos) {
-
             i.setReport(new ReportDto(reportBuffer));
-            ResponseWrapper response = i.getId() == null ? reportParametersService.createReportParameters(i) : reportParametersService.updateReportParameters(i);
+            ResponseWrapper response = i.getId() == null ? reportParametersService.createReportParameters(i)
+                    : reportParametersService.updateReportParameters(i);
             if (response.getCode() != ResponseCode.OK) {
                 return false;
             }
@@ -245,25 +246,6 @@ public class ReportGeneratorController implements Initializable {
         return parameters;
     }
 
-    public static List<String> extractAlias(String query) {
-        List<String> parameters = new ArrayList<>();
-        Pattern pattern = Pattern.compile("SELECT\\s+(.*?)\\s+FROM", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(query);
-        if (matcher.find()) {
-            String selectedValues = matcher.group(1);
-            String[] valueArray = selectedValues.split(",");
-            for (String value : valueArray) {
-                String[] parts = value.trim().split("(?i)\\s+(?i)as\\s+");
-                if (parts.length > 1) {
-                    parameters.add(parts[1]);
-                } else {
-                    parameters.add(parts[0]);
-                }
-            }
-        }
-        return parameters;
-    }
-
     private void bindReport() {
         txfReportDescription.textProperty().bindBidirectional(reportBuffer.description);
         txfReportName.textProperty().bindBidirectional(reportBuffer.name);
@@ -275,7 +257,8 @@ public class ReportGeneratorController implements Initializable {
     }
 
     private boolean verifyFields() {
-        List<Node> fields = Arrays.asList(txfReportDescription, txfReportName, txfReportQuery, cbReportFrequency, dpReportDate);
+        List<Node> fields = Arrays.asList(txfReportDescription, txfReportName, txfReportQuery, cbReportFrequency,
+                dpReportDate);
         for (Node i : fields) {
             if (i instanceof JFXTextField && ((JFXTextField) i).getText() != null
                     && ((JFXTextField) i).getText().isBlank()) {
