@@ -4,12 +4,12 @@ import cr.ac.una.clinicauna.App;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.Event;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.Button;
+
 import javafx.scene.layout.VBox;
 
 /**
@@ -22,55 +22,72 @@ public class ReportModuleController implements Initializable {
     @FXML
     private VBox parent;
     @FXML
-    private Tab tabDoctorReport;
+    private VBox container;
     @FXML
-    private Tab tabPatientReport;
+    private Button btnDoctorReport;
     @FXML
-    private Tab tabReportGenerator;
+    private Button btnPatientReport;
     @FXML
-    private TabPane tabPane;
+    private Button btnReportGenerator;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        doctorReportAction(null);
     }
 
     @FXML
-    private void doctorReportAction(Event event) {
+    private void doctorReportAction(ActionEvent event) {
         try {
             FXMLLoader loader = App.getFXMLLoader("DoctorReport");
-            tabDoctorReport.setContent(loader.load());
-
+            container.getChildren().clear();
+            container.getChildren().add(loader.load());
+            btnReportGenerator.getStyleClass().remove("tab-selected");
+            btnPatientReport.getStyleClass().remove("tab-selected");
+            btnDoctorReport.getStyleClass().add("tab-selected");
         } catch (IOException e) {
             System.out.println(e.toString());
         }
     }
 
     @FXML
-    private void patientReportAction(Event event) {
+    private void patientReportAction(ActionEvent event) {
         try {
             FXMLLoader loader = App.getFXMLLoader("PatientCareReport");
-            tabPatientReport.setContent(loader.load());
+            container.getChildren().clear();
+            container.getChildren().add(loader.load());
+            btnDoctorReport.getStyleClass().remove("tab-selected");
+            btnReportGenerator.getStyleClass().remove("tab-selected");
+            btnPatientReport.getStyleClass().add("tab-selected");
         } catch (IOException e) {
             System.out.println(e.toString());
         }
     }
 
     @FXML
-    private void reportGeneratorAction(Event event) {
+    private void reportGeneratorAction(ActionEvent event) {
         try {
             FXMLLoader loader = App.getFXMLLoader("ReportGeneratorModule");
-            tabReportGenerator.setContent(loader.load());
-
+            container.getChildren().clear();
+            container.getChildren().add(loader.load());
+            btnDoctorReport.getStyleClass().remove("tab-selected");
+            btnPatientReport.getStyleClass().remove("tab-selected");
+            btnReportGenerator.getStyleClass().add("tab-selected");
         } catch (IOException e) {
             System.out.println(e.toString());
         }
     }
- 
+
     public void loadView(String option) {
         if (option != null) {
             option = option.toLowerCase();
             if (option.equals("patientreport")) {
                 patientReportAction(null);
+            }
+            if (option.equals("reportgenerator")) {
+                reportGeneratorAction(null);
+            }
+            if (option.equals("doctorreport")) {
+                doctorReportAction(null);
             }
         }
     }

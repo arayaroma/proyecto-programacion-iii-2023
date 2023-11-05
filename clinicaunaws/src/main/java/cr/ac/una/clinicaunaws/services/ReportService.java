@@ -193,10 +193,12 @@ public class ReportService {
             reportDto.getQueryManager().setResult(result);
             reportDto.getQueryManager().setQuery(report.getQuery());
 
-            for (int i = 0; i < reportDto.getReportRecipients().size(); i++) {
-                emailService.sendGeneratedReport(
-                        reportDto.getReportRecipients().get(i).getEmail(),
-                        ExcelGenerator.getInstance().generateExcelReport(reportDto));
+            File file = ExcelGenerator.getInstance().generateExcelReport(reportDto);
+            System.out.println(file);
+            if (file != null) {
+                for (ReportRecipientsDto i : reportDto.getReportRecipients()) {
+                    emailService.sendGeneratedReport(i.getEmail(), file);
+                }
             }
 
             em.merge(report);
