@@ -164,7 +164,7 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="OBSERVATIONS"/>
 	</field>
 	<title>
-		<band height="289" splitType="Stretch">
+		<band height="282" splitType="Stretch">
 			<rectangle radius="0">
 				<reportElement x="-1" y="138" width="557" height="139" backcolor="#4974A5" uuid="5943f101-89a5-412e-bfcc-04e0dac56ebd"/>
 				<graphicElement>
@@ -332,6 +332,42 @@ WHERE
 			</textField>
 		</band>
 	</title>
+	<pageHeader>
+		<band height="162" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+			<timeSeriesChart>
+				<chart evaluationTime="Report">
+					<reportElement x="2" y="2" width="555" height="159" uuid="97c7bcc3-7439-4171-9c90-8bf72db6916b">
+						<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+					</reportElement>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<timeSeriesDataset>
+					<timeSeries>
+						<seriesExpression><![CDATA["BMI DEL PACIENTE"]]></seriesExpression>
+						<timePeriodExpression><![CDATA[$F{PATIENTCAREDATE}]]></timePeriodExpression>
+						<valueExpression><![CDATA[Double.valueOf($F{BODYMASSINDEX})]]></valueExpression>
+					</timeSeries>
+					<timeSeries>
+						<seriesExpression><![CDATA["BMI IDEAL DEL PACIENTE"]]></seriesExpression>
+						<timePeriodExpression><![CDATA[$F{PATIENTCAREDATE}]]></timePeriodExpression>
+						<valueExpression><![CDATA[Double.valueOf($F{BODYMASSINDEXIDEAL})]]></valueExpression>
+					</timeSeries>
+				</timeSeriesDataset>
+				<timeSeriesPlot>
+					<plot/>
+					<timeAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</timeAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</timeSeriesPlot>
+			</timeSeriesChart>
+		</band>
+	</pageHeader>
 	<detail>
 		<band height="330" splitType="Stretch">
 			<rectangle>
@@ -561,37 +597,4 @@ WHERE
 			</textField>
 		</band>
 	</detail>
-	<summary>
-		<band height="170">
-			<timeSeriesChart>
-				<chart evaluationTime="Report">
-					<reportElement x="-1" y="4" width="555" height="159" uuid="79155a23-b5b6-40f4-b109-80a1e4d04908"/>
-					<chartTitle/>
-					<chartSubtitle/>
-					<chartLegend/>
-				</chart>
-				<timeSeriesDataset>
-					<timeSeries>
-						<seriesExpression><![CDATA["BMI DEL PACIENTE"]]></seriesExpression>
-						<timePeriodExpression><![CDATA[$F{PATIENTCAREDATE}]]></timePeriodExpression>
-						<valueExpression><![CDATA[Double.valueOf($F{BODYMASSINDEX})]]></valueExpression>
-					</timeSeries>
-					<timeSeries>
-						<seriesExpression><![CDATA["BMI IDEAL DEL PACIENTE"]]></seriesExpression>
-						<timePeriodExpression><![CDATA[$F{PATIENTCAREDATE}]]></timePeriodExpression>
-						<valueExpression><![CDATA[Double.valueOf($F{BODYMASSINDEXIDEAL})]]></valueExpression>
-					</timeSeries>
-				</timeSeriesDataset>
-				<timeSeriesPlot>
-					<plot/>
-					<timeAxisFormat>
-						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
-					</timeAxisFormat>
-					<valueAxisFormat>
-						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
-					</valueAxisFormat>
-				</timeSeriesPlot>
-			</timeSeriesChart>
-		</band>
-	</summary>
 </jasperReport>
