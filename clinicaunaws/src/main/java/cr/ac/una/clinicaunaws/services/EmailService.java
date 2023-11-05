@@ -25,6 +25,7 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import jakarta.mail.util.ByteArrayDataSource;
+import java.nio.file.Files;
 
 /**
  *
@@ -102,7 +103,8 @@ public class EmailService {
 
     public void sendGeneratedReport(String email, File file) throws MessagingException, IOException {
         String subject = "Report generated successfully";
-        send(
+        byte[] fileBytes = Files.readAllBytes(file.toPath());
+        sendPdf(
                 email,
                 subject,
                 HtmlFileReader.readEmailTemplate(
@@ -110,7 +112,8 @@ public class EmailService {
                         "We're glad to hear from you again, ",
                         "User",
                         "Here is your report!",
-                        "Thank you for choosing us!"));
+                        "Thank you for choosing us!"),
+                fileBytes);
     }
 
     public void sendActivationHashLink(UserDto to) throws MessagingException {
@@ -128,8 +131,8 @@ public class EmailService {
                             "Welcome to " + Constants.COMPANY_NAME + "!",
                             to.getName(),
                             "<a href=" + activationLink + ">"
-                            + "Click here to activate your account"
-                            + "</a>",
+                                    + "Click here to activate your account"
+                                    + "</a>",
                             "Thank you for registering with us!"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -166,7 +169,7 @@ public class EmailService {
                             "Don't worry we got you covered",
                             to.getName(),
                             "Login with this password: " + "<h2>" + to.getPassword()
-                            + "</h2> </br> and change it as soon as possible!",
+                                    + "</h2> </br> and change it as soon as possible!",
                             "Don't share this password with anyone!"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -193,7 +196,7 @@ public class EmailService {
         }
     }
 
-    public void sendScheduledAppointment(MedicalAppointmentDto to) throws MessagingException { //probar
+    public void sendScheduledAppointment(MedicalAppointmentDto to) throws MessagingException { // probar
         try {
             String subject = "Appointment successfully scheduled";
             send(
@@ -203,9 +206,9 @@ public class EmailService {
                             subject,
                             "We are glad that you have scheduled with us",
                             to.getPatient().getName(),
-                            "Appointment date: " + "<h2>" + to.getScheduledDate() + "</h2> </br>" + "Appointment time: " + "<h2>" + to.getScheduledStartTime() + "</h2>",
-                            "Thank you for choosing us!")
-            );
+                            "Appointment date: " + "<h2>" + to.getScheduledDate() + "</h2> </br>" + "Appointment time: "
+                                    + "<h2>" + to.getScheduledStartTime() + "</h2>",
+                            "Thank you for choosing us!"));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -213,7 +216,7 @@ public class EmailService {
         }
     }
 
-    public void sendAppointmentReminder(MedicalAppointmentDto to) throws MessagingException {//se llama en el scheduler
+    public void sendAppointmentReminder(MedicalAppointmentDto to) throws MessagingException {// se llama en el scheduler
         try {
             String subject = "Appointment reminder";
             send(
@@ -223,8 +226,9 @@ public class EmailService {
                             subject,
                             "We are glad that you have scheduled with us",
                             to.getPatient().getName(),
-                            "This is a reminder of your appointment with us tomorrow!"+
-                                    "Appointment date: " + "<h2>" + to.getScheduledDate() + "</h2> </br>" + "Appointment time: " + "<h2>" + to.getScheduledStartTime() + "</h2>",
+                            "This is a reminder of your appointment with us tomorrow!" +
+                                    "Appointment date: " + "<h2>" + to.getScheduledDate() + "</h2> </br>"
+                                    + "Appointment time: " + "<h2>" + to.getScheduledStartTime() + "</h2>",
                             "Thank you for choosing us!"));
 
         } catch (Exception e) {
@@ -245,13 +249,13 @@ public class EmailService {
                             "We are glad you chose us",
                             pat.getName(),
                             "Here you have the result of your appointment." + "<br>"
-                            + "Blood pressure: " + p.getBloodPressure() + "<br>"
-                            + "Hearth rate: " + p.getHeartRate() + "<br>"
-                            + "Height: " + p.getHeight() + "<br>"
-                            + "Weight: " + p.getWeight() + "<br>"
-                            + "Body mass index: " + p.getBodyMassIndex() + "<br>"
-                            + "We attach your medical record to this email.",
-                             "Thank you for choosing us!"),
+                                    + "Blood pressure: " + p.getBloodPressure() + "<br>"
+                                    + "Hearth rate: " + p.getHeartRate() + "<br>"
+                                    + "Height: " + p.getHeight() + "<br>"
+                                    + "Weight: " + p.getWeight() + "<br>"
+                                    + "Body mass index: " + p.getBodyMassIndex() + "<br>"
+                                    + "We attach your medical record to this email.",
+                            "Thank you for choosing us!"),
                     (byte[]) rService.createPatientReport(pat.getId()).getData());
 
         } catch (Exception e) {
