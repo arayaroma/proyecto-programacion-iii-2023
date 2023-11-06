@@ -18,6 +18,12 @@
                         <String fx:value="orange-color" />
                      </styleClass>
                   </Button>
+                  <Button fx:id="btnMedicalExamReport" mnemonicParsing="false" onAction="#btnMedicalExamReportAction" text="%medicalExamReport">
+                     <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="orange-color" />
+                     </styleClass>
+                  </Button>
                   <Button fx:id="btnPatientReport" mnemonicParsing="false" onAction="#patientReportAction" text="%patientReport">
                      <styleClass>
                         <String fx:value="btn" />

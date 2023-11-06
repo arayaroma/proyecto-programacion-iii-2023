@@ -183,6 +183,36 @@ public class ReportService {
         }
     }
 
+    public ResponseWrapper createMedicalExamReport(Long patientId) {
+        try {
+            String path = FileLoader.chooseSavePath();
+            if (path == null || path.isBlank()) {
+                return new ResponseWrapper(ResponseCode.CONFLICT.getCode(), ResponseCode.CONFLICT, "Path is required",
+                        null);
+            }
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("id", patientId);
+            Request request = new Request("ReportController/createMedicalExamReport", "/{id}", params);
+            request.get();
+            if (request.isError()) {
+                return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                        ResponseCode.INTERNAL_SERVER_ERROR, "Error in the request: " + request.getError(), null);
+            }
+            byte[] pdf = (byte[]) request.readEntity(byte[].class);
+            if (FileLoader.createFile(path, pdf)) {
+                Desktop.getDesktop().open(new File(path));
+                return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK, "Report created successfully: ",
+                        pdf);
+            }
+            return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
+                    ResponseCode.INTERNAL_SERVER_ERROR, "Error creating the PDF",
+                    null);
+        } catch (Exception ex) {
+            return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR,
+                    "Error in the service: " + ex.toString(), null);
+        }
+    }
+
     public ResponseWrapper createAgendaReport(Long doctorId, String sDate, String eDate) {
         try {
             String path = FileLoader.chooseSavePath();

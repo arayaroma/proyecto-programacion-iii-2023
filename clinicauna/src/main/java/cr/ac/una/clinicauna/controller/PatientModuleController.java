@@ -6,6 +6,7 @@ import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.PatientDto;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.PatientService;
+import cr.ac.una.clinicauna.services.ReportService;
 import cr.ac.una.clinicauna.util.Data;
 import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
@@ -60,13 +61,17 @@ public class PatientModuleController implements Initializable {
     private TableColumn<PatientDto, String> tcRole;
     @FXML
     private Button btnEdit;
-
+    @FXML
+    private HBox containerButtons;
+    @FXML
+    private HBox hboxCreatePatient;
+    @FXML
+    private Button btnGenerateReport;
     private PatientService patientService = new PatientService();
     private PatientDto patientBuffer;
     private List<PatientDto> patientDtos = new ArrayList<>();
     private Data data = Data.getInstance();
-    @FXML
-    private HBox containerButtons;
+    private ReportService reportService = new ReportService();
 
     /**
      * Initializes the controller class.
@@ -85,6 +90,7 @@ public class PatientModuleController implements Initializable {
             loadPatients(patientDtos);
             txfSearchPatient.setOnKeyPressed(e -> searchPatientAction(e));
             loadPrivileges();
+            containerButtons.getChildren().remove(btnGenerateReport);
         } catch (Exception e) {
             System.out.println(e.toString());
         }
@@ -115,6 +121,21 @@ public class PatientModuleController implements Initializable {
             } else {
                 Message.showNotification("Error", MessageType.ERROR, response.getMessage());
             }
+        }
+    }
+
+    @FXML
+    private void btnGenerateReportAction(ActionEvent event) {
+        if (patientBuffer != null) {
+            if (patientBuffer.getPatientPersonalHistory() == null) {
+                Message.showNotification("Ups", MessageType.INFO, "patientHistoryEmpty");
+                return;
+            }
+            ResponseWrapper response = reportService.createMedicalExamReport(patientBuffer.getId());
+            if (response.getCode() != ResponseCode.OK) {
+                Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
+            }
+
         }
     }
 
@@ -183,6 +204,15 @@ public class PatientModuleController implements Initializable {
 
     private void loadPatients(List<PatientDto> patients) {
         tblPatientsView.setItems(FXCollections.observableArrayList(patients));
+    }
+
+    public void loadView(String option) {
+        option = option.toLowerCase();
+        if (option.equals("medicalexamreport")) {
+            hboxCreatePatient.getChildren().clear();
+            containerButtons.getChildren().clear();
+            containerButtons.getChildren().add(btnGenerateReport);
+        }
     }
 
     private void loadPrivileges() {

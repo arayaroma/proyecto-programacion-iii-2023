@@ -29,6 +29,8 @@ public class ReportModuleController implements Initializable {
     private Button btnPatientReport;
     @FXML
     private Button btnReportGenerator;
+    @FXML
+    private Button btnMedicalExamReport;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -43,6 +45,8 @@ public class ReportModuleController implements Initializable {
             container.getChildren().add(loader.load());
             btnReportGenerator.getStyleClass().remove("tab-selected");
             btnPatientReport.getStyleClass().remove("tab-selected");
+            btnMedicalExamReport.getStyleClass().remove("tab-selected");
+            btnDoctorReport.getStyleClass().remove("tab-selected");
             btnDoctorReport.getStyleClass().add("tab-selected");
         } catch (IOException e) {
             System.out.println(e.toString());
@@ -57,6 +61,8 @@ public class ReportModuleController implements Initializable {
             container.getChildren().add(loader.load());
             btnDoctorReport.getStyleClass().remove("tab-selected");
             btnReportGenerator.getStyleClass().remove("tab-selected");
+            btnMedicalExamReport.getStyleClass().remove("tab-selected");
+            btnPatientReport.getStyleClass().remove("tab-selected");
             btnPatientReport.getStyleClass().add("tab-selected");
         } catch (IOException e) {
             System.out.println(e.toString());
@@ -71,7 +77,30 @@ public class ReportModuleController implements Initializable {
             container.getChildren().add(loader.load());
             btnDoctorReport.getStyleClass().remove("tab-selected");
             btnPatientReport.getStyleClass().remove("tab-selected");
+            btnMedicalExamReport.getStyleClass().remove("tab-selected");
+            btnReportGenerator.getStyleClass().remove("tab-selected");
             btnReportGenerator.getStyleClass().add("tab-selected");
+        } catch (IOException e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    @FXML
+    private void btnMedicalExamReportAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = App.getFXMLLoader("PatientModule");
+            container.getChildren().clear();
+            container.getChildren().add(loader.load());
+            btnDoctorReport.getStyleClass().remove("tab-selected");
+            btnPatientReport.getStyleClass().remove("tab-selected");
+            btnReportGenerator.getStyleClass().remove("tab-selected");
+            btnMedicalExamReport.getStyleClass().remove("tab-selected");
+            btnMedicalExamReport.getStyleClass().add("tab-selected");
+            PatientModuleController controller = loader.getController();
+            if (controller != null) {
+                controller.loadView("medicalexamreport");
+            }
+
         } catch (IOException e) {
             System.out.println(e.toString());
         }
@@ -88,6 +117,9 @@ public class ReportModuleController implements Initializable {
             }
             if (option.equals("doctorreport")) {
                 doctorReportAction(null);
+            }
+            if (option.equals("medicalexamreport")) {
+                btnMedicalExamReportAction(null);
             }
         }
     }
