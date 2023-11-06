@@ -33,8 +33,13 @@ public class MedicalExamDto implements DtoMapper<MedicalExam, MedicalExamDto> {
 
     @Override
     public MedicalExam convertFromDTOToEntity(MedicalExamDto dto, MedicalExam entity) {
-        entity.setPatientHistory(new PatientPersonalHistory(dto.getPatientHistory()));
-        entity.getPatientHistory().setPatient(new Patient(dto.getPatientHistory().getPatient()));
+        if (dto.getPatientHistory() != null) {
+            entity.setPatientHistory(new PatientPersonalHistory(dto.getPatientHistory()));
+            if (dto.getPatientHistory().getPatient() != null) {
+                entity.getPatientHistory().setPatient(new Patient(dto.getPatientHistory().getPatient()));
+            }
+        }
+
         return entity;
     }
 

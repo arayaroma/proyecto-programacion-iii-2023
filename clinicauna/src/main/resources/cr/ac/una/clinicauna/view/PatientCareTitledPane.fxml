@@ -118,7 +118,11 @@
             </VBox>
             <HBox spacing="50.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#btnEditPatientCareAction" styleClass="btn" text="%edit" />
+                  <Button mnemonicParsing="false" onAction="#btnEditPatientCareAction" text="%edit">
+                     <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="orange-color" />
+                     </styleClass></Button>
                   <Button fx:id="btnViewMedicalAppointment" mnemonicParsing="false" onAction="#btnViewMedicalAppointmentAction" text="%viewMedicalAppointment">
                      <styleClass>
                         <String fx:value="btn" />

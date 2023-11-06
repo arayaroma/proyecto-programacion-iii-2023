@@ -14,7 +14,7 @@ import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 
 /**
- * 
+ *
  * @author arayaroma
  */
 @Stateless
@@ -26,7 +26,7 @@ public class MedicalExamService {
 
     /**
      * Create a new MedicalExam
-     * 
+     *
      * @param medicalExamDto to be created
      * @return ResponseWrapper with the created MedicalExam
      */
@@ -36,6 +36,7 @@ public class MedicalExamService {
                     new MedicalExam(medicalExamDto));
             em.persist(medicalExam);
             em.flush();
+            medicalExamDto = new MedicalExamDto(medicalExam);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
@@ -53,7 +54,7 @@ public class MedicalExamService {
 
     /**
      * get a MedicalExam by id
-     * 
+     *
      * @param id of the MedicalExam to be retrieved
      * @return ResponseWrapper with the retrieved MedicalExam
      */
@@ -86,7 +87,7 @@ public class MedicalExamService {
 
     /**
      * get all MedicalExam
-     * 
+     *
      * @return ResponseWrapper with all the MedicalExam
      */
     @SuppressWarnings("unchecked")
@@ -117,7 +118,7 @@ public class MedicalExamService {
 
     /**
      * update a MedicalExam
-     * 
+     *
      * @param medicalExamDto to be updated
      * @return ResponseWrapper with the updated MedicalExam
      */
@@ -134,6 +135,7 @@ public class MedicalExamService {
             medicalExam.updateMedicalExam(medicalExamDto);
             em.merge(medicalExam);
             em.flush();
+            medicalExamDto = new MedicalExamDto(medicalExam);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
@@ -150,9 +152,10 @@ public class MedicalExamService {
 
     /**
      * delete a MedicalExam by id
-     * 
+     *
      * @param id of the MedicalExam to be deleted
-     * @return ResponseWrapper informing if the MedicalExam was deleted successfully
+     * @return ResponseWrapper informing if the MedicalExam was deleted
+     * successfully
      */
     public ResponseWrapper deleteMedicalExam(Long id) {
         try {

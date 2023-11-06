@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 import animatefx.animation.FlipInY;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
+import cr.ac.una.clinicauna.model.MedicalExamDto;
 import cr.ac.una.clinicauna.model.PatientCareDto;
 import cr.ac.una.clinicauna.model.PatientFamilyHistoryDto;
 import cr.ac.una.clinicauna.model.PatientPersonalHistoryDto;
@@ -94,11 +95,17 @@ public class PatientHistoryController implements Initializable {
     private StackPane mainStack;
     @FXML
     private JFXTextField txfSearchByDate;
+    @FXML
+    private JFXTextField txfSearchMedicalExam;
+    @FXML
+    private Accordion acMedicalExams;
     private PatientDto patientBuffer;
     private PatientPersonalHistoryDto patientPersonalHistoryBuffer;
     private PatientService patientService = new PatientService();
     private PatientPersonalHistoryService patientPersonalHistoryService = new PatientPersonalHistoryService();
     private List<PatientCareDto> patientCareDtos = new ArrayList<>();
+    private List<MedicalExamDto> medicalExamDtos = new ArrayList<>();
+
     private Data data = Data.getInstance();
     private boolean isFromReportView = false;
 
@@ -121,6 +128,7 @@ public class PatientHistoryController implements Initializable {
             loadChart();
             bindPatient();
             txfSearchByDate.setOnKeyPressed(t -> searchPatientCareAction(t));
+            txfSearchMedicalExam.setOnKeyPressed(t -> searchMedicalExamAction(t));
         } catch (Exception e) {
             System.out.println(e.toString());
             backAction(null);
@@ -152,6 +160,12 @@ public class PatientHistoryController implements Initializable {
     private void btnNewHistoryAction(ActionEvent event) throws IOException {
         data.setData("patientPersonalHistoryBuffer", patientBuffer.getPatientPersonalHistory());
         Animation.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("PatientCareRegister").load());
+    }
+
+    @FXML
+    private void btnNewMedicalExamAction(ActionEvent event) throws IOException {
+        data.setData("patientPersonalHistoryBuffer", patientBuffer.getPatientPersonalHistory());
+        Animation.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("MedicalExamRegister").load());
     }
 
     @FXML
@@ -194,7 +208,7 @@ public class PatientHistoryController implements Initializable {
 
     @FXML
     private void showPatientCareView(MouseEvent event) {
-        if(patientPersonalHistoryBuffer==null){
+        if (patientPersonalHistoryBuffer == null) {
             Message.showNotification("Ups", MessageType.INFO, "patientHistoryEmpty");
             return;
         }
@@ -206,10 +220,22 @@ public class PatientHistoryController implements Initializable {
         if (event.getCode() == KeyCode.ENTER) {
             String key = txfSearchByDate.getText();
             if (key.isBlank()) {
-                loadAccordion(patientCareDtos);
+                loadAccordionPatientCares(patientCareDtos);
                 return;
             }
-            loadAccordion(patientCareDtos.stream().filter(t -> t.getPatientCareDate().contains(key))
+            loadAccordionPatientCares(patientCareDtos.stream().filter(t -> t.getPatientCareDate().contains(key))
+                    .collect(Collectors.toList()));
+        }
+    }
+
+    private void searchMedicalExamAction(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            String key = txfSearchMedicalExam.getText();
+            if (key.isBlank()) {
+                loadAccordionMedicalExam(medicalExamDtos);
+                return;
+            }
+            loadAccordionMedicalExam(medicalExamDtos.stream().filter(t -> t.getMedicalExamDate().contains(key))
                     .collect(Collectors.toList()));
         }
     }
@@ -218,14 +244,16 @@ public class PatientHistoryController implements Initializable {
         try {
             if (patientPersonalHistoryBuffer != null) {
                 patientCareDtos = patientPersonalHistoryBuffer.getPatientCares();
-                loadAccordion(patientCareDtos);
+                medicalExamDtos = patientPersonalHistoryBuffer.getMedicalExams();
+                loadAccordionPatientCares(patientCareDtos);
+                loadAccordionMedicalExam(medicalExamDtos);
             }
         } catch (Exception e) {
             System.out.println(e.toString());
         }
     }
 
-    private void loadAccordion(List<PatientCareDto> patientCareDtos) {
+    private void loadAccordionPatientCares(List<PatientCareDto> patientCareDtos) {
         try {
             acPatientCares.getPanes().clear();
             Collections.sort(patientCareDtos, (PatientCareDto o1, PatientCareDto o2) -> o1.getPatientCareDate()
@@ -236,6 +264,22 @@ public class PatientHistoryController implements Initializable {
                 PatientCareTitledPaneController controller = loader.getController();
                 controller.setData(patientCareDto, patientPersonalHistoryBuffer);
 
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    private void loadAccordionMedicalExam(List<MedicalExamDto> medicalExamDtos) {
+        try {
+            acMedicalExams.getPanes().clear();
+            Collections.sort(medicalExamDtos, (MedicalExamDto o1, MedicalExamDto o2) -> o1.getMedicalExamDate()
+                    .compareTo(o2.getMedicalExamDate()));
+            for (MedicalExamDto medicalExamDto : medicalExamDtos) {
+                FXMLLoader loader = App.getFXMLLoader("MedicalExamTitledPane");
+                acMedicalExams.getPanes().add(new TitledPane(medicalExamDto.getMedicalExamDate() + ": " + medicalExamDto.getName(), loader.load()));
+                MedicalExamTitledPaneController controller = loader.getController();
+                controller.setData(medicalExamDto, patientPersonalHistoryBuffer);
             }
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -302,4 +346,5 @@ public class PatientHistoryController implements Initializable {
         }
         this.isFromReportView = isFromReportView;
     }
+
 }

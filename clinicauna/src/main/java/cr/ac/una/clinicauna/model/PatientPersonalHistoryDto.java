@@ -18,7 +18,7 @@ public class PatientPersonalHistoryDto implements DtoMapper<PatientPersonalHisto
     public SimpleStringProperty surgical;
     public SimpleStringProperty allergies;
     public SimpleStringProperty treatments;
-    //private List<MedicalExamDto> medicalExams;
+    private List<MedicalExamDto> medicalExams;
     private List<PatientCareDto> patientCares;
     public Long version;
 
@@ -29,6 +29,7 @@ public class PatientPersonalHistoryDto implements DtoMapper<PatientPersonalHisto
         hospitalizations = new SimpleStringProperty();
         surgical = new SimpleStringProperty();
         patientCares = new ArrayList<>();
+        medicalExams = new ArrayList<>();
     }
 
     public PatientPersonalHistoryDto(PatientPersonalHistoryDto patientPersonalHistoryDto) {
@@ -112,6 +113,14 @@ public class PatientPersonalHistoryDto implements DtoMapper<PatientPersonalHisto
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    public List<MedicalExamDto> getMedicalExams() {
+        return medicalExams;
+    }
+
+    public void setMedicalExams(List<MedicalExamDto> medicalExams) {
+        this.medicalExams = medicalExams;
     }
 
     @Override
