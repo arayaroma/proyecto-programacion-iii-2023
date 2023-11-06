@@ -92,6 +92,9 @@
                 <version>0.0.8</version>
                 <configuration>
                     <options>
+                        <option>--add-modules</option>
+                        <option>Clinicauna</option>
+
                         <option>--add-exports</option>
                         <option>javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix</option>
                         <option>--add-exports</option>
