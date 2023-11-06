@@ -1,7 +1,7 @@
 module Clinicauna {
     // JAVAFX
     requires javafx.controls;
-    requires transitive javafx.fxml;
+    requires  javafx.fxml;
     requires com.jfoenix;
     requires java.base;
     requires java.logging;
@@ -9,7 +9,7 @@ module Clinicauna {
     // JAKARTA
     requires jakarta.xml.bind;
     requires jakarta.ws.rs;
-    requires transitive jakarta.json;
+    requires  jakarta.json;
     // MESSAGES
     requires org.controlsfx.controls;
 
