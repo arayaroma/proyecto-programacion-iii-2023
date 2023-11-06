@@ -16,7 +16,7 @@ module Clinicauna {
     requires org.apache.commons.io;
     // MESSAGES
     requires org.controlsfx.controls;
-    requires AnimateFX;
+//    requires AnimateFX;
 
     opens cr.ac.una.clinicauna to javafx.fxml, javafx.graphics;
     opens cr.ac.una.clinicauna.controller to javafx.fxml, javafx.controls, com.jfoenix;

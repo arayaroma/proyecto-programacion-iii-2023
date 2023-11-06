@@ -1,9 +1,9 @@
 package cr.ac.una.clinicauna.controller;
 
-import animatefx.animation.FadeIn;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
+import cr.ac.una.clinicauna.animations.FadeIn;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.GeneralInformationDto;
 import cr.ac.una.clinicauna.model.UserDto;
