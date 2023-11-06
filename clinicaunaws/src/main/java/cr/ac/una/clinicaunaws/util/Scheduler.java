@@ -6,6 +6,7 @@ package cr.ac.una.clinicaunaws.util;
 
 import cr.ac.una.clinicaunaws.dto.MedicalAppointmentDto;
 import cr.ac.una.clinicaunaws.dto.ReportDto;
+import cr.ac.una.clinicaunaws.dto.ReportParametersDto;
 import cr.ac.una.clinicaunaws.services.EmailService;
 import cr.ac.una.clinicaunaws.services.MedicalAppointmentService;
 import cr.ac.una.clinicaunaws.services.ReportService;
@@ -14,6 +15,7 @@ import jakarta.ejb.Schedule;
 import jakarta.ejb.Stateless;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -31,20 +33,20 @@ public class Scheduler {
 
     @EJB
     EmailService eService;
-    
+
     @EJB
     ReportService rService;
-    
-    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-M-d");
 
     @Schedule(second = "0", minute = "*", hour = "*")
     public void showTime() {
         System.out.print("entra");
     }
 
-    @Schedule(second = "0", minute = "0", hour = "8")
+    @Schedule(second = "0", minute = "*", hour = "*")
     public void checkReminders() {
-        checkAppointments();
+//        checkAppointments();
         checkReports();
     }
 
@@ -66,15 +68,15 @@ public class Scheduler {
     }
 
     public void checkReports() {
-        try{
+        try {
             List<ReportDto> reports = (List<ReportDto>) rService.getAllReports().getData();
-            if(!reports.isEmpty()){
+            if (!reports.isEmpty()) {
                 LocalDate today = LocalDate.now();
                 List<ReportDto> repToSend = reports.stream()
                         .filter(isSameDayRep(today))
                         .collect(Collectors.toList());
-                for (ReportDto r: repToSend) {
-                    r = changeReportDate(r);
+                for (ReportDto r : repToSend) {
+                    changeReportDate(r);
                     rService.updateReport(r);
                 }
             }
@@ -89,30 +91,55 @@ public class Scheduler {
             return appointmentDate.isEqual(compareDate);
         };
     }
-    
+
     private Predicate<ReportDto> isSameDayRep(LocalDate compareDate) {
         return report -> {
             LocalDate reportDate = LocalDate.parse(report.getReportDate(), dateFormatter);
             return reportDate.isEqual(compareDate);
         };
     }
-    
-    private ReportDto changeReportDate(ReportDto report){
-        if(report.getFrequency() == "ANNUALLY"){
-            report.setReportDate(plusYears(report.getReportDate(), 1));
+
+    private void changeReportDate(ReportDto report) {
+        switch (report.getFrequency()) {
+            case "ANNUALLY":
+                report.setReportDate(plusYears(report.getReportDate(), 1));
+                break;
+            case "MONTHLY":
+                report.setReportDate(plusMonths(report.getReportDate(), 1));
+                break;
+            case "WEEKLY":
+                report.setReportDate(plusWeeks(report.getReportDate(), 1));
+                break;
+            case "DAILY":
+                report.setReportDate(plusDays(report.getReportDate(), 1));
+                break;
+            default:
+                break;
         }
-        else if(report.getFrequency() == "MONTHLY"){
-            report.setReportDate(plusMonths(report.getReportDate(), 1));
+
+        List<ReportParametersDto> parameters = report.getReportParameters();
+        for (ReportParametersDto parameter : parameters) {
+            if (isDateString(parameter.getValue())) {
+                switch (report.getFrequency()) {
+                    case "ANNUALLY":
+                        parameter.setValue(plusYears(parameter.getValue(), 1));
+                        break;
+                    case "MONTHLY":
+                        parameter.setValue(plusMonths(parameter.getValue(), 1));
+                        break;
+                    case "WEEKLY":
+                        parameter.setValue(plusWeeks(parameter.getValue(), 1));
+                        break;
+                    case "DAILY":
+                        parameter.setValue(plusDays(parameter.getValue(), 1));
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
-        else if(report.getFrequency() == "WEEKLY"){
-            report.setReportDate(plusWeeks(report.getReportDate(), 1));
-        }
-        else if(report.getFrequency() == "DAILY"){
-            report.setReportDate(plusDays(report.getReportDate(), 1));
-        }
-        return report;
     }
-    
+
     private String plusYears(String date, int years) {
         LocalDate localDate = LocalDate.parse(date, dateFormatter).plusYears(years);
         return localDate.format(dateFormatter);
@@ -131,5 +158,15 @@ public class Scheduler {
     private String plusDays(String date, int days) {
         LocalDate localDate = LocalDate.parse(date, dateFormatter).plusDays(days);
         return localDate.format(dateFormatter);
+    }
+
+    private boolean isDateString(String value) {
+//        DateTimeFormatter Formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+        try {
+            LocalDate.parse(value, dateFormatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
     }
 }
