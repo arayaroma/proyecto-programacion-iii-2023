@@ -3,10 +3,8 @@ package cr.ac.una.clinicauna.util;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import org.apache.commons.io.FileUtils;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -15,21 +13,6 @@ import javafx.stage.Stage;
  * @author arayaroma
  */
 public class FileLoader {
-
-    /**
-     * convert a file to a string
-     *
-     * @param file file to convert
-     * @return string representation of the file
-     */
-    public static String fileToString(File file) {
-        try {
-            return FileUtils.readFileToString(file, "UTF-8");
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            return null;
-        }
-    }
 
     /**
      * select a file with a JavaFX FileChooser dialog and return the selected

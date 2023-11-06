@@ -28,13 +28,7 @@ public class FadeIn extends Animate {
 
     @Override
     protected void initTimeline() {
-        setTimeline(new Timeline(
-                new KeyFrame(Duration.millis(0),
-                        new KeyValue(getNode().opacityProperty(), 0, Interpolator.SPLINE(0.25, 0.1, 0.25, 1))
-                ),
-                new KeyFrame(Duration.millis(1000),
-                        new KeyValue(getNode().opacityProperty(), 1, Interpolator.SPLINE(0.25, 0.1, 0.25, 1))
-                )
-        ));
+        setTimeline(new Timeline(new KeyFrame(Duration.millis(0), new KeyValue(getNode().opacityProperty(), 0, Interpolator.SPLINE(0.25, 0.1, 0.25, 1))),
+                new KeyFrame(Duration.millis(1000), new KeyValue(getNode().opacityProperty(), 1, Interpolator.SPLINE(0.25, 0.1, 0.25, 1)))));
     }
 }

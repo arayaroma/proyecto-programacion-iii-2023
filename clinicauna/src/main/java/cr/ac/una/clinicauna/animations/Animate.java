@@ -122,23 +122,11 @@ public abstract class Animate {
         return this;
     }
 
-    /**
-     * Set the speed factor of the animation
-     *
-     * @param value
-     * @return
-     */
     public Animate setSpeed(double value) {
         this.timeline.setRate(value);
         return this;
     }
 
-    /**
-     * Delays the start of an animation
-     *
-     * @param value
-     * @return
-     */
     public Animate setDelay(Duration value) {
         this.timeline.setDelay(value);
         return this;
