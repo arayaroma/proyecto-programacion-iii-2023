@@ -89,7 +89,7 @@
                                                                       <HBox spacing="20.0">
                                                                           <children>
                                                                               <ComboBox fx:id="cbReportFrequency" maxHeight="1.7976931348623157E308" prefWidth="300.0" promptText="%frequency" />
-                                                                              <DatePicker fx:id="dpReportDate" editable="false" promptText="%date" styleClass="h3" />
+                                                                              <DatePicker fx:id="dpReportDate" editable="false" onAction="#reportDateAction" promptText="%date" styleClass="h3" />
                                                                           </children>
                                                                       </HBox>
                                                                   </children>

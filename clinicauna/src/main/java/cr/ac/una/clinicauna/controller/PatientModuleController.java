@@ -109,6 +109,16 @@ public class PatientModuleController implements Initializable {
     @FXML
     private void btnViewPatientAction(ActionEvent event) throws IOException {
         data.setData("patientBuffer", patientBuffer);
+        UserDto userLoggued = (UserDto) data.getData("userLoggued");
+        if (userLoggued != null && userLoggued.getRole().equals("RECEPCIONIST")) {
+            FXMLLoader loader = App.getFXMLLoader("PatientRegister");
+            Animation.MakeDefaultFadeTransition(parent, loader.load());
+            PatientRegisterController controller = loader.getController();
+            if (controller != null) {
+                controller.loadView("patientModule");
+            }
+            return;
+        }
         Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("PatientHistory").load());
     }
 
@@ -219,7 +229,11 @@ public class PatientModuleController implements Initializable {
         UserDto userLogged = (UserDto) Data.getInstance().getData("userLoggued");
         if (userLogged != null) {
             if (userLogged.getRole().toLowerCase().equals("recepcionist")) {
-                containerButtons.getChildren().remove(btnEdit);
+                if (userLogged.getLanguage().equals("ENGLISH")) {
+                    btnEdit.setText(data.getEnglishBundle().getString("edit"));
+                } else {
+                    btnEdit.setText(data.getSpanishBundle().getString("edit"));
+                }
             }
         }
     }

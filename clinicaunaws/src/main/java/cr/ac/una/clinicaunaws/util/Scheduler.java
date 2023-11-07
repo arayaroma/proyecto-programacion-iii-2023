@@ -1,14 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.clinicaunaws.util;
 
 import cr.ac.una.clinicaunaws.dto.MedicalAppointmentDto;
 import cr.ac.una.clinicaunaws.dto.ReportDto;
 import cr.ac.una.clinicaunaws.dto.ReportParametersDto;
+import cr.ac.una.clinicaunaws.entities.ReportParameters;
 import cr.ac.una.clinicaunaws.services.EmailService;
 import cr.ac.una.clinicaunaws.services.MedicalAppointmentService;
+import cr.ac.una.clinicaunaws.services.ReportParametersService;
 import cr.ac.una.clinicaunaws.services.ReportService;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Schedule;
@@ -16,7 +14,6 @@ import jakarta.ejb.Stateless;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -36,8 +33,10 @@ public class Scheduler {
 
     @EJB
     ReportService rService;
+    @EJB
+    ReportParametersService reportParametersService;
 
-    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-M-d");
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Schedule(second = "0", minute = "*", hour = "*")
     public void showTime() {
@@ -78,6 +77,9 @@ public class Scheduler {
                 for (ReportDto r : repToSend) {
                     changeReportDate(r);
                     rService.updateReport(r);
+                    for (ReportParametersDto reportParametersDto : r.getReportParameters()) {
+                        reportParametersService.updateReportParameters(reportParametersDto);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -101,40 +103,33 @@ public class Scheduler {
 
     private void changeReportDate(ReportDto report) {
         switch (report.getFrequency()) {
-            case "ANNUALLY":
+            case "ANNUALLY" ->
                 report.setReportDate(plusYears(report.getReportDate(), 1));
-                break;
-            case "MONTHLY":
+            case "MONTHLY" ->
                 report.setReportDate(plusMonths(report.getReportDate(), 1));
-                break;
-            case "WEEKLY":
+            case "WEEKLY" ->
                 report.setReportDate(plusWeeks(report.getReportDate(), 1));
-                break;
-            case "DAILY":
+            case "DAILY" ->
                 report.setReportDate(plusDays(report.getReportDate(), 1));
-                break;
-            default:
-                break;
+            default -> {
+            }
         }
 
         List<ReportParametersDto> parameters = report.getReportParameters();
         for (ReportParametersDto parameter : parameters) {
+            System.out.println(parameter);
             if (isDateString(parameter.getValue())) {
                 switch (report.getFrequency()) {
-                    case "ANNUALLY":
+                    case "ANNUALLY" ->
                         parameter.setValue(plusYears(parameter.getValue(), 1));
-                        break;
-                    case "MONTHLY":
+                    case "MONTHLY" ->
                         parameter.setValue(plusMonths(parameter.getValue(), 1));
-                        break;
-                    case "WEEKLY":
+                    case "WEEKLY" ->
                         parameter.setValue(plusWeeks(parameter.getValue(), 1));
-                        break;
-                    case "DAILY":
+                    case "DAILY" ->
                         parameter.setValue(plusDays(parameter.getValue(), 1));
-                        break;
-                    default:
-                        break;
+                    default -> {
+                    }
                 }
             }
         }
@@ -164,8 +159,10 @@ public class Scheduler {
 //        DateTimeFormatter Formatter = DateTimeFormatter.ISO_LOCAL_DATE;
         try {
             LocalDate.parse(value, dateFormatter);
+            System.out.println(value);
             return true;
         } catch (DateTimeParseException e) {
+            System.out.println(e.toString());
             return false;
         }
     }

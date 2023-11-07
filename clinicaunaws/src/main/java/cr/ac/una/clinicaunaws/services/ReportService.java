@@ -61,7 +61,7 @@ public class ReportService {
         for (ReportParametersDto parameter : params) {
             query = query.replace(":" + parameter.getName(), parameter.getValue());
         }
-        System.out.println("Query: "+query);
+        System.out.println("Query: " + query);
         List<D> queryResponse = (List<D>) em.createNativeQuery(query).getResultList();
 
         report.getQueryManager().setResult(queryResponse);
@@ -195,13 +195,11 @@ public class ReportService {
                         null);
             }
             report.updateReport(reportDto);
-
             List<?> result = getQueryResult(reportDto);
             reportDto.getQueryManager().setResult(result);
             reportDto.getQueryManager().setQuery(report.getQuery());
 
             File file = ExcelGenerator.getInstance().generateExcelReport(reportDto);
-            System.out.println(file);
             if (file != null) {
                 for (ReportRecipientsDto i : reportDto.getReportRecipients()) {
                     emailService.sendGeneratedReport(i.getEmail(), file);
