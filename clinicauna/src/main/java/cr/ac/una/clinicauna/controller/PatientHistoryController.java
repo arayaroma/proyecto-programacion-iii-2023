@@ -17,7 +17,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-//import animatefx.animation.FlipInY;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.animations.FlipInY;
