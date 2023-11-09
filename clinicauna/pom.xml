@@ -108,7 +108,7 @@
                     <noManPages>true</noManPages>
                     <launcher>clinicauna</launcher>
                     <jlinkImageName>clinicauna</jlinkImageName>
-                    <jlinkZipName>clinicaunazip</jlinkZipName>
+                    <jlinkZipName>clinicauna</jlinkZipName>
                     <mainClass>Clinicauna/cr.ac.una.clinicauna.App</mainClass>
                 </configuration>
                 <executions>
