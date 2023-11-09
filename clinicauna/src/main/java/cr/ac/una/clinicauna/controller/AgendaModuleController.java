@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -118,7 +119,6 @@ public class AgendaModuleController implements Initializable {
     private void leftArrowAction(MouseEvent event) {
         setDays(countWeeks -= 1);
         if (doctorBuffer != null) {
-
             loadGrid();
         }
 
@@ -198,15 +198,18 @@ public class AgendaModuleController implements Initializable {
     }
 
     private void loadDoctor() {
-        if (doctorBuffer != null) {
-            lbDoctorCode.setText(doctorBuffer.getCode());
-            lbDoctorIdCard.setText(String.valueOf(doctorBuffer.getIdCard()));
-//            hoursCalculated = calculateHours(doctorBuffer.getShiftStartTime(), doctorBuffer.getShiftEndTime(), doctorBuffer.getHourlySlots());
-            loadGrid();
-            if (doctorBuffer.getUser() != null) {
-                lbDoctorName.setText(doctorBuffer.getUser().getName());
-            }
-        }
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                if (doctorBuffer != null) {
+                    lbDoctorCode.setText(doctorBuffer.getCode());
+                    lbDoctorIdCard.setText(String.valueOf(doctorBuffer.getIdCard()));
+                    loadGrid();
+                    if (doctorBuffer.getUser() != null) {
+                        lbDoctorName.setText(doctorBuffer.getUser().getName());
+                    }
+                }
+            });
+        }).start();
 
     }
 
