@@ -130,7 +130,6 @@ public class MainController implements Initializable {
                     FXMLLoader userLoader = App.getFXMLLoader("UserModule");
                     container.getChildren().clear();
                     container.getChildren().add(userLoader.load());
-
                 } catch (Exception e) {
                 }
 
@@ -300,8 +299,10 @@ public class MainController implements Initializable {
             transition.setRate(transition.getRate() * -1);
             transition.play();
             if (sliderMenu.isOpened()) {
-                parent.getChildren().remove(sliderMenu);
                 sliderMenu.close();
+                sliderMenu.setOnDrawerClosed((event) -> {
+                    parent.getChildren().remove(sliderMenu);
+                });
             } else {
                 parent.setLeft(sliderMenu);
                 sliderMenu.open();
