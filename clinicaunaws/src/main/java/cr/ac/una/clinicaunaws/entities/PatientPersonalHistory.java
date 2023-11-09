@@ -17,24 +17,20 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import static cr.ac.una.clinicaunaws.util.Database.*;
 import java.io.Serializable;
 import java.util.List;
 import cr.ac.una.clinicaunaws.dto.PatientPersonalHistoryDto;
 import jakarta.persistence.QueryHint;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author arayaroma
  */
 @Entity
-@Table(name = "TBL_PATIENT_PERSONAL_HISTORY", schema = SCHEMA)
-@Data
 @NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "TBL_PATIENT_PERSONAL_HISTORY", schema = SCHEMA)
 @NamedQueries({
         @NamedQuery(name = "PatientPersonalHistory.findAll", query = "SELECT p FROM PatientPersonalHistory p", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
         @NamedQuery(name = "PatientPersonalHistory.findById", query = "SELECT p FROM PatientPersonalHistory p WHERE p.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true")), })
@@ -109,4 +105,85 @@ public class PatientPersonalHistory implements Serializable {
         this.treatments = dto.getTreatments();
         this.version = dto.getVersion();
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public String getPathological() {
+        return pathological;
+    }
+
+    public void setPathological(String pathological) {
+        this.pathological = pathological;
+    }
+
+    public String getHospitalizations() {
+        return hospitalizations;
+    }
+
+    public void setHospitalizations(String hospitalizations) {
+        this.hospitalizations = hospitalizations;
+    }
+
+    public String getSurgical() {
+        return surgical;
+    }
+
+    public void setSurgical(String surgical) {
+        this.surgical = surgical;
+    }
+
+    public String getAllergies() {
+        return allergies;
+    }
+
+    public void setAllergies(String allergies) {
+        this.allergies = allergies;
+    }
+
+    public String getTreatments() {
+        return treatments;
+    }
+
+    public void setTreatments(String treatments) {
+        this.treatments = treatments;
+    }
+
+    public List<MedicalExam> getMedicalExams() {
+        return medicalExams;
+    }
+
+    public void setMedicalExams(List<MedicalExam> medicalExams) {
+        this.medicalExams = medicalExams;
+    }
+
+    public List<PatientCare> getPatientCares() {
+        return patientCares;
+    }
+
+    public void setPatientCares(List<PatientCare> patientCares) {
+        this.patientCares = patientCares;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+    
 }

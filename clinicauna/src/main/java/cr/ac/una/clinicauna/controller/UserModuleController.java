@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.UserDto;
+import cr.ac.una.clinicauna.services.DoctorService;
 import cr.ac.una.clinicauna.services.UserService;
 import cr.ac.una.clinicauna.util.Data;
 import cr.ac.una.clinicauna.util.Message;
@@ -61,6 +62,7 @@ public class UserModuleController implements Initializable {
     private JFXTextField txfSearchUser;
     private UserDto userBuffer;
     private UserService userService = new UserService();
+    private DoctorService doctorService = new DoctorService();
     private List<UserDto> userDtos = new ArrayList<>();
     private Data data = Data.getInstance();
 
@@ -106,6 +108,7 @@ public class UserModuleController implements Initializable {
     @FXML
     private void btnDeleteUserAction(ActionEvent event) {
         if (userBuffer != null) {
+            doctorService.deleteDoctor(userBuffer.getId());
             ResponseWrapper response = userService.deleteUser(userBuffer);
             if (response.getCode() == ResponseCode.OK) {
                 tblUsersView.getItems().remove(userBuffer);

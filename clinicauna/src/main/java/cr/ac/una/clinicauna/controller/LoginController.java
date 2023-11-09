@@ -19,9 +19,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -92,26 +94,28 @@ public class LoginController implements Initializable {
             Message.showNotification("Ups", MessageType.ERROR, "fieldsEmpty");
             return;
         }
-
-//        if (user.equals("admin") && password.equals("admin")) {
-//            Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Main").load());
-//        }
-        ResponseWrapper response = userService.verifyUser(user, password);
-        if (response.getCode() == ResponseCode.OK) {
-            UserDto userDto = (UserDto) response.getData();
-
-            if (userDto.getIsActive().equals("N")) {
-                Message.showNotification("Ups", MessageType.INFO, "theUserIsNotActive");
-                return;
-            }
-
-            data.setData("Token", userDto.getToken());
-            data.setData("userLoggued", userDto);
-            loadLanguage(userDto);
-            Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Main").load());
-            return;
-        }
-        Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                try {
+                    ResponseWrapper response = userService.verifyUser(user, password);
+                    if (response.getCode() == ResponseCode.OK) {
+                        UserDto userDto = (UserDto) response.getData();
+                        if (userDto.getIsActive().equals("N")) {
+                            Message.showNotification("Ups", MessageType.INFO, "theUserIsNotActive");
+                            return;
+                        }
+                        data.setData("Token", userDto.getToken());
+                        data.setData("userLoggued", userDto);
+                        loadLanguage(userDto);
+                        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Main").load());
+                        return;
+                    }
+                    Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
+                } catch (Exception e) {
+                    System.out.println(e.toString());
+                }
+            });
+        }).start();
     }
 
     @FXML

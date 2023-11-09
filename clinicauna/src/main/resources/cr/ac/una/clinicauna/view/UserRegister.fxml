@@ -24,7 +24,7 @@
 
 <HBox fx:id="parent" alignment="CENTER" styleClass="bg-black" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.clinicauna.controller.UserRegisterController">
    <children>
-      <StackPane>
+      <StackPane fx:id="stack">
          <HBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </HBox.margin>

@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -86,17 +87,25 @@ public class MedicalExamRegisterController implements Initializable {
             Message.showNotification("Ups", MessageType.INFO, "fieldsEmpty");
             return;
         }
-        if (medicalExamBuffer.getMedicalExamDate() == null) {
-            medicalExamBuffer.setMedicalExamDate(LocalDate.now().toString());
-        }
-        medicalExamBuffer.setPatientHistory(patientPersonalHistoryDto);
-        ResponseWrapper response = isEditing ? medicalExamService.updateMedicalExam(medicalExamBuffer) : medicalExamService.createMedicalExam(medicalExamBuffer);
-        if (response.getCode() == ResponseCode.OK) {
-            backFromRegister(null);
-            Message.showNotification(response.getCode().name(), MessageType.INFO, response.getMessage());
-            return;
-        }
-        Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                try {
+                    if (medicalExamBuffer.getMedicalExamDate() == null) {
+                        medicalExamBuffer.setMedicalExamDate(LocalDate.now().toString());
+                    }
+                    medicalExamBuffer.setPatientHistory(patientPersonalHistoryDto);
+                    ResponseWrapper response = isEditing ? medicalExamService.updateMedicalExam(medicalExamBuffer) : medicalExamService.createMedicalExam(medicalExamBuffer);
+                    if (response.getCode() == ResponseCode.OK) {
+                        backFromRegister(null);
+                        Message.showNotification(response.getCode().name(), MessageType.INFO, response.getMessage());
+                        return;
+                    }
+                    Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
+                } catch (Exception e) {
+                    System.out.println(e.toString());
+                }
+            });
+        }).start();
     }
 
     private boolean verifyFields() {

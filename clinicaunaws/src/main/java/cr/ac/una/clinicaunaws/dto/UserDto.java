@@ -4,7 +4,6 @@ import cr.ac.una.clinicaunaws.entities.Doctor;
 import java.util.List;
 import cr.ac.una.clinicaunaws.entities.User;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
-import cr.ac.una.clinicaunaws.util.QueryManager;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;

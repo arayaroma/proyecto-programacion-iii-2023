@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -118,13 +119,17 @@ public class PatientRegisterController implements Initializable {
             Message.showNotification("Ups", MessageType.INFO, "fieldsEmpty");
             return;
         }
-        ResponseWrapper response = !isEditing ? patientService.createPatient(patientBuffer)
-                : patientService.updatePatient(patientBuffer);
-        Message.showNotification(response.getCode().name(), MessageType.INFO, response.getMessage());
-        if (response.getCode() == ResponseCode.OK) {
-            patientBuffer = (PatientDto) response.getData();
-            backFromRegister(null);
-        }
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                ResponseWrapper response = !isEditing ? patientService.createPatient(patientBuffer)
+                        : patientService.updatePatient(patientBuffer);
+                Message.showNotification(response.getCode().name(), MessageType.INFO, response.getMessage());
+                if (response.getCode() == ResponseCode.OK) {
+                    patientBuffer = (PatientDto) response.getData();
+                    backFromRegister(null);
+                }
+            });
+        }).start();
     }
 
     private void bindPatient() {

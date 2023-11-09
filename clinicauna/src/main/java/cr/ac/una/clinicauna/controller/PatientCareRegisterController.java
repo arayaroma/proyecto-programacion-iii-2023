@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -122,21 +123,28 @@ public class PatientCareRegisterController implements Initializable {
             Message.showNotification("Ups", MessageType.INFO, "fieldsEmpty");
             return;
         }
-        setParameters(patientCareBuffer);
-        patientCareBuffer.setPatientHistory(patientPersonalHistoryDto
-                .convertFromDTOToGenerated(patientPersonalHistoryDto, patientPersonalHistoryDto));
-        if (patientCareBuffer.getPatientCareDate() == null) {
-            patientCareBuffer.setPatientCareDate(LocalDate.now().toString());
-        }
-        ResponseWrapper response = isEditing ? patientCareService.updatePatientCare(patientCareBuffer)
-                : patientCareService.createPatientCare(patientCareBuffer);
-        if (response.getCode() != ResponseCode.OK) {
-            Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
-            return;
-        }
-        backFromRegister(null);
-        Message.showNotification(response.getCode().name(), MessageType.INFO, response.getMessage());
-
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                try {
+                    setParameters(patientCareBuffer);
+                    patientCareBuffer.setPatientHistory(patientPersonalHistoryDto
+                            .convertFromDTOToGenerated(patientPersonalHistoryDto, patientPersonalHistoryDto));
+                    if (patientCareBuffer.getPatientCareDate() == null) {
+                        patientCareBuffer.setPatientCareDate(LocalDate.now().toString());
+                    }
+                    ResponseWrapper response = isEditing ? patientCareService.updatePatientCare(patientCareBuffer)
+                            : patientCareService.createPatientCare(patientCareBuffer);
+                    if (response.getCode() != ResponseCode.OK) {
+                        Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
+                        return;
+                    }
+                    backFromRegister(null);
+                    Message.showNotification(response.getCode().name(), MessageType.INFO, response.getMessage());
+                } catch (Exception e) {
+                    System.out.println(e.toString());
+                }
+            });
+        }).start();
     }
 
     private void setParameters(PatientCareDto patientCareDto) {

@@ -29,12 +29,14 @@ import javafx.scene.Node;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.File;
 import java.util.Objects;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
 /**
  * FXML Controller class
@@ -77,21 +79,28 @@ public class UserRegisterController implements Initializable {
     private boolean isEditing = false;
     private Data data = Data.getInstance();
 
+    @FXML
+    private StackPane stack;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        UserDto userDto = (UserDto) data.getData("userBuffer");
-        userModified = userDto != null ? userDto : new UserDto();
+        try {
+            UserDto userDto = (UserDto) data.getData("userBuffer");
+            userModified = userDto != null ? userDto : new UserDto();
 
-        isEditing = userModified.getId() != null;
-        if (Data.languageOption.equals("en")) {
-            cbLanguage.getItems().addAll("English", "Spanish");
-        } else {
-            cbLanguage.getItems().addAll("Español", "Inglés");
+            isEditing = userModified.getId() != null;
+            if (Data.languageOption.equals("en")) {
+                cbLanguage.getItems().addAll("English", "Spanish");
+            } else {
+                cbLanguage.getItems().addAll("Español", "Inglés");
+            }
+            bindUser();
+        } catch (Exception e) {
+            System.out.println(e.toString());
         }
-        bindUser();
     }
 
     @FXML
@@ -120,16 +129,26 @@ public class UserRegisterController implements Initializable {
         if (!verifyFields()) {
             Message.showNotification("Ups", MessageType.ERROR, "fieldsEmpty");
         }
-        setPrivilegesUser(userModified);
-        if (userModified.getRole().toLowerCase().equals("doctor")) {// Verifiy if is a Doctor
-            data.setData("userBuffer", userModified);
-            Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("DoctorRegister").load());
-            return;
-        } else {
-            saveUser(userModified);
-            doctorService.deleteDoctor(userModified.getId());
-        }
-        backFromRegister(null);
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                try {
+                    setPrivilegesUser(userModified);
+                    if (userModified.getRole().toLowerCase().equals("doctor")) {// Verifiy if is a Doctor
+                        data.setData("userBuffer", userModified);
+                        Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("DoctorRegister").load());
+                        return;
+                    }
+                    if (saveUser(userModified)) {
+                        doctorService.deleteDoctor(userModified.getId());
+                        backFromRegister(null);
+                        return;
+                    }
+                    Message.showNotification("ERROR", MessageType.ERROR, "ErrorSavingUser");
+                } catch (Exception e) {
+                    System.out.println(e.toString());
+                }
+            });
+        }).start();
 
     }
 
@@ -153,17 +172,18 @@ public class UserRegisterController implements Initializable {
         }
     }
 
-    public void saveUser(UserDto user) throws IOException {
+    public boolean saveUser(UserDto user) throws IOException {
         ResponseWrapper response = user.getId() == null ? userService.createUser(user)
                 : userService.updateUser(user);
         if (response.getCode() == ResponseCode.OK) {
             Message.showNotification("Success", MessageType.CONFIRMATION, response.getMessage());
             unbindUser();
             user = (UserDto) response.getData();
-            return;
+            return true;
         }
         Message.showNotification("Ups", MessageType.ERROR, response.getMessage());
         System.out.println(response.getMessage());
+        return false;
     }
 
     private void setPrivilegesUser(UserDto userDto) {

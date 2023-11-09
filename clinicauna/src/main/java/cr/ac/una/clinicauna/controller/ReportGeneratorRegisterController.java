@@ -18,12 +18,12 @@ import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
 import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -43,7 +43,7 @@ import javafx.scene.layout.VBox;
  * @author arayaroma
  */
 public class ReportGeneratorRegisterController implements Initializable {
-    
+
     @FXML
     private VBox parent;
     @FXML
@@ -70,7 +70,7 @@ public class ReportGeneratorRegisterController implements Initializable {
     private TableView<ReportRecipientsDto> tbEmails;
     @FXML
     private TableColumn<ReportRecipientsDto, String> tcEmail;
-    
+
     private ReportService reportService = new ReportService();
     private ReportRecipientsService reportRecipientService = new ReportRecipientsService();
     private ReportParametersService reportParametersService = new ReportParametersService();
@@ -79,18 +79,18 @@ public class ReportGeneratorRegisterController implements Initializable {
     private ReportRecipientsDto reportRecipientBuffer;
     private boolean isEditing;
     private Data data = Data.getInstance();
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         cbReportFrequency.getItems().addAll("ONCE", "DAILY", "WEEKLY", "MONTHLY", "ANNUALLY");
-        
+
         reportBuffer = (ReportDto) data.getData("reportBuffer");
         reportBuffer = reportBuffer == null ? new ReportDto() : reportBuffer;
         isEditing = reportBuffer.getId() != null;
         bindReport();
         initializeList();
     }
-    
+
     @FXML
     private void btnLoadParametersAction(ActionEvent event) {
         if (!reportBuffer.getQuery().isBlank()) {
@@ -106,31 +106,39 @@ public class ReportGeneratorRegisterController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void btnSaveAction(ActionEvent event) {
         if (!verifyFields()) {
             Message.showNotification("Error", MessageType.INFO, "fieldsEmpty");
             return;
         }
-        List<ReportRecipientsDto> recipientsDtos = reportBuffer.getReportRecipients();
-        ResponseWrapper response = isEditing ? reportService.updateReport(reportBuffer)
-                : reportService.createReport(reportBuffer);
-        if (response.getCode() == ResponseCode.OK) {
-            ReportDto report = (ReportDto) response.getData();
-            if (!saveReportRecipients(recipientsDtos, report)) {
-                Message.showNotification("ERROR", MessageType.ERROR, "errorSavingEmails");
-            }
-            if (!saveReportParameters(reportBuffer.getReportParameters(), report)) {
-                Message.showNotification("ERROR", MessageType.ERROR, "errorSavingParameters");
-            }
-            Message.showNotification("Success", MessageType.INFO, response.getMessage());
-            backAction(null);
-            return;
-        }
-        Message.showNotification("ERROR", MessageType.ERROR, response.getMessage());
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                try {
+                    List<ReportRecipientsDto> recipientsDtos = reportBuffer.getReportRecipients();
+                    ResponseWrapper response = isEditing ? reportService.updateReport(reportBuffer)
+                            : reportService.createReport(reportBuffer);
+                    if (response.getCode() == ResponseCode.OK) {
+                        ReportDto report = (ReportDto) response.getData();
+                        if (!saveReportRecipients(recipientsDtos, report)) {
+                            Message.showNotification("ERROR", MessageType.ERROR, "errorSavingEmails");
+                        }
+                        if (!saveReportParameters(reportBuffer.getReportParameters(), report)) {
+                            Message.showNotification("ERROR", MessageType.ERROR, "errorSavingParameters");
+                        }
+                        Message.showNotification("Success", MessageType.INFO, response.getMessage());
+                        backAction(null);
+                        return;
+                    }
+                    Message.showNotification("ERROR", MessageType.ERROR, response.getMessage());
+                } catch (Exception e) {
+                    System.out.println(e.toString());
+                }
+            });
+        }).start();
     }
-    
+
     @FXML
     private void backAction(MouseEvent event) {
         try {
@@ -146,7 +154,7 @@ public class ReportGeneratorRegisterController implements Initializable {
             System.out.println(e.toString());
         }
     }
-    
+
     @FXML
     private void btnAddEmailAction(ActionEvent event) {
         String email = txfRecipientEmail.getText();
@@ -165,7 +173,7 @@ public class ReportGeneratorRegisterController implements Initializable {
             reportRecipientBuffer = null;
         }
     }
-    
+
     @FXML
     private void btnDeleteEmailAction(ActionEvent event) {
         if (reportRecipientBuffer != null) {
@@ -184,7 +192,7 @@ public class ReportGeneratorRegisterController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void btnAddValueParameterAction(ActionEvent event) {
         if (reportParameterBuffer != null) {
@@ -194,7 +202,7 @@ public class ReportGeneratorRegisterController implements Initializable {
             loadParameters();
         }
     }
-    
+
     @FXML
     private void reportDateAction(ActionEvent event) {
         LocalDate date = dpReportDate.getValue();
@@ -204,7 +212,7 @@ public class ReportGeneratorRegisterController implements Initializable {
             return;
         }
     }
-    
+
     private boolean cleanParameters(List<ReportParametersDto> reportParametersDtos) {
         for (ReportParametersDto i : reportParametersDtos) {
             if (i.getId() != null) {
@@ -216,7 +224,7 @@ public class ReportGeneratorRegisterController implements Initializable {
         }
         return true;
     }
-    
+
     private boolean saveReportRecipients(List<ReportRecipientsDto> recipientsDtos, ReportDto reportDto) {
         for (ReportRecipientsDto i : recipientsDtos) {
             i.setReport(new ReportDto(reportDto));
@@ -228,7 +236,7 @@ public class ReportGeneratorRegisterController implements Initializable {
         }
         return true;
     }
-    
+
     private boolean saveReportParameters(List<ReportParametersDto> parametersDtos, ReportDto reportDto) {
         for (ReportParametersDto i : parametersDtos) {
             i.setReport(new ReportDto(reportDto));
@@ -240,17 +248,17 @@ public class ReportGeneratorRegisterController implements Initializable {
         }
         return true;
     }
-    
+
     private void loadParameters() {
         tbParameters.getItems().clear();
         tbParameters.setItems(FXCollections.observableArrayList(reportBuffer.getReportParameters()));
     }
-    
+
     private void loadEmails() {
         tbEmails.getItems().clear();
         tbEmails.setItems(FXCollections.observableArrayList(reportBuffer.getReportRecipients()));
     }
-    
+
     private void initializeList() {
         tcParameter.setCellValueFactory(new PropertyValueFactory<>("name"));
         tcValue.setCellValueFactory(new PropertyValueFactory<>("value"));
@@ -270,7 +278,7 @@ public class ReportGeneratorRegisterController implements Initializable {
                     }
                 });
     }
-    
+
     private List<String> extractParameters(String query) {
         Pattern pattern = Pattern.compile(":\\w+");
         Matcher matcher = pattern.matcher(query);
@@ -280,7 +288,7 @@ public class ReportGeneratorRegisterController implements Initializable {
         }
         return parameters;
     }
-    
+
     private void bindReport() {
         txfReportDescription.textProperty().bindBidirectional(reportBuffer.description);
         txfReportName.textProperty().bindBidirectional(reportBuffer.name);
@@ -290,7 +298,7 @@ public class ReportGeneratorRegisterController implements Initializable {
         loadEmails();
         loadParameters();
     }
-    
+
     private boolean verifyFields() {
         List<Node> fields = Arrays.asList(txfReportDescription, txfReportName, txfReportQuery, cbReportFrequency,
                 dpReportDate);
@@ -306,5 +314,5 @@ public class ReportGeneratorRegisterController implements Initializable {
         }
         return true;
     }
-    
+
 }

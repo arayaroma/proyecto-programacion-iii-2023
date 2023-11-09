@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -123,9 +124,18 @@ public class MainController implements Initializable {
         if (event != null) {
             focusButton((Node) event.getSource());
         }
-        FXMLLoader loader = App.getFXMLLoader("UserModule");
-        container.getChildren().clear();
-        container.getChildren().add(loader.load());
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                try {
+                    FXMLLoader userLoader = App.getFXMLLoader("UserModule");
+                    container.getChildren().clear();
+                    container.getChildren().add(userLoader.load());
+
+                } catch (Exception e) {
+                }
+
+            });
+        }).start();
     }
 
     @FXML
@@ -133,9 +143,17 @@ public class MainController implements Initializable {
         if (event != null) {
             focusButton((Node) event.getSource());
         }
-        FXMLLoader loader = App.getFXMLLoader("PatientModule");
-        container.getChildren().clear();
-        container.getChildren().add(loader.load());
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                try {
+                    FXMLLoader patientLoader = App.getFXMLLoader("PatientModule");
+                    container.getChildren().clear();
+                    container.getChildren().add(patientLoader.load());
+                } catch (Exception e) {
+                }
+
+            });
+        }).start();
     }
 
     /**
@@ -155,14 +173,22 @@ public class MainController implements Initializable {
         if (event != null) {
             focusButton((Node) event.getSource());
         }
-        FXMLLoader loader = App.getFXMLLoader("DoctorModule");
-        container.getChildren().clear();
-        container.getChildren().add(loader.load());
+
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                try {
+                    FXMLLoader doctorLoader = App.getFXMLLoader("DoctorModule");
+                    container.getChildren().clear();
+                    container.getChildren().add(doctorLoader.load());
+                } catch (Exception e) {
+                }
+
+            });
+        }).start();
     }
 
     @FXML
     private void editUserLogguedAction(MouseEvent event) throws IOException {
-
         userLoggued = (UserDto) userService.findUserById(userLoggued.getId()).getData();
         data.setData("userBuffer", userLoggued);
         Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("UserRegister").load());
@@ -205,9 +231,18 @@ public class MainController implements Initializable {
         if (event != null) {
             focusButton((Node) event.getSource());
         }
-        FXMLLoader loader = App.getFXMLLoader("GeneralInformationModule");
-        container.getChildren().clear();
-        container.getChildren().add(loader.load());
+
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                try {
+                    FXMLLoader generalLoader = App.getFXMLLoader("GeneralInformationModule");
+                    container.getChildren().clear();
+                    container.getChildren().add(generalLoader.load());
+                } catch (Exception e) {
+                }
+
+            });
+        }).start();
     }
 
     @FXML
@@ -215,14 +250,22 @@ public class MainController implements Initializable {
         if (event != null) {
             focusButton((Node) event.getSource());
         }
-        FXMLLoader loader = App.getFXMLLoader("AgendaModule");
 
-        container.getChildren().clear();
-        container.getChildren().add(loader.load());
-        AgendaModuleController controller = loader.getController();
-        if (controller != null) {
-            controller.loadView((DoctorDto) Data.getInstance().getData("doctorBuffer"));
-        }
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                try {
+                    FXMLLoader agendaLoader = App.getFXMLLoader("AgendaModule");
+                    container.getChildren().clear();
+                    container.getChildren().add(agendaLoader.load());
+                    AgendaModuleController controller = agendaLoader.getController();
+                    if (controller != null) {
+                        controller.loadView((DoctorDto) Data.getInstance().getData("doctorBuffer"));
+                    }
+                } catch (Exception e) {
+                }
+
+            });
+        }).start();
     }
 
     @FXML
@@ -230,17 +273,21 @@ public class MainController implements Initializable {
         if (event != null) {
             focusButton((Node) event.getSource());
         }
-        FXMLLoader loader = App.getFXMLLoader("ReportModule");
-
-        container.getChildren().clear();
-        container.getChildren().add(loader.load());
-        ReportModuleController controller = loader.getController();
-        if (controller != null) {
-            String option = (String) Data.getInstance().getData("option");
-            controller.loadView(option);
-
-        }
-
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                try {
+                    FXMLLoader reportLoader = App.getFXMLLoader("ReportModule");
+                    container.getChildren().clear();
+                    container.getChildren().add(reportLoader.load());
+                    ReportModuleController controller = reportLoader.getController();
+                    if (controller != null) {
+                        String option = (String) Data.getInstance().getData("option");
+                        controller.loadView(option);
+                    }
+                } catch (Exception e) {
+                }
+            });
+        }).start();
     }
 
     private void intializeSliderMenu() {
@@ -262,13 +309,6 @@ public class MainController implements Initializable {
         });
     }
 
-//    private void loadPrivileges(){
-//        if(userLoggued!=null){
-//            if(userLoggued.getRole().toLowerCase().equals("recepcionist")){
-//                
-//            }
-//        }
-//    }
     private void focusButton(Node node) {
         if (node != null) {
             if (buttonSelected != null) {

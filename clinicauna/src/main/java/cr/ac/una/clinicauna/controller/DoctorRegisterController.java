@@ -30,6 +30,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import java.util.regex.Pattern;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.TextFormatter;
 import javafx.util.StringConverter;
@@ -121,22 +122,29 @@ public class DoctorRegisterController implements Initializable {
             Message.showNotification("Ups", MessageType.ERROR, "fieldsEmpty");
             return;
         }
-        doctorBuffer.setShiftStartTime(startingTime);
-        doctorBuffer.setShiftEndTime(endingTime);
-        if (saveUser(userBuffer)) {
-            doctorBuffer.setUser(new UserDto(userBuffer));
-            ResponseWrapper response = !isEditing ? doctorService.createDoctor(doctorBuffer)
-                    : doctorService.updateDoctor(doctorBuffer);
-            if (response.getCode() != ResponseCode.OK) {
-                Message.showNotification("Error", MessageType.ERROR, response.getMessage());
-                return;
-            }
-            Message.showNotification("Success", MessageType.INFO, "doctorRegisteredSuccess");
-            updateUserLoggued();
-            Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("Main").load());
-            data.removeData("userBuffer");
-        }
-
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                try {
+                    doctorBuffer.setShiftStartTime(startingTime);
+                    doctorBuffer.setShiftEndTime(endingTime);
+                    if (saveUser(userBuffer)) {
+                        doctorBuffer.setUser(new UserDto(userBuffer));
+                        ResponseWrapper response = !isEditing ? doctorService.createDoctor(doctorBuffer)
+                                : doctorService.updateDoctor(doctorBuffer);
+                        if (response.getCode() != ResponseCode.OK) {
+                            Message.showNotification("Error", MessageType.ERROR, response.getMessage());
+                            return;
+                        }
+                        Message.showNotification("Success", MessageType.INFO, "doctorRegisteredSuccess");
+                        updateUserLoggued();
+                        Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("Main").load());
+                        data.removeData("userBuffer");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.toString());
+                }
+            });
+        }).start();
     }
 
     private void updateUserLoggued() {
@@ -190,7 +198,6 @@ public class DoctorRegisterController implements Initializable {
 //        spEndingMinutes.getEditor().setText("");
 //        spEndingHours.getEditor().setText("");
 //    }
-
     private void initializeSpinners() {
         spStartingHours.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 00));
         spEndingHours.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 00));

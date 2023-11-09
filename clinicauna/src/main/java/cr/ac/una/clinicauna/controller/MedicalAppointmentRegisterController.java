@@ -33,6 +33,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -150,10 +151,9 @@ public class MedicalAppointmentRegisterController implements Initializable {
     private void backAction(MouseEvent event) {
         try {
             option = option.toLowerCase();
-
-            FXMLLoader loader = App.getFXMLLoader("Main");
-            Animation.MakeDefaultFadeTransition(mainView, loader.load());
-            MainController controller = loader.getController();
+            FXMLLoader mainLoader = App.getFXMLLoader("Main");
+            Animation.MakeDefaultFadeTransition(mainView, mainLoader.load());
+            MainController controller = mainLoader.getController();
             if (controller != null) {
                 controller.loadView("agendaModule");
             }
@@ -169,23 +169,28 @@ public class MedicalAppointmentRegisterController implements Initializable {
             Message.showNotification("Ups", MessageType.INFO, "fieldsEmpty");
             return;
         }
-        boolean isAgendaCreated = agendaBuffer == null ? createAgenda(dpAppoinmentDate.getValue().toString()) : true;
-        if (isAgendaCreated) {
-            medicalAppointmentBuffer.setAgenda(agendaBuffer);
-            medicalAppointmentBuffer.setPatient(patientBuffer);
-            medicalAppointmentBuffer.setScheduledBy(scheduledBy);
-            medicalAppointmentBuffer.setSlotsNumber((long) spSlots.getValue());
-            medicalAppointmentBuffer.setScheduledDate(agendaBuffer.getAgendaDate());
-            String hour = cbHoursAvailable.getValue();
-            medicalAppointmentBuffer.setScheduledStartTime(hour);
-            medicalAppointmentBuffer.setScheduledEndTime(getEndTime(hour, agendaBuffer.getHourlySlots(), spSlots.getValue()));
-            if (!medicalAppointmentBuffer.getPatientEmail().equals(patientBuffer.getEmail()) || !medicalAppointmentBuffer.getPatientPhoneNumber().equals(patientBuffer.getPhoneNumber())) {
-                patientBuffer.setEmail(medicalAppointmentBuffer.getPatientEmail());
-                patientBuffer.setPhoneNumber(medicalAppointmentBuffer.getPatientPhoneNumber());
-                patientService.updatePatient(patientBuffer);
-            }
-            saveMedicalAppointment(medicalAppointmentBuffer);
-        }
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                boolean isAgendaCreated = agendaBuffer == null ? createAgenda(dpAppoinmentDate.getValue().toString()) : true;
+                if (isAgendaCreated) {
+                    medicalAppointmentBuffer.setAgenda(agendaBuffer);
+                    medicalAppointmentBuffer.setPatient(patientBuffer);
+                    medicalAppointmentBuffer.setScheduledBy(scheduledBy);
+                    medicalAppointmentBuffer.setSlotsNumber((long) spSlots.getValue());
+                    medicalAppointmentBuffer.setScheduledDate(agendaBuffer.getAgendaDate());
+                    String hour = cbHoursAvailable.getValue();
+                    medicalAppointmentBuffer.setScheduledStartTime(hour);
+                    medicalAppointmentBuffer.setScheduledEndTime(getEndTime(hour, agendaBuffer.getHourlySlots(), spSlots.getValue()));
+                    if (!medicalAppointmentBuffer.getPatientEmail().equals(patientBuffer.getEmail()) || !medicalAppointmentBuffer.getPatientPhoneNumber().equals(patientBuffer.getPhoneNumber())) {
+                        patientBuffer.setEmail(medicalAppointmentBuffer.getPatientEmail());
+                        patientBuffer.setPhoneNumber(medicalAppointmentBuffer.getPatientPhoneNumber());
+                        patientService.updatePatient(patientBuffer);
+                    }
+                    saveMedicalAppointment(medicalAppointmentBuffer);
+
+                }
+            });
+        }).start();
     }
 
     private void addPatientsInCb() {
@@ -197,9 +202,9 @@ public class MedicalAppointmentRegisterController implements Initializable {
 
     @FXML
     private void createPatient(ActionEvent event) throws IOException {
-        FXMLLoader loader = App.getFXMLLoader("PatientRegister");
-        Animation.MakeDefaultFadeTransition(parent, loader.load());
-        PatientRegisterController controller = loader.getController();
+        FXMLLoader patientLoader = App.getFXMLLoader("PatientRegister");
+        Animation.MakeDefaultFadeTransition(parent, patientLoader.load());
+        PatientRegisterController controller = patientLoader.getController();
         if (controller != null) {
             controller.loadView("medicalAppointmentRegister");
         }
@@ -282,9 +287,6 @@ public class MedicalAppointmentRegisterController implements Initializable {
             }
         });
         cbIdentification.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                System.out.println("Paciente seleccionado: " + newValue);
-            }
         });
     }
 
@@ -380,13 +382,17 @@ public class MedicalAppointmentRegisterController implements Initializable {
     }
 
     public boolean createAgenda(String fechaAppointment) {
-        agendaBuffer = new AgendaDto();
-        agendaBuffer.setDoctor(doctorBuffer);
-        agendaBuffer.setAgendaDate(fechaAppointment);
-        agendaBuffer.setHourlySlots(doctorBuffer.getHourlySlots());
-        agendaBuffer.setShiftStartTime(doctorBuffer.getShiftStartTime());
-        agendaBuffer.setShiftEndTime(doctorBuffer.getShiftEndTime());
-        return saveAgenda(agendaBuffer);
+        if (doctorBuffer != null) {
+            agendaBuffer = new AgendaDto();
+            agendaBuffer.setDoctor(doctorBuffer);
+            agendaBuffer.setAgendaDate(fechaAppointment);
+            agendaBuffer.setHourlySlots(doctorBuffer.getHourlySlots());
+            agendaBuffer.setShiftStartTime(doctorBuffer.getShiftStartTime());
+            agendaBuffer.setShiftEndTime(doctorBuffer.getShiftEndTime());
+            return saveAgenda(agendaBuffer);
+        }
+        Message.showNotification("ERROR", MessageType.ERROR, "doctorBufferNull");
+        return false;
     }
 
     public boolean saveAgenda(AgendaDto agendaDto) {

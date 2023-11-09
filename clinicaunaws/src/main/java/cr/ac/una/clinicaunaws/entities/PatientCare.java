@@ -23,8 +23,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
@@ -32,10 +30,8 @@ import lombok.NoArgsConstructor;
  * @author arayaroma
  */
 @Entity
-@Table(name = "TBL_PATIENT_CARE", schema = SCHEMA)
-@Data
 @NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "TBL_PATIENT_CARE", schema = SCHEMA)
 @NamedQueries({
         @NamedQuery(name = "PatientCare.findAll", query = "SELECT p FROM PatientCare p", hints = @QueryHint(name = "eclipselink.refresh", value = "true")),
         @NamedQuery(name = "PatientCare.findById", query = "SELECT p FROM PatientCare p WHERE p.id = :id", hints = @QueryHint(name = "eclipselink.refresh", value = "true")), })
@@ -169,5 +165,150 @@ public class PatientCare implements Serializable {
         this.treatment = dto.getTreatment();
         this.version = dto.getVersion();
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDate getPatientCareDate() {
+        return patientCareDate;
+    }
+
+    public void setPatientCareDate(LocalDate patientCareDate) {
+        this.patientCareDate = patientCareDate;
+    }
+
+    public PatientPersonalHistory getPatientHistory() {
+        return patientHistory;
+    }
+
+    public void setPatientHistory(PatientPersonalHistory patientHistory) {
+        this.patientHistory = patientHistory;
+    }
+
+    public String getBloodPressure() {
+        return bloodPressure;
+    }
+
+    public void setBloodPressure(String bloodPressure) {
+        this.bloodPressure = bloodPressure;
+    }
+
+    public String getHeartRate() {
+        return heartRate;
+    }
+
+    public void setHeartRate(String heartRate) {
+        this.heartRate = heartRate;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
+    public String getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(String temperature) {
+        this.temperature = temperature;
+    }
+
+    public String getBodyMassIndex() {
+        return bodyMassIndex;
+    }
+
+    public void setBodyMassIndex(String bodyMassIndex) {
+        this.bodyMassIndex = bodyMassIndex;
+    }
+
+    public String getBodyMassIndexIdeal() {
+        return bodyMassIndexIdeal;
+    }
+
+    public void setBodyMassIndexIdeal(String bodyMassIndexIdeal) {
+        this.bodyMassIndexIdeal = bodyMassIndexIdeal;
+    }
+
+    public String getNursingNotes() {
+        return nursingNotes;
+    }
+
+    public void setNursingNotes(String nursingNotes) {
+        this.nursingNotes = nursingNotes;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public String getCarePlan() {
+        return carePlan;
+    }
+
+    public void setCarePlan(String carePlan) {
+        this.carePlan = carePlan;
+    }
+
+    public String getObservations() {
+        return observations;
+    }
+
+    public void setObservations(String observations) {
+        this.observations = observations;
+    }
+
+    public String getPhysicalExam() {
+        return physicalExam;
+    }
+
+    public void setPhysicalExam(String physicalExam) {
+        this.physicalExam = physicalExam;
+    }
+
+    public String getTreatment() {
+        return treatment;
+    }
+
+    public void setTreatment(String treatment) {
+        this.treatment = treatment;
+    }
+
+    public List<MedicalAppointment> getMedicalAppointments() {
+        return medicalAppointments;
+    }
+
+    public void setMedicalAppointments(List<MedicalAppointment> medicalAppointments) {
+        this.medicalAppointments = medicalAppointments;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+    
 
 }
