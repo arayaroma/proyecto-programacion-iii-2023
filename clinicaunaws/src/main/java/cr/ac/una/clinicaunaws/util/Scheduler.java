@@ -45,7 +45,7 @@ public class Scheduler {
 
     @Schedule(second = "0", minute = "*", hour = "*")
     public void checkReminders() {
-//        checkAppointments();
+        checkAppointments();
         checkReports();
     }
 
@@ -57,12 +57,12 @@ public class Scheduler {
                 List<MedicalAppointmentDto> appToSend = appointments.stream()
                         .filter(isSameDayApp(tomorrow))
                         .collect(Collectors.toList());
-                for (MedicalAppointmentDto m : appToSend) {
-                    eService.sendAppointmentReminder(m);
+                for (MedicalAppointmentDto medicalAppointmentDto : appToSend) {
+                    eService.sendAppointmentReminder(medicalAppointmentDto);
                 }
             }
         } catch (Exception e) {
-
+            System.out.println(e.toString());
         }
     }
 
@@ -156,10 +156,8 @@ public class Scheduler {
     }
 
     private boolean isDateString(String value) {
-//        DateTimeFormatter Formatter = DateTimeFormatter.ISO_LOCAL_DATE;
         try {
             LocalDate.parse(value, dateFormatter);
-            System.out.println(value);
             return true;
         } catch (DateTimeParseException e) {
             System.out.println(e.toString());
