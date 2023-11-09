@@ -53,8 +53,6 @@ public class LoginController implements Initializable {
     private StackPane parent;
     @FXML
     private Label lblLanguage;
-
-    private UserService userService = new UserService();
     @FXML
     private VBox aboutUsView;
     @FXML
@@ -64,6 +62,7 @@ public class LoginController implements Initializable {
     @FXML
     private Label lblEmail;
 
+    private UserService userService = new UserService();
     private GeneralInformationService generalInformationService = new GeneralInformationService();
     private Data data = Data.getInstance();
 
