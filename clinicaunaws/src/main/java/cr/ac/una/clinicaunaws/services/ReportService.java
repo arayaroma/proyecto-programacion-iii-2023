@@ -28,6 +28,9 @@ import cr.ac.una.clinicaunaws.util.ExcelGenerator;
 import java.io.File;
 
 import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  *
@@ -264,27 +267,20 @@ public class ReportService {
      * @throws java.io.IOException
      * @throws net.sf.jasperreports.engine.JRException
      */
-    public ResponseWrapper createPatientReport(Long id) throws IOException, JRException {
-        // FALTA HACER REFRACTOR A ESTE CODIGO
-        try {
-            String absolutePath = "";
-            String jasperPath = "jrxml/medicalRecord.jrxml";
-            ClassLoader classLoader = getClass().getClassLoader();
-            URL resource = classLoader.getResource(jasperPath);
+    public ResponseWrapper createPatientReport(Long id, String language) throws IOException, JRException {
 
-            if (resource == null) {
-                System.out.println("No se pudo encontrar el archivo: " + jasperPath);
-            } else {
-                absolutePath = resource.getFile();
-                System.out.println("Ruta absoluta del archivo: " + absolutePath);
-            }
-            JasperReport jReport = JasperCompileManager.compileReport(absolutePath);
+        try {
+            
+            JasperReport jReport = compileJasper("medicalRecord");
+            ResourceBundle bundle = ResourceBundle.getBundle("jrxml/language", new Locale(language));
+            
             if (jReport == null) {
                 System.out.println("ERROR: NO EXISTE EL JASPER");
             }
-
+            
             Map<String, Object> par = new HashMap<>();
             par.put("idPatientCare", id);
+            par.put(JRParameter.REPORT_RESOURCE_BUNDLE, bundle);  // Pasar el ResourceBundle al informe
 
             try (Connection connection = DriverManager.getConnection(Constants.URL_DB, Constants.USER_DB,
                     Constants.PASS_DB)) {
@@ -309,22 +305,13 @@ public class ReportService {
         }
     }
 
-    public ResponseWrapper createAgendaReport(Long doctorId, String startDate, String endDate)
+    public ResponseWrapper createAgendaReport(Long doctorId, String startDate, String endDate, String language)
             throws IOException, JRException {
-        // FALTA HACER REFRACTOR A ESTE CODIGO
+        
         try {
-            String absolutePath = "";
-            String jasperPath = "jrxml/agendaReport.jrxml";
-            ClassLoader classLoader = getClass().getClassLoader();
-            URL resource = classLoader.getResource(jasperPath);
-
-            if (resource == null) {
-                System.out.println("No se pudo encontrar el archivo: " + jasperPath);
-            } else {
-                absolutePath = resource.getFile();
-                System.out.println("Ruta absoluta del archivo: " + absolutePath);
-            }
-            JasperReport jReport = JasperCompileManager.compileReport(absolutePath);
+            
+            JasperReport jReport = compileJasper("agendaReport");
+            ResourceBundle bundle = ResourceBundle.getBundle("jrxml/language", new Locale(language));
 
             if (jReport == null) {
                 System.out.println("ERROR: NO EXISTE EL JASPER");
@@ -334,6 +321,7 @@ public class ReportService {
             par.put("doctorId", doctorId);
             par.put("startDate", startDate);
             par.put("endDate", endDate);
+            par.put(JRParameter.REPORT_RESOURCE_BUNDLE, bundle);  // Pasar el ResourceBundle al informe
 
             try (Connection connection = DriverManager.getConnection(Constants.URL_DB, Constants.USER_DB,
                     Constants.PASS_DB)) {
@@ -358,12 +346,43 @@ public class ReportService {
         }
     }
 
-    public ResponseWrapper createMedicalExamReport(Long patientId)
+    public ResponseWrapper createMedicalExamReport(Long patId, String language)
             throws IOException, JRException {
-        // FALTA HACER REFRACTOR A ESTE CODIGO
+
+        JasperReport jReport = compileJasper("medicalExam");
+        ResourceBundle bundle = ResourceBundle.getBundle("jrxml/language", new Locale(language));
+        
+        try {
+            Map<String, Object> par = new HashMap<>();
+            par.put("idPatient", patId);
+            par.put(JRParameter.REPORT_RESOURCE_BUNDLE, bundle);  // Pasar el ResourceBundle al informe
+
+            try (Connection connection = DriverManager.getConnection(Constants.URL_DB, Constants.USER_DB,
+                    Constants.PASS_DB)) {
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jReport, par, connection);
+                byte[] pdfbytes = JasperExportManager.exportReportToPdf(jasperPrint);
+                return new ResponseWrapper(
+                        ResponseCode.OK.getCode(),
+                        ResponseCode.OK,
+                        "Report created successfully.",
+                        pdfbytes);
+            } catch (SQLException e) {
+                return new ResponseWrapper(
+                        ResponseCode.CONFLICT.getCode(),
+                        ResponseCode.CONFLICT,
+                        "No connected: " + e.getMessage(),
+                        null);
+            }
+        } catch (JRException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al generar el informe", e);
+        }
+    }
+
+    public JasperReport compileJasper(String jrxmlName) {
         try {
             String absolutePath = "";
-            String jasperPath = "jrxml/medicalExam.jrxml";
+            String jasperPath = "jrxml/"+jrxmlName+".jrxml";
             ClassLoader classLoader = getClass().getClassLoader();
             URL resource = classLoader.getResource(jasperPath);
 
@@ -373,35 +392,17 @@ public class ReportService {
                 absolutePath = resource.getFile();
                 System.out.println("Ruta absoluta del archivo: " + absolutePath);
             }
+
             JasperReport jReport = JasperCompileManager.compileReport(absolutePath);
 
             if (jReport == null) {
                 System.out.println("ERROR: NO EXISTE EL JASPER");
+                return null;
             }
-
-            Map<String, Object> par = new HashMap<>();
-            par.put("idPatient", patientId);
-
-            try (Connection connection = DriverManager.getConnection(Constants.URL_DB, Constants.USER_DB,
-                    Constants.PASS_DB)) {
-                // Llenar el informe con datos y la conexión a la base de datos
-                JasperPrint jasperPrint = JasperFillManager.fillReport(jReport, par, connection);
-                byte[] pdfbytes = JasperExportManager.exportReportToPdf(jasperPrint);
-                return new ResponseWrapper(
-                        ResponseCode.OK.getCode(),
-                        ResponseCode.OK,
-                        "Report created successfully.",
-                        pdfbytes);
-            } catch (SQLException e) {
-                return new ResponseWrapper(
-                        ResponseCode.CONFLICT.getCode(),
-                        ResponseCode.CONFLICT,
-                        "No connected: " + e.getMessage(),
-                        null);
-            }
-        } catch (JRException e) {
-            e.printStackTrace();
+            return jReport;
+        }catch (JRException e) {
             throw new RuntimeException("Error al generar el informe", e);
         }
     }
+
 }

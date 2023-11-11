@@ -257,7 +257,7 @@ public class EmailService {
                                     + "Body mass index: " + p.getBodyMassIndex() + "<br>"
                                     + "We attach your medical record to this email.",
                             "Thank you for choosing us!"),
-                    (byte[]) rService.createPatientReport(pat.getId()).getData(),
+                    (byte[]) rService.createPatientReport(pat.getId(), "es").getData(),
                     "pdf");
 
         } catch (Exception e) {

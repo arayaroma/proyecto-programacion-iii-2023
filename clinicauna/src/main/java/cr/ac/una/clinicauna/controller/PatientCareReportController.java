@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.PatientDto;
+import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.PatientService;
 import cr.ac.una.clinicauna.services.ReportService;
 import cr.ac.una.clinicauna.util.Data;
@@ -72,6 +73,7 @@ public class PatientCareReportController implements Initializable {
     private PatientDto patientBuffer;
     private List<PatientDto> patientDtos = new ArrayList<>();
     private Data data = Data.getInstance();
+    private UserDto u = new UserDto();
 
     /**
      * Initializes the controller class.
@@ -79,6 +81,7 @@ public class PatientCareReportController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
+            u = (UserDto) data.getData("userLoggued");
             if (data.getLanguageOption().equals("en")) {
                 cbSearchParameter.getItems().addAll("Name", "Last Name", "Phone", "Identification", "Birth Date");
             } else {
@@ -129,11 +132,17 @@ public class PatientCareReportController implements Initializable {
                 Message.showNotification("Ups", MessageType.INFO, "patientHistoryEmpty");
                 return;
             }
-            ResponseWrapper response = reportService.createPatientReport(patientBuffer.getId());
-            if (response.getCode() != ResponseCode.OK) {
-                Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
+            if (u.getLanguage().equals("ENGLISH")) {
+                ResponseWrapper response = reportService.createPatientReport(patientBuffer.getId(), "en");
+                if (response.getCode() != ResponseCode.OK) {
+                    Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
+                }
+            } else{
+                ResponseWrapper response = reportService.createPatientReport(patientBuffer.getId(), "es");
+                if (response.getCode() != ResponseCode.OK) {
+                    Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
+                }
             }
-
         }
     }
 

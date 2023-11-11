@@ -153,7 +153,7 @@ public class ReportService {
         }
     }
 
-    public ResponseWrapper createPatientReport(Long id) {
+    public ResponseWrapper createPatientReport(Long id, String language) {
         try {
             String path = FileLoader.chooseSavePath();
             if (path == null || path.isBlank()) {
@@ -162,7 +162,8 @@ public class ReportService {
             }
             HashMap<String, Object> params = new HashMap<>();
             params.put("id", id);
-            Request request = new Request("ReportController/createPatientReport", "/{id}", params);
+            params.put("language", language);
+            Request request = new Request("ReportController/createPatientReport", "/{id}/{language}", params);
             request.get();
             if (request.isError()) {
                 return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
@@ -183,7 +184,7 @@ public class ReportService {
         }
     }
 
-    public ResponseWrapper createMedicalExamReport(Long patientId) {
+    public ResponseWrapper createMedicalExamReport(Long patientId, String language) {
         try {
             String path = FileLoader.chooseSavePath();
             if (path == null || path.isBlank()) {
@@ -191,8 +192,9 @@ public class ReportService {
                         null);
             }
             HashMap<String, Object> params = new HashMap<>();
-            params.put("id", patientId);
-            Request request = new Request("ReportController/createMedicalExamReport", "/{id}", params);
+            params.put("patientId", patientId);
+            params.put("language", language);
+            Request request = new Request("ReportController/createMedicalExamReport", "/{patientId}/{language}", params);
             request.get();
             if (request.isError()) {
                 return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
@@ -213,7 +215,7 @@ public class ReportService {
         }
     }
 
-    public ResponseWrapper createAgendaReport(Long doctorId, String sDate, String eDate) {
+    public ResponseWrapper createAgendaReport(Long doctorId, String sDate, String eDate, String language) {
         try {
             String path = FileLoader.chooseSavePath();
             if (path == null || path.isBlank()) {
@@ -224,7 +226,8 @@ public class ReportService {
             params.put("doctorId", doctorId);
             params.put("startDate", sDate);
             params.put("endDate", eDate);
-            Request request = new Request("ReportController/createAgendaReport", "/{doctorId}/{startDate}/{endDate}",
+            params.put("language", language);
+            Request request = new Request("ReportController/createAgendaReport", "/{doctorId}/{startDate}/{endDate}/{language}",
                     params);
             request.get();
             if (request.isError()) {

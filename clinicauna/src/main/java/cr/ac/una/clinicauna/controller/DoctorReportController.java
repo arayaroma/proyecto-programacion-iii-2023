@@ -9,6 +9,7 @@ import cr.ac.una.clinicauna.services.AgendaService;
 import cr.ac.una.clinicauna.services.DoctorService;
 import cr.ac.una.clinicauna.services.ReportService;
 import cr.ac.una.clinicauna.services.UserService;
+import cr.ac.una.clinicauna.util.Data;
 import cr.ac.una.clinicauna.util.Message;
 import cr.ac.una.clinicauna.util.MessageType;
 import cr.ac.una.clinicauna.util.ResponseCode;
@@ -70,12 +71,15 @@ public class DoctorReportController implements Initializable {
     private DoctorService doctorService = new DoctorService();
     private DoctorDto doctorBuffer;
     private ReportService reportService = new ReportService();
+    private UserDto u = new UserDto();
+    private Data data = Data.getInstance();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        u = (UserDto) data.getData("userLoggued");
         initializeComboBox();
         initializeList();
         loadDoctors();
@@ -91,9 +95,16 @@ public class DoctorReportController implements Initializable {
                 Message.showNotification("Ups", MessageType.INFO, "emptyList");
                 return;
             }
-            ResponseWrapper response = reportService.createAgendaReport(doctorBuffer.getId(), startingDate.toString(), endingDate.toString());
-            if (response.getCode() != ResponseCode.OK) {
-                Message.showNotification("ERROR", MessageType.ERROR, response.getMessage());
+            if (u.getLanguage().equals("ENGLISH")) {
+                ResponseWrapper response = reportService.createAgendaReport(doctorBuffer.getId(), startingDate.toString(), endingDate.toString(), "en");
+                if (response.getCode() != ResponseCode.OK) {
+                    Message.showNotification("ERROR", MessageType.ERROR, response.getMessage());
+                }
+            } else {
+                ResponseWrapper response = reportService.createAgendaReport(doctorBuffer.getId(), startingDate.toString(), endingDate.toString(), "es");
+                if (response.getCode() != ResponseCode.OK) {
+                    Message.showNotification("ERROR", MessageType.ERROR, response.getMessage());
+                }
             }
         }
     }

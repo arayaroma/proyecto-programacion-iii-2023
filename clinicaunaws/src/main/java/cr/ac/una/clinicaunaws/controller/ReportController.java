@@ -29,7 +29,7 @@ import jakarta.ws.rs.core.SecurityContext;
  * @author varga
  * @author arayaroma
  */
-@Secure
+//@Secure
 @Path("/ReportController")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -164,7 +164,7 @@ public class ReportController {
      * @return
      */
     @GET
-    @Path("/createPatientReport/{id}")
+    @Path("/createPatientReport/{id}/{language}")
     @Operation(summary = "Create a Patient Report", description = "Create a Patient Report", tags = {
         "ReportController"})
     @ApiResponses(value = {
@@ -173,10 +173,10 @@ public class ReportController {
         @ApiResponse(responseCode = "404", description = "Patient Report not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public Response createPatientReport(@PathParam("id") Long id) {
+    public Response createPatientReport(@PathParam("id") Long id, @PathParam("language") String language) {
         try {
             MediaType contentType;
-            ResponseWrapper response = reportService.createPatientReport(id);
+            ResponseWrapper response = reportService.createPatientReport(id, language);
             if (response.getData() instanceof byte[]) {
                 contentType = MediaType.APPLICATION_OCTET_STREAM_TYPE;
             } else {
@@ -194,7 +194,7 @@ public class ReportController {
     }
 
     @GET
-    @Path("/createAgendaReport/{doctorId}/{startDate}/{endDate}")
+    @Path("/createAgendaReport/{doctorId}/{startDate}/{endDate}/{language}")
     @Operation(summary = "Create a Agenda Report", description = "Create a Agenda Report", tags = {
         "ReportController"})
     @ApiResponses(value = {
@@ -204,12 +204,12 @@ public class ReportController {
         @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     public Response createAgendaReport(@PathParam("doctorId") Long dId, @PathParam("startDate") String sDate,
-            @PathParam("endDate") String eDate) {
+            @PathParam("endDate") String eDate, @PathParam("language") String language) {
         try {
             MediaType contentType;
             System.out.println(sDate);
             System.out.println(eDate);
-            ResponseWrapper response = reportService.createAgendaReport(dId, sDate, eDate);
+            ResponseWrapper response = reportService.createAgendaReport(dId, sDate, eDate, language);
             if (response.getData() instanceof byte[]) {
                 contentType = MediaType.APPLICATION_OCTET_STREAM_TYPE;
             } else {
@@ -227,7 +227,7 @@ public class ReportController {
     }
     
     @GET
-    @Path("/createMedicalExamReport/{patientId}")
+    @Path("/createMedicalExamReport/{patientId}/{language}")
     @Operation(summary = "Create a Medical Exam Report", description = "Create a Medical Exam Report", tags = {
         "ReportController"})
     @ApiResponses(value = {
@@ -236,10 +236,10 @@ public class ReportController {
         @ApiResponse(responseCode = "404", description = "Medical Exam Report not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public Response createMedicalExamReport(@PathParam("patientId") Long patId) {
+    public Response createMedicalExamReport(@PathParam("patientId") Long patId, @PathParam("language") String language) {
         try {
             MediaType contentType;
-            ResponseWrapper response = reportService.createMedicalExamReport(patId);
+            ResponseWrapper response = reportService.createMedicalExamReport(patId, language);
             if (response.getData() instanceof byte[]) {
                 contentType = MediaType.APPLICATION_OCTET_STREAM_TYPE;
             } else {

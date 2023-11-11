@@ -72,6 +72,7 @@ public class PatientModuleController implements Initializable {
     private List<PatientDto> patientDtos = new ArrayList<>();
     private Data data = Data.getInstance();
     private ReportService reportService = new ReportService();
+    private UserDto u = new UserDto();
 
     /**
      * Initializes the controller class.
@@ -79,6 +80,7 @@ public class PatientModuleController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
+            u = (UserDto) data.getData("userLoggued");
             if (data.getLanguageOption().equals("en")) {
                 cbSearchParameter.getItems().addAll("Name", "Last Name", "Phone", "Identification", "Birth Date");
             } else {
@@ -141,9 +143,16 @@ public class PatientModuleController implements Initializable {
                 Message.showNotification("Ups", MessageType.INFO, "patientHistoryEmpty");
                 return;
             }
-            ResponseWrapper response = reportService.createMedicalExamReport(patientBuffer.getId());
-            if (response.getCode() != ResponseCode.OK) {
-                Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
+            if (u.getLanguage().equals("ENGLISH")) {
+                ResponseWrapper response = reportService.createMedicalExamReport(patientBuffer.getId(), "en");
+                if (response.getCode() != ResponseCode.OK) {
+                    Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
+                }
+            } else {
+                ResponseWrapper response = reportService.createMedicalExamReport(patientBuffer.getId(), "es");
+                if (response.getCode() != ResponseCode.OK) {
+                    Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
+                }
             }
 
         }
