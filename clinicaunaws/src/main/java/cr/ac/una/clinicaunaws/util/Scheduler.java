@@ -3,7 +3,6 @@ package cr.ac.una.clinicaunaws.util;
 import cr.ac.una.clinicaunaws.dto.MedicalAppointmentDto;
 import cr.ac.una.clinicaunaws.dto.ReportDto;
 import cr.ac.una.clinicaunaws.dto.ReportParametersDto;
-import cr.ac.una.clinicaunaws.entities.ReportParameters;
 import cr.ac.una.clinicaunaws.services.EmailService;
 import cr.ac.una.clinicaunaws.services.MedicalAppointmentService;
 import cr.ac.una.clinicaunaws.services.ReportParametersService;
@@ -45,8 +44,11 @@ public class Scheduler {
 
     @Schedule(second = "0", minute = "*", hour = "*")
     public void checkReminders() {
-        checkAppointments();
         checkReports();
+    }
+    @Schedule(second = "0", minute = "*", hour = "13")
+    public void checkMedicalReminders() {
+        checkAppointments();
     }
 
     public void checkAppointments() {
@@ -58,7 +60,11 @@ public class Scheduler {
                         .filter(isSameDayApp(tomorrow))
                         .collect(Collectors.toList());
                 for (MedicalAppointmentDto medicalAppointmentDto : appToSend) {
-                    eService.sendAppointmentReminder(medicalAppointmentDto);
+                    String language = "ENGLISH";
+                    if (medicalAppointmentDto.getPatient() != null) {
+                        language = medicalAppointmentDto.getPatient().getLanguage();
+                    }
+                    eService.sendAppointmentReminder(medicalAppointmentDto, language);
                 }
             }
         } catch (Exception e) {

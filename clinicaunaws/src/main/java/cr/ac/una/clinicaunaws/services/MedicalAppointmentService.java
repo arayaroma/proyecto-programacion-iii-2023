@@ -24,7 +24,7 @@ public class MedicalAppointmentService {
 
     @PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
     private EntityManager em;
-    
+
     @EJB
     EmailService emailService;
 
@@ -43,7 +43,7 @@ public class MedicalAppointmentService {
             em.flush();
             try {
                 sendScheduledEmail(medicalAppointmentDto);
-            }catch(Exception e){
+            } catch (Exception e) {
                 return new ResponseWrapper(
                         ResponseCode.OK.getCode(),
                         ResponseCode.OK,
@@ -202,17 +202,21 @@ public class MedicalAppointmentService {
 
     private ResponseWrapper sendScheduledEmail(MedicalAppointmentDto meApp) {
         try {
-            emailService.sendScheduledAppointment(meApp);
+            String language = "ENGLISH";
+            if (meApp.getPatient() != null) {
+                language = meApp.getPatient().getLanguage();
+            }
+            emailService.sendScheduledAppointment(meApp, language);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
-                    "User created successfully.",
+                    "MedicalAppointment created successfully.",
                     meApp);
         } catch (Exception ex) {
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
-                    "User created successfully, but email could not be sent: " + ex.getMessage(),
+                    "MedicalAppointment created successfully, but email could not be sent: " + ex.getMessage(),
                     meApp);
         }
     }

@@ -16,6 +16,7 @@ public class PatientDto {
     public SimpleStringProperty phoneNumber;
     public SimpleStringProperty email;
     public SimpleStringProperty gender;
+    private SimpleStringProperty language;
     public ObjectProperty<LocalDate> birthDate;
     private PatientPersonalHistoryDto patientPersonalHistory;
     private List<PatientFamilyHistoryDto> patientFamilyHistories;
@@ -23,6 +24,7 @@ public class PatientDto {
 
     public PatientDto() {
         name = new SimpleStringProperty();
+        language = new SimpleStringProperty();
         firstLastname = new SimpleStringProperty();
         secondLastname = new SimpleStringProperty();
         identification = new SimpleStringProperty();
@@ -61,6 +63,15 @@ public class PatientDto {
     public void setPatientPersonalHistory(PatientPersonalHistoryDto patientPersonalHistoryDto) {
         this.patientPersonalHistory = patientPersonalHistoryDto;
     }
+
+    public void setLanguage(String language) {
+        this.language.set(language);
+    }
+
+    public String getLanguage() {
+        return language.get();
+    }
+    
 
     public Long getId() {
         return id;

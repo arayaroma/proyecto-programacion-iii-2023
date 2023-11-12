@@ -27,6 +27,7 @@ public class PatientDto implements DtoMapper<Patient, PatientDto> {
     private String email;
     private String gender;
     private String birthDate;
+    private String language;
     private PatientPersonalHistoryDto patientPersonalHistory;
     private List<PatientFamilyHistoryDto> patientFamilyHistories;
     private List<MedicalAppointmentDto> medicalAppointments;
@@ -61,6 +62,7 @@ public class PatientDto implements DtoMapper<Patient, PatientDto> {
         this.secondLastname = patient.getSecondLastname();
         this.identification = patient.getIdentification();
         this.phoneNumber = patient.getPhoneNumber();
+        this.language = patient.getLanguage();
         this.email = patient.getEmail();
         this.gender = patient.getGender();
         this.birthDate = patient.getBirthDate().toString();

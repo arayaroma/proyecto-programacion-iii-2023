@@ -32,7 +32,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
  *
  * @author arayaroma
  */
-@Secure
+
 @Path("/UserController")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -53,6 +53,7 @@ public class UserController {
      * @param userDto to be created
      * @return Response with the created user
      */
+    @Secure
     @POST
     @Path("/create")
     @Operation(summary = "Create a new user", description = "Create a new user", tags = { "UserController" })
@@ -82,6 +83,7 @@ public class UserController {
      * @param id to be fetched
      * @return Response with the user
      */
+    @Secure
     @GET
     @Path("/user/{id}")
     @Operation(summary = "Get a user by id", description = "Get a user by id", tags = { "UserController" })
@@ -150,6 +152,7 @@ public class UserController {
      *
      * @return Response with the list of users
      */
+    @Secure
     @GET
     @Path("/users")
     @SuppressWarnings("unchecked")
@@ -181,6 +184,7 @@ public class UserController {
      * @param userDto to be updated
      * @return Response with the updated user
      */
+    @Secure
     @PUT
     @Path("/update")
     @Operation(summary = "Update a user", description = "Update a user", tags = { "UserController" })
@@ -210,6 +214,7 @@ public class UserController {
      * @param id to be deleted
      * @return Response with the deleted user
      */
+    @Secure
     @DELETE
     @Path("/delete/{id}")
     @Operation(summary = "Delete a user by id", description = "Delete a user by id", tags = { "UserController" })
@@ -301,6 +306,7 @@ public class UserController {
      * @param newPassword to be set
      * @return Response with the updated user
      */
+    @Secure
     @PUT
     @Path("/changePassword/{id}/{oldPassword}/{newPassword}")
     @Operation(summary = "Change the password of a user", description = "Change the password of a user", tags = {

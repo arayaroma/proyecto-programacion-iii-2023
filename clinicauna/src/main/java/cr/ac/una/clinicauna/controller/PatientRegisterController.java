@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +24,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -61,6 +65,12 @@ public class PatientRegisterController implements Initializable {
     boolean isEditing = false;
 
     private Data data = Data.getInstance();
+    @FXML
+    private RadioButton rbEnglish;
+    @FXML
+    private ToggleGroup groupLanguage;
+    @FXML
+    private RadioButton rbSpanish;
 
     /**
      * Initializes the controller class.
@@ -141,6 +151,24 @@ public class PatientRegisterController implements Initializable {
         txfSecondLastName.textProperty().bindBidirectional(patientBuffer.secondLastname);
         dpBirthDate.valueProperty().bindBidirectional(patientBuffer.birthDate);
         cbGender.valueProperty().bindBidirectional(patientBuffer.gender);
+        groupLanguage.selectedToggleProperty()
+                .addListener((ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) -> {
+                    if (newValue != null && patientBuffer != null) {
+                        if (rbEnglish.isSelected()) {
+                            patientBuffer.setLanguage("ENGLISH");
+                        } else {
+                            patientBuffer.setLanguage("SPANISH");
+                        }
+
+                    }
+                });
+        if (isEditing) {
+            if (patientBuffer.getLanguage().toLowerCase().equals("english")) {
+                rbEnglish.setSelected(true);
+            } else if (patientBuffer.getLanguage().toLowerCase().equals("spanish")) {
+                rbSpanish.setSelected(true);
+            }
+        }
     }
 
     public void loadView(String option) {
@@ -156,7 +184,7 @@ public class PatientRegisterController implements Initializable {
                 return false;
             }
         }
-        return true;
+        return groupLanguage.getSelectedToggle() != null;
     }
 
 }

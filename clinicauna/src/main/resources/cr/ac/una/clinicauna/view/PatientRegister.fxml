@@ -8,6 +8,8 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -107,6 +109,16 @@
                                         </JFXTextField>
                                         <DatePicker fx:id="dpBirthDate" editable="false" maxWidth="1.7976931348623157E308" promptText="%birthDate" styleClass="h3" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                         <ComboBox fx:id="cbGender" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="%gender" styleClass="h3" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <HBox alignment="CENTER" spacing="30.0" GridPane.rowIndex="3">
+                                 <children>
+                                    <RadioButton fx:id="rbEnglish" mnemonicParsing="false" text="%english">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="groupLanguage" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="rbSpanish" mnemonicParsing="false" text="%spanish" toggleGroup="$groupLanguage" />
+                                 </children>
+                              </HBox>
                                     </children>
                                 </GridPane>
                                 <HBox VBox.vgrow="ALWAYS">
