@@ -29,7 +29,7 @@ import jakarta.ws.rs.core.SecurityContext;
  * @author varga
  * @author arayaroma
  */
-//@Secure
+@Secure
 @Path("/ReportController")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
