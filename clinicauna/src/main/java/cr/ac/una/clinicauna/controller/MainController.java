@@ -5,7 +5,7 @@ import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 import cr.ac.una.clinicauna.App;
-import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.animations.Animate;
 import cr.ac.una.clinicauna.model.DoctorDto;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.UserService;
@@ -109,7 +109,7 @@ public class MainController implements Initializable {
             loadPrivileges();
         } catch (Exception e) {
             try {
-                Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Login").load());
+                Animate.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Login").load());
                 System.out.println(e.toString());
             } catch (IOException ex) {
                 Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -160,7 +160,7 @@ public class MainController implements Initializable {
     @FXML
     private void btnLogOutAction(ActionEvent event) {
         try {
-            Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Login").load());
+            Animate.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Login").load());
             Data.getInstance().clearData();
         } catch (IOException e) {
         }
@@ -189,12 +189,12 @@ public class MainController implements Initializable {
     private void editUserLogguedAction(MouseEvent event) throws IOException {
         userLoggued = (UserDto) userService.findUserById(userLoggued.getId()).getData();
         data.setData("userBuffer", userLoggued);
-        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("UserRegister").load());
+        Animate.MakeDefaultFadeTransition(parent, App.getFXMLLoader("UserRegister").load());
     }
 
     @FXML
     private void discardChangesAction(ActionEvent event) throws IOException {
-        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Login").load());
+        Animate.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Login").load());
     }
 
     @FXML

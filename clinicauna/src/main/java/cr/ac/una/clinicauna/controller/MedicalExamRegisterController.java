@@ -3,7 +3,7 @@ package cr.ac.una.clinicauna.controller;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
-import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.animations.Animate;
 import cr.ac.una.clinicauna.model.MedicalExamDto;
 import cr.ac.una.clinicauna.model.PatientPersonalHistoryDto;
 import cr.ac.una.clinicauna.services.MedicalExamService;
@@ -72,7 +72,7 @@ public class MedicalExamRegisterController implements Initializable {
         try {
             data.removeData("medicalExamBuffer");
             FXMLLoader loader = App.getFXMLLoader("PatientHistory");
-            Animation.MakeDefaultFadeTransition(mainView, loader.load());
+            Animate.MakeDefaultFadeTransition(mainView, loader.load());
             PatientHistoryController controller = loader.getController();
             if (controller != null) {
                 controller.loadView("patientCareView", false);

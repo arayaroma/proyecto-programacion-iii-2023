@@ -2,7 +2,7 @@ package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
-import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.animations.Animate;
 import cr.ac.una.clinicauna.model.PatientDto;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.PatientService;
@@ -101,7 +101,7 @@ public class PatientModuleController implements Initializable {
     @FXML
     private void btnNewPatientAction(ActionEvent event) throws IOException {
         FXMLLoader loader = App.getFXMLLoader("PatientRegister");
-        Animation.MakeDefaultFadeTransition(parent, loader.load());
+        Animate.MakeDefaultFadeTransition(parent, loader.load());
         PatientRegisterController controller = loader.getController();
         if (controller != null) {
             controller.loadView("patientModule");
@@ -114,14 +114,14 @@ public class PatientModuleController implements Initializable {
         UserDto userLoggued = (UserDto) data.getData("userLoggued");
         if (userLoggued != null && userLoggued.getRole().equals("RECEPCIONIST")) {
             FXMLLoader loader = App.getFXMLLoader("PatientRegister");
-            Animation.MakeDefaultFadeTransition(parent, loader.load());
+            Animate.MakeDefaultFadeTransition(parent, loader.load());
             PatientRegisterController controller = loader.getController();
             if (controller != null) {
                 controller.loadView("patientModule");
             }
             return;
         }
-        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("PatientHistory").load());
+        Animate.MakeDefaultFadeTransition(parent, App.getFXMLLoader("PatientHistory").load());
     }
 
     @FXML

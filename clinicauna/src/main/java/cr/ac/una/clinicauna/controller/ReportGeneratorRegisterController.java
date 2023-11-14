@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
-import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.animations.Animate;
 import cr.ac.una.clinicauna.model.ReportDto;
 import cr.ac.una.clinicauna.model.ReportParametersDto;
 import cr.ac.una.clinicauna.model.ReportRecipientsDto;
@@ -143,7 +143,7 @@ public class ReportGeneratorRegisterController implements Initializable {
     private void backAction(MouseEvent event) {
         try {
             FXMLLoader loader = App.getFXMLLoader("Main");
-            Animation.MakeDefaultFadeTransition(parent, loader.load());
+            Animate.MakeDefaultFadeTransition(parent, loader.load());
             MainController controller = loader.getController();
             if (controller != null) {
                 Data.getInstance().setData("option", "reportgenerator");

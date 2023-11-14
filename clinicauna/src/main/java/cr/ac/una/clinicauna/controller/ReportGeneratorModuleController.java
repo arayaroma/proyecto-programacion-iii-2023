@@ -2,7 +2,7 @@ package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
-import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.animations.Animate;
 import cr.ac.una.clinicauna.model.ReportDto;
 import cr.ac.una.clinicauna.model.ReportParametersDto;
 import cr.ac.una.clinicauna.model.ReportRecipientsDto;
@@ -85,13 +85,13 @@ public class ReportGeneratorModuleController implements Initializable {
 
     @FXML
     private void btnNewReport(ActionEvent event) throws IOException {
-        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("ReportGeneratorRegister").load());
+        Animate.MakeDefaultFadeTransition(parent, App.getFXMLLoader("ReportGeneratorRegister").load());
     }
 
     @FXML
     private void btnEditReportAction(ActionEvent event) throws IOException {
         data.setData("reportBuffer", reportBuffer);
-        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("ReportGeneratorRegister").load());
+        Animate.MakeDefaultFadeTransition(parent, App.getFXMLLoader("ReportGeneratorRegister").load());
 
     }
 

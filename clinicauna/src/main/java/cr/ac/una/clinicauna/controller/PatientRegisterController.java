@@ -2,7 +2,7 @@ package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
-import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.animations.Animate;
 import cr.ac.una.clinicauna.model.PatientDto;
 import cr.ac.una.clinicauna.services.PatientService;
 import cr.ac.una.clinicauna.util.Data;
@@ -95,7 +95,7 @@ public class PatientRegisterController implements Initializable {
             switch (option) {
                 case "medicalappointmentregister":
                     loader = App.getFXMLLoader("MedicalAppointmentRegister");
-                    Animation.MakeDefaultFadeTransition(mainView, loader.load());
+                    Animate.MakeDefaultFadeTransition(mainView, loader.load());
                     MedicalAppointmentRegisterController medicalAppointmentRegisterController = loader.getController();
                     if (medicalAppointmentRegisterController != null) {
                         medicalAppointmentRegisterController.loadView(patientBuffer, "patientRegister");
@@ -103,11 +103,11 @@ public class PatientRegisterController implements Initializable {
                     data.removeData("patientBuffer");
                     break;
                 case "patienthistory":
-                    Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("PatientHistory").load());
+                    Animate.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("PatientHistory").load());
                     break;
                 case "patientmodule":
                     loader = App.getFXMLLoader("Main");
-                    Animation.MakeDefaultFadeTransition(mainView, loader.load());
+                    Animate.MakeDefaultFadeTransition(mainView, loader.load());
                     MainController mainController = loader.getController();
                     if (mainController != null) {
                         mainController.loadView("PatientModule");
@@ -115,7 +115,7 @@ public class PatientRegisterController implements Initializable {
                     data.removeData("patientBuffer");
                     break;
                 default:
-                    Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("Main").load());
+                    Animate.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("Main").load());
                     data.removeData("patientBuffer");
                     break;
             }

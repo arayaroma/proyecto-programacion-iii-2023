@@ -3,7 +3,7 @@ package cr.ac.una.clinicauna.controller;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
-import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.animations.Animate;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.DoctorService;
 import cr.ac.una.clinicauna.services.UserService;
@@ -111,7 +111,7 @@ public class UserRegisterController implements Initializable {
             data.removeData("userBuffer");
             updateUserLoggued();
             FXMLLoader loader = App.getFXMLLoader("Main");
-            Animation.MakeDefaultFadeTransition(mainView, loader.load());
+            Animate.MakeDefaultFadeTransition(mainView, loader.load());
             MainController controller = loader.getController();
             if (controller != null) {
                 if (isFromDoctorModule) {
@@ -137,7 +137,7 @@ public class UserRegisterController implements Initializable {
                     setPrivilegesUser(userModified);
                     if (userModified.getRole().toLowerCase().equals("doctor")) {// Verifiy if is a Doctor
                         data.setData("userBuffer", userModified);
-                        Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("DoctorRegister").load());
+                        Animate.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("DoctorRegister").load());
                         return;
                     }
                     if (saveUser(userModified)) {

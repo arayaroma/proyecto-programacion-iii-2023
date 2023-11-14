@@ -3,8 +3,8 @@ package cr.ac.una.clinicauna.controller;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
+import cr.ac.una.clinicauna.animations.Animate;
 import cr.ac.una.clinicauna.animations.FadeIn;
-import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.GeneralInformationDto;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.GeneralInformationService;
@@ -105,7 +105,7 @@ public class LoginController implements Initializable {
                         data.setData("Token", userDto.getToken());
                         data.setData("userLoggued", userDto);
                         loadLanguage(userDto);
-                        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Main").load());
+                        Animate.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Main").load());
                         return;
                     }
                     Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
@@ -133,7 +133,7 @@ public class LoginController implements Initializable {
                 data.setLanguageOption("en");
                 break;
         }
-        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Login").load());
+        Animate.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Login").load());
     }
 
     @FXML

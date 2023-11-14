@@ -2,7 +2,7 @@ package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
-import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.animations.Animate;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.DoctorService;
 import cr.ac.una.clinicauna.services.UserService;
@@ -85,13 +85,13 @@ public class UserModuleController implements Initializable {
 
     @FXML
     private void btnNewUserAction(ActionEvent event) throws IOException {
-        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("UserRegister").load());
+        Animate.MakeDefaultFadeTransition(parent, App.getFXMLLoader("UserRegister").load());
     }
 
     @FXML
     private void btnEditUserAction(ActionEvent event) throws IOException {
         data.setData("userBuffer", userBuffer);
-        Animation.MakeDefaultFadeTransition(parent, App.getFXMLLoader("UserRegister").load());
+        Animate.MakeDefaultFadeTransition(parent, App.getFXMLLoader("UserRegister").load());
     }
 
     private void searchUserAction(KeyEvent event) {

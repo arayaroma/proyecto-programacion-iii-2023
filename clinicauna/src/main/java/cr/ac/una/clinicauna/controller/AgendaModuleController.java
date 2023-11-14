@@ -1,7 +1,7 @@
 package cr.ac.una.clinicauna.controller;
 
 import cr.ac.una.clinicauna.App;
-import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.animations.Animate;
 import cr.ac.una.clinicauna.components.AppointmentNode;
 import cr.ac.una.clinicauna.components.Header;
 import cr.ac.una.clinicauna.model.AgendaDto;
@@ -573,7 +573,7 @@ public class AgendaModuleController implements Initializable {
 
     private void openMedicalAppointmentRegisterView() throws IOException {
         FXMLLoader loader = App.getFXMLLoader("MedicalAppointmentRegister");
-        Animation.MakeDefaultFadeTransition(parent, loader.load());
+        Animate.MakeDefaultFadeTransition(parent, loader.load());
         MedicalAppointmentRegisterController controller = loader.getController();
         if (controller != null) {
             controller.loadView(null, "AgendaModule");

@@ -2,7 +2,7 @@ package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
-import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.animations.Animate;
 import cr.ac.una.clinicauna.model.PatientDto;
 import cr.ac.una.clinicauna.model.PatientFamilyHistoryDto;
 import cr.ac.una.clinicauna.services.PatientFamilyHistoryService;
@@ -80,7 +80,7 @@ public class PatientFamilyHistoryRegisterController implements Initializable {
     @FXML
     private void btnBackAction(MouseEvent event) {
         try {
-            Animation.MakeDefaultFadeTransition(familyHistoryView, App.getFXMLLoader("PatientHistory").load());
+            Animate.MakeDefaultFadeTransition(familyHistoryView, App.getFXMLLoader("PatientHistory").load());
         } catch (IOException e) {
         }
     }

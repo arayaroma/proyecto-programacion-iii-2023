@@ -3,7 +3,7 @@ package cr.ac.una.clinicauna.controller;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
-import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.animations.Animate;
 import cr.ac.una.clinicauna.model.AgendaDto;
 import cr.ac.una.clinicauna.model.DoctorDto;
 import cr.ac.una.clinicauna.model.MedicalAppointmentDto;
@@ -157,7 +157,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
         try {
             option = option.toLowerCase();
             FXMLLoader mainLoader = App.getFXMLLoader("Main");
-            Animation.MakeDefaultFadeTransition(mainView, mainLoader.load());
+            Animate.MakeDefaultFadeTransition(mainView, mainLoader.load());
             MainController controller = mainLoader.getController();
             if (controller != null) {
                 controller.loadView("agendaModule");
@@ -208,7 +208,7 @@ public class MedicalAppointmentRegisterController implements Initializable {
     @FXML
     private void createPatient(ActionEvent event) throws IOException {
         FXMLLoader patientLoader = App.getFXMLLoader("PatientRegister");
-        Animation.MakeDefaultFadeTransition(parent, patientLoader.load());
+        Animate.MakeDefaultFadeTransition(parent, patientLoader.load());
         PatientRegisterController controller = patientLoader.getController();
         if (controller != null) {
             controller.loadView("medicalAppointmentRegister");

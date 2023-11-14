@@ -2,7 +2,7 @@ package cr.ac.una.clinicauna.controller;
 
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
-import cr.ac.una.clinicauna.components.Animation;
+import cr.ac.una.clinicauna.animations.Animate;
 import cr.ac.una.clinicauna.model.DoctorDto;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.services.DoctorService;
@@ -109,7 +109,7 @@ public class DoctorRegisterController implements Initializable {
     @FXML
     private void backFromRegister(MouseEvent event) {
         try {
-            Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("UserRegister").load());
+            Animate.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("UserRegister").load());
         } catch (IOException e) {
         }
     }
@@ -137,7 +137,7 @@ public class DoctorRegisterController implements Initializable {
                         }
                         Message.showNotification("Success", MessageType.INFO, "doctorRegisteredSuccess");
                         updateUserLoggued();
-                        Animation.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("Main").load());
+                        Animate.MakeDefaultFadeTransition(mainView, App.getFXMLLoader("Main").load());
                         data.removeData("userBuffer");
                     }
                 } catch (Exception e) {

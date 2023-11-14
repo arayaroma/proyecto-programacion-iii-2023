@@ -1,6 +1,5 @@
 package cr.ac.una.clinicauna.controller;
 
-import cr.ac.una.clinicauna.components.Animation;
 import cr.ac.una.clinicauna.model.PatientDto;
 import cr.ac.una.clinicauna.util.Data;
 import java.net.URL;
@@ -19,6 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.una.clinicauna.App;
+import cr.ac.una.clinicauna.animations.Animate;
 import cr.ac.una.clinicauna.animations.FlipInY;
 import cr.ac.una.clinicauna.model.MedicalExamDto;
 import cr.ac.una.clinicauna.model.PatientCareDto;
@@ -139,7 +139,7 @@ public class PatientHistoryController implements Initializable {
         try {
             data.removeData("patientBuffer");
             FXMLLoader loader = App.getFXMLLoader("Main");
-            Animation.MakeDefaultFadeTransition(mainStack, loader.load());
+            Animate.MakeDefaultFadeTransition(mainStack, loader.load());
             MainController controller = loader.getController();
             if (controller != null) {
                 if (isFromReportView) {
@@ -157,19 +157,19 @@ public class PatientHistoryController implements Initializable {
     @FXML
     private void btnNewHistoryAction(ActionEvent event) throws IOException {
         data.setData("patientPersonalHistoryBuffer", patientBuffer.getPatientPersonalHistory());
-        Animation.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("PatientCareRegister").load());
+        Animate.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("PatientCareRegister").load());
     }
 
     @FXML
     private void btnNewMedicalExamAction(ActionEvent event) throws IOException {
         data.setData("patientPersonalHistoryBuffer", patientBuffer.getPatientPersonalHistory());
-        Animation.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("MedicalExamRegister").load());
+        Animate.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("MedicalExamRegister").load());
     }
 
     @FXML
     private void editPatientAction(MouseEvent event) throws IOException {
         FXMLLoader loader = App.getFXMLLoader("PatientRegister");
-        Animation.MakeDefaultFadeTransition(mainStack, loader.load());
+        Animate.MakeDefaultFadeTransition(mainStack, loader.load());
         PatientRegisterController controller = loader.getController();
         if (controller != null) {
             controller.loadView("patientHistory");
@@ -178,7 +178,7 @@ public class PatientHistoryController implements Initializable {
 
     @FXML
     private void editPersonalHistoryAction(MouseEvent event) throws IOException {
-        Animation.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("PatientPersonalHistoryRegister").load());
+        Animate.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("PatientPersonalHistoryRegister").load());
     }
 
     @FXML
@@ -189,7 +189,7 @@ public class PatientHistoryController implements Initializable {
 
     @FXML
     private void editFamilyHistoryAction(MouseEvent event) throws IOException {
-        Animation.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("PatientFamilyHistoryRegister").load());
+        Animate.MakeDefaultFadeTransition(mainStack, App.getFXMLLoader("PatientFamilyHistoryRegister").load());
     }
 
     @FXML
