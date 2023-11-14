@@ -249,8 +249,6 @@ public class PatientCareRegisterController implements Initializable {
 
     private void calculateIMC() {
         try {
-//            String weightString = spWeight.getEditor().getText();
-//            String weightString = spWeight.getEditor().getText();
             double weight = spWeight.getValue();
             double height = spHeight.getValue();
             double imc = weight / (height * height);

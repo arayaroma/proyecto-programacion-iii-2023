@@ -93,7 +93,6 @@ public class AgendaModuleController implements Initializable {
     private List<UserDto> userDtos = new ArrayList<>();
     private List<String> hoursCalculated = new ArrayList<>();
     private Data data = Data.getInstance();
-    private List<Header> headers = new ArrayList<>();
     private MedicalAppointmentDto medicalAppointentBuffer;
     private MedicalAppointmentService medicalAppointmentService = new MedicalAppointmentService();
     private UserDto userLoggued;
@@ -107,7 +106,7 @@ public class AgendaModuleController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         userLoggued = (UserDto) data.getData("userLoggued");
         countWeeks = (Integer) data.getData("countWeeks");
-        countWeeks = countWeeks == null ? 0 : countWeeks;
+        countWeeks = countWeeks == null ? 0 : countWeeks;//Set the actual week: 0 is actual and then plus and min the weeks
         setDays(countWeeks);
         initializeComboBox();
         loadDoctors();
@@ -164,6 +163,9 @@ public class AgendaModuleController implements Initializable {
         }
     }
 
+    /**
+     * Initialize all the requires in grid
+     */
     private void loadGrid() {
         cleanAgenda();
         loadActualWeek();
@@ -174,6 +176,7 @@ public class AgendaModuleController implements Initializable {
         loadAgendas(doctorBuffer);
     }
 
+    
     private void loadActualWeek() {
         if (doctorBuffer != null) {
             weekendAgendas.clear();
@@ -238,6 +241,13 @@ public class AgendaModuleController implements Initializable {
         }
     }
 
+    /**
+     * Update the medical appointment when is dragged
+     * @param medicalAppointmentDto
+     * @param newTime
+     * @param newDate
+     * @return 
+     */
     private boolean updateMedicalAppointment(MedicalAppointmentDto medicalAppointmentDto, String newTime, LocalDate newDate) {
         try {
             if (medicalAppointmentDto != null) {
@@ -349,6 +359,9 @@ public class AgendaModuleController implements Initializable {
         }
     }
 
+    /**
+     * Set just the information required of the object
+     */
     private void initializeComboBox() {
         cbDoctor.setCellFactory(param -> new ListCell<UserDto>() {
             @Override
@@ -375,23 +388,20 @@ public class AgendaModuleController implements Initializable {
         });
     }
 
+    /**
+     * Set the week on the agenda
+     *
+     * @param weekOffset
+     */
     private void setDays(int weekOffset) {
-        LocalDate date;
-        if (weekOffset == 0) {
-            date = LocalDate.now();
-        } else if (weekOffset > 0) {
-            date = LocalDate.now().plusWeeks(weekOffset);
-        } else {
-            date = LocalDate.now().minusWeeks(-weekOffset);
-        }
+        LocalDate date = (weekOffset == 0) ? LocalDate.now() : (weekOffset > 0)
+                ? LocalDate.now().plusWeeks(weekOffset) : LocalDate.now().minusWeeks(-weekOffset);
 
-        AgendaBuilder agenda = AgendaBuilder
-                .builder()
-                .withActualDate(date)
-                .build();
+        AgendaBuilder agenda = AgendaBuilder.builder().withActualDate(date).build();
         localDays.clear();
         localDays = agenda.calculateWeekDays(date);
         days.clear();
+
         for (int i = 0; i < localDays.size(); i++) {
             removeNodeInGrid(0, i + 1);
             LocalDate actualDay = localDays.get(i);
@@ -431,6 +441,15 @@ public class AgendaModuleController implements Initializable {
         return header;
     }
 
+    /**
+     * Determinate the intermediate hours into a interval time depending of
+     * fields por hour
+     *
+     * @param startTime
+     * @param endTime
+     * @param fieldsPerHour
+     * @return
+     */
     private List<String> calculateHours(String startTime, String endTime, Long fieldsPerHour) {
         List<String> result = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
@@ -448,6 +467,11 @@ public class AgendaModuleController implements Initializable {
         return result;
     }
 
+    /**
+     * Load a hours list on the agenda view
+     *
+     * @param hours
+     */
     private void loadHours(List<String> hours) {
         for (int i = 0; i < hours.size(); i++) {
             medicalAppointmentsHours.put(hours.get(i), i + 1);
@@ -458,36 +482,27 @@ public class AgendaModuleController implements Initializable {
         }
     }
 
+    /**
+     * Visual medical appointment card
+     *
+     * @param medicalAppointmentDto
+     * @return
+     */
     private AppointmentNode createMedicalAppointmentCard(MedicalAppointmentDto medicalAppointmentDto) {
         AppointmentNode appointmentNode = new AppointmentNode(medicalAppointmentDto);
         appointmentNode.setAlignment(Pos.CENTER);
         PatientDto patientDto = medicalAppointmentDto.getPatient();
         if (patientDto != null) {
-            Label name = new Label(patientDto.getName());
-            Label numberPhone = new Label("Tel: " + patientDto.getPhoneNumber());
-            appointmentNode.getChildren().addAll(name, numberPhone);
+            appointmentNode.getChildren().addAll(new Label(patientDto.getName()), new Label("Tel: " + patientDto.getPhoneNumber()));
             appointmentNode.getStyleClass().add("cardMedicalAppointment");
         }
-        switch (medicalAppointmentDto.getState().toLowerCase()) {
-            case "attended":
-                appointmentNode.getStyleClass().add("attended");
-                break;
-            case "scheduled":
-                appointmentNode.getStyleClass().add("scheduled");
-                break;
-            case "absent":
-                appointmentNode.getStyleClass().add("absent");
-                break;
-            case "cancelled":
-                appointmentNode.getStyleClass().add("cancelled");
-                break;
-        }
+        appointmentNode.getStyleClass().add(medicalAppointmentDto.getState().toLowerCase());
         appointmentNode.setOnMouseClicked(e -> createMedicalAppointment(e, appointmentNode.getMedicalAppointmentDto()));
         intializeDragAndDrop(appointmentNode);
         return appointmentNode;
-
     }
-    Node nodeBuffer;
+
+    Node nodeBuffer;//Node buffer of the medical appointment
 
     private void intializeDragAndDrop(Node node) {
         node.setOnDragDetected((event) -> {
@@ -517,9 +532,7 @@ public class AgendaModuleController implements Initializable {
                             gpAgenda.getChildren().remove(nodeBuffer);
                             gpAgenda.add(nodeBuffer, col, row);
                             ((AppointmentNode) nodeBuffer).setMedicalAppointmentDto(medicalAppointentBuffer);
-                            new Thread(() -> {
-                                updateAgendas(doctorBuffer);
-                            }).start();
+                            new Thread(() -> updateAgendas(doctorBuffer)).start();
                         }
                     }
 
@@ -563,9 +576,7 @@ public class AgendaModuleController implements Initializable {
             for (int j = 1; j < gpAgenda.getColumnCount(); j++) {
                 HBox hBox = new HBox();
                 hBox.getStyleClass().add("paneContainer");
-                hBox.setOnMouseClicked(event -> {
-                    createMedicalAppointment(event, null);
-                });
+                hBox.setOnMouseClicked(event -> createMedicalAppointment(event, null));
                 gpAgenda.add(hBox, j, i);
             }
         }
@@ -591,14 +602,9 @@ public class AgendaModuleController implements Initializable {
             }
             data.setData("fechaAppointment", day);
             data.setData("hourAppointment", hour);
-
             data.setData("doctorBuffer", doctorBuffer);
             data.setData("scheduledBy", userLoggued);
-            if (medicalAppointmentDto != null && medicalAppointmentDto.getState().equals("CANCELLED")) {
-                data.setData("medicalAppointmentBuffer", null);
-            } else {
-                data.setData("medicalAppointmentBuffer", medicalAppointmentDto);
-            }
+            data.setData("medicalAppointmentBuffer", medicalAppointmentDto != null && medicalAppointmentDto.getState().equals("CANCELLED") ? null : medicalAppointmentDto);
             data.setData("countWeeks", countWeeks);
             openMedicalAppointmentRegisterView();
         } catch (Exception e) {
