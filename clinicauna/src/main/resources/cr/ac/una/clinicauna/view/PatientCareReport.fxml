@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXTextField?>
-<?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -50,95 +49,6 @@
                      </columnResizePolicy>
                   </TableView>
                </children>
-            </VBox>
-            <VBox alignment="TOP_CENTER" maxWidth="600.0">
-               <children>
-                  <VBox VBox.vgrow="ALWAYS">
-                     <children>
-                        <HBox alignment="CENTER_LEFT">
-                           <children>
-                              <Label text="%generalInformation">
-                                 <styleClass>
-                                    <String fx:value="h2" />
-                                    <String fx:value="title" />
-                                 </styleClass>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="5.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <Label text="%identification">
-                                 <styleClass>
-                                    <String fx:value="h3" />
-                                    <String fx:value="title" />
-                                 </styleClass>
-                              </Label>
-                              <Label fx:id="lblIdentification" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <Label text="%fullName">
-                                 <styleClass>
-                                    <String fx:value="h3" />
-                                    <String fx:value="title" />
-                                 </styleClass>
-                              </Label>
-                              <Label fx:id="lblFullName" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <Label text="%birthDate">
-                                 <styleClass>
-                                    <String fx:value="h3" />
-                                    <String fx:value="title" />
-                                 </styleClass>
-                              </Label>
-                              <Label fx:id="lblBirthDate" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <Label text="%phoneNumber">
-                                 <styleClass>
-                                    <String fx:value="h3" />
-                                    <String fx:value="title" />
-                                 </styleClass>
-                              </Label>
-                              <Label fx:id="lblPhoneNumber" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <Label text="%gender">
-                                 <styleClass>
-                                    <String fx:value="h3" />
-                                    <String fx:value="title" />
-                                 </styleClass>
-                              </Label>
-                              <Label fx:id="lblGender" />
-                           </children>
-                        </HBox>
-                        <Button mnemonicParsing="false" onAction="#btnViewPatientCare" text="%viewPatientCare">
-                           <padding>
-                              <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                           </padding>
-                           <styleClass>
-                              <String fx:value="btn" />
-                              <String fx:value="orange-color" />
-                           </styleClass>
-                        </Button>
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </VBox.margin>
-                  </VBox>
-               </children>
-               <styleClass>
-                  <String fx:value="bg-gray" />
-                  <String fx:value="component" />
-               </styleClass>
             </VBox>
          </children>
          <VBox.margin>

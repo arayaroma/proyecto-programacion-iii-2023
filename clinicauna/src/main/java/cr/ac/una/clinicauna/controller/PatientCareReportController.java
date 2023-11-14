@@ -58,16 +58,6 @@ public class PatientCareReportController implements Initializable {
     private TableColumn<PatientDto, String> tcPhone;
     @FXML
     private TableColumn<PatientDto, String> tcRole;
-    @FXML
-    private Label lblIdentification;
-    @FXML
-    private Label lblFullName;
-    @FXML
-    private Label lblBirthDate;
-    @FXML
-    private Label lblPhoneNumber;
-    @FXML
-    private Label lblGender;
     private PatientService patientService = new PatientService();
     private ReportService reportService = new ReportService();
     private PatientDto patientBuffer;
@@ -107,7 +97,6 @@ public class PatientCareReportController implements Initializable {
         }
     }
 
-    @FXML
     private void btnViewPatientCare(ActionEvent event) throws IOException {
         if (patientBuffer != null) {
             if (patientBuffer.getPatientPersonalHistory() == null) {
@@ -137,7 +126,7 @@ public class PatientCareReportController implements Initializable {
                 if (response.getCode() != ResponseCode.OK) {
                     Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
                 }
-            } else{
+            } else {
                 ResponseWrapper response = reportService.createPatientReport(patientBuffer.getId(), "es");
                 if (response.getCode() != ResponseCode.OK) {
                     Message.showNotification(response.getCode().name(), MessageType.ERROR, response.getMessage());
@@ -189,25 +178,11 @@ public class PatientCareReportController implements Initializable {
         tblPatientsView.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
                     patientBuffer = newValue;
-                    bindPatient();
-
                 });
     }
 
     private void loadPatients(List<PatientDto> patients) {
         tblPatientsView.setItems(FXCollections.observableArrayList(patients));
-    }
-
-    private void bindPatient() {
-        if (patientBuffer != null) {
-            lblFullName.setText(patientBuffer.getName() + " " + patientBuffer.getFirstLastname() + " "
-                    + patientBuffer.getSecondLastname());
-            lblIdentification.setText(patientBuffer.getIdentification());
-            lblBirthDate.setText(patientBuffer.getBirthDate());
-            lblPhoneNumber.setText(patientBuffer.getPhoneNumber());
-            lblGender.setText(patientBuffer.getGender());
-
-        }
     }
 
 }

@@ -212,7 +212,7 @@
                                         </VBox>
                                     </children>
                                 </VBox>
-                                <HBox>
+                                <HBox spacing="30.0">
                                     <children>
                                         <Button mnemonicParsing="false" onAction="#btnCreateMedicalAppointment" text="%newMedicalAppointment" textAlignment="CENTER">
                                             <styleClass>
@@ -221,6 +221,13 @@
                                                 <String fx:value="h3" />
                                             </styleClass>
                                         </Button>
+                              <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#btnDeleteMedicalAppointment" text="%delete" textAlignment="CENTER">
+                                 <styleClass>
+                                    <String fx:value="btn" />
+                                    <String fx:value="red-color" />
+                                    <String fx:value="h3" />
+                                 </styleClass>
+                              </Button>
                                     </children>
                                 </HBox>
                             </children>
