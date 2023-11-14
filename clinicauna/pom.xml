@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <!-- fadv -->
     <modelVersion>4.0.0</modelVersion>
     <groupId>cr.ac.una.clinicauna</groupId>
@@ -67,6 +67,72 @@
     </dependencies>
     <build>
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>target/jmods</outputDirectory>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeScope>runtime</includeScope>
+                            <outputDirectory>target/jmods</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>1.6.0</version>
+
+                <configuration>
+                    <name>Clinicauna</name>
+                    <appVersion>${project.version}</appVersion>
+                    <vendor>cr.ac.una.clinicauna</vendor>
+                    <runtimeImage>${java.home}</runtimeImage>
+                    <module>Clinicauna/cr.ac.una.clinicauna.App</module>
+                    <modulePaths>
+                        <modulePath>target/jmods</modulePath>
+                    </modulePaths>
+                    <destination>target/dist</destination>
+                    <javaOptions>
+                        <javaOption>--enable-preview</javaOption>
+                        <javaOption>-Dfile.encoding=UTF-8</javaOption>
+                        <javaOption>java.base/sun.security.util=ALL-UNNAMED</javaOption>
+                        <javaOption>
+                            -Djava.security.properties=/usr/lib/jvm/java-17-openjdk/conf/security/java.security</javaOption>
+                    </javaOptions>
+                    <type>APP_IMAGE</type>
+                    <verbose>true</verbose>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>mac</id>
+                        <configuration>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>win</id>
+                        <configuration>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -101,7 +167,7 @@
                         <option>--add-opens</option>
                         <option>java.base/java.lang.reflect=com.jfoenix</option>
                     </options>
-                    
+
                     <stripDebug>true</stripDebug>
                     <compress>2</compress>
                     <noHeaderFiles>true</noHeaderFiles>
@@ -124,7 +190,8 @@
                         <configuration>
                             <options>
                                 <option>--add-exports</option>
-                                <option>javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix</option>
+                                <option>
+                                    javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix</option>
                                 <option>--add-exports</option>
                                 <option>javafx.controls/com.sun.javafx.scene.control=com.jfoenix</option>
                                 <option>--add-exports</option>
@@ -135,7 +202,8 @@
                                 <option>javafx.base/com.sun.javafx.event=com.jfoenix</option>
                                 <option>--add-opens</option>
                                 <option>java.base/java.lang.reflect=com.jfoenix</option>
-                                <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=localhost:8000</option>
+                                <option>
+                                    -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=localhost:8000</option>
                             </options>
                         </configuration>
                     </execution>
@@ -145,7 +213,8 @@
                         <configuration>
                             <options>
                                 <option>--add-exports</option>
-                                <option>javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix</option>
+                                <option>
+                                    javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix</option>
                                 <option>--add-exports</option>
                                 <option>javafx.controls/com.sun.javafx.scene.control=com.jfoenix</option>
                                 <option>--add-exports</option>
@@ -156,7 +225,8 @@
                                 <option>javafx.base/com.sun.javafx.event=com.jfoenix</option>
                                 <option>--add-opens</option>
                                 <option>java.base/java.lang.reflect=com.jfoenix</option>
-                                <option>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</option>
+                                <option>
+                                    -agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</option>
                             </options>
                         </configuration>
                     </execution>
