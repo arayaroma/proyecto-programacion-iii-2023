@@ -14,9 +14,7 @@
     -fx-effect: dropshadow(gaussian, -fx-orange, 10, 0, 0, 0);
 }
 .up-menu{
-    /*    -fx-border-width: 20;*/
-    -fx-border-color: transparent transparent -fx-orange  transparent;
-    /*    -fx-effect: dropshadow(gaussian, -fx-orange, 10, 0, 0, 0);*/
+    -fx-border-color: transparent transparent -fx-orange  transparent; 
 }
 .lateral-menu{
     -fx-background-radius:0 20px 20px 0;

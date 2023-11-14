@@ -8,9 +8,6 @@
 .chart-vertical-grid-lines {
     -fx-stroke: -fx-orange;
 }
-/*.chart-horizontal-grid-lines {
-    -fx-stroke: red;
-}*/
 .axis {
     -fx-tick-label-fill: -fx-orange;
 }
