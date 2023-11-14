@@ -113,10 +113,8 @@
                         <javaOption>--enable-preview</javaOption>
                         <javaOption>-Dfile.encoding=UTF-8</javaOption>
                         <javaOption>java.base/sun.security.util=ALL-UNNAMED</javaOption>
-                        <javaOption>
-                            -Djava.security.properties=/usr/lib/jvm/java-17-openjdk/conf/security/java.security</javaOption>
                     </javaOptions>
-                    <type>APP_IMAGE</type>
+                    <type>DEB</type>
                     <verbose>true</verbose>
                 </configuration>
 
