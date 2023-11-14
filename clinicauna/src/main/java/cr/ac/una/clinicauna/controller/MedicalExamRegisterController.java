@@ -54,7 +54,6 @@ public class MedicalExamRegisterController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         medicalExamBuffer = (MedicalExamDto) data.getData("medicalExamBuffer");
         patientPersonalHistoryDto = (PatientPersonalHistoryDto) data.getData("patientPersonalHistoryBuffer");
         if (patientPersonalHistoryDto != null) {
