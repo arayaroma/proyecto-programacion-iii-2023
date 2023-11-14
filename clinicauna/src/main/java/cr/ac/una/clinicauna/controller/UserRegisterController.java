@@ -33,6 +33,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.control.Toggle;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -214,37 +215,28 @@ public class UserRegisterController implements Initializable {
             txfUsername.textProperty().bindBidirectional(userModified.username);
             txfPhoneNumber.textProperty().bindBidirectional(userModified.phoneNumber);
             cbLanguage.valueProperty().bindBidirectional(userModified.language);
-            roleGroup.selectedToggleProperty()
-                    .addListener((ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) -> {
-                        if (newValue != null && userModified != null) {
-                            userModified.setRole(((RadioButton) newValue).getText());
-                        }
-                    });
-
+            roleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null && userModified != null) {
+                    userModified.setRole(((RadioButton) newValue).getText());
+                }
+            });
             if (isEditing) {
                 UserDto userLoggued = (UserDto) data.getData("userLoggued");
                 if (userLoggued != null && !userLoggued.getIsAdmin().equals("Y")) {
                     rolesGroup.setDisable(true);
                 }
-                roleGroup.getToggles().forEach(t -> {
-                    if (t instanceof RadioButton) {
-                        if (userModified.getRole().toLowerCase().equals("administrator")) {
-                            if (((RadioButton) t).getText().toLowerCase().equals("admin")
-                                    || ((RadioButton) t).getText().toLowerCase().equals("administrador")) {
-                                t.setSelected(true);
-                            }
-                        } else if (userModified.getRole().toLowerCase().equals("recepcionist")) {
-                            if (((RadioButton) t).getText().toLowerCase().equals("recepcionist")
-                                    || ((RadioButton) t).getText().toLowerCase().equals("recepcionista")) {
-                                t.setSelected(true);
-                            }
-                        } else if (userModified.getRole().toLowerCase().equals("doctor")) {
-                            if (((RadioButton) t).getText().toLowerCase().equals("doctor")) {
-                                t.setSelected(true);
-                            }
+                roleGroup.getToggles().forEach(toggle -> {
+                    if (toggle instanceof RadioButton) {
+                        String role = userModified.getRole().toLowerCase();
+                        String toggleText = ((RadioButton) toggle).getText().toLowerCase();
+                        if ((role.equals("administrator") && (toggleText.equals("admin") || toggleText.equals("administrador")))
+                                || (role.equals("recepcionist") && (toggleText.equals("recepcionist") || toggleText.equals("recepcionista")))
+                                || (role.equals("doctor") && toggleText.equals("doctor"))) {
+                            toggle.setSelected(true);
                         }
                     }
                 });
+
                 if (userModified.getProfilePhoto() != null) {
                     imgPhotoProfile.setImage(ImageLoader.setImage(userModified.getProfilePhoto()));
                 }
@@ -276,13 +268,9 @@ public class UserRegisterController implements Initializable {
         List<Node> fields = Arrays.asList(txfName, txfLastName, txfSencondLastName, txfEmail, txfIdentification,
                 txfPassword, txfUsername, txfPhoneNumber, cbLanguage);
         for (Node i : fields) {
-            if (i instanceof JFXTextField && ((JFXTextField) i).getText() != null
-                    && ((JFXTextField) i).getText().isBlank()) {
+            if ((i instanceof JFXTextField || i instanceof JFXPasswordField) && ((TextInputControl) i).getText().isBlank()) {
                 return false;
-            } else if (i instanceof ComboBox && ((ComboBox) i).getValue() == null) {
-                return false;
-            } else if (i instanceof JFXPasswordField && ((JFXPasswordField) i).getText() != null
-                    && ((JFXPasswordField) i).getText().isBlank()) {
+            } else if (i instanceof ComboBox && ((ComboBox<?>) i).getValue() == null) {
                 return false;
             }
         }

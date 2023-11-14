@@ -131,16 +131,10 @@ public class UserModuleController implements Initializable {
         tcName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tcPhone.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         tcRole.setCellValueFactory(new PropertyValueFactory<>("role"));
-        tblUsersView.getSelectionModel().selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> {
-                    userBuffer = newValue;
-                    if (userBuffer != null) {
-                        btnEdit.setDisable(false);
-                        return;
-                    }
-                    btnEdit.setDisable(true);
-
-                });
+        tblUsersView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            userBuffer = newValue;
+            btnEdit.setDisable(userBuffer == null);
+        });
     }
 
     private List<UserDto> filterUsers(List<UserDto> users, String parameter, String key) {
