@@ -118,7 +118,7 @@
                                     <Insets left="10.0" />
                                  </padding>
                               </JFXTextField>
-                              <FlowPane alignment="CENTER_LEFT" columnHalignment="CENTER" hgap="10.0" prefWrapLength="300.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                              <FlowPane fx:id="rolesGroup" alignment="CENTER_LEFT" columnHalignment="CENTER" hgap="10.0" prefWrapLength="300.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                  <children>
                                     <RadioButton mnemonicParsing="false" styleClass="p" text="%admin">
                                        <toggleGroup>

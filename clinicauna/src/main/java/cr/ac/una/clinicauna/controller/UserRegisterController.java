@@ -35,6 +35,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
@@ -72,15 +73,16 @@ public class UserRegisterController implements Initializable {
     private HBox parent;
     @FXML
     private ImageView imgPhotoProfile;
+    @FXML
+    private StackPane stack;
+    @FXML
+    private FlowPane rolesGroup;
     private UserService userService = new UserService();
     private UserDto userModified = new UserDto();
     private DoctorService doctorService = new DoctorService();
     private boolean isFromDoctorModule = false;
     private boolean isEditing = false;
     private Data data = Data.getInstance();
-
-    @FXML
-    private StackPane stack;
 
     /**
      * Initializes the controller class.
@@ -220,6 +222,10 @@ public class UserRegisterController implements Initializable {
                     });
 
             if (isEditing) {
+                UserDto userLoggued = (UserDto) data.getData("userLoggued");
+                if (userLoggued != null && !userLoggued.getIsAdmin().equals("Y")) {
+                    rolesGroup.setDisable(true);
+                }
                 roleGroup.getToggles().forEach(t -> {
                     if (t instanceof RadioButton) {
                         if (userModified.getRole().toLowerCase().equals("administrator")) {
