@@ -1,5 +1,6 @@
 package cr.ac.una.clinicauna.services;
 
+import cr.ac.una.clinicauna.model.DoctorDto;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.util.Request;
 import cr.ac.una.clinicauna.util.ResponseCode;

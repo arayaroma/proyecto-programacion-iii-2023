@@ -117,6 +117,7 @@ public class DoctorModuleController implements Initializable {
                 controller.loadFlags(true);
             }
         } catch (Exception e) {
+            System.out.println(e.toString());
         }
     }
 
