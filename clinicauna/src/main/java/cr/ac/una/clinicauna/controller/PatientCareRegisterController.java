@@ -148,19 +148,19 @@ public class PatientCareRegisterController implements Initializable {
     }
 
     private void setParameters(PatientCareDto patientCareDto) {
+        String height = spHeight.getEditor().getText();
+        String weight = spWeight.getEditor().getText();
         patientCareDto.setBloodPressure(spBloodPresure.getEditor().getText());
         patientCareDto.setBodyMassIndex(lblBodyMassIndex.getText());
         patientCareDto.setHeartRate(spHeartRate.getEditor().getText());
-        patientCareDto.setHeight(spHeight.getEditor().getText());
-        patientCareDto.setWeight(spWeight.getEditor().getText());
+        patientCareDto.setHeight(height);
+        patientCareDto.setWeight(weight);
         patientCareDto.setTemperature(spTemperature.getEditor().getText());
-        Double heightInCM = Double.parseDouble(patientCareDto.getHeight()) * 100;
-        Double height = Double.valueOf(patientCareDto.getHeight());
+        Double heightInCM = Double.parseDouble(height) * 100;
         Double idealWeight = heightInCM - 100 - ((heightInCM - 150) / 4);
-        Double idealIMC = idealWeight / (height * height);
-        idealIMC = idealIMC < 0 ? 0 : idealIMC;
-        DecimalFormat format = new DecimalFormat("#.##");
-        patientCareDto.setBodyMassIndexIdeal(format.format(idealIMC));
+        Double idealIMC = idealWeight / (Double.valueOf(height) * Double.valueOf(height));
+        idealIMC = Math.max(0, idealIMC);
+        patientCareDto.setBodyMassIndexIdeal(String.format("%.2f", idealIMC));
     }
 
     private void initializeSpinners() {

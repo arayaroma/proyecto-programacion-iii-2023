@@ -82,7 +82,7 @@ public class PatientCareService {
     public ResponseWrapper deletePatientCare(Long id) {
         try {
             Map params = new HashMap();
-            params.get(id);
+            params.put("id", id);
             Request request = new Request("PatientCareController/delete", "/{id}", params);
             request.delete();
             if (request.isError()) {

@@ -123,10 +123,10 @@
                         <String fx:value="btn" />
                         <String fx:value="orange-color" />
                      </styleClass></Button>
-                  <Button fx:id="btnViewMedicalAppointment" mnemonicParsing="false" onAction="#btnViewMedicalAppointmentAction" text="%viewMedicalAppointment">
+                  <Button mnemonicParsing="false" onAction="#btnDeleteMedicalAppointmentAction" text="%delete">
                      <styleClass>
                         <String fx:value="btn" />
-                        <String fx:value="orange-color" />
+                        <String fx:value="red-color" />
                      </styleClass>
                   </Button>
                </children>

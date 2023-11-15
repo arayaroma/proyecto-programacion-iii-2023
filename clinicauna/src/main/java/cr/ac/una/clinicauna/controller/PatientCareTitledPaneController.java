@@ -4,14 +4,18 @@ import com.jfoenix.controls.JFXTextArea;
 import cr.ac.una.clinicauna.App;
 import cr.ac.una.clinicauna.model.PatientCareDto;
 import cr.ac.una.clinicauna.model.PatientPersonalHistoryDto;
+import cr.ac.una.clinicauna.services.PatientCareService;
 import cr.ac.una.clinicauna.util.Data;
+import cr.ac.una.clinicauna.util.Message;
+import cr.ac.una.clinicauna.util.MessageType;
+import cr.ac.una.clinicauna.util.ResponseCode;
+import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -46,8 +50,8 @@ public class PatientCareTitledPaneController implements Initializable {
     private JFXTextArea txfTreatment;
     @FXML
     private Label lblIMC;
-    @FXML
-    private Button btnViewMedicalAppointment;
+    private PatientHistoryController patientHistoryController;
+    private PatientCareService patientCareService = new PatientCareService();
     private PatientCareDto patientCareBuffer;
     private PatientPersonalHistoryDto patientPersonalHistoryBuffer;
     private Data data = Data.getInstance();
@@ -57,6 +61,7 @@ public class PatientCareTitledPaneController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        patientHistoryController = (PatientHistoryController) data.getData("patientHistoryController");
     }
 
     @FXML
@@ -66,15 +71,10 @@ public class PatientCareTitledPaneController implements Initializable {
         App.setRoot("PatientCareRegister");
     }
 
-    @FXML
-    private void btnViewMedicalAppointmentAction(ActionEvent event) {
-    }
-
     public void setData(PatientCareDto patientCareDto, PatientPersonalHistoryDto personalHistoryDto) {
         patientCareBuffer = patientCareDto;
         patientPersonalHistoryBuffer = personalHistoryDto;
         bindPatientCare();
-        btnViewMedicalAppointment.setVisible(false);
     }
 
     public void bindPatientCare() {
@@ -89,6 +89,18 @@ public class PatientCareTitledPaneController implements Initializable {
             txfCarePlan.textProperty().bindBidirectional(patientCareBuffer.carePlan);
             txfTreatment.textProperty().bindBidirectional(patientCareBuffer.treatment);
             lblIMC.setText(patientCareBuffer.getBodyMassIndex());
+        }
+    }
+
+    @FXML
+    private void btnDeleteMedicalAppointmentAction(ActionEvent event) {
+        if (patientCareBuffer.getId() != null) {
+            ResponseWrapper response = patientCareService.deletePatientCare(patientCareBuffer.getId());
+            if (response.getCode() != ResponseCode.OK) {
+                Message.showNotification("ERROR", MessageType.ERROR, response.getMessage());
+                return;
+            }
+            patientHistoryController.deletePatientCare(patientCareBuffer.getId());
         }
     }
 

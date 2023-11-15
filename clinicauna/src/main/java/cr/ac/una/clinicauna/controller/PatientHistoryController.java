@@ -32,8 +32,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
+import javafx.scene.Node;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -131,7 +133,6 @@ public class PatientHistoryController implements Initializable {
             System.out.println(e.toString());
             backAction(null);
         }
-
     }
 
     @FXML
@@ -151,6 +152,7 @@ public class PatientHistoryController implements Initializable {
 
             }
         } catch (IOException e) {
+            System.out.println(e.toString());
         }
     }
 
@@ -251,11 +253,12 @@ public class PatientHistoryController implements Initializable {
         }
     }
 
-    private void loadAccordionPatientCares(List<PatientCareDto> patientCareDtos) {
+    public void loadAccordionPatientCares(List<PatientCareDto> patientCareDtos) {
         try {
             acPatientCares.getPanes().clear();
             Collections.sort(patientCareDtos, (PatientCareDto o1, PatientCareDto o2) -> o1.getPatientCareDate()
                     .compareTo(o2.getPatientCareDate()));
+            data.setData("patientHistoryController", this);
             for (PatientCareDto patientCareDto : patientCareDtos) {
                 FXMLLoader loader = App.getFXMLLoader("PatientCareTitledPane");
                 acPatientCares.getPanes().add(new TitledPane(patientCareDto.getPatientCareDate(), loader.load()));
@@ -334,6 +337,7 @@ public class PatientHistoryController implements Initializable {
      * *
      *
      * @param option MainView, PatientCareView
+     * @param isFromReportView
      */
     public void loadView(String option, boolean isFromReportView) {
         if (option.toLowerCase().equals("mainview")) {
@@ -343,6 +347,11 @@ public class PatientHistoryController implements Initializable {
             patientCareView.toFront();
         }
         this.isFromReportView = isFromReportView;
+    }
+
+    public void deletePatientCare(Long id) {
+        patientCareDtos.removeIf(t -> Objects.equals(t.getId(), id));
+        loadAccordionPatientCares(patientCareDtos);
     }
 
 }
