@@ -71,7 +71,6 @@
    </children>
    <stylesheets>
       <URL value="@../style/index.css" />
-      <URL value="@../style/generalinformationmodule.css" />
       <URL value="@../style/patienthistory.css" />
    </stylesheets>
 </HBox>

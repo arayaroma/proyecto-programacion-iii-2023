@@ -104,6 +104,5 @@
    </children>
    <stylesheets>
       <URL value="@../style/index.css" />
-      <URL value="@../style/usermodule.css" />
    </stylesheets>
 </VBox>
