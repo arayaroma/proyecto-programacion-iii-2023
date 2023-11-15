@@ -14,6 +14,7 @@ import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -119,6 +120,11 @@ public class DoctorModuleController implements Initializable {
         }
     }
 
+    /**
+     * Searching bar
+     *
+     * @param event
+     */
     private void searchUserAction(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             String key = txfSearchDoctor.getText(), parameterKey = cbSearchParameter.getValue();
@@ -131,36 +137,32 @@ public class DoctorModuleController implements Initializable {
     }
 
     private List<UserDto> filterUsers(List<UserDto> users, String parameter, String key) {
-        List<UserDto> usersFiltered = new ArrayList<>();
-        if (users != null) {
-            parameter = parameter.toLowerCase();
-            if (parameter.equals("carne")) {
-                usersFiltered = users
-                        .stream()
-                        .filter(user -> user.getDoctor() != null
-                                && user.getDoctor().getIdCard().toString().toLowerCase().contains(key))
-                        .collect(Collectors.toList());
-            } else if (parameter.equals("code") || parameter.equals("codigo")) {
-                usersFiltered = users
-                        .stream()
-                        .filter(user -> user.getDoctor() != null
-                                && user.getDoctor().getCode().toLowerCase().contains(key))
-                        .collect(Collectors.toList());
-            } else if (parameter.equals("starting time") || parameter.equals("hora de inicio")) {
-                usersFiltered = users
-                        .stream()
-                        .filter(user -> user.getDoctor() != null
-                                && user.getDoctor().getShiftStartTime().toLowerCase().contains(key))
-                        .collect(Collectors.toList());
-            } else if (parameter.equals("ending time") || parameter.equals("hora de fin")) {
-                usersFiltered = users
-                        .stream()
-                        .filter(user -> user.getDoctor() != null
-                                && user.getDoctor().getShiftEndTime().toLowerCase().contains(key))
-                        .collect(Collectors.toList());
-            }
+        if (users == null) {
+            return Collections.emptyList();
         }
-        return usersFiltered;
+
+        String lowerKey = key.toLowerCase();
+        return users.stream()
+                .filter(user -> user.getDoctor() != null && containsIgnoreCase(user, parameter, lowerKey))
+                .collect(Collectors.toList());
+    }
+
+    private boolean containsIgnoreCase(UserDto user, String parameter, String key) {
+        switch (parameter.toLowerCase()) {
+            case "carne":
+                return user.getDoctor().getIdCard().toString().toLowerCase().contains(key);
+            case "code":
+            case "codigo":
+                return user.getDoctor().getCode().toLowerCase().contains(key);
+            case "starting time":
+            case "hora de inicio":
+                return user.getDoctor().getShiftStartTime().toLowerCase().contains(key);
+            case "ending time":
+            case "hora de fin":
+                return user.getDoctor().getShiftEndTime().toLowerCase().contains(key);
+            default:
+                return false;
+        }
     }
 
     private void initializeList() {

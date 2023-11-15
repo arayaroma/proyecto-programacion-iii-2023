@@ -157,7 +157,7 @@ public class ReportService {
         try {
             String path = FileLoader.chooseSavePath();
             if (path == null || path.isBlank()) {
-                return new ResponseWrapper(ResponseCode.CONFLICT.getCode(), ResponseCode.CONFLICT, "Path is required",
+                return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK, "Path is required",
                         null);
             }
             HashMap<String, Object> params = new HashMap<>();
@@ -188,7 +188,7 @@ public class ReportService {
         try {
             String path = FileLoader.chooseSavePath();
             if (path == null || path.isBlank()) {
-                return new ResponseWrapper(ResponseCode.CONFLICT.getCode(), ResponseCode.CONFLICT, "Path is required",
+                return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK, "Path is required",
                         null);
             }
             HashMap<String, Object> params = new HashMap<>();
@@ -219,7 +219,7 @@ public class ReportService {
         try {
             String path = FileLoader.chooseSavePath();
             if (path == null || path.isBlank()) {
-                return new ResponseWrapper(ResponseCode.CONFLICT.getCode(), ResponseCode.CONFLICT, "Path is required",
+                return new ResponseWrapper(ResponseCode.OK.getCode(), ResponseCode.OK, "Path is required",
                         null);
             }
             HashMap params = new HashMap();

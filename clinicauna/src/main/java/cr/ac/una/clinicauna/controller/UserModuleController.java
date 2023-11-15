@@ -14,6 +14,7 @@ import cr.ac.una.clinicauna.util.ResponseWrapper;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -138,36 +139,39 @@ public class UserModuleController implements Initializable {
     }
 
     private List<UserDto> filterUsers(List<UserDto> users, String parameter, String key) {
-        List<UserDto> usersFiltered = new ArrayList<>();
-        if (users != null) {
-            if (parameter.equals("Name") || parameter.equals("Nombre")) {
-                usersFiltered = users
-                        .stream()
-                        .filter(user -> user.getName().toLowerCase().contains(key.toLowerCase()))
-                        .collect(Collectors.toList());
-            } else if (parameter.equals("Last Name") || parameter.equals("Apellido")) {
-                usersFiltered = users
-                        .stream()
-                        .filter(user -> user.getFirstLastname().toLowerCase().contains(key.toLowerCase()))
-                        .collect(Collectors.toList());
-            } else if (parameter.equals("Second Last Name") || parameter.equals("Segundo Apellido")) {
-                usersFiltered = users
-                        .stream()
-                        .filter(user -> user.getSecondLastname().toLowerCase().contains(key.toLowerCase()))
-                        .collect(Collectors.toList());
-            } else if (parameter.equals("Identification") || parameter.equals("Cédula")) {
-                usersFiltered = users
-                        .stream()
-                        .filter(user -> user.getIdentification().contains(key))
-                        .collect(Collectors.toList());
-            } else if (parameter.equals("Role") || parameter.equals("Rol")) {
-                usersFiltered = users
-                        .stream()
-                        .filter(user -> user.getRole().toLowerCase().contains(key.toLowerCase()))
-                        .collect(Collectors.toList());
-            }
+        if (users == null) {
+            return Collections.emptyList();
         }
-        return usersFiltered;
+
+        String lowerKey = key.toLowerCase();
+        return users.stream().filter(user -> {
+            String value;
+            switch (parameter.toLowerCase()) {
+                case "name":
+                case "nombre":
+                    value = user.getName().toLowerCase();
+                    break;
+                case "last name":
+                case "apellido":
+                    value = user.getFirstLastname().toLowerCase();
+                    break;
+                case "second last name":
+                case "segundo apellido":
+                    value = user.getSecondLastname().toLowerCase();
+                    break;
+                case "identification":
+                case "cédula":
+                    value = user.getIdentification();
+                    break;
+                case "role":
+                case "rol":
+                    value = user.getRole().toLowerCase();
+                    break;
+                default:
+                    value = "";
+            }
+            return value.contains(lowerKey);
+        }).collect(Collectors.toList());
     }
 
 }

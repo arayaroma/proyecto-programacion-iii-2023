@@ -35,6 +35,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -176,7 +178,6 @@ public class AgendaModuleController implements Initializable {
         loadAgendas(doctorBuffer);
     }
 
-    
     private void loadActualWeek() {
         if (doctorBuffer != null) {
             weekendAgendas.clear();
@@ -243,10 +244,11 @@ public class AgendaModuleController implements Initializable {
 
     /**
      * Update the medical appointment when is dragged
+     *
      * @param medicalAppointmentDto
      * @param newTime
      * @param newDate
-     * @return 
+     * @return
      */
     private boolean updateMedicalAppointment(MedicalAppointmentDto medicalAppointmentDto, String newTime, LocalDate newDate) {
         try {

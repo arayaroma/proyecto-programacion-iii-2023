@@ -120,9 +120,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnUserModuleAction(ActionEvent event) throws IOException {
-        if (event != null) {
-            focusButton((Node) event.getSource());
-        }
+        focusButton(btnUserModule);
         new Thread(() -> {
             Platform.runLater(() -> {
                 try {
@@ -138,9 +136,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnPatientModuleAction(ActionEvent event) throws IOException {
-        if (event != null) {
-            focusButton((Node) event.getSource());
-        }
+        focusButton(btnPatientModule);
         new Thread(() -> {
             Platform.runLater(() -> {
                 try {
@@ -160,6 +156,7 @@ public class MainController implements Initializable {
     @FXML
     private void btnLogOutAction(ActionEvent event) {
         try {
+
             Animate.MakeDefaultFadeTransition(parent, App.getFXMLLoader("Login").load());
             Data.getInstance().clearData();
         } catch (IOException e) {
@@ -168,9 +165,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnDoctorModuleAction(ActionEvent event) throws IOException {
-        if (event != null) {
-            focusButton((Node) event.getSource());
-        }
+        focusButton(btnDoctorModule);
 
         new Thread(() -> {
             Platform.runLater(() -> {
@@ -226,10 +221,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnGeneralInformationModuleAction(ActionEvent event) throws IOException {
-        if (event != null) {
-            focusButton((Node) event.getSource());
-        }
-
+        focusButton(btnGeneralInformationModule);
         new Thread(() -> {
             Platform.runLater(() -> {
                 try {
@@ -245,10 +237,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnAgendaModuleAction(ActionEvent event) throws IOException {
-        if (event != null) {
-            focusButton((Node) event.getSource());
-        }
-
+        focusButton(btnAgendaModule);
         new Thread(() -> {
             Platform.runLater(() -> {
                 try {
@@ -268,9 +257,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnReportModuleAction(ActionEvent event) throws IOException {
-        if (event != null) {
-            focusButton((Node) event.getSource());
-        }
+        focusButton(btnReportModule);
         new Thread(() -> {
             Platform.runLater(() -> {
                 try {
