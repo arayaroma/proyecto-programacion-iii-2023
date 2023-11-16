@@ -7,10 +7,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 
 /**
  * JavaFX App
- * 
+ *
  * @author arayaroma
  */
 public class App extends Application {
@@ -22,6 +23,8 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         Parent root = getFXMLLoader("Login").load();
         scene = new Scene(root);
+        stage.setTitle("ClinicaUNA");
+        stage.getIcons().add(new Image(App.class.getResource("/cr/ac/una/clinicauna/img/estetoscopio.png").toString()));
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.show();
