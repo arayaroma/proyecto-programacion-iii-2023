@@ -1,11 +1,11 @@
 package cr.ac.una.clinicauna.services;
 
-import cr.ac.una.clinicauna.model.DoctorDto;
 import cr.ac.una.clinicauna.model.UserDto;
 import cr.ac.una.clinicauna.util.Request;
 import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
 import jakarta.ws.rs.core.GenericType;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class UserService {
                     ResponseCode.OK,
                     "User created successfully: ",
                     userDto);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
@@ -61,7 +61,7 @@ public class UserService {
                     ResponseCode.OK,
                     "User retrieved successfully: ",
                     userDto);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
@@ -89,7 +89,7 @@ public class UserService {
                     ResponseCode.OK,
                     "Users retrieved successfully: ",
                     userDtos);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
@@ -115,7 +115,7 @@ public class UserService {
                     ResponseCode.OK,
                     "User updated successfully: ",
                     userDto);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
@@ -141,7 +141,7 @@ public class UserService {
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK, "User removed successfully: ",
                     null);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
@@ -171,7 +171,7 @@ public class UserService {
                     ResponseCode.OK,
                     "User retrieved successfully: ",
                     userDto);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
@@ -197,7 +197,7 @@ public class UserService {
                     ResponseCode.OK,
                     "User retrieved successfully: ",
                     userDto);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
@@ -227,7 +227,7 @@ public class UserService {
                     ResponseCode.OK,
                     "User verified successfully: ",
                     userDto);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
@@ -253,7 +253,7 @@ public class UserService {
                     ResponseCode.OK,
                     "Token renewed successfully: ",
                     token);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,

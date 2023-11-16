@@ -10,6 +10,7 @@ import java.util.List;
 import cr.ac.una.clinicauna.model.ReportDto;
 import cr.ac.una.clinicauna.util.FileLoader;
 import jakarta.ws.rs.core.GenericType;
+import java.io.IOException;
 
 /**
  *
@@ -35,7 +36,7 @@ public class ReportService {
                     ResponseCode.OK,
                     "Report created successfully: ",
                     reportDto);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
@@ -63,7 +64,7 @@ public class ReportService {
                     ResponseCode.OK,
                     "Report retrieved successfully: ",
                     report);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
@@ -91,7 +92,7 @@ public class ReportService {
                     ResponseCode.OK,
                     "Reports retrieved successfully: ",
                     reportDtos);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
@@ -117,7 +118,7 @@ public class ReportService {
                     ResponseCode.OK,
                     "Report updated successfully: ",
                     reportDto);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
@@ -144,7 +145,7 @@ public class ReportService {
                     ResponseCode.OK,
                     "Report deleted successfully: ",
                     null);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
@@ -178,7 +179,7 @@ public class ReportService {
             return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR, "Error creating the PDF",
                     null);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR,
                     "Error in the service: " + ex.toString(), null);
         }
@@ -209,7 +210,7 @@ public class ReportService {
             return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR, "Error creating the PDF",
                     null);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR,
                     "Error in the service: " + ex.toString(), null);
         }
@@ -243,7 +244,7 @@ public class ReportService {
             return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR, "Error creating the PDF",
                     null);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             return new ResponseWrapper(ResponseCode.INTERNAL_SERVER_ERROR.getCode(), ResponseCode.INTERNAL_SERVER_ERROR,
                     "Error in the service: " + ex.toString(), null);
         }

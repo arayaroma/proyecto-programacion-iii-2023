@@ -7,6 +7,7 @@ import cr.ac.una.clinicauna.util.Request;
 import cr.ac.una.clinicauna.util.ResponseCode;
 import cr.ac.una.clinicauna.util.ResponseWrapper;
 import jakarta.ws.rs.core.GenericType;
+import java.io.IOException;
 
 /**
  *
@@ -31,7 +32,7 @@ public class ReportRecipientsService {
                     ResponseCode.OK,
                     "ReportRecipients created successfully: ",
                     reportRecipientsDto);
-        } catch (Exception e) {
+        } catch (IOException e) {
             return new ResponseWrapper(
                     ResponseCode.INTERNAL_SERVER_ERROR.getCode(),
                     ResponseCode.INTERNAL_SERVER_ERROR,
