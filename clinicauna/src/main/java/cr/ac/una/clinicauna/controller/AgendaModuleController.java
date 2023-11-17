@@ -398,12 +398,10 @@ public class AgendaModuleController implements Initializable {
     private void setDays(int weekOffset) {
         LocalDate date = (weekOffset == 0) ? LocalDate.now() : (weekOffset > 0)
                 ? LocalDate.now().plusWeeks(weekOffset) : LocalDate.now().minusWeeks(-weekOffset);
-
         AgendaBuilder agenda = AgendaBuilder.builder().withActualDate(date).build();
         localDays.clear();
         localDays = agenda.calculateWeekDays(date);
         days.clear();
-
         for (int i = 0; i < localDays.size(); i++) {
             removeNodeInGrid(0, i + 1);
             LocalDate actualDay = localDays.get(i);
@@ -429,7 +427,6 @@ public class AgendaModuleController implements Initializable {
             row2 = GridPane.getRowIndex(node);
             if (Objects.equals(column2, column) && Objects.equals(row, row2)) {
                 nodeToRemove.add(node);
-
             }
         }
         gpAgenda.getChildren().removeAll(nodeToRemove);
