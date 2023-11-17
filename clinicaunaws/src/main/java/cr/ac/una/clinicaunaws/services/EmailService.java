@@ -26,6 +26,8 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import jakarta.mail.util.ByteArrayDataSource;
 import java.nio.file.Files;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -43,23 +45,28 @@ public class EmailService {
     @EJB
     ReportService rService;
 
-    private void send(String to, String subject, String body) throws MessagingException {
-        try {
-            Message message = new MimeMessage(mailSession);
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            message.setSubject(subject);
-            message.setContent(body, "text/html");
-            mailSession.getProperties().setProperty("mail.smtp.user", Constants.MAIL_USER);
-            mailSession.getProperties().setProperty("mail.smtp.password", Constants.MAIL_PASSWORD);
-            mailSession.getProperties().setProperty("mail.smtp.starttls.enable", "true");
-            mailSession.getProperties().setProperty("mail.smtp.auth", "true");
-            mailSession.getProperties().setProperty("mail.smtp.port", "587");
-            Transport.send(message);
-            System.out.println("Email sent successfully!");
-        } catch (MessagingException e) {
-            e.printStackTrace();
-            throw new MessagingException("Failed to send email: " + e.getMessage(), e);
-        }
+    private void send(String to, String subject, String body) {
+        new Thread(() -> {
+            try {
+                Message message = new MimeMessage(mailSession);
+                message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+                message.setSubject(subject);
+                message.setContent(body, "text/html");
+                mailSession.getProperties().setProperty("mail.smtp.user", Constants.MAIL_USER);
+                mailSession.getProperties().setProperty("mail.smtp.password", Constants.MAIL_PASSWORD);
+                mailSession.getProperties().setProperty("mail.smtp.starttls.enable", "true");
+                mailSession.getProperties().setProperty("mail.smtp.auth", "true");
+                mailSession.getProperties().setProperty("mail.smtp.port", "587");
+                Transport.send(message);
+                System.out.println("Email sent successfully!");
+            } catch (MessagingException e) {
+                try {
+                    throw new MessagingException("Failed to send email: " + e.getMessage(), e);
+                } catch (MessagingException ex) {
+                    Logger.getLogger(EmailService.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }).start();
     }
 
     private void sendFile(String to, String subject, String body, byte[] pdfBytes, String fileType)

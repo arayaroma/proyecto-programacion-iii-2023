@@ -28,7 +28,6 @@ import cr.ac.una.clinicaunaws.util.ExcelGenerator;
 import java.io.File;
 
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -89,18 +88,12 @@ public class ReportService {
             reportDto.getQueryManager().setResult(result);
             reportDto.getQueryManager().setQuery(report.getQuery());
 
-            File file = ExcelGenerator.getInstance().generateExcelReport(reportDto);
-            if (file != null) {
-                for (ReportRecipientsDto i : reportDto.getReportRecipients()) {
-                    emailService.sendGeneratedReport(i.getEmail(), file);
-                }
-            }
-//            for (int i = 0; i < reportDto.getReportRecipients().size(); i++) {
-//                emailService.sendGeneratedReport(
-//                        reportDto.getReportRecipients().get(i).getEmail(),
-//                        ExcelGenerator.getInstance().generateExcelReport(reportDto));
+//            File file = ExcelGenerator.getInstance().generateExcelReport(reportDto);
+//            if (file != null) {
+//                for (ReportRecipientsDto i : reportDto.getReportRecipients()) {
+//                    emailService.sendGeneratedReport(i.getEmail(), file);
+//                }
 //            }
-
             reportDto = new ReportDto(report);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
@@ -181,6 +174,19 @@ public class ReportService {
         }
     }
 
+    public void sendReport(ReportDto reportDto) {
+        try {
+            File file = ExcelGenerator.getInstance().generateExcelReport(reportDto);
+            if (file != null) {
+                for (ReportRecipientsDto i : reportDto.getReportRecipients()) {
+                    emailService.sendGeneratedReport(i.getEmail(), file);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
     /**
      * update a Report
      *
@@ -201,13 +207,6 @@ public class ReportService {
             List<?> result = getQueryResult(reportDto);
             reportDto.getQueryManager().setResult(result);
             reportDto.getQueryManager().setQuery(report.getQuery());
-
-            File file = ExcelGenerator.getInstance().generateExcelReport(reportDto);
-            if (file != null) {
-                for (ReportRecipientsDto i : reportDto.getReportRecipients()) {
-                    emailService.sendGeneratedReport(i.getEmail(), file);
-                }
-            }
 
             em.merge(report);
             em.flush();
@@ -270,14 +269,14 @@ public class ReportService {
     public ResponseWrapper createPatientReport(Long id, String language) throws IOException, JRException {
 
         try {
-            
+
             JasperReport jReport = compileJasper("medicalRecord");
             ResourceBundle bundle = ResourceBundle.getBundle("jrxml/language", new Locale(language));
-            
+
             if (jReport == null) {
                 System.out.println("ERROR: NO EXISTE EL JASPER");
             }
-            
+
             Map<String, Object> par = new HashMap<>();
             par.put("idPatientCare", id);
             par.put(JRParameter.REPORT_RESOURCE_BUNDLE, bundle);  // Pasar el ResourceBundle al informe
@@ -307,9 +306,9 @@ public class ReportService {
 
     public ResponseWrapper createAgendaReport(Long doctorId, String startDate, String endDate, String language)
             throws IOException, JRException {
-        
+
         try {
-            
+
             JasperReport jReport = compileJasper("agendaReport");
             ResourceBundle bundle = ResourceBundle.getBundle("jrxml/language", new Locale(language));
 
@@ -351,7 +350,7 @@ public class ReportService {
 
         JasperReport jReport = compileJasper("medicalExam");
         ResourceBundle bundle = ResourceBundle.getBundle("jrxml/language", new Locale(language));
-        
+
         try {
             Map<String, Object> par = new HashMap<>();
             par.put("idPatient", patId);
@@ -382,7 +381,7 @@ public class ReportService {
     public JasperReport compileJasper(String jrxmlName) {
         try {
             String absolutePath = "";
-            String jasperPath = "jrxml/"+jrxmlName+".jrxml";
+            String jasperPath = "jrxml/" + jrxmlName + ".jrxml";
             ClassLoader classLoader = getClass().getClassLoader();
             URL resource = classLoader.getResource(jasperPath);
 
@@ -400,7 +399,7 @@ public class ReportService {
                 return null;
             }
             return jReport;
-        }catch (JRException e) {
+        } catch (JRException e) {
             throw new RuntimeException("Error al generar el informe", e);
         }
     }
