@@ -11,7 +11,6 @@ import org.controlsfx.control.Notifications;
 /**
  *
  * @author estebannajera
- * @author arayaroma
  */
 public class Message {
 

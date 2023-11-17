@@ -65,7 +65,6 @@ public class ReportService {
         }
         System.out.println("Query: " + query);
         List<D> queryResponse = (List<D>) em.createNativeQuery(query).getResultList();
-
         report.getQueryManager().setResult(queryResponse);
         report.getQueryManager().setStatus(ResponseCode.OK.getCode().toString());
         System.out.println(queryResponse);
@@ -83,17 +82,9 @@ public class ReportService {
             Report report = reportDto.convertFromDTOToEntity(reportDto, new Report(reportDto));
             em.persist(report);
             em.flush();
-
             List<?> result = getQueryResult(reportDto);
             reportDto.getQueryManager().setResult(result);
             reportDto.getQueryManager().setQuery(report.getQuery());
-
-//            File file = ExcelGenerator.getInstance().generateExcelReport(reportDto);
-//            if (file != null) {
-//                for (ReportRecipientsDto i : reportDto.getReportRecipients()) {
-//                    emailService.sendGeneratedReport(i.getEmail(), file);
-//                }
-//            }
             reportDto = new ReportDto(report);
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
@@ -150,16 +141,13 @@ public class ReportService {
     @SuppressWarnings("unchecked")
     public ResponseWrapper getAllReports() {
         try {
-
             Query query = em.createNamedQuery("Report.findAll", Report.class);
             List<Report> reportList = (List<Report>) query.getResultList();
             List<ReportDto> reportDtoList = new ArrayList<>();
-
             for (Report report : reportList) {
                 ReportDto reportDto = new ReportDto(report);
                 reportDtoList.add(reportDto.convertFromEntityToDTO(report, reportDto));
             }
-
             return new ResponseWrapper(
                     ResponseCode.OK.getCode(),
                     ResponseCode.OK,
