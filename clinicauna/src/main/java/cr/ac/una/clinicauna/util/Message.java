@@ -22,14 +22,11 @@ public class Message {
         } catch (MissingResourceException e) {
             content = property;
         }
-//        if (content.length() > 400) {//Verify the message length
-//            content = content.substring(0, 400);
-//        }
         Notifications notification = Notifications.create()
                 .title(header)
                 .text(content)
                 .graphic(null)
-                .hideAfter(Duration.seconds(5))
+                .hideAfter(Duration.seconds(7))
                 .darkStyle()
                 .position(Pos.TOP_RIGHT);
         switch (type) {
