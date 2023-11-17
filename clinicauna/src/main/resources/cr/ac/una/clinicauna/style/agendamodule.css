@@ -57,3 +57,10 @@
 .absent:hover{
     -fx-background-color: -fx-white-black;
 }
+.delete-zone{
+    -fx-background-color: -fx-red;
+    -fx-border-color: -fx-orange;
+}
+.delete-zone-hover{
+    -fx-background-color: -fx-white-red;
+}

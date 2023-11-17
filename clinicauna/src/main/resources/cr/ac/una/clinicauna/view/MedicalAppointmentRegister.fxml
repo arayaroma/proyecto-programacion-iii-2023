@@ -212,6 +212,17 @@
                                         </VBox>
                                     </children>
                                 </VBox>
+                        <HBox spacing="10.0">
+                           <children>
+                              <Label text="%agendedBy">
+                                 <styleClass>
+                                    <String fx:value="title" />
+                                    <String fx:value="h2" />
+                                 </styleClass>
+                              </Label>
+                              <Label fx:id="lblAgendedBy" styleClass="h2" />
+                           </children>
+                        </HBox>
                                 <HBox spacing="30.0">
                                     <children>
                                         <Button mnemonicParsing="false" onAction="#btnCreateMedicalAppointment" text="%newMedicalAppointment" textAlignment="CENTER">

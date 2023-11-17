@@ -34,8 +34,8 @@ import static cr.ac.una.clinicaunaws.util.Database.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
-        @NamedQuery(name = "MedicalAppointment.findAll", query = "SELECT m FROM MedicalAppointment m"),
-        @NamedQuery(name = "MedicalAppointment.findById", query = "SELECT m FROM MedicalAppointment m WHERE m.id = :id"), })
+    @NamedQuery(name = "MedicalAppointment.findAll", query = "SELECT m FROM MedicalAppointment m"),
+    @NamedQuery(name = "MedicalAppointment.findById", query = "SELECT m FROM MedicalAppointment m WHERE m.id = :id"),})
 public class MedicalAppointment implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -92,7 +92,6 @@ public class MedicalAppointment implements Serializable {
     @Column(name = "STATE")
     private String state;
 
-    @NotNull
     @Basic(optional = false)
     @Size(min = 1, max = 256)
     @Column(name = "REASON")

@@ -48,6 +48,8 @@ import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
@@ -84,6 +86,9 @@ public class AgendaModuleController implements Initializable {
     private Label lblMonth;
     @FXML
     private Label lblYear;
+    @FXML
+    private ImageView deleteZone;
+
     private Integer countWeeks = 0;
     private DoctorService doctorService = new DoctorService();
     private UserService userService = new UserService();
@@ -497,13 +502,50 @@ public class AgendaModuleController implements Initializable {
         }
         appointmentNode.getStyleClass().add(medicalAppointmentDto.getState().toLowerCase());
         appointmentNode.setOnMouseClicked(e -> createMedicalAppointment(e, appointmentNode.getMedicalAppointmentDto()));
-        intializeDragAndDrop(appointmentNode);
+        initializeDragAndDrop(appointmentNode);
         return appointmentNode;
     }
 
     Node nodeBuffer;//Node buffer of the medical appointment
 
-    private void intializeDragAndDrop(Node node) {
+    private void initializeTrash() {
+        deleteZone.setOnDragOver(event -> {
+            if (event.getGestureSource() != gpAgenda && event.getDragboard().hasString()) {
+                event.acceptTransferModes(TransferMode.MOVE);
+                deleteZone.setImage(new Image(App.class.getResource("/cr/ac/una/clinicauna/img/basureroAbierto.png").toString()));
+            }
+            event.consume();
+        });
+        deleteZone.setOnDragExited(event -> {
+            if (event.getGestureSource() != gpAgenda && event.getDragboard().hasString()) {
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(400);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(AgendaModuleController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    deleteZone.setImage(new Image(App.class.getResource("/cr/ac/una/clinicauna/img/basurero.png").toString()));
+                }).start();
+            }
+            event.consume();
+        });
+        deleteZone.setOnDragDropped(event -> {
+            Dragboard dragboard = event.getDragboard();
+            if (dragboard.hasString()) {
+                medicalAppointentBuffer = ((AppointmentNode) nodeBuffer).getMedicalAppointmentDto();
+                ResponseWrapper response = medicalAppointmentService.deleteMedicalAppointments(medicalAppointentBuffer);
+                if (response.getCode() == ResponseCode.OK) {
+                    gpAgenda.getChildren().remove(nodeBuffer);
+                    new Thread(() -> updateAgendas(doctorBuffer)).start();
+                }
+            }
+            event.setDropCompleted(true);
+            event.consume();
+        });
+    }
+
+    private void initializeDragAndDrop(Node node) {
+        initializeTrash();
         node.setOnDragDetected((event) -> {
             nodeBuffer = node;
             Dragboard dragboard = node.startDragAndDrop(TransferMode.MOVE);
@@ -518,6 +560,7 @@ public class AgendaModuleController implements Initializable {
             }
             event.consume();
         });
+
         gpAgenda.setOnDragDropped(event -> {
             Dragboard dragboard = event.getDragboard();
             boolean success = false;
