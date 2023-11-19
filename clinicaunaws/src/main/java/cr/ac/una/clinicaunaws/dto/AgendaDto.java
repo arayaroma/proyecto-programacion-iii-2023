@@ -6,6 +6,8 @@ import cr.ac.una.clinicaunaws.entities.Doctor;
 import cr.ac.una.clinicaunaws.entities.MedicalAppointment;
 import cr.ac.una.clinicaunaws.entities.User;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,15 +20,34 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(name = "AgendaDto", description = "DTO for Agenda entity", requiredProperties = { "id", "doctor",
+        "agendaDate", "shiftStartTime", "shiftEndTime", "hourlySlots", "medicalAppointments", "version" })
 public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
 
+    @Schema(name = "id", example = "1", required = true)
     private Long id;
+
+    @Schema(name = "DoctorDto", implementation = DoctorDto.class, required = true)
     private DoctorDto doctor;
+
+    @Schema(name = "agendaDate", example = "2021-10-10", required = true)
     private String agendaDate;
+
+    @Size(min = 1, max = 5, message = "The shiftStartTime must be between 1 and 5 characters")
+    @Schema(name = "shiftStartTime", example = "08:00", required = true)
     private String shiftStartTime;
+
+    @Size(min = 1, max = 5, message = "The shiftEndTime must be between 1 and 5 characters")
+    @Schema(name = "shiftEndTime", example = "17:00", required = true)
     private String shiftEndTime;
+
+    @Schema(name = "hourlySlots", example = "3", required = true)
     private Long hourlySlots;
+
+    @Schema(name = "MedicalAppointmentDto", implementation = MedicalAppointmentDto.class, required = true)
     private List<MedicalAppointmentDto> medicalAppointments;
+
+    @Schema(name = "version", example = "1", required = true)
     private Long version;
 
     @Override
@@ -47,9 +68,7 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
                 dto.getMedicalAppointments().get(i).setAgenda(new AgendaDto(appointments.get(i).getAgenda()));
                 dto.getMedicalAppointments().get(i).setPatient(new PatientDto(appointments.get(i).getPatient()));
             }
-
         }
-
         return dto;
     }
 
@@ -61,7 +80,6 @@ public class AgendaDto implements DtoMapper<Agenda, AgendaDto> {
                 entity.getDoctor().setUser(new User(dto.getDoctor().getUser()));
             }
         }
-
         return entity;
     }
 
