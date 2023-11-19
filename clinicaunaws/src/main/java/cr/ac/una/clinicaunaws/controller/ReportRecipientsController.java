@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ejb.EJB;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -62,7 +63,7 @@ public class ReportRecipientsController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public Response createReportRecipients(ReportRecipientsDto reportRecipientsDto) {
+    public Response createReportRecipients(@Valid ReportRecipientsDto reportRecipientsDto) {
         try {
             ResponseWrapper response = reportRecipientsService.createReportRecipients(reportRecipientsDto);
             if (response.getCode() != ResponseCode.OK) {
@@ -150,7 +151,7 @@ public class ReportRecipientsController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public Response updateReportRecipients(ReportRecipientsDto reportRecipientsDto) {
+    public Response updateReportRecipients(@Valid ReportRecipientsDto reportRecipientsDto) {
         try {
             ResponseWrapper response = reportRecipientsService.updateReportRecipients(reportRecipientsDto);
             if (response.getCode() != ResponseCode.OK) {
