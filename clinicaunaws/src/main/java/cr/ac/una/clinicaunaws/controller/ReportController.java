@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ejb.EJB;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -54,7 +55,7 @@ public class ReportController {
         @ApiResponse(responseCode = "403", description = "Forbidden"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public Response createReport(ReportDto reportDto) {
+    public Response createReport(@Valid ReportDto reportDto) {
         try {
             ResponseWrapper response = reportService.createReport(reportDto);
             return Response.status(response.getStatus())
@@ -121,7 +122,7 @@ public class ReportController {
         @ApiResponse(responseCode = "404", description = "Report not found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public Response updateReport(ReportDto reportDto) {
+    public Response updateReport(@Valid ReportDto reportDto) {
         try {
             ResponseWrapper response = reportService.updateReport(reportDto);
             return Response.status(response.getStatus())
