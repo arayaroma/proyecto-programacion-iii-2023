@@ -15,6 +15,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ejb.EJB;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -64,7 +65,7 @@ public class UserController {
             @ApiResponse(responseCode = "409", description = "User already exists"),
             @ApiResponse(responseCode = "500", description = "Server error")
     })
-    public Response createUser(UserDto userDto) {
+    public Response createUser(@Valid UserDto userDto) {
         try {
             ResponseWrapper response = userService.createUser(userDto);
             if (response.getCode() != ResponseCode.OK) {
@@ -195,7 +196,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Server error")
     })
-    public Response updateUser(UserDto userDto) {
+    public Response updateUser(@Valid UserDto userDto) {
         try {
             ResponseWrapper response = userService.updateUser(userDto);
             if (response.getCode() != ResponseCode.OK) {
