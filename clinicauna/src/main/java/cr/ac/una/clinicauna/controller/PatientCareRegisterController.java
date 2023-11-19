@@ -164,10 +164,10 @@ public class PatientCareRegisterController implements Initializable {
     }
 
     private void initializeSpinners() {
-        spBloodPresure.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(50.0, 250.0, 0.0, 0.1));
-        spHeartRate.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(30.0, 250.0, 0.0, 0.1));
-        spHeight.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0.0, 4.0, 0.0, 0.1));
-        spWeight.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0.0, 400.0, 0.0, 0.1));
+        spBloodPresure.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(50.0, 250.0, 00.0, 0.1));
+        spHeartRate.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(30.0, 250.0, 00.0, 0.1));
+        spHeight.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(00.0, 4.0, 00.0, 0.1));
+        spWeight.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(00.0, 400.0, 00.0, 0.1));
         spTemperature.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(20.0, 50.0, 0.1));
         StringConverter<Double> formatter = new StringConverter<Double>() {
             @Override
