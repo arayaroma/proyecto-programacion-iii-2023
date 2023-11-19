@@ -172,7 +172,7 @@ public class PatientCareRegisterController implements Initializable {
         StringConverter<Double> formatter = new StringConverter<Double>() {
             @Override
             public String toString(Double object) {
-                return String.format("%.2f", object);
+                return String.format("%.02f", object);
             }
 
             @Override
