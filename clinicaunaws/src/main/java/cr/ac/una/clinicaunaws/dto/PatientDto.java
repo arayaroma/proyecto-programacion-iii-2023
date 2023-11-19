@@ -6,7 +6,6 @@ import cr.ac.una.clinicaunaws.entities.PatientPersonalHistory;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
-
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
