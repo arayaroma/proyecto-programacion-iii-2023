@@ -4,6 +4,8 @@ import cr.ac.una.clinicaunaws.entities.MedicalExam;
 import cr.ac.una.clinicaunaws.entities.Patient;
 import cr.ac.una.clinicaunaws.entities.PatientPersonalHistory;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,13 +17,29 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(name = "MedicalExamDto", description = "DTO for MedicalExam entity", requiredProperties = { "id",
+        "patientHistory", "name",
+        "medicalExamDate", "notes", "version" })
 public class MedicalExamDto implements DtoMapper<MedicalExam, MedicalExamDto> {
 
+    @Schema(name = "id", example = "1", required = true)
     private Long id;
+
+    @Schema(name = "PatientPersonalHistoryDto", implementation = PatientPersonalHistoryDto.class)
     private PatientPersonalHistoryDto patientHistory;
+
+    @Size(min = 1, max = 32, message = "The name must be between 1 and 32 characters")
+    @Schema(name = "name", example = "Heart Exam", required = true)
     private String name;
+
+    @Schema(name = "medicalExamDate", example = "2021-10-10", required = true)
     private String medicalExamDate;
+
+    @Size(min = 1, max = 256, message = "The notes must be between 1 and 256 characters")
+    @Schema(name = "notes", example = "notes", required = true)
     private String notes;
+
+    @Schema(name = "version", example = "1", required = true)
     private Long version;
 
     @Override
