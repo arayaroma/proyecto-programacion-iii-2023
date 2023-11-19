@@ -255,7 +255,7 @@ public class PatientCareRegisterController implements Initializable {
             if (height == 0) {
                 imc = 0d;
             }
-            lblBodyMassIndex.setText(String.format("%.2f", imc));
+            lblBodyMassIndex.setText(String.format("%.02f", imc));
         } catch (Exception e) {
             System.out.println(e.toString());
         }
