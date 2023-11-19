@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ejb.EJB;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -62,7 +63,7 @@ public class PatientPersonalHistoryController {
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public Response createPatientPersonalHistory(PatientPersonalHistoryDto patientPersonalHistoryDto) {
+    public Response createPatientPersonalHistory(@Valid PatientPersonalHistoryDto patientPersonalHistoryDto) {
         try {
             ResponseWrapper response = patientPersonalHistoryService
                     .createPatientPersonalHistory(patientPersonalHistoryDto);
@@ -151,7 +152,7 @@ public class PatientPersonalHistoryController {
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public Response updatePatientPersonalHistory(PatientPersonalHistoryDto patientPersonalHistoryDto) {
+    public Response updatePatientPersonalHistory(@Valid PatientPersonalHistoryDto patientPersonalHistoryDto) {
         try {
             ResponseWrapper response = patientPersonalHistoryService
                     .updatePatientPersonalHistory(patientPersonalHistoryDto);
