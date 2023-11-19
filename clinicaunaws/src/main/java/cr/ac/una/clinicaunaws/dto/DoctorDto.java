@@ -46,7 +46,7 @@ public class DoctorDto implements DtoMapper<Doctor, DoctorDto> {
     @Schema(name = "hourlySlots", example = "3", required = true)
     private Long hourlySlots;
 
-    @Schema(name = "agendas", implementation = AgendaDto.class)
+    @Schema(name = "AgendaDto", implementation = AgendaDto.class)
     private List<AgendaDto> agendas;
 
     @Schema(name = "version", example = "1", required = true)
