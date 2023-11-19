@@ -31,7 +31,7 @@ public class GeneralInformationDto implements DtoMapper<GeneralInformation, Gene
     @Schema(name = "email", example = "clinicaunaws@gmail.com", required = true)
     private String email;
 
-    @Schema(name = "photo", example = "photo", required = true)
+    @Schema(name = "photo", required = true)
     private byte[] photo;
 
     @Schema(name = "htmltemplate", example = "htmltemplate", required = true)

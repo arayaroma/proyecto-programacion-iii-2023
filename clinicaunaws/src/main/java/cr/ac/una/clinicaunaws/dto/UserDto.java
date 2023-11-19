@@ -90,7 +90,7 @@ public class UserDto implements DtoMapper<User, UserDto> {
     @Schema(name = "language", example = "ENGLISH", required = true, allowableValues = { "ENGLISH", "SPANISH" })
     private String language;
 
-    @Schema(name = "profilePhoto", example = "")
+    @Schema(name = "profilePhoto")
     private byte[] profilePhoto;
 
     @Schema(name = "medicalAppointments", implementation = MedicalAppointmentDto.class)
