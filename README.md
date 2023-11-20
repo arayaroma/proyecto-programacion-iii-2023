@@ -218,8 +218,7 @@ Ejemplo de una consulta para obtener todas las citas del mes:
 ```sql
 SELECT c.* 
 FROM TBL_MEDICAL_APPOINTMENT c 
-WHERE  c.SCHEDULEDDATE 
-BETWEEN DATE ':fecha1' AND DATE ':fecha2'
+WHERE  c.SCHEDULEDDATE BETWEEN DATE ':fecha1' AND DATE ':fecha2'
 ```
 
 Se sustituyen los parametros por el formato de fecha AAAA-MM-DD
