@@ -2,6 +2,8 @@ package cr.ac.una.clinicaunaws.dto;
 
 import cr.ac.una.clinicaunaws.entities.GeneralInformation;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,13 +15,29 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(name = "GeneralInformationDto", description = "DTO for GeneralInformation entity", requiredProperties = { "id",
+        "name", "email",
+        "photo", "htmltemplate", "version" })
 public class GeneralInformationDto implements DtoMapper<GeneralInformation, GeneralInformationDto> {
 
+    @Schema(name = "id", example = "1", required = true)
     private Long id;
+
+    @Size(min = 1, max = 32, message = "The name must be between 1 and 32 characters")
+    @Schema(name = "name", example = "Clinicauna", required = true)
     private String name;
+
+    @Size(min = 1, max = 64, message = "The email must be between 1 and 64 characters")
+    @Schema(name = "email", example = "clinicaunaws@gmail.com", required = true)
     private String email;
+
+    @Schema(name = "photo", required = true)
     private byte[] photo;
+
+    @Schema(name = "htmltemplate", example = "htmltemplate", required = true)
     private String htmltemplate;
+
+    @Schema(name = "version", example = "1", required = true)
     private Long version;
 
     /**
@@ -29,7 +47,7 @@ public class GeneralInformationDto implements DtoMapper<GeneralInformation, Gene
      */
     @Override
     public GeneralInformationDto convertFromEntityToDTO(GeneralInformation entity, GeneralInformationDto dto) {
-       return dto;
+        return dto;
     }
 
     /**

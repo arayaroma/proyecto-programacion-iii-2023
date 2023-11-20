@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ejb.EJB;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -62,7 +63,7 @@ public class MedicalAppointmentController {
             @ApiResponse(responseCode = "409", description = "MedicalAppointment already exists"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public Response createMedicalAppointment(MedicalAppointmentDto medicalAppointmentDto) {
+    public Response createMedicalAppointment(@Valid MedicalAppointmentDto medicalAppointmentDto) {
         try {
             ResponseWrapper response = medicalAppointmentService.createMedicalAppointment(medicalAppointmentDto);
             if (response.getCode() != ResponseCode.OK) {
@@ -152,7 +153,7 @@ public class MedicalAppointmentController {
             @ApiResponse(responseCode = "404", description = "MedicalAppointment not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public Response updateMedicalAppointment(MedicalAppointmentDto medicalAppointmentDto) {
+    public Response updateMedicalAppointment(@Valid MedicalAppointmentDto medicalAppointmentDto) {
         try {
             System.out.println(medicalAppointmentDto.toString());
             ResponseWrapper response = medicalAppointmentService.updateMedicalAppointment(medicalAppointmentDto);
