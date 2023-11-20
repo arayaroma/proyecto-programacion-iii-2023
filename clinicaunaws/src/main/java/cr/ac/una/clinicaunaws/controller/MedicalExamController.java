@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ejb.EJB;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -62,7 +63,7 @@ public class MedicalExamController {
             @ApiResponse(responseCode = "409", description = "MedicalExam data conflict"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public Response createMedicalExam(MedicalExamDto medicalExamDto) {
+    public Response createMedicalExam(@Valid MedicalExamDto medicalExamDto) {
         try {
             ResponseWrapper response = medicalExamService.createMedicalExam(medicalExamDto);
             if (response.getCode() != ResponseCode.OK) {
@@ -152,7 +153,7 @@ public class MedicalExamController {
             @ApiResponse(responseCode = "404", description = "MedicalExam not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public Response updateMedicalExam(MedicalExamDto medicalExamDto) {
+    public Response updateMedicalExam(@Valid MedicalExamDto medicalExamDto) {
         try {
             ResponseWrapper response = medicalExamService.updateMedicalExam(medicalExamDto);
             if (response.getCode() != ResponseCode.OK) {

@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ejb.EJB;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -61,7 +62,7 @@ public class ReportParametersController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error") })
-    public Response createReportParameters(ReportParametersDto reportParametersDto) {
+    public Response createReportParameters(@Valid ReportParametersDto reportParametersDto) {
         try {
             ResponseWrapper response = reportParametersService.createReportParameters(reportParametersDto);
             if (response.getCode() != ResponseCode.OK) {
@@ -153,7 +154,7 @@ public class ReportParametersController {
             @ApiResponse(responseCode = "404", description = "ReportParameters not found"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public Response updateReportParameters(ReportParametersDto reportParametersDto) {
+    public Response updateReportParameters(@Valid ReportParametersDto reportParametersDto) {
         try {
             ResponseWrapper response = reportParametersService.updateReportParameters(reportParametersDto);
             if (response.getCode() != ResponseCode.OK) {

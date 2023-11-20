@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ejb.EJB;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -61,7 +62,7 @@ public class AgendaController {
             @ApiResponse(responseCode = "409", description = "Agenda data conflict"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public Response createAgenda(AgendaDto agendaDto) {
+    public Response createAgenda(@Valid AgendaDto agendaDto) {
         try {
             ResponseWrapper response = agendaService.createAgenda(agendaDto);
             if (response.getCode() != ResponseCode.OK) {
@@ -150,7 +151,7 @@ public class AgendaController {
             @ApiResponse(responseCode = "409", description = "Agenda data conflict"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public Response updateAgenda(AgendaDto agendaDto) {
+    public Response updateAgenda(@Valid AgendaDto agendaDto) {
         try {
             ResponseWrapper response = agendaService.updateAgenda(agendaDto);
             if (response.getCode() != ResponseCode.OK) {

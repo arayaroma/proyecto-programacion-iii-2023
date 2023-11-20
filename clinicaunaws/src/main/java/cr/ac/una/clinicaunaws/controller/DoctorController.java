@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ejb.EJB;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -63,7 +64,7 @@ public class DoctorController {
             @ApiResponse(responseCode = "409", description = "Doctor already exists"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public Response createDoctor(DoctorDto doctorDto) {
+    public Response createDoctor(@Valid DoctorDto doctorDto) {
         try {
             ResponseWrapper response = doctorService.createDoctor(doctorDto);
             if (response.getCode() != ResponseCode.OK) {
@@ -150,7 +151,7 @@ public class DoctorController {
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public Response updateDoctor(DoctorDto doctorDto) {
+    public Response updateDoctor(@Valid DoctorDto doctorDto) {
         try {
             ResponseWrapper response = doctorService.updateDoctor(doctorDto);
             if (response.getCode() != ResponseCode.OK) {

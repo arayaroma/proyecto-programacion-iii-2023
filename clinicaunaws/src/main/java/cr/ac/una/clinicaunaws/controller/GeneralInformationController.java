@@ -3,16 +3,15 @@ package cr.ac.una.clinicaunaws.controller;
 import java.util.List;
 import java.util.logging.Logger;
 import cr.ac.una.clinicaunaws.dto.GeneralInformationDto;
-import cr.ac.una.clinicaunaws.security.Secure;
 import cr.ac.una.clinicaunaws.services.GeneralInformationService;
 import cr.ac.una.clinicaunaws.util.ResponseCode;
 import cr.ac.una.clinicaunaws.util.ResponseWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ejb.EJB;
 import jakarta.resource.spi.work.SecurityContext;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -59,7 +58,7 @@ public class GeneralInformationController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public Response createGeneralInformation(GeneralInformationDto generalInformationDto) {
+    public Response createGeneralInformation(@Valid GeneralInformationDto generalInformationDto) {
         try {
             System.out.println(generalInformationDto);
             ResponseWrapper response = generalInformationService.createGeneralInformation(generalInformationDto);
@@ -149,7 +148,7 @@ public class GeneralInformationController {
             @ApiResponse(responseCode = "404", description = "General Information not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public Response updateGeneralInformation(GeneralInformationDto generalInformationDto) {
+    public Response updateGeneralInformation(@Valid GeneralInformationDto generalInformationDto) {
         try {
             ResponseWrapper response = generalInformationService.updateGeneralInformation(generalInformationDto);
             if (response.getCode() != ResponseCode.OK) {

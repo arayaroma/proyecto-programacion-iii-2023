@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ejb.EJB;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -64,7 +65,7 @@ public class PatientController {
             @ApiResponse(responseCode = "409", description = "Patient already exists"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public Response createPatient(PatientDto patientDto) {
+    public Response createPatient(@Valid PatientDto patientDto) {
         try {
             ResponseWrapper response = patientService.createPatient(patientDto);
             if (response.getCode() != ResponseCode.OK) {
@@ -152,7 +153,7 @@ public class PatientController {
             @ApiResponse(responseCode = "404", description = "Patient not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public Response updatePatient(PatientDto patientDto) {
+    public Response updatePatient(@Valid PatientDto patientDto) {
         try {
             ResponseWrapper response = patientService.updatePatient(patientDto);
             if (response.getCode() != ResponseCode.OK) {

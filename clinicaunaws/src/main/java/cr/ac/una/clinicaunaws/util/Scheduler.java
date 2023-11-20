@@ -37,18 +37,16 @@ public class Scheduler {
 
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    @Schedule(second = "0", minute = "*", hour = "*")
-    public void showTime() {
-        System.out.print("entra");
-    }
 
     @Schedule(second = "0", minute = "*", hour = "*")
     public void checkReminders() {
+        System.out.print("Checking reports...");
         checkReports();
     }
 
-    @Schedule(second = "0", minute = "*", hour = "13")
+    @Schedule(second = "0", minute = "*", hour = "*")
     public void checkMedicalReminders() {
+        System.out.print("Checking appointments...");
         checkAppointments();
     }
 
@@ -91,7 +89,7 @@ public class Scheduler {
                 }
             }
         } catch (Exception e) {
-
+            System.out.println(e.toString());
         }
     }
 

@@ -204,6 +204,7 @@ public class MainController implements Initializable {
             Message.showNotification("Succeed", MessageType.INFO, "passwordChangedSuccess");
             changePasswordView.setVisible(false);
             menuLateral.setDisable(false);
+            profileContainer.setDisable(false);
             return;
         }
         Message.showNotification("Internal Error", MessageType.ERROR, response.getMessage());

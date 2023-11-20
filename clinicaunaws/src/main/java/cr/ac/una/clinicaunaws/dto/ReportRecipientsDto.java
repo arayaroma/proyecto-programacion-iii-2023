@@ -3,6 +3,8 @@ package cr.ac.una.clinicaunaws.dto;
 import cr.ac.una.clinicaunaws.entities.Report;
 import cr.ac.una.clinicaunaws.entities.ReportRecipients;
 import cr.ac.una.clinicaunaws.util.DtoMapper;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,11 +16,21 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(name = "ReportRecipientsDto", description = "DTO for ReportRecipients entity", requiredProperties = {
+        "id", "report", "email", "version" })
 public class ReportRecipientsDto implements DtoMapper<ReportRecipients, ReportRecipientsDto> {
 
+    @Schema(name = "id", example = "1", required = true)
     private Long id;
+
+    @Schema(name = "ReportDto", implementation = ReportDto.class, required = true)
     private ReportDto report;
+
+    @Size(min = 1, max = 64, message = "The email must be between 1 and 64 characters")
+    @Schema(name = "email", example = "darayaroma@gmail.com", required = true)
     private String email;
+
+    @Schema(name = "version", example = "1", required = true)
     private Long version;
 
     @Override
