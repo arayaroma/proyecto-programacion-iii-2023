@@ -2,8 +2,43 @@
 
 En este documento, encontrarán todas las indicaciones necesarias para llevar a cabo este proyecto de manera organizada y eficiente. Aquí se detallan las herramientas que utilizaremos, los procedimientos para trabajar con Docker, Git, Payara Server y Oracle Database 21c XE. Así como las convenciones que seguiremos para mantener un flujo de trabajo colaborativo y ordenado.
 
+## Snapshots
+### Vista Web
+![Web](snapshots/web_snapshot.png)
+Vista general de la aplicación web. Disponible
+en `http://localhost:8080/ClinicaUNA/`.
+
+### Registro de Usuarios
+![Register](snapshots/register.png)
+
+![Login](snapshots/login.png)
+
+### Vista de la Agenda
+![Agenda](snapshots/agenda.png)
+
+### Módulo de Reportes
+![Report Module](snapshots/report_module.png)
+
+![Report Module In](snapshots/report_module2.png)
+
+### Módulo de Pacientes
+![Patient Module](snapshots/patient_module.png)
+
+![Patient Module In](snapshots/patient_module2.png)
+
+### Envío de correos
+![Attention Email](snapshots/attention_email.png)
+
+
 ## Tabla de Contenidos
 - [proyecto-programacion-iii-2023](#proyecto-programacion-iii-2023)
+  - [Snapshots](#snapshots)
+    - [Vista Web](#vista-web)
+    - [Registro de Usuarios](#registro-de-usuarios)
+    - [Vista de la Agenda](#vista-de-la-agenda)
+    - [Módulo de Reportes](#módulo-de-reportes)
+    - [Módulo de Pacientes](#módulo-de-pacientes)
+    - [Envío de correos](#envío-de-correos)
   - [Tabla de Contenidos](#tabla-de-contenidos)
   - [Docker](#docker)
     - [Cómo levantar los contenedores](#cómo-levantar-los-contenedores)
@@ -26,8 +61,8 @@ En este documento, encontrarán todas las indicaciones necesarias para llevar a 
     - [Cómo crear el JDBC Resource](#cómo-crear-el-jdbc-resource)
     - [Cómo crear el JavaMail Session](#cómo-crear-el-javamail-session)
     - [Configuración de la sesión:](#configuración-de-la-sesión)
+  - [Formato SQL para generar los reportes](#formato-sql-para-generar-los-reportes)
   - [Herramientas](#herramientas)
-
 
 ## Docker
 ### C&oacute;mo levantar los contenedores
@@ -156,6 +191,41 @@ En la secci&oacute;n de `General Settings`, se debe de agregar el nombre de la s
 - mail.smtp.starttls.required: `true`
 - mail.smtp.starttls.enable: `true`
 - mail.smtp.port: `587`
+
+## Formato SQL para generar los reportes
+```sql
+SELECT <value1>, <value2>, ... ,<valuen> 
+FROM <TBL_table>
+WHERE :value1 AND :value2 AND ... AND :valuen
+```
+
+Donde:
+- No debe de llevar punto y coma al final `;`.
+- Si se agregan cadenas de texto deben encerrarse los parametros entre comillas simples y no el valor
+
+Ejemplo:
+```sql
+SELECT <value1>
+FROM <TBL_table> 
+WHERE ':value1' AND ':value2'
+```
+
+- No se debe de encerrar los valores entre comillas.
+- Si se proporciona un Alias en la consulta entonces se va a reflejar el Alias. Sino se obtiene el parámetro indicado
+
+Ejemplo de una consulta para obtener todas las citas del mes:
+
+```sql
+SELECT c.* 
+FROM TBL_MEDICAL_APPOINTMENT c 
+WHERE  c.SCHEDULEDDATE 
+BETWEEN DATE ':fecha1' AND DATE ':fecha2'
+```
+
+Se sustituyen los parametros por el formato de fecha AAAA-MM-DD
+
+- 2023-11-01
+- 2023-11-30
 
 ## Herramientas
 - [Docker](https://www.docker.com/)
