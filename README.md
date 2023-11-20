@@ -6,7 +6,7 @@ En este documento, encontrarán todas las indicaciones necesarias para llevar a 
 ### Vista Web
 ![Web](snapshots/web_snapshot.png)
 Vista general de la aplicación web. Disponible
-en `http://localhost:8080/ClinicaUNA/`.
+en `http://localhost:8080/Clinicaunaws/`.
 
 ### Registro de Usuarios
 ![Register](snapshots/register.png)
