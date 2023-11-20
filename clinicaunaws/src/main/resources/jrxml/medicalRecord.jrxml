@@ -478,13 +478,6 @@ WHERE
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{REASON}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="31" y="41" width="63" height="20" forecolor="#FFFFFF" uuid="36445d19-70bd-4e45-a9a0-a08b8ab051c1"/>
-				<textElement>
-					<font size="12"/>
-				</textElement>
-				<text><![CDATA[Motivo:]]></text>
-			</staticText>
 			<textField>
 				<reportElement x="115" y="151" width="100" height="60" forecolor="#FFFFFF" uuid="81f9dcd4-d7d9-4512-ad38-b558610a7700">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3274b8a0-703a-4df6-9685-ffcb054dac10"/>
@@ -694,6 +687,18 @@ WHERE
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$R{treatment}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="31" y="41" width="99" height="20" forecolor="#FFFFFF" uuid="330973b3-79ab-44c5-a600-56750da6f7fe">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{reason}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
